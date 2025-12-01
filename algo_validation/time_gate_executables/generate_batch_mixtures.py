@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Automatic Combination Generator for Time Gate Disturbance
+Batch Mixture Generator
 
 This script automatically generates random combinations of FCS files from a directory
-and calls execute_time_gate_disturbance.py with different proportions to create
+and calls concatenate_fcs_cli.py with different proportions to create
 synthetic mixed files.
 """
 
@@ -124,7 +124,7 @@ def get_random_combinations(files: List[str], num_combinations: int, files_per_c
 def call_execute_script(files: List[str], proportions: List[float], output_file: str, 
                        script_path: str, enable_mixing: bool = False, 
                        mixing_chunk_size: int = 1000, time_channel: str = 'Time') -> bool:
-    """Call the execute_time_gate_disturbance.py script."""
+    """Call the concatenate_fcs_cli.py script."""
     cmd = [
         'python', script_path,
         '--specific-files'
@@ -163,7 +163,7 @@ def call_execute_script(files: List[str], proportions: List[float], output_file:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Automatically generate random combinations of FCS files using execute_time_gate_disturbance.py',
+        description='Automatically generate random combinations of FCS files using concatenate_fcs_cli.py',
         formatter_class=argparse.RawTextHelpFormatter
     )
     
@@ -188,9 +188,9 @@ def main():
                         help='Size of chunks when mixing is enabled (default: 1000).')
     parser.add_argument('--time-channel', type=str, default='Time',
                         help='Name of the time channel in FCS files (default: Time).')
-    parser.add_argument('--script-path', type=str, 
-                        default='/g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/execute_time_gate_disturbance.py',
-                        help='Path to execute_time_gate_disturbance.py script.')
+    parser.add_argument('--script-path', type=str,
+                        default='/g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/concatenate_fcs_cli.py',
+                        help='Path to concatenate_fcs_cli.py script.')
     parser.add_argument('--seed', type=int, default=None,
                         help='Random seed for reproducible results.')
     

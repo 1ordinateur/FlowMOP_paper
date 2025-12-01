@@ -15,26 +15,26 @@ module use /g/data/dk92/apps/Modules/modulefiles/; module load NCI-data-analysis
 
 # Segments
 
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_a \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --num-combinations 15 \
 --files-per-combo 2 \ & 
 
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_b \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --num-combinations 15 \
 --files-per-combo 2 \ & 
 
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_c \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --num-combinations 15 \
 --files-per-combo 2 \ & 
 
 # Bimix
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_a \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --suffix bimix \
@@ -43,7 +43,7 @@ python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_gener
 --enable-mixing \
 --mixing-chunk-size 1000 &
 
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_b \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --suffix bimix \
@@ -52,7 +52,7 @@ python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_gener
 --enable-mixing \
 --mixing-chunk-size 1000 &
 
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_c \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --suffix bimix \
@@ -62,7 +62,7 @@ python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_gener
 --mixing-chunk-size 1000 &
 
 # Trimix
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_a \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --suffix trimix \
@@ -71,7 +71,7 @@ python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_gener
 --enable-mixing \
 --mixing-chunk-size 1000 &
 
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_b \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --suffix trimix \
@@ -80,7 +80,7 @@ python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_gener
 --enable-mixing \
 --mixing-chunk-size 1000 &
 
-python3 /g/data/eu59/FlowMOP/src/data_validation_code/algo_validation/auto_generate_combinations.py \
+python3 /g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/generate_batch_mixtures.py \
 --input-dir /g/data/eu59/data_flowmop/staining_trials/stain_c \
 --output-dir /g/data/eu59/data_flowmop/fig_2_timegate_combos_smallcut \
 --suffix trimix \

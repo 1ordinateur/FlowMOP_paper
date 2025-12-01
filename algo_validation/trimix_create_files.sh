@@ -1,5 +1,5 @@
 ## Trimix
-python execute_time_gate_disturbance.py \
+python time_gate_executables/concatenate_fcs_cli.py \
     --specific-files \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_a/A05_rep1.fcs" \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_a/A3_rep1.fcs" \
@@ -8,7 +8,7 @@ python execute_time_gate_disturbance.py \
     --output-file "/z/Bruestle-EndersLab/Tony/staining_trials/A0531_202060_trimix.fcs" \
     --enable-mixing &
 
-python execute_time_gate_disturbance.py \
+python time_gate_executables/concatenate_fcs_cli.py \
     --specific-files \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_b/B3_rep1.fcs" \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_b/B05_rep1.fcs" \
@@ -17,7 +17,7 @@ python execute_time_gate_disturbance.py \
     --output-file "/z/Bruestle-EndersLab/Tony/staining_trials/B3051_404020_trimix.fcs" \
     --enable-mixing &
 
-python execute_time_gate_disturbance.py \
+python time_gate_executables/concatenate_fcs_cli.py \
     --specific-files \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_c/C05_rep1.fcs" \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_c/C3_rep1.fcs" \
@@ -28,7 +28,7 @@ python execute_time_gate_disturbance.py \
 
 # Trimix - 3
 
-python execute_time_gate_disturbance.py \
+python time_gate_executables/concatenate_fcs_cli.py \
     --specific-files \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_c/C05_rep2.fcs" \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_c/C3_rep2.fcs" \
@@ -37,7 +37,7 @@ python execute_time_gate_disturbance.py \
     --output-file "/z/Bruestle-EndersLab/Tony/staining_trials/C0531_333333_trimix.fcs" \
     --enable-mixing &
 
-python execute_time_gate_disturbance.py \
+python time_gate_executables/concatenate_fcs_cli.py \
     --specific-files \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_b/B05_rep2.fcs" \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_b/B1_rep2.fcs" \
@@ -46,7 +46,7 @@ python execute_time_gate_disturbance.py \
     --output-file "/z/Bruestle-EndersLab/Tony/staining_trials/B0513_202060_trimix.fcs" \
     --enable-mixing &
 
-python execute_time_gate_disturbance.py \
+python time_gate_executables/concatenate_fcs_cli.py \
     --specific-files \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_a/A05_rep2.fcs" \
         "/z/Bruestle-EndersLab/Tony/staining_trials/stain_a/A1_rep2.fcs" \

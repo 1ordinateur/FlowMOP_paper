@@ -124,4 +124,4 @@ PBS job scripts for GADI cluster are in `benchmarks/clean_dataset_gadi/`:
 
 ## License
 
-MIT License - see [LICENSE](LICENSE)
+GNU General Public License v3.0 - see [LICENSE](LICENSE)

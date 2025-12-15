@@ -1,0 +1,7 @@
+,Count,passeddoublet subset | Freq. of Parent (%),"passeddoublet subset/Q1: CTV- , CFSE+ | Freq. of Parent (%)","passeddoublet subset/Q2: CTV+ , CFSE+ | Freq. of Parent (%)","passeddoublet subset/Q3: CTV+ , CFSE- | Freq. of Parent (%)","passeddoublet subset/Q4: CTV- , CFSE- | Freq. of Parent (%)","Q1: CTV- , CFSE+ | Freq. of Parent (%)","Q2: CTV+ , CFSE+ | Freq. of Parent (%)","Q3: CTV+ , CFSE- | Freq. of Parent (%)","Q4: CTV- , CFSE- | Freq. of Parent (%)",
+flowmop_doublets_1.fcs,1.01E6,82.7,48.7,0.20,48.5,2.64,44.2,9.54,44.0,2.24,
+flowmop_doublets_2.fcs,5.76E5,87.6,47.9,0.29,48.4,3.38,44.8,6.89,45.3,2.99,
+flowmop_doublets_3.fcs,261571,86.0,47.7,0.19,48.5,3.52,44.4,7.05,45.3,3.19,
+flowmop_doublet_4.fcs,5.43E5,86.0,47.2,0.42,48.4,3.98,43.8,7.89,44.9,3.47,
+Mean,5.98E5,85.6,47.9,0.27,48.5,3.38,44.3,7.84,44.9,2.97,
+SD,308997,2.06,0.62,0.11,0.058,0.56,0.42,1.21,0.61,0.53,

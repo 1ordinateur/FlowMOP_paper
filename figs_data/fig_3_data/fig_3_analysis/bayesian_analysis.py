@@ -4,6 +4,7 @@ import emcee
 import corner
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as patheffects
+from matplotlib.lines import Line2D
 import seaborn as sns
 from scipy import stats
 from scipy.special import logsumexp
@@ -1069,7 +1070,7 @@ def plot_posterior_analysis(results: Dict,
 
 
 def plot_average_scores(df: pd.DataFrame,
-                       figsize: Tuple[int, int] = (10, 6),
+                       figsize: Tuple[int, int] = (3, 8),
                        title: Optional[str] = None) -> plt.Figure:
     """
     Create a vertical bar chart showing average scores for each benchmarker.
@@ -1153,35 +1154,59 @@ def plot_average_scores(df: pd.DataFrame,
     ax.set_facecolor('#FAFAFA')
     
     # Prepare data for plotting
-    x_positions = np.arange(len(ordered_benchmarkers))
     scores = [average_scores[b] for b in ordered_benchmarkers]
-    labels = [get_benchmarker_name(b) for b in ordered_benchmarkers]
     colors = [color_map.get(b, '#808080') for b in ordered_benchmarkers]
+
+    # Deterministic jitter assignment: spread nearby y-values across x
+    # so points remain visually distinct (no overlap for close scores).
+    def compute_non_overlapping_x(score_values: List[float],
+                                  y_threshold: float = 0.35,
+                                  max_spread: float = 0.11) -> np.ndarray:
+        x = np.zeros(len(score_values), dtype=float)
+        if not score_values:
+            return x
+
+        scores_arr = np.asarray(score_values, dtype=float)
+        sorted_idx = np.argsort(scores_arr)
+
+        groups = []
+        current = [sorted_idx[0]]
+        for idx in sorted_idx[1:]:
+            if abs(scores_arr[idx] - scores_arr[current[-1]]) <= y_threshold:
+                current.append(idx)
+            else:
+                groups.append(current)
+                current = [idx]
+        groups.append(current)
+
+        for group in groups:
+            k = len(group)
+            if k == 1:
+                x[group[0]] = 0.0
+            else:
+                offsets = np.linspace(-max_spread, max_spread, k)
+                for g_idx, offset in zip(group, offsets):
+                    x[g_idx] = float(offset)
+        return x
+
+    x_positions = compute_non_overlapping_x(scores)
     
-    # Create bars with individual colors
-    bars = ax.bar(x_positions, scores, color=colors, alpha=0.7, edgecolor='white', linewidth=1.5)
+    # Dot-only mean summary with slight x jitter
+    ax.scatter(x_positions, scores, s=220, c=colors, alpha=0.95, edgecolors='black', linewidths=1.2)
     
-    # Highlight FlowMOP with black border
+    # Highlight FlowMOP with thicker black border
     for i, benchmarker in enumerate(ordered_benchmarkers):
         if benchmarker == 5:  # FlowMOP
-            bars[i].set_edgecolor('black')
-            bars[i].set_linewidth(3)
-    
-    # Add value labels on top of bars
-    for i, (bar, score) in enumerate(zip(bars, scores)):
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width()/2., height + 0.05,
-                f'{score:.2f}', ha='center', va='bottom', fontsize=10)
+            ax.scatter([x_positions[i]], [scores[i]], s=240, c=[colors[i]], alpha=0.95,
+                       edgecolors='black', linewidths=2.6, zorder=4)
     
     # Customize plot
-    ax.set_xticks(x_positions)
-    ax.set_xticklabels(labels, fontsize=11, rotation=45, ha='right')
-    ax.set_ylabel('Average Score', fontsize=12, fontweight='medium', color='#333333', labelpad=10)
-    ax.set_xlabel('Benchmarker', fontsize=12, fontweight='medium', color='#333333', labelpad=10)
+    ax.set_xticks([])
+    ax.set_ylabel('Average Score', fontsize=16, fontweight='medium', color='#333333', labelpad=10)
+    ax.set_xlabel('Subject', fontsize=16, fontweight='medium', color='#333333', labelpad=10)
+    ax.tick_params(axis='y', labelsize=14)
     
-    if title is None:
-        title = 'Average Rankings Score'
-    ax.set_title(title, fontsize=16, fontweight='bold', color='#222222', pad=20)
+    # Heading removed per figure styling request.
     
     # Grid and spines
     ax.grid(True, axis='y', alpha=0.3, linestyle='-', linewidth=0.6, color='#CCCCCC')
@@ -1191,10 +1216,56 @@ def plot_average_scores(df: pd.DataFrame,
     ax.spines['left'].set_linewidth(0.5)
     ax.spines['bottom'].set_linewidth(0.5)
     
-    # Set y-axis to start at 0
+    # Set axis limits
+    ax.set_xlim(-0.15, 0.22)
     ax.set_ylim(bottom=0, top=max(scores) * 1.1)
+
+    # Compact bottom legend with a single expert class
+    legend_handles = []
+    legend_labels = []
+
+    if any(b in ordered_benchmarkers for b in [1, 2, 3, 4]):
+        legend_handles.append(
+            Line2D([0], [0], marker='o', color='none', markerfacecolor='#808080',
+                   markeredgecolor='black', markersize=10, linewidth=0)
+        )
+        legend_labels.append('Expert')
+
+    if 5 in ordered_benchmarkers:
+        legend_handles.append(
+            Line2D([0], [0], marker='o', color='none', markerfacecolor='#4682B4',
+                   markeredgecolor='black', markersize=10, linewidth=0)
+        )
+        legend_labels.append('FlowMOP')
+
+    if 6 in ordered_benchmarkers:
+        legend_handles.append(
+            Line2D([0], [0], marker='o', color='none', markerfacecolor='#D2691E',
+                   markeredgecolor='black', markersize=10, linewidth=0)
+        )
+        legend_labels.append('FlowCut')
+
+    if 7 in ordered_benchmarkers:
+        legend_handles.append(
+            Line2D([0], [0], marker='o', color='none', markerfacecolor='#228B22',
+                   markeredgecolor='black', markersize=10, linewidth=0)
+        )
+        legend_labels.append('PeacoQC')
+
+    if legend_handles:
+        ax.legend(
+            legend_handles,
+            legend_labels,
+            loc='upper center',
+            bbox_to_anchor=(0.5, -0.12),
+            ncol=1,
+            frameon=False,
+            fontsize=16,
+            handletextpad=0.4,
+            columnspacing=1.0
+        )
     
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0.12, 1, 1])
     
     # Reset styles
     sns.reset_defaults()
@@ -1365,10 +1436,7 @@ def plot_ranking_heatmap(df: pd.DataFrame,
     # No x-label since column names are self-explanatory
     ax.set_ylabel('Benchmarker', fontsize=scaled(12), fontweight='medium', color='#333333', labelpad=10)
     
-    if title is None:
-        title = 'Rankings Across Datasets'
-    # Moderate padding for title
-    ax.set_title(title, fontsize=scaled(16), fontweight='bold', color='#222222', pad=20)
+    # Heading removed per figure styling request.
     
     # Remove grid for cleaner look
     ax.grid(False)
@@ -1431,6 +1499,273 @@ def plot_ranking_heatmap(df: pd.DataFrame,
     sns.reset_defaults()
     plt.rcdefaults()
     
+    return fig
+
+
+def plot_ranking_panel(df: pd.DataFrame,
+                      figsize: Tuple[int, int] = (16, 7),
+                      heatmap_title: Optional[str] = None,
+                      average_title: Optional[str] = None) -> plt.Figure:
+    """
+    Create a combined panel with ranking heatmap (left) and average-score dots (right).
+
+    Parameters:
+    -----------
+    df : pd.DataFrame
+        Rankings data where columns are tests, rows are ranking positions,
+        values are benchmarker IDs
+    figsize : Tuple[int, int]
+        Overall panel size (width, height)
+    heatmap_title : Optional[str]
+        Title for heatmap panel
+    average_title : Optional[str]
+        Title for average-score panel
+
+    Returns:
+    --------
+    plt.Figure : The combined matplotlib figure object
+    """
+    # Shared benchmarker discovery
+    all_benchmarkers = set()
+    for col in df.columns:
+        all_benchmarkers.update(df[col].dropna().astype(int).unique())
+
+    # Heatmap ordering (top to bottom after plotting): Expert 1..4, FlowMOP, FlowCut, PeacoQC
+    heatmap_benchmarkers = [b for b in [7, 6, 5, 4, 3, 2, 1] if b in all_benchmarkers]
+    # Average panel ordering
+    avg_benchmarkers = [b for b in [1, 2, 3, 4, 5, 6, 7] if b in all_benchmarkers]
+
+    datasets = df.columns.tolist()
+    max_rank = max(len(df[col].dropna()) for col in df.columns)
+
+    # Build heatmap matrix
+    ranking_matrix = np.full((len(heatmap_benchmarkers), len(datasets)), np.nan)
+    for j, dataset in enumerate(datasets):
+        test_ranking = df[dataset].dropna()
+        for position, benchmarker_id in enumerate(test_ranking):
+            benchmarker_id = int(benchmarker_id)
+            if benchmarker_id in heatmap_benchmarkers:
+                i = heatmap_benchmarkers.index(benchmarker_id)
+                ranking_matrix[i, j] = position + 1
+
+    # Build average score values
+    average_scores = {}
+    for benchmarker in avg_benchmarkers:
+        total_score = 0
+        total_tests = 0
+        for col in df.columns:
+            test_ranking = df[col].dropna()
+            if benchmarker in test_ranking.astype(int).values:
+                position = np.where(test_ranking.astype(int).values == benchmarker)[0][0]
+                rank = position + 1
+                score = max_rank - rank + 1
+                total_score += score
+                total_tests += 1
+        average_scores[benchmarker] = (total_score / total_tests) if total_tests > 0 else 0
+
+    # Styling
+    sns.set_style("whitegrid", {
+        'axes.edgecolor': '#CCCCCC',
+        'axes.linewidth': 0.8,
+        'grid.color': '#EEEEEE',
+        'grid.linewidth': 0.5
+    })
+    font_scale = 1.25
+    sns.set_context("notebook", font_scale=font_scale)
+
+    def scaled(size: float) -> float:
+        return size * font_scale
+
+    # Figure + layout
+    fig = plt.figure(figsize=figsize, facecolor='white')
+    gs = fig.add_gridspec(1, 2, width_ratios=[7.5, 1.1], wspace=0.14)
+    ax_heatmap = fig.add_subplot(gs[0, 0])
+    ax_avg = fig.add_subplot(gs[0, 1])
+    ax_heatmap.set_facecolor('#FAFAFA')
+    ax_avg.set_facecolor('#FAFAFA')
+
+    # Heatmap panel
+    heat_colors = sns.color_palette("inferno", n_colors=max_rank)
+    for i, benchmarker in enumerate(heatmap_benchmarkers):
+        for j, dataset in enumerate(datasets):
+            rank = ranking_matrix[i, j]
+            if not np.isnan(rank):
+                rank_int = int(rank)
+                display_rank = max_rank - rank_int + 1
+                color_idx = max(0, min(display_rank - 1, len(heat_colors) - 1))
+                rect = plt.Rectangle(
+                    (j - 0.4, i - 0.4), 0.8, 0.8,
+                    facecolor=heat_colors[color_idx], edgecolor='white', linewidth=2
+                )
+                ax_heatmap.add_patch(rect)
+                text = ax_heatmap.text(
+                    j, i, str(display_rank), ha='center', va='center',
+                    color='black', fontsize=scaled(10), fontweight='bold'
+                )
+                text.set_path_effects([
+                    patheffects.Stroke(linewidth=3, foreground='white', alpha=0.5),
+                    patheffects.Stroke(linewidth=5, foreground='white', alpha=0.25),
+                    patheffects.Normal()
+                ])
+            else:
+                rect = plt.Rectangle(
+                    (j - 0.4, i - 0.4), 0.8, 0.8,
+                    facecolor='white', edgecolor='#CCCCCC', linewidth=1
+                )
+                ax_heatmap.add_patch(rect)
+                ax_heatmap.text(
+                    j, i, 'N/A', ha='center', va='center',
+                    color='#999999', fontsize=scaled(9), style='italic'
+                )
+
+    # Highlight FlowMOP row
+    flowmop_idx = None
+    for i, b in enumerate(heatmap_benchmarkers):
+        if b == 5:
+            flowmop_idx = i
+            break
+    if flowmop_idx is not None:
+        pad = 0.05
+        rect = plt.Rectangle(
+            (-0.4 - pad, flowmop_idx - 0.4 - pad),
+            len(datasets) - 0.2 + 2 * pad,
+            0.8 + 2 * pad,
+            linewidth=3,
+            edgecolor='black',
+            facecolor='none',
+            zorder=10
+        )
+        ax_heatmap.add_patch(rect)
+
+    ax_heatmap.set_xticks(range(len(datasets)))
+    ax_heatmap.set_yticks(range(len(heatmap_benchmarkers)))
+    ax_heatmap.set_yticklabels([get_benchmarker_name(b) for b in heatmap_benchmarkers], fontsize=scaled(11))
+    ax_heatmap.xaxis.set_label_position('top')
+    ax_heatmap.xaxis.tick_top()
+    ax_heatmap.set_xticklabels(
+        datasets, fontsize=scaled(10), rotation=45,
+        ha='left', va='bottom', rotation_mode='anchor'
+    )
+    ax_heatmap.set_xlim(-0.5, len(datasets) - 0.5)
+    ax_heatmap.set_ylim(-0.5, len(heatmap_benchmarkers) - 0.5)
+    ax_heatmap.set_ylabel('Benchmarker', fontsize=scaled(12), fontweight='medium', color='#333333', labelpad=10)
+    # Heading removed per figure styling request.
+    ax_heatmap.grid(False)
+    for spine in ax_heatmap.spines.values():
+        spine.set_visible(False)
+
+    # Heatmap color legend (worst-best)
+    legend_elements = [plt.Rectangle((0, 0), 1, 1, fc=c, label='') for c in heat_colors]
+    legend = ax_heatmap.legend(
+        handles=legend_elements,
+        loc='upper center',
+        bbox_to_anchor=(0.5, -0.07),
+        ncol=len(legend_elements) if legend_elements else 1,
+        frameon=False,
+        fontsize=scaled(10),
+        handlelength=1.0,
+        handletextpad=0.0,
+        borderaxespad=0.2
+    )
+    if legend_elements:
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+        bbox = legend.get_window_extent(renderer=renderer).transformed(ax_heatmap.transAxes.inverted())
+        ax_heatmap.text(bbox.x0, bbox.y0 - 0.05, "Worst", transform=ax_heatmap.transAxes,
+                        ha='left', va='top', fontsize=scaled(10))
+        ax_heatmap.text(bbox.x1, bbox.y0 - 0.05, "Best", transform=ax_heatmap.transAxes,
+                        ha='right', va='top', fontsize=scaled(10))
+
+    # Average panel
+    scores = [average_scores[b] for b in avg_benchmarkers]
+    avg_color_map = {
+        1: '#808080',
+        2: '#808080',
+        3: '#808080',
+        4: '#808080',
+        5: '#4682B4',
+        6: '#D2691E',
+        7: '#228B22'
+    }
+    avg_colors = [avg_color_map.get(b, '#808080') for b in avg_benchmarkers]
+
+    def compute_non_overlapping_x(score_values: List[float],
+                                  y_threshold: float = 0.35,
+                                  max_spread: float = 0.11) -> np.ndarray:
+        x = np.zeros(len(score_values), dtype=float)
+        if not score_values:
+            return x
+        scores_arr = np.asarray(score_values, dtype=float)
+        sorted_idx = np.argsort(scores_arr)
+        groups = []
+        current = [sorted_idx[0]]
+        for idx in sorted_idx[1:]:
+            if abs(scores_arr[idx] - scores_arr[current[-1]]) <= y_threshold:
+                current.append(idx)
+            else:
+                groups.append(current)
+                current = [idx]
+        groups.append(current)
+        for group in groups:
+            if len(group) == 1:
+                x[group[0]] = 0.0
+            else:
+                offsets = np.linspace(-max_spread, max_spread, len(group))
+                for g_idx, offset in zip(group, offsets):
+                    x[g_idx] = float(offset)
+        return x
+
+    x_positions = compute_non_overlapping_x(scores)
+    ax_avg.scatter(x_positions, scores, s=220, c=avg_colors, alpha=0.95, edgecolors='black', linewidths=1.2)
+    for i, benchmarker in enumerate(avg_benchmarkers):
+        if benchmarker == 5:
+            ax_avg.scatter([x_positions[i]], [scores[i]], s=240, c=[avg_colors[i]],
+                           alpha=0.95, edgecolors='black', linewidths=2.6, zorder=4)
+
+    ax_avg.set_xticks([])
+    ax_avg.set_ylabel('Average Score', fontsize=16, fontweight='medium', color='#333333', labelpad=10)
+    ax_avg.set_xlabel('Subject', fontsize=16, fontweight='medium', color='#333333', labelpad=10)
+    ax_avg.tick_params(axis='y', labelsize=14)
+    # Heading removed per figure styling request.
+    ax_avg.grid(True, axis='y', alpha=0.3, linestyle='-', linewidth=0.6, color='#CCCCCC')
+    ax_avg.set_axisbelow(True)
+    ax_avg.spines['top'].set_visible(False)
+    ax_avg.spines['right'].set_visible(False)
+    ax_avg.spines['left'].set_linewidth(0.5)
+    ax_avg.spines['bottom'].set_linewidth(0.5)
+    ax_avg.set_xlim(-0.15, 0.22)
+    ax_avg.set_ylim(bottom=0, top=max(scores) * 1.1)
+
+    # Bottom legend on average panel
+    avg_legend_handles = []
+    avg_legend_labels = []
+    if any(b in avg_benchmarkers for b in [1, 2, 3, 4]):
+        avg_legend_handles.append(Line2D([0], [0], marker='o', color='none', markerfacecolor='#808080',
+                                         markeredgecolor='black', markersize=10, linewidth=0))
+        avg_legend_labels.append('Expert')
+    if 5 in avg_benchmarkers:
+        avg_legend_handles.append(Line2D([0], [0], marker='o', color='none', markerfacecolor='#4682B4',
+                                         markeredgecolor='black', markersize=10, linewidth=0))
+        avg_legend_labels.append('FlowMOP')
+    if 6 in avg_benchmarkers:
+        avg_legend_handles.append(Line2D([0], [0], marker='o', color='none', markerfacecolor='#D2691E',
+                                         markeredgecolor='black', markersize=10, linewidth=0))
+        avg_legend_labels.append('FlowCut')
+    if 7 in avg_benchmarkers:
+        avg_legend_handles.append(Line2D([0], [0], marker='o', color='none', markerfacecolor='#228B22',
+                                         markeredgecolor='black', markersize=10, linewidth=0))
+        avg_legend_labels.append('PeacoQC')
+    if avg_legend_handles:
+        ax_avg.legend(avg_legend_handles, avg_legend_labels, loc='upper center',
+                      bbox_to_anchor=(0.5, -0.10), ncol=1, frameon=False,
+                      fontsize=16, handletextpad=0.4, columnspacing=1.0)
+
+    fig.tight_layout(rect=[0, 0.10, 1, 0.98])
+
+    # Reset styles
+    sns.reset_defaults()
+    plt.rcdefaults()
+
     return fig
 
 
@@ -1700,19 +2035,12 @@ if __name__ == "__main__":
     print("RANKING PERFORMANCE VISUALIZATIONS")
     print("="*70)
     
-    # Create average scores visualization
-    fig_avg_scores = plot_average_scores(
+    # Create combined ranking panel visualization (heatmap + averages)
+    fig_panel = plot_ranking_panel(
         df=df,
-        figsize=(10, 6),
-        title="Average Rankings Score"
-    )
-    plt.show()
-    
-    # Create ranking heatmap visualization
-    fig_heatmap = plot_ranking_heatmap(
-        df=df,
-        figsize=(12, 8),
-        title="Rankings Across Datasets"
+        figsize=(16, 7),
+        heatmap_title="Rankings Across Datasets",
+        average_title="Average Rankings Score"
     )
     plt.show()
     

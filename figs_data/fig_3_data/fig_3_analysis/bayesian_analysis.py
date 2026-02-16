@@ -1265,7 +1265,7 @@ def plot_average_scores(df: pd.DataFrame,
             columnspacing=1.0
         )
     
-    plt.tight_layout(rect=[0, 0.12, 1, 1])
+    plt.tight_layout(rect=[0, 0.12, 1, 0.94])
     
     # Reset styles
     sns.reset_defaults()
@@ -1424,9 +1424,11 @@ def plot_ranking_heatmap(df: pd.DataFrame,
         fontsize=scaled(10),
         rotation=45,
         ha='left',
-        va='bottom',
+        va='top',
         rotation_mode='anchor'
     )
+    for lbl in ax.get_xticklabels():
+        lbl.set_clip_on(False)
     
     # Set limits
     ax.set_xlim(-0.5, len(datasets) - 0.5)
@@ -1493,7 +1495,7 @@ def plot_ranking_heatmap(df: pd.DataFrame,
         )
     
     # Adjust layout with reduced top spacing
-    plt.tight_layout(rect=[0, 0.05, 1, 0.98])
+    plt.tight_layout(rect=[0, 0.05, 1, 0.86])
     
     # Reset styles
     sns.reset_defaults()
@@ -1644,8 +1646,10 @@ def plot_ranking_panel(df: pd.DataFrame,
     ax_heatmap.xaxis.tick_top()
     ax_heatmap.set_xticklabels(
         datasets, fontsize=scaled(10), rotation=45,
-        ha='left', va='bottom', rotation_mode='anchor'
+        ha='left', va='top', rotation_mode='anchor'
     )
+    for lbl in ax_heatmap.get_xticklabels():
+        lbl.set_clip_on(False)
     ax_heatmap.set_xlim(-0.5, len(datasets) - 0.5)
     ax_heatmap.set_ylim(-0.5, len(heatmap_benchmarkers) - 0.5)
     ax_heatmap.set_ylabel('Benchmarker', fontsize=scaled(12), fontweight='medium', color='#333333', labelpad=10)
@@ -1760,7 +1764,7 @@ def plot_ranking_panel(df: pd.DataFrame,
                       bbox_to_anchor=(0.5, -0.10), ncol=1, frameon=False,
                       fontsize=16, handletextpad=0.4, columnspacing=1.0)
 
-    fig.tight_layout(rect=[0, 0.10, 1, 0.98])
+    fig.tight_layout(rect=[0, 0.10, 1, 0.86])
 
     # Reset styles
     sns.reset_defaults()

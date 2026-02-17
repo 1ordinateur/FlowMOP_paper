@@ -710,13 +710,21 @@ def plot_posterior_differences(results: Dict,
     def scaled(size: float) -> float:
         """Utility to consistently scale font sizes."""
         return size * font_scale
+
+    font_point_increase = 2.0
+
+    def scaled_plus(size: float) -> float:
+        """Increase text size by 2 points without changing figure dimensions."""
+        return scaled(size) + font_point_increase
+
+    rank_fontsize = scaled(10) * 2.0
     
     samples = results['samples']
     benchmarker_to_idx = results['benchmarker_to_idx']
     
     # Create figure
     fig, ax = plt.subplots(figsize=figsize, facecolor='white')
-    ax.set_facecolor('#FAFAFA')
+    ax.set_facecolor('white')
     
     # Calculate differences
     target_idx = benchmarker_to_idx[target]
@@ -794,7 +802,7 @@ def plot_posterior_differences(results: Dict,
     ax.set_title(title, fontsize=16, fontweight='bold', color='#222222', pad=20)
     
     # Grid and spines
-    ax.grid(True, axis='y', alpha=0.3, linestyle='-', linewidth=0.6, color='#CCCCCC')
+    ax.grid(True, axis='y', alpha=0.35, linestyle='-', linewidth=0.6, color='#B3B3B3')
     ax.set_axisbelow(True)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
@@ -863,7 +871,7 @@ def plot_posterior_tails(results: Dict,
     
     # Create figure
     fig, ax = plt.subplots(figsize=figsize, facecolor='white')
-    ax.set_facecolor('#FAFAFA')
+    ax.set_facecolor('white')
     
     # Calculate statistics for each benchmarker
     y_positions = []
@@ -1137,8 +1145,8 @@ def plot_average_scores(df: pd.DataFrame,
     
     # Set seaborn style
     sns.set_style("whitegrid", {
-        'axes.edgecolor': '#CCCCCC',
-        'axes.linewidth': 0.8,
+        'axes.edgecolor': '#000000',
+        'axes.linewidth': 1.2,
         'grid.color': '#EEEEEE',
         'grid.linewidth': 0.5
     })
@@ -1202,9 +1210,9 @@ def plot_average_scores(df: pd.DataFrame,
     
     # Customize plot
     ax.set_xticks([])
-    ax.set_ylabel('Average Score', fontsize=16, fontweight='medium', color='#333333', labelpad=10)
-    ax.set_xlabel('Subject', fontsize=16, fontweight='medium', color='#333333', labelpad=10)
-    ax.tick_params(axis='y', labelsize=14)
+    ax.set_ylabel('Average Score', fontsize=18, fontweight='medium', color='#333333', labelpad=10)
+    ax.set_xlabel('Subject', fontsize=18, fontweight='medium', color='#333333', labelpad=10)
+    ax.tick_params(axis='y', labelsize=16, colors='#000000', width=1.1, length=4)
     
     # Heading removed per figure styling request.
     
@@ -1213,8 +1221,10 @@ def plot_average_scores(df: pd.DataFrame,
     ax.set_axisbelow(True)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_linewidth(0.5)
-    ax.spines['bottom'].set_linewidth(0.5)
+    ax.spines['left'].set_linewidth(1.2)
+    ax.spines['bottom'].set_linewidth(1.2)
+    ax.spines['left'].set_color('#000000')
+    ax.spines['bottom'].set_color('#000000')
     
     # Set axis limits
     ax.set_xlim(-0.15, 0.22)
@@ -1260,7 +1270,7 @@ def plot_average_scores(df: pd.DataFrame,
             bbox_to_anchor=(0.5, -0.12),
             ncol=1,
             frameon=False,
-            fontsize=16,
+            fontsize=18,
             handletextpad=0.4,
             columnspacing=1.0
         )
@@ -1373,7 +1383,7 @@ def plot_ranking_heatmap(df: pd.DataFrame,
 
                 # Add flipped rank number with black text and a softer white halo
                 text = ax.text(j, i, str(display_rank), ha='center', va='center',
-                               color='black', fontsize=scaled(10), fontweight='bold')
+                               color='black', fontsize=rank_fontsize, fontweight='bold')
                 text.set_path_effects([
                     patheffects.Stroke(linewidth=3, foreground='white', alpha=0.5),
                     patheffects.Stroke(linewidth=5, foreground='white', alpha=0.25),
@@ -1388,7 +1398,7 @@ def plot_ranking_heatmap(df: pd.DataFrame,
                 
                 # Add N/A text
                 ax.text(j, i, 'N/A', ha='center', va='center',
-                       color='#999999', fontsize=scaled(9), style='italic')
+                       color='#999999', fontsize=scaled_plus(9), style='italic')
     
     # Highlight FlowMOP row with black border
     flowmop_idx = None
@@ -1414,14 +1424,14 @@ def plot_ranking_heatmap(df: pd.DataFrame,
     # Set ticks and labels
     ax.set_xticks(range(len(datasets)))
     ax.set_yticks(range(len(benchmarkers)))
-    ax.set_yticklabels([get_benchmarker_name(b) for b in benchmarkers], fontsize=scaled(11))
+    ax.set_yticklabels([get_benchmarker_name(b) for b in benchmarkers], fontsize=scaled_plus(11))
     
     # Move x-axis labels to top and make them vertical
     ax.xaxis.set_label_position('top')
     ax.xaxis.tick_top()
     ax.set_xticklabels(
         datasets,
-        fontsize=scaled(10),
+        fontsize=scaled_plus(10),
         rotation=45,
         ha='left',
         va='bottom',
@@ -1434,7 +1444,7 @@ def plot_ranking_heatmap(df: pd.DataFrame,
     
     # Labels and title
     # No x-label since column names are self-explanatory
-    ax.set_ylabel('Benchmarker', fontsize=scaled(12), fontweight='medium', color='#333333', labelpad=10)
+    ax.set_ylabel('Benchmarker', fontsize=scaled_plus(12), fontweight='medium', color='#333333', labelpad=10)
     
     # Heading removed per figure styling request.
     
@@ -1457,7 +1467,7 @@ def plot_ranking_heatmap(df: pd.DataFrame,
         bbox_to_anchor=(0.5, -0.06),
         ncol=len(legend_elements) if legend_elements else 1,
         frameon=False,
-        fontsize=scaled(10),
+        fontsize=scaled_plus(10),
         handlelength=1.0,
         handletextpad=0.0,
         borderaxespad=0.2
@@ -1482,14 +1492,14 @@ def plot_ranking_heatmap(df: pd.DataFrame,
             transform=ax.transAxes,
             ha='left',
             va='top',
-            fontsize=scaled(10)
+            fontsize=scaled_plus(10)
         )
         ax.text(
             x_right, y_bottom - pad, "Best",
             transform=ax.transAxes,
             ha='right',
             va='top',
-            fontsize=scaled(10)
+            fontsize=scaled_plus(10)
         )
     
     # Adjust layout with reduced top spacing
@@ -1565,8 +1575,8 @@ def plot_ranking_panel(df: pd.DataFrame,
 
     # Styling
     sns.set_style("whitegrid", {
-        'axes.edgecolor': '#CCCCCC',
-        'axes.linewidth': 0.8,
+        'axes.edgecolor': '#000000',
+        'axes.linewidth': 1.2,
         'grid.color': '#EEEEEE',
         'grid.linewidth': 0.5
     })
@@ -1576,13 +1586,21 @@ def plot_ranking_panel(df: pd.DataFrame,
     def scaled(size: float) -> float:
         return size * font_scale
 
+    font_point_increase = 2.0
+
+    def scaled_plus(size: float) -> float:
+        """Increase text size by 2 points without changing figure dimensions."""
+        return scaled(size) + font_point_increase
+
+    rank_fontsize = scaled(10) * 2.0
+
     # Figure + layout
     fig = plt.figure(figsize=figsize, facecolor='white')
     gs = fig.add_gridspec(1, 2, width_ratios=[7.5, 1.1], wspace=0.14)
     ax_heatmap = fig.add_subplot(gs[0, 0])
     ax_avg = fig.add_subplot(gs[0, 1])
-    ax_heatmap.set_facecolor('#FAFAFA')
-    ax_avg.set_facecolor('#FAFAFA')
+    ax_heatmap.set_facecolor('white')
+    ax_avg.set_facecolor('white')
 
     # Heatmap panel
     heat_colors = sns.color_palette("inferno", n_colors=max_rank)
@@ -1600,7 +1618,7 @@ def plot_ranking_panel(df: pd.DataFrame,
                 ax_heatmap.add_patch(rect)
                 text = ax_heatmap.text(
                     j, i, str(display_rank), ha='center', va='center',
-                    color='black', fontsize=scaled(10), fontweight='bold'
+                    color='black', fontsize=rank_fontsize, fontweight='bold'
                 )
                 text.set_path_effects([
                     patheffects.Stroke(linewidth=3, foreground='white', alpha=0.5),
@@ -1615,7 +1633,7 @@ def plot_ranking_panel(df: pd.DataFrame,
                 ax_heatmap.add_patch(rect)
                 ax_heatmap.text(
                     j, i, 'N/A', ha='center', va='center',
-                    color='#999999', fontsize=scaled(9), style='italic'
+                    color='#999999', fontsize=scaled_plus(9), style='italic'
                 )
 
     # Highlight FlowMOP row
@@ -1639,16 +1657,16 @@ def plot_ranking_panel(df: pd.DataFrame,
 
     ax_heatmap.set_xticks(range(len(datasets)))
     ax_heatmap.set_yticks(range(len(heatmap_benchmarkers)))
-    ax_heatmap.set_yticklabels([get_benchmarker_name(b) for b in heatmap_benchmarkers], fontsize=scaled(11))
+    ax_heatmap.set_yticklabels([get_benchmarker_name(b) for b in heatmap_benchmarkers], fontsize=scaled_plus(11))
     ax_heatmap.xaxis.set_label_position('top')
     ax_heatmap.xaxis.tick_top()
     ax_heatmap.set_xticklabels(
-        datasets, fontsize=scaled(10), rotation=45,
+        datasets, fontsize=scaled_plus(10), rotation=45,
         ha='left', va='bottom', rotation_mode='anchor'
     )
     ax_heatmap.set_xlim(-0.5, len(datasets) - 0.5)
     ax_heatmap.set_ylim(-0.5, len(heatmap_benchmarkers) - 0.5)
-    ax_heatmap.set_ylabel('Benchmarker', fontsize=scaled(12), fontweight='medium', color='#333333', labelpad=10)
+    ax_heatmap.set_ylabel('Benchmarker', fontsize=scaled_plus(12), fontweight='medium', color='#333333', labelpad=10)
     # Heading removed per figure styling request.
     ax_heatmap.grid(False)
     for spine in ax_heatmap.spines.values():
@@ -1662,7 +1680,7 @@ def plot_ranking_panel(df: pd.DataFrame,
         bbox_to_anchor=(0.5, -0.07),
         ncol=len(legend_elements) if legend_elements else 1,
         frameon=False,
-        fontsize=scaled(10),
+        fontsize=scaled_plus(10),
         handlelength=1.0,
         handletextpad=0.0,
         borderaxespad=0.2
@@ -1672,9 +1690,9 @@ def plot_ranking_panel(df: pd.DataFrame,
         renderer = fig.canvas.get_renderer()
         bbox = legend.get_window_extent(renderer=renderer).transformed(ax_heatmap.transAxes.inverted())
         ax_heatmap.text(bbox.x0, bbox.y0 - 0.05, "Worst", transform=ax_heatmap.transAxes,
-                        ha='left', va='top', fontsize=scaled(10))
+                        ha='left', va='top', fontsize=scaled_plus(10))
         ax_heatmap.text(bbox.x1, bbox.y0 - 0.05, "Best", transform=ax_heatmap.transAxes,
-                        ha='right', va='top', fontsize=scaled(10))
+                        ha='right', va='top', fontsize=scaled_plus(10))
 
     # Average panel
     scores = [average_scores[b] for b in avg_benchmarkers]
@@ -1723,16 +1741,18 @@ def plot_ranking_panel(df: pd.DataFrame,
                            alpha=0.95, edgecolors='black', linewidths=2.6, zorder=4)
 
     ax_avg.set_xticks([])
-    ax_avg.set_ylabel('Average Score', fontsize=16, fontweight='medium', color='#333333', labelpad=10)
-    ax_avg.set_xlabel('Subject', fontsize=16, fontweight='medium', color='#333333', labelpad=10)
-    ax_avg.tick_params(axis='y', labelsize=14)
+    ax_avg.set_ylabel('Average Score', fontsize=18, fontweight='medium', color='#333333', labelpad=10)
+    ax_avg.set_xlabel('Subject', fontsize=18, fontweight='medium', color='#333333', labelpad=10)
+    ax_avg.tick_params(axis='y', labelsize=16, colors='#000000', width=1.1, length=4)
     # Heading removed per figure styling request.
-    ax_avg.grid(True, axis='y', alpha=0.3, linestyle='-', linewidth=0.6, color='#CCCCCC')
+    ax_avg.grid(True, axis='y', alpha=0.35, linestyle='-', linewidth=0.6, color='#B3B3B3')
     ax_avg.set_axisbelow(True)
     ax_avg.spines['top'].set_visible(False)
     ax_avg.spines['right'].set_visible(False)
-    ax_avg.spines['left'].set_linewidth(0.5)
-    ax_avg.spines['bottom'].set_linewidth(0.5)
+    ax_avg.spines['left'].set_linewidth(1.2)
+    ax_avg.spines['bottom'].set_linewidth(1.2)
+    ax_avg.spines['left'].set_color('#000000')
+    ax_avg.spines['bottom'].set_color('#000000')
     ax_avg.set_xlim(-0.15, 0.22)
     ax_avg.set_ylim(bottom=0, top=max(scores) * 1.1)
 
@@ -1758,7 +1778,7 @@ def plot_ranking_panel(df: pd.DataFrame,
     if avg_legend_handles:
         ax_avg.legend(avg_legend_handles, avg_legend_labels, loc='upper center',
                       bbox_to_anchor=(0.5, -0.10), ncol=1, frameon=False,
-                      fontsize=16, handletextpad=0.4, columnspacing=1.0)
+                      fontsize=18, handletextpad=0.4, columnspacing=1.0)
 
     fig.tight_layout(rect=[0, 0.10, 1, 0.98])
 

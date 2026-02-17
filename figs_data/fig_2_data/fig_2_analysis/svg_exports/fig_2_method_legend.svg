@@ -6,7 +6,7 @@
   <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
    <cc:Work>
     <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:date>2026-02-17T10:15:47.153597</dc:date>
+    <dc:date>2026-02-17T10:20:35.326748</dc:date>
     <dc:format>image/svg+xml</dc:format>
     <dc:creator>
      <cc:Agent>
@@ -33,7 +33,7 @@ z
    <g id="legend_1">
     <g id="text_1">
      <!-- Method -->
-     <g style="fill: #262626" transform="translate(264.072656 60.915469) scale(0.3 -0.3)">
+     <g style="fill: #262626" transform="translate(264.072656 66.750469) scale(0.3 -0.3)">
       <defs>
        <path id="ArialMT-4d" d="M 475 0 
 L 475 4581 
@@ -180,16 +180,16 @@ z
      </g>
     </g>
     <g id="patch_2">
-     <path d="M 87.3875 109.437969 
-L 157.7875 109.437969 
-L 157.7875 82.877969 
-L 87.3875 82.877969 
+     <path d="M 144.065625 104.632969 
+L 196.865625 104.632969 
+L 196.865625 84.712969 
+L 144.065625 84.712969 
 z
 " style="fill: #ffffff; stroke: #000000; stroke-linejoin: miter"/>
     </g>
     <g id="text_2">
      <!-- Group -->
-     <g style="fill: #262626" transform="translate(183.3875 107.197969) scale(0.32 -0.32)">
+     <g style="fill: #262626" transform="translate(216.065625 102.952969) scale(0.24 -0.24)">
       <defs>
        <path id="ArialMT-47" d="M 2638 1797 
 L 2638 2334 
@@ -298,16 +298,16 @@ z
      </g>
     </g>
     <g id="patch_3">
-     <path d="M 336.3175 109.437969 
-L 406.7175 109.437969 
-L 406.7175 82.877969 
-L 336.3175 82.877969 
+     <path d="M 330.763125 104.632969 
+L 383.563125 104.632969 
+L 383.563125 84.712969 
+L 330.763125 84.712969 
 z
-" style="fill: url(#h35b87b82f3); stroke: #000000; stroke-linejoin: miter"/>
+" style="fill: url(#h9dd306fcd4); stroke: #000000; stroke-linejoin: miter"/>
     </g>
     <g id="text_3">
      <!-- Sample -->
-     <g style="fill: #262626" transform="translate(432.3175 107.197969) scale(0.32 -0.32)">
+     <g style="fill: #262626" transform="translate(402.763125 102.952969) scale(0.24 -0.24)">
       <defs>
        <path id="ArialMT-53" d="M 288 1472 
 L 859 1522 
@@ -440,7 +440,7 @@ z
   </g>
  </g>
  <defs>
-  <pattern id="h35b87b82f3" patternUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
+  <pattern id="h9dd306fcd4" patternUnits="userSpaceOnUse" x="0" y="0" width="72" height="72">
    <rect x="0" y="0" width="73" height="73" fill="#ffffff"/>
    <path d="M -36 36 
 L 36 -36 

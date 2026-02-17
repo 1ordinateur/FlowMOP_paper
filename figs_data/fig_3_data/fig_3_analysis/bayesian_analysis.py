@@ -711,14 +711,6 @@ def plot_posterior_differences(results: Dict,
         """Utility to consistently scale font sizes."""
         return size * font_scale
 
-    font_point_increase = 2.0
-
-    def scaled_plus(size: float) -> float:
-        """Increase text size by 2 points without changing figure dimensions."""
-        return scaled(size) + font_point_increase
-
-    rank_fontsize = scaled(10) * 2.0
-    
     samples = results['samples']
     benchmarker_to_idx = results['benchmarker_to_idx']
     
@@ -1156,6 +1148,7 @@ def plot_average_scores(df: pd.DataFrame,
     def scaled(size: float) -> float:
         """Utility to consistently scale font sizes."""
         return size * font_scale
+
     
     # Create figure
     fig, ax = plt.subplots(figsize=figsize, facecolor='white')
@@ -1210,9 +1203,9 @@ def plot_average_scores(df: pd.DataFrame,
     
     # Customize plot
     ax.set_xticks([])
-    ax.set_ylabel('Average Score', fontsize=18, fontweight='medium', color='#333333', labelpad=10)
-    ax.set_xlabel('Subject', fontsize=18, fontweight='medium', color='#333333', labelpad=10)
-    ax.tick_params(axis='y', labelsize=16, colors='#000000', width=1.1, length=4)
+    ax.set_ylabel('Average Score', fontsize=22, fontweight='medium', color='#333333', labelpad=10)
+    ax.set_xlabel('Subject', fontsize=22, fontweight='medium', color='#333333', labelpad=10)
+    ax.tick_params(axis='y', labelsize=20, colors='#000000', width=1.1, length=4)
     
     # Heading removed per figure styling request.
     
@@ -1270,7 +1263,7 @@ def plot_average_scores(df: pd.DataFrame,
             bbox_to_anchor=(0.5, -0.12),
             ncol=1,
             frameon=False,
-            fontsize=18,
+            fontsize=22,
             handletextpad=0.4,
             columnspacing=1.0
         )
@@ -1355,6 +1348,14 @@ def plot_ranking_heatmap(df: pd.DataFrame,
     def scaled(size: float) -> float:
         """Utility to consistently scale font sizes."""
         return size * font_scale
+
+    font_point_increase = 6.0
+
+    def scaled_plus(size: float) -> float:
+        """Increase text size by 2 points without changing figure dimensions."""
+        return scaled(size) + font_point_increase
+
+    rank_fontsize = scaled(10) * 2.0
     
     # Create figure
     fig, ax = plt.subplots(figsize=figsize, facecolor='white')
@@ -1586,7 +1587,7 @@ def plot_ranking_panel(df: pd.DataFrame,
     def scaled(size: float) -> float:
         return size * font_scale
 
-    font_point_increase = 2.0
+    font_point_increase = 6.0
 
     def scaled_plus(size: float) -> float:
         """Increase text size by 2 points without changing figure dimensions."""
@@ -1741,9 +1742,9 @@ def plot_ranking_panel(df: pd.DataFrame,
                            alpha=0.95, edgecolors='black', linewidths=2.6, zorder=4)
 
     ax_avg.set_xticks([])
-    ax_avg.set_ylabel('Average Score', fontsize=18, fontweight='medium', color='#333333', labelpad=10)
-    ax_avg.set_xlabel('Subject', fontsize=18, fontweight='medium', color='#333333', labelpad=10)
-    ax_avg.tick_params(axis='y', labelsize=16, colors='#000000', width=1.1, length=4)
+    ax_avg.set_ylabel('Average Score', fontsize=22, fontweight='medium', color='#333333', labelpad=10)
+    ax_avg.set_xlabel('Subject', fontsize=22, fontweight='medium', color='#333333', labelpad=10)
+    ax_avg.tick_params(axis='y', labelsize=20, colors='#000000', width=1.1, length=4)
     # Heading removed per figure styling request.
     ax_avg.grid(True, axis='y', alpha=0.35, linestyle='-', linewidth=0.6, color='#B3B3B3')
     ax_avg.set_axisbelow(True)
@@ -1778,7 +1779,7 @@ def plot_ranking_panel(df: pd.DataFrame,
     if avg_legend_handles:
         ax_avg.legend(avg_legend_handles, avg_legend_labels, loc='upper center',
                       bbox_to_anchor=(0.5, -0.10), ncol=1, frameon=False,
-                      fontsize=18, handletextpad=0.4, columnspacing=1.0)
+                      fontsize=22, handletextpad=0.4, columnspacing=1.0)
 
     fig.tight_layout(rect=[0, 0.10, 1, 0.98])
 

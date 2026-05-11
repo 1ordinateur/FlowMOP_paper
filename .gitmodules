@@ -1,0 +1,3 @@
+[submodule "FlowMOP"]
+	path = FlowMOP
+	url = git@github.com:1ordinateur/FlowMOP.git

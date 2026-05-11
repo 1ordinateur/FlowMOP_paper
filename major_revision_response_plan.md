@@ -28,8 +28,9 @@ The goal is to convert this into a detailed response letter after the analyses a
 
 **Additional analyses proposed:**
 
-- Add FlowMOP ablation analysis for smoothing and parameter voting.
-- Add parameter sensitivity analysis for PeacoQC and FlowCut to show that comparisons are not driven solely by default settings.
+- Add FlowMOP MAD smoothing ablation analysis using the existing `FlowMOP/benchmarks/benchmark_flowmop_mad_smoothing.py` script. This now supports existing generated synthetic-combo FCS datasets through `--dataset-dir`, so the analysis can be run on the already-generated bimix/trimix/segment datasets rather than regenerating all inputs.
+- Add parameter sensitivity analysis for PeacoQC and FlowCut where feasible to show that comparisons are not driven solely by default settings. This remains a manuscript-analysis task; the current committed benchmark infrastructure establishes API-correct baseline runners for both tools.
+- Use the smoothing ablation results to replace speculative language such as performance differences that "may be attributed to smoothing" with direct evidence from on/off or grid-based smoothing comparisons.
 
 ## Editor Comment 2: Algorithmic Versus Implementation Advantages
 
@@ -48,10 +49,25 @@ The goal is to convert this into a detailed response letter after the analyses a
 
 **Additional analyses proposed:**
 
-- Benchmark FlowMOP, PeacoQC, and FlowCut across increasing event counts and/or file counts.
-- Include runtime and peak memory usage.
-- Where practical, compare local execution with Dask/distributed execution.
+- Benchmark FlowMOP, PeacoQC, and FlowCut across increasing event counts using the committed `FlowMOP/benchmarks/benchmark_qc_algorithms.py` script.
+- Use the new clone-based scaling mode rather than purely random synthetic data where possible:
+  - provide a real base FCS file using `--base-fcs`;
+  - create larger matched inputs by concatenating/tile-cloning events;
+  - preserve the original within-file `Time` density pattern while offsetting repeated blocks forward so acquisition time remains monotonic;
+  - run all algorithms on the exact same cloned FCS inputs.
+- Include runtime and peak memory usage from `/usr/bin/time -v`, summarized in `results.csv`, `summary.csv`, and `summary.md`.
+- Run PeacoQC and FlowCut through generated Rscript wrappers. The wrappers have been checked against the current upstream APIs:
+  - PeacoQC accepts channel indices or names via `channels`; we pass 1-based channel indices.
+  - flowCut documents `Channels` as a vector of channel indices; we pass 1-based channel indices.
+  - PeacoQC is run with `plot = FALSE`, `save_fcs = FALSE`, `report = FALSE`, and `output_directory = NULL`.
+  - flowCut is run with `Plot = "None"`, `AllowFlaggedRerun = FALSE`, and `Verbose = FALSE`.
+- Use the committed PBS wrapper `FlowMOP/benchmarks/qsub_qc_algorithm_clone_scaling.pbs.sh` for the cluster run. It requests 24 CPUs and can run:
+  - `flowmop`;
+  - `peacoqc`;
+  - `flowcut`.
+- Use `FlowMOP/benchmarks/qsub_mad_smoothing_existing_data.pbs.sh` for the MAD smoothing ablation on existing generated synthetic-combo datasets. This also requests 24 CPUs.
 - Present results as speed/scalability benchmarking rather than evidence of biological superiority.
+- In the manuscript, explicitly separate these implementation/scalability results from algorithmic performance claims.
 
 ## Editor Comment 3: Expert Rankings, Absolute Quality, and Downstream Biological Impact
 
@@ -122,6 +138,7 @@ The goal is to convert this into a detailed response letter after the analyses a
 
 - Add a supplementary table or figure reporting event-removal proportions across synthetic and real datasets.
 - Where possible, report how often subtle synthetic perturbations were detectable by human reviewers.
+- For speed/scaling figures, use clone-based real-FCS scaling rather than purely random synthetic matrices. This avoids making the runtime/memory benchmark depend on unrealistic marker distributions while still allowing controlled event-count scaling.
 
 ## Editor Comment 6: Debris Gating Methodology and Validation
 
@@ -179,6 +196,58 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Use the planned regression analysis to test whether preprocessing method significantly shifts downstream population frequencies.
 - Report effect sizes, confidence or credible intervals, and practical interpretation rather than only significance.
 - Add parameter sensitivity analysis for competing methods to assess robustness across plausible settings.
+- Use the clone-based scaling benchmark only to address computational feasibility and practical runtime/memory significance. Do not use speed differences as a proxy for biological correctness.
+
+## Editor Comment 10: Benchmarking Implementation Now Available
+
+**Related comments:** `E1` algorithmic versus implementation advantages; `R1` comment 1; `R1` comment 5; `R2` comment 7.
+
+**Reviewer concern:** Runtime and memory claims need empirical support, and comparisons to PeacoQC and FlowCut must be technically fair despite those tools being implemented in R. The manuscript should avoid conflating Dask implementation advantages with algorithmic superiority.
+
+**Current code now available:**
+
+- `FlowMOP/benchmarks/benchmark_qc_algorithms.py`
+  - Generates matched benchmark inputs.
+  - Supports default synthetic FCS generation.
+  - Now supports clone-based real-FCS scaling through `--base-fcs`.
+  - Clone mode tiles a real base FCS to target event counts and preserves the original within-file `Time` density pattern while keeping time monotonic between repeated blocks.
+  - Runs FlowMOP, PeacoQC, and FlowCut on matched inputs.
+  - Captures wall time and peak RAM using `/usr/bin/time -v`.
+  - Writes `benchmark_commands.txt`, `metadata.json`, `results.csv`, `summary.csv`, and `summary.md`.
+- `FlowMOP/benchmarks/benchmark_flowmop_mad_smoothing.py`
+  - Runs FlowMOP across MAD smoothing settings.
+  - Can generate labeled synthetic inputs.
+  - Can also consume existing generated synthetic-combo FCS datasets through `--dataset-dir`.
+  - Scores time-gating sensitivity, specificity, and balanced score where source labels are available.
+- `FlowMOP/benchmarks/qsub_qc_algorithm_clone_scaling.pbs.sh`
+  - PBS wrapper for the FlowMOP/PeacoQC/FlowCut clone-scaling benchmark.
+  - Requests 24 CPUs.
+  - Requires `BASE_FCS`.
+  - Allows override of `SIZES`, `REPEATS`, `ALGORITHMS`, `TIMEOUT`, `OUT_DIR`, and `ALLOW_MISSING`.
+- `FlowMOP/benchmarks/qsub_mad_smoothing_existing_data.pbs.sh`
+  - PBS wrapper for running the MAD smoothing ablation on existing generated synthetic-combo datasets.
+  - Requests 24 CPUs.
+  - Requires `DATASET_DIR`.
+  - Allows override of dataset bin size, smoothing grid, output directory, file limit, and timeout.
+
+**API alignment notes for response letter / methods:**
+
+- PeacoQC API checked against the current Bioconductor/r-universe manual and source:
+  - `PeacoQC(ff, channels, determine_good_cells = "all", plot, save_fcs, output_directory, name_directory, report, ...)`;
+  - `channels` may be indices or names;
+  - the benchmark passes 1-based channel indices.
+- flowCut API checked against the current Bioconductor/r-universe manual and source:
+  - `flowCut(f, Segment = 500, Channels = NULL, Directory = NULL, FileID = NULL, Plot, AllowFlaggedRerun, Verbose, ...)`;
+  - `Channels` is documented as a vector of channel indices;
+  - the benchmark passes 1-based channel indices.
+- The benchmark intentionally disables plot/report/FCS output for PeacoQC and plotting for flowCut so measured runtime emphasizes algorithm execution rather than optional output generation.
+
+**How this addresses the comments:**
+
+- `R1` comment 1: provides the requested runtime and peak memory benchmarking table inputs across increasing dataset sizes.
+- `E1` implementation-versus-algorithm concern: allows the manuscript to explicitly present Dask/Python as a scalability contribution while separately discussing algorithmic behavior.
+- `R1` comment 5: provides infrastructure for FlowMOP MAD smoothing sensitivity/ablation and creates API-correct baseline wrappers for PeacoQC/FlowCut before parameter-sensitivity extensions.
+- `R2` comment 7: supports revising the Introduction so Dask is described as computational infrastructure rather than the core gating algorithm.
 
 ## Editor Comment 9: Manuscript Structure, Methods Completeness, and Figure Corrections
 
@@ -221,7 +290,8 @@ The revision package should therefore contain four major workstreams:
    - revise claims based on observed results.
 
 4. **Speed and scalability benchmarking**
-   - benchmark runtime and peak memory;
+   - benchmark runtime and peak memory using clone-based real-FCS scaling where possible;
+   - run FlowMOP, PeacoQC, and FlowCut through API-checked wrappers;
    - compare local and Dask/distributed execution where feasible;
    - clearly separate computational scalability from gating accuracy.
 
@@ -235,4 +305,3 @@ The response letter should make clear that the revision directly addresses the c
 - Regression analysis is added to test downstream biological impact.
 - Benchmarking is added to support speed and scalability claims.
 - Limitations are acknowledged for tumor samples, complex debris, FSC saturation, and instrument-specific scatter configurations.
-

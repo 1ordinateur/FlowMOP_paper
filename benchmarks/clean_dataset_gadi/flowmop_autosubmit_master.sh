@@ -28,7 +28,7 @@ OUTPUT_DIR=""
 FILE_PATTERN="*.fcs"
 MAX_PARALLEL=4
 FLUOR_MODE="positive_geomeans"
-MAD_SMOOTHING="0.1 0.9"
+MAD_SMOOTHING="0.01 0.05"
 ENABLE_PLOTS=0
 PLOTS_DIR="time_gate_plots"
 ENABLE_SSC=0
@@ -178,7 +178,7 @@ while [[ $# -gt 0 ]]; do
             echo "  --file-pattern <pattern>  Glob pattern to match files (default: *.fcs)"
             echo "  --max-parallel <num>      Maximum number of parallel processes (default: 4)"
             echo "  --fluor-mode <mode>       Mode for fluorescence analysis (default: positive_geomeans)"
-            echo "  --mad-smoothing <values>  Smoothing factors for MAD-based time gating (default: '0.1 0.9')"
+            echo "  --mad-smoothing <values>  Smoothing factors for MAD-based time gating (default: '0.01 0.05')"
             echo "  --enable-plots            Generate time gate plots"
             echo "  --plots-dir <dir>         Directory to save time gate plots (default: time_gate_plots)"
             echo "  --enable-ssc              Use SSC-A for debris gating in addition to FSC-A"

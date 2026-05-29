@@ -30,6 +30,7 @@ DEFAULT_SCENARIOS = [
     "trimix:50,30,20:2000",
 ]
 DEFAULT_SMOOTHING_GRID = [
+    "0.01,0.05",
     "0.02,0.09",
     "0.05,0.20",
     "0.10,0.90",
@@ -569,7 +570,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--fluoro-channels", type=int, default=8)
     parser.add_argument("--scenarios", nargs="+", type=parse_scenario, default=[parse_scenario(value) for value in DEFAULT_SCENARIOS])
     parser.add_argument("--mad-smoothing-grid", nargs="+", type=parse_smoothing_pair, default=[parse_smoothing_pair(value) for value in DEFAULT_SMOOTHING_GRID])
-    parser.add_argument("--baseline-mad-smoothing", type=parse_smoothing_pair, default=parse_smoothing_pair("0.10,0.90"))
+    parser.add_argument("--baseline-mad-smoothing", type=parse_smoothing_pair, default=parse_smoothing_pair("0.01,0.05"))
     parser.add_argument("--out-dir", type=Path, default=Path("benchmark_results/mad_smoothing"))
     parser.add_argument("--seed", type=int, default=23)
     parser.add_argument("--timeout", type=float, default=None)

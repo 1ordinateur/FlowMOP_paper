@@ -184,9 +184,9 @@ We will run tumor-cell samples and add them as an additional biological validati
 
 > Runtime and memory efficiency claims are not supported empirically.
 
-🟡 **Status: pending benchmark results.**
+🟦 **Status: ADDRESSED - clone-based benchmark completed and inserted.**
 
-The clone-based benchmark scripts now exist, but the manuscript wording should be finalized after the benchmarking data are generated and reviewed.
+The manuscript now includes a Methods subsection, Results paragraph, Discussion interpretation, and Supplementary Table S3 reporting runtime and peak RAM for FlowMOP, PeacoQC, and FlowCut on matched clone-based FCS inputs. Results are recorded in `benchmark_results/local_timegate_comprehensive_no_output_block_dask_threshold/summary.csv` and `summary.md`. At 2,000,000 events, FlowMOP completed in 16.96 s versus 41.26 s for PeacoQC and 61.55 s for FlowCut, while using 840 MB peak RAM versus 2,615 MB and 1,850 MB respectively.
 
 🟣 **Option A: Methods addition**
 
@@ -194,7 +194,11 @@ The clone-based benchmark scripts now exist, but the manuscript wording should b
 
 🟣 **Option B: Results addition**
 
-> <span style="color:#007a3d">Across increasing event counts, runtime and peak memory were summarized for FlowMOP, PeacoQC, and FlowCut. These benchmarks evaluate computational scalability of the released implementations and are reported separately from gating accuracy metrics.</span>
+> <span style="color:#007a3d">Across increasing event counts, runtime and peak memory were summarized for FlowMOP, PeacoQC, and FlowCut. These benchmarks evaluate computational scalability of the released implementations, with the fastest runtime and lowest peak RAM highlighted for each event count.</span>
+
+🟣 **Inserted manuscript summary**
+
+> <span style="color:#007a3d">Clone-based runtime and memory benchmarking showed that FlowMOP achieved faster processing at lower peak memory use across larger event counts (Table S3). The best-performing runtime and RAM value for each event count is bolded in Table S3.</span>
 
 ## P09 - R1.2 / R2.22: FSC-A Debris Gating Concern
 

@@ -194,23 +194,40 @@ def read_fcs_matrix(input_path: Path) -> Tuple[np.ndarray, List[str], Dict[str, 
     """Read an FCS file as a numeric matrix, channel names, and metadata."""
     import readfcs
 
-    adata = readfcs.read(str(input_path))
-    df = adata.to_df()
-    channel_names = list(df.columns)
+    try:
+        adata = readfcs.read(str(input_path))
+        df = adata.to_df()
+        channel_names = list(df.columns)
 
-    var = getattr(adata, "var", None)
-    if var is not None and hasattr(var, "columns") and "marker" in var.columns:
-        markers = [
-            str(marker) if marker is not None and str(marker).strip() else str(var_name)
-            for marker, var_name in zip(adata.var["marker"], adata.var_names)
-        ]
-        if len(markers) == len(channel_names):
-            channel_names = markers
-    elif hasattr(adata, "var_names") and len(adata.var_names) == len(channel_names):
-        channel_names = [str(name) for name in adata.var_names]
+        var = getattr(adata, "var", None)
+        if var is not None and hasattr(var, "columns") and "marker" in var.columns:
+            markers = [
+                str(marker) if marker is not None and str(marker).strip() else str(var_name)
+                for marker, var_name in zip(adata.var["marker"], adata.var_names)
+            ]
+            if len(markers) == len(channel_names):
+                channel_names = markers
+        elif hasattr(adata, "var_names") and len(adata.var_names) == len(channel_names):
+            channel_names = [str(name) for name in adata.var_names]
+
+        metadata = dict(getattr(adata, "uns", {}).get("meta", {}))
+    except Exception:
+        import fcsparser
+
+        metadata, df = fcsparser.parse(str(input_path), reformat_meta=True)
+        channel_names = list(df.columns)
+
+    non_numeric = [
+        column
+        for column in df.columns
+        if not np.issubdtype(df[column].dtype, np.number)
+    ]
+    if non_numeric:
+        raise ValueError(
+            f"FCS contains non-numeric channels unsupported by this benchmark: {non_numeric}"
+        )
 
     data = df.to_numpy(dtype=np.float32, copy=True)
-    metadata = dict(getattr(adata, "uns", {}).get("meta", {}))
     return data, channel_names, metadata
 
 
@@ -253,6 +270,77 @@ def cloned_time_values(base_time: np.ndarray, events: int) -> np.ndarray:
     return np.concatenate(blocks)[:events].astype(np.float32)
 
 
+def sanitize_fcs_text(value: object) -> str:
+    return (
+        str(value)
+        .replace("/", "|")
+        .replace("\r", " ")
+        .replace("\n", " ")
+        .replace("{", "(")
+        .replace("}", ")")
+    )
+
+
+def clone_output_metadata(
+    metadata: Dict[str, object],
+    output_path: Path,
+    base_fcs: Path,
+    base_events: int,
+    cloned_events: int,
+    channel_names: Sequence[str],
+    preserve_time_density: bool,
+) -> Dict[str, str]:
+    """Keep non-structural metadata only; fcswrite owns offsets and channel defs."""
+    structural_keys = {
+        "beginanalysis",
+        "endanalysis",
+        "beginstext",
+        "endstext",
+        "begindata",
+        "enddata",
+        "begintext",
+        "endtext",
+        "nextdata",
+    }
+    writer_keys = {"byteord", "datatype", "mode", "tot", "par"}
+    writer_parameter_suffixes = {"b", "e", "n", "r", "d"}
+    cleaned: Dict[str, str] = {}
+
+    for key, value in metadata.items():
+        if key is None or value is None:
+            continue
+
+        key_text = str(key)
+        key_normalized = key_text.lower().lstrip("$")
+        if key_text.startswith("_"):
+            continue
+        if key_normalized in structural_keys or key_normalized in writer_keys:
+            continue
+        if (
+            len(key_normalized) >= 3
+            and key_normalized[0] == "p"
+            and key_normalized[1:-1].isdigit()
+            and key_normalized[-1] in writer_parameter_suffixes
+        ):
+            continue
+
+        output_key = key_text.upper() if key_text.startswith("$") else key_text.upper()
+        cleaned[sanitize_fcs_text(output_key)] = sanitize_fcs_text(value)
+
+    cleaned.update(
+        {
+            "$FIL": sanitize_fcs_text(output_path.name),
+            "CLONED_FROM": sanitize_fcs_text(base_fcs),
+            "CLONED_EVENTS": str(cloned_events),
+            "CLONED_BASE_EVENTS": str(base_events),
+            "CLONED_TIME_MODE": "preserve_density" if preserve_time_density else "none",
+        }
+    )
+    for index, name in enumerate(channel_names, start=1):
+        cleaned[f"$P{index}S"] = sanitize_fcs_text(name)
+    return cleaned
+
+
 def clone_fcs_to_size(
     base_fcs: Path,
     output_path: Path,
@@ -275,29 +363,22 @@ def clone_fcs_to_size(
     if time_index is not None:
         cloned[:, time_index] = cloned_time_values(base_data[:, time_index], events)
 
-    metadata = {
-        str(key): str(value)
-        for key, value in metadata.items()
-        if value is not None
-    }
-    metadata.update(
-        {
-            "$FIL": output_path.name,
-            "CLONED_FROM": str(base_fcs),
-            "CLONED_EVENTS": str(events),
-            "CLONED_BASE_EVENTS": str(base_data.shape[0]),
-            "CLONED_TIME_MODE": "preserve_density" if time_index is not None else "none",
-        }
+    output_metadata = clone_output_metadata(
+        metadata,
+        output_path,
+        base_fcs,
+        base_data.shape[0],
+        events,
+        channel_names,
+        preserve_time_density=time_index is not None,
     )
-    for index, name in enumerate(channel_names, start=1):
-        metadata[f"$P{index}S"] = name
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     fcswrite.write_fcs(
         filename=str(output_path),
         chn_names=channel_names,
         data=cloned,
-        text_kw_pr=metadata,
+        text_kw_pr=output_metadata,
         compat_chn_names=True,
         compat_copy=True,
         compat_negative=True,
@@ -368,23 +449,40 @@ flowCut::flowCut(
     return script_path
 
 
+def find_flowmop_exec(repo_root: Path) -> Optional[Path]:
+    for candidate in (repo_root / "flowmop_exec.py", repo_root / "FlowMOP" / "flowmop_exec.py"):
+        if candidate.exists():
+            return candidate
+    return None
+
+
 def build_algorithm_command(
     spec: RunSpec,
     repo_root: Path,
     qc_channels: Sequence[int],
     r_runner_dir: Path,
-    python_executable: str = "python3",
+    python_executable: Optional[str] = None,
+    flowmop_time_only: bool = False,
+    flowmop_output_fcs: bool = True,
 ) -> List[str]:
     if spec.algorithm == "flowmop":
-        return [
-            python_executable,
-            str(repo_root / "flowmop_exec.py"),
+        flowmop_exec = find_flowmop_exec(repo_root)
+        if flowmop_exec is None:
+            raise FileNotFoundError("flowmop_exec.py not found")
+        command = [
+            python_executable or sys.executable,
+            str(flowmop_exec),
             str(spec.input_fcs),
             "--output-dir",
             str(spec.output_dir),
             "--fluor-mode",
             "positive_geomeans",
         ]
+        if flowmop_time_only:
+            command.extend(["--skip-debris", "--skip-doublets"])
+        if not flowmop_output_fcs:
+            command.append("--no-output-fcs")
+        return command
     if spec.algorithm in {"peacoqc", "flowcut"}:
         runner = write_r_runner(r_runner_dir / f"run_{spec.algorithm}.R", spec.algorithm)
         return [
@@ -466,12 +564,14 @@ def preflight(algorithms: Sequence[str], repo_root: Path) -> Dict[str, str]:
         return unavailable
 
     if "flowmop" in algorithms:
+        flowmop_exec = find_flowmop_exec(repo_root)
         missing = [
             reason
             for reason in (
-                None if (repo_root / "flowmop_exec.py").exists() else "flowmop_exec.py not found",
+                None if flowmop_exec is not None else "flowmop_exec.py not found",
                 check_python_dependency("fcswrite"),
                 check_python_dependency("readfcs"),
+                check_python_dependency("fcsparser"),
             )
             if reason
         ]
@@ -737,6 +837,8 @@ def collect_metadata(args: argparse.Namespace, repo_root: Path) -> Dict[str, obj
         "random_seed": args.seed,
         "input_mode": "clone" if args.base_fcs else "synthetic",
         "base_fcs": str(args.base_fcs) if args.base_fcs else "",
+        "flowmop_time_only": bool(args.flowmop_time_only),
+        "flowmop_output_fcs": bool(args.flowmop_output_fcs),
     }
 
 
@@ -771,6 +873,18 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--inject-bad-regions", action="store_true", help="Inject one synthetic anomalous time region")
     parser.add_argument("--bad-region-fraction", type=float, default=0.03)
     parser.add_argument("--base-fcs", type=Path, help="Clone this real FCS file to each benchmark size instead of generating synthetic data")
+    parser.add_argument(
+        "--flowmop-time-only",
+        action="store_true",
+        help="Run FlowMOP with debris and doublet gates disabled, leaving only time gating enabled",
+    )
+    parser.add_argument(
+        "--flowmop-no-output-fcs",
+        action="store_false",
+        dest="flowmop_output_fcs",
+        help="Run FlowMOP without writing the annotated output FCS",
+    )
+    parser.set_defaults(flowmop_output_fcs=True)
     return parser.parse_args(argv)
 
 
@@ -822,7 +936,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     for spec in specs:
         if spec.algorithm in unavailable:
             continue
-        command = build_algorithm_command(spec, repo_root, qc_channels, r_runner_dir)
+        command = build_algorithm_command(
+            spec,
+            repo_root,
+            qc_channels,
+            r_runner_dir,
+            flowmop_time_only=args.flowmop_time_only,
+            flowmop_output_fcs=args.flowmop_output_fcs,
+        )
         commands.append(" ".join(command))
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -854,7 +975,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 results.append(unavailable_result(spec, unavailable[spec.algorithm]))
             continue
 
-        command = build_algorithm_command(spec, repo_root, qc_channels, r_runner_dir)
+        command = build_algorithm_command(
+            spec,
+            repo_root,
+            qc_channels,
+            r_runner_dir,
+            flowmop_time_only=args.flowmop_time_only,
+            flowmop_output_fcs=args.flowmop_output_fcs,
+        )
         print(
             f"Running {spec.algorithm} size={spec.size:,} "
             f"{'warmup' if spec.warmup else f'repeat={spec.repeat}'}"

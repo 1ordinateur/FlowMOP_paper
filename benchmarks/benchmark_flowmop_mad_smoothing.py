@@ -299,8 +299,15 @@ def target_source_ids(proportions: Sequence[int]) -> List[int]:
     return [index + 1 for index, value in enumerate(proportions) if value == max_value]
 
 
+def find_flowmop_exec(repo_root: Path) -> Optional[Path]:
+    for candidate in (repo_root / "flowmop_exec.py", repo_root / "FlowMOP" / "flowmop_exec.py"):
+        if candidate.exists():
+            return candidate
+    return None
+
+
 def run_flowmop_command(
-    repo_root: Path,
+    flowmop_exec: Path,
     input_fcs: Path,
     output_dir: Path,
     smoothing: SmoothingPair,
@@ -309,8 +316,8 @@ def run_flowmop_command(
     command = [
         "/usr/bin/time",
         "-v",
-        "python3",
-        str(repo_root / "flowmop_exec.py"),
+        sys.executable,
+        str(flowmop_exec),
         str(input_fcs),
         "--output-dir",
         str(output_dir),
@@ -369,25 +376,70 @@ def read_passed_time(flowmop_output: Path) -> np.ndarray:
 
 
 def read_source_ids(input_fcs: Path) -> np.ndarray:
-    import readfcs
-
-    adata = readfcs.read(str(input_fcs))
-    df = adata.to_df()
-    normalized = {
-        str(column).lower().replace("_", "").replace("-", "").replace(" ", ""): column
-        for column in df.columns
-    }
-    source_column = normalized.get("sampleidint")
-    if source_column is None:
+    def find_sample_id_column(columns: Sequence[object]) -> Optional[object]:
+        normalized = {
+            str(column).lower().replace("_", "").replace("-", "").replace(" ", ""): column
+            for column in columns
+        }
+        source_column = normalized.get("sampleidint")
+        if source_column is not None:
+            return source_column
         candidates = [
             column
             for key, column in normalized.items()
             if "sample" in key and "id" in key
         ]
-        if not candidates:
-            raise ValueError(f"Sample_ID_Int/source label channel not found in {input_fcs}")
-        source_column = candidates[0]
-    return np.asarray(df[source_column], dtype=int)
+        return candidates[0] if candidates else None
+
+    read_errors = []
+    try:
+        import readfcs
+
+        adata = readfcs.read(str(input_fcs))
+        df = adata.to_df()
+        source_column = find_sample_id_column(df.columns)
+        if source_column is not None:
+            return np.asarray(df[source_column], dtype=int)
+        read_errors.append("readfcs: Sample_ID_Int/source label channel not found")
+    except Exception as exc:
+        read_errors.append(f"readfcs: {exc}")
+
+    try:
+        import fcsparser
+
+        _, df = fcsparser.parse(str(input_fcs), reformat_meta=True)
+        source_column = find_sample_id_column(df.columns)
+        if source_column is not None:
+            return np.asarray(df[source_column], dtype=int)
+        read_errors.append("fcsparser: Sample_ID_Int/source label channel not found")
+    except Exception as exc:
+        read_errors.append(f"fcsparser: {exc}")
+
+    raise ValueError(f"Sample_ID_Int/source label channel not found in {input_fcs}: {'; '.join(read_errors)}")
+
+
+def infer_segment_source_ids(input_fcs: Path, proportions: Sequence[int]) -> np.ndarray:
+    import flowio
+
+    flow_data = flowio.FlowData(str(input_fcs), ignore_offset_error=True)
+    counts = source_event_counts(int(flow_data.event_count), proportions)
+    return np.concatenate(
+        [np.full(count, source_index, dtype=np.int16) for source_index, count in enumerate(counts, start=1)]
+    )
+
+
+def read_or_infer_source_ids(existing: ExistingDatasetInput) -> np.ndarray:
+    try:
+        return read_source_ids(existing.path)
+    except Exception as exc:
+        if existing.mix_method != "segment":
+            raise
+        print(
+            f"Could not read source labels from {existing.path}; inferring segment labels from filename proportions "
+            f"after read error: {exc}",
+            file=sys.stderr,
+        )
+        return infer_segment_source_ids(existing.path, existing.proportions)
 
 
 def score_from_source_ids(
@@ -544,6 +596,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         raise SystemExit("--repeats must be at least 1")
     if not Path("/usr/bin/time").exists():
         raise SystemExit("/usr/bin/time is required for this benchmark")
+    flowmop_exec = find_flowmop_exec(repo_root)
+    if flowmop_exec is None:
+        raise SystemExit("flowmop_exec.py not found")
     if args.dataset_dir is not None:
         existing_inputs = discover_existing_dataset_inputs(
             args.dataset_dir,
@@ -574,8 +629,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             commands.append(
                 " ".join(
                     [
-                        "python3",
-                        str(repo_root / "flowmop_exec.py"),
+                        sys.executable,
+                        str(flowmop_exec),
                         str(input_fcs),
                         "--output-dir",
                         str(output_dir),
@@ -611,12 +666,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     rows: List[Dict[str, object]] = []
     if existing_inputs:
         for index, existing in enumerate(existing_inputs, start=1):
-            source_ids = read_source_ids(existing.path)
+            source_ids = read_or_infer_source_ids(existing)
             target_ids = target_source_ids(existing.proportions)
             for smoothing in args.mad_smoothing_grid:
                 output_dir = runs_dir / smoothing.slug / existing.name / f"file_{index}"
                 print(f"Running {existing.name} mad_smoothing={smoothing.label}")
-                run = run_flowmop_command(repo_root, existing.path, output_dir, smoothing, args.timeout)
+                run = run_flowmop_command(flowmop_exec, existing.path, output_dir, smoothing, args.timeout)
                 output_fcs = output_dir / f"flowmop_{existing.path.name}"
                 score = {}
                 if run["status"] == "ok":
@@ -647,7 +702,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 for smoothing in args.mad_smoothing_grid:
                     output_dir = runs_dir / smoothing.slug / scenario.name / f"rep_{repeat}"
                     print(f"Running {scenario.name} repeat={repeat} mad_smoothing={smoothing.label}")
-                    run = run_flowmop_command(repo_root, input_fcs, output_dir, smoothing, args.timeout)
+                    run = run_flowmop_command(flowmop_exec, input_fcs, output_dir, smoothing, args.timeout)
                     output_fcs = output_dir / f"flowmop_{input_fcs.name}"
                     score = {}
                     if run["status"] == "ok":
@@ -709,6 +764,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ]
     write_csv(out_dir / "summary.csv", [{key: fmt(row.get(key)) for key in summary_fieldnames} for row in summary_rows], summary_fieldnames)
     (out_dir / "summary.md").write_text(render_markdown(summary_rows, metadata), encoding="utf-8")
+    if rows and not summary_rows:
+        print(f"No successful FlowMOP runs; see {out_dir / 'results.csv'}", file=sys.stderr)
+        return 1
     print(f"Wrote MAD smoothing benchmark outputs to {out_dir}")
     return 0
 

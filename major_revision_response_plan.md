@@ -32,6 +32,42 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Add parameter sensitivity analysis for PeacoQC and FlowCut where feasible to show that comparisons are not driven solely by default settings. This remains a manuscript-analysis task; the current committed benchmark infrastructure establishes API-correct baseline runners for both tools.
 - Use the smoothing ablation results to replace speculative language such as performance differences that "may be attributed to smoothing" with direct evidence from on/off or grid-based smoothing comparisons.
 
+**PeacoQC versus FlowMOP mechanistic framing to add:**
+
+- Make the limitation being tested explicit: PeacoQC defines quality through the stability of density-peak positions across acquisition bins. This is well matched to acquisition artifacts that move marker peaks, but peak instability is not uniquely caused by poor acquisition quality.
+- Link this to real use cases: bin-level peak composition can change because of random finite-bin sampling, uneven sample mixing, settling/stratification in the tube, differential uptake of sticky or fragile populations, transient bolus release after partial obstruction, carryover at acquisition start, or heterogeneous tissue suspensions. In these settings, a bin can have altered peak presence, peak height, or peak position even when the events are biologically valid.
+- Link this directly to the synthetic results: the Bimix and Trimix benchmarks deliberately create temporally localized source-composition changes with event-level source labels. PeacoQC may detect real peak instability in those files, but under the benchmark ground truth, peak instability is not always equivalent to "events that should be removed." This explains the observed pattern: high sensitivity when altered bins are large and obvious, but reduced specificity in smaller-bin or three-source mixtures where ordinary bin-to-bin composition variation and true source perturbation are harder to distinguish.
+- Use careful wording: do not say that PeacoQC is "wrong" to detect local peak instability. Instead state that it optimizes for a different quality concept, namely stable density peaks over acquisition time, whereas this benchmark scores source-label removal and target-source retention.
+
+**Draft manuscript wording for PeacoQC comparison:**
+
+> PeacoQC detects acquisition instability by identifying density peaks per channel and assessing whether those peak positions remain stable across acquisition bins. This approach is powerful when instrument or sample-flow artifacts produce marker-peak shifts. However, in heterogeneous samples, bin-level peak structure can also vary because the sampled cell composition changes over time, because of finite-bin sampling variation, uneven mixing, sample settling, transient bolus release, or differential uptake of specific populations. The Bimix and Trimix benchmarks intentionally model this ambiguity by creating temporally localized source-composition changes with event-level source labels. In this setting, peak instability is a real signal, but it is not always equivalent to low-quality events under the source-label ground truth. This provides a plausible explanation for PeacoQC's strong sensitivity in larger-bin perturbations and reduced specificity in smaller or compositionally more complex mixtures. FlowMOP's benchmarked time-gating mode instead uses globally anchored positive thresholds and per-bin positive-fluorescence summaries, which may reduce over-removal when local peak structure varies because of composition rather than acquisition failure.
+
+**Draft response-letter wording for PeacoQC comparison:**
+
+> We agree that the manuscript should more clearly distinguish FlowMOP's behavior from PeacoQC rather than treating all comparator differences as a smoothing effect. We have revised the discussion to explain that PeacoQC defines high-quality acquisition as stability of density-peak positions over acquisition time. This is appropriate for many acquisition artifacts, but in heterogeneous cytometry samples peak structure can also change because of bin-level composition variation, sample settling, uneven uptake, transient bolus release, or stochastic sampling of rare populations. The Bimix and Trimix simulations were designed to test this ambiguity using event-level source labels. Thus, PeacoQC may detect genuine peak instability while still losing specificity under our source-label scoring, because not all peak-instability events are benchmark-labelled contaminants. We now explicitly connect this mechanism to the observed pattern of high sensitivity in larger-bin perturbations and reduced specificity in smaller-bin or trimix settings.
+
+**Draft response-letter wording for FlowCut versus FlowMOP comparison:**
+
+> We have also clarified that FlowMOP's advantage over FlowCut is mechanistically distinct from its difference with PeacoQC. FlowCut is sensitive to acquisition-density and time-versus-fluorescence structure, which is valuable when flow-rate disturbances are coupled to signal abnormalities, but can remove valid events when acquisition rate changes without a corresponding fluorescence-quality defect. FlowMOP's time-gating module excludes Time, FSC, SSC, and source-label channels from the marker set and tests fluorescence summaries of globally defined positive populations across acquisition order. To support this interpretation, we added a matched mechanism benchmark that preserves the raw synthetic-combo fluorescence and source composition while changing only the Time channel. This tests whether each method responds to source-linked fluorescence/composition structure, local acquisition-rate structure, or both.
+
+**Comprehensive mechanism experiment to delineate FlowCut versus FlowMOP:**
+
+- Build the primary mechanism benchmark from the existing source-labelled smallcut synthetic-combo files rather than from newly simulated fluorescence perturbations. The Bimix and Trimix files already contain source-linked fluorescence/composition differences via `SampleIDInt` and have approximately normalized Time from synthetic-combo construction; Segment files preserve stronger source/time-density structure. This makes the benchmark directly interpretable: only the Time channel is experimentally changed.
+- Use 15 high-count inputs: five Bimix, five Trimix, and five Segment files. Each benchmark input contains 500,000 acquisition-order-preserving events. For Bimix and Trimix, use the first 500,000 events because the sources are already shuffled through the acquisition. For Segment files, use a contiguous 500,000-event window centered on the source transition so that both segment sources are present.
+- Generate three matched variants for every file:
+  - raw: unchanged events and unchanged Time;
+  - source-time-warped: multiply local Time increments by source identity while leaving fluorescence, scatter, labels, and event order unchanged;
+  - random-time-warped: apply the same Time-increment multipliers to contiguous 2,000-event chunks independently of source identity.
+- Use 1.0x and 2.0x local Time multipliers for two-source Bimix/Segment files, and 1.0x, 1.5x, and 2.0x for three-source Trimix files. Rescale the final Time range to match the raw input so that the perturbation tests local acquisition-rate structure rather than total acquisition duration.
+- Run FlowMOP, FlowCut, and PeacoQC on exactly the same generated FCS inputs. FlowMOP should use the current default MAD smoothing (`0.01,0.05`) and positive-geomean fluorescence summaries for the main mechanism run. Historical smoothing (`0.1,0.9`) remains a parameter-sensitivity comparison, not the main interpretation.
+- Primary metrics should match the MAD-smoothing source-label scoring: filename proportions identify the target source or sources with the largest mixture proportion; sensitivity is retained target-source events divided by retained events; specificity is removed non-target-source events divided by removed events; balanced score is the mean of sensitivity and specificity. Also report removal fractions and deltas relative to the matched raw variant.
+- Expected discriminator:
+  - if FlowCut's weakness is rate/density sensitivity, it should show changed removal under Time-only source or random warping despite unchanged fluorescence values;
+  - if FlowMOP's advantage is fluorescence/population-summary anchoring, it should be comparatively less affected by Time-only warping while retaining source-label specificity;
+  - if PeacoQC's weakness is peak-stability sensitivity to composition changes, it may react to real source-linked peak instability even when that instability is not labelled as low-quality under the source-label truth.
+- Present this as a mechanistic supplement, not as another broad leaderboard. The goal is to explain when each algorithm's signal is appropriate: FlowCut for density/time-linked abnormalities, PeacoQC for unstable marker-density peaks, and FlowMOP for fluorescence-population deviations that are less coupled to acquisition rate alone.
+
 ## Editor Comment 2: Algorithmic Versus Implementation Advantages
 
 **Related comments:** `E1` algorithmic versus implementation advantages; `R1` comment 1; `R2` comment 7.
@@ -219,6 +255,10 @@ The goal is to convert this into a detailed response letter after the analyses a
   - Can generate labeled synthetic inputs.
   - Can also consume existing generated synthetic-combo FCS datasets through `--dataset-dir`.
   - Scores time-gating sensitivity, specificity, and balanced score where source labels are available.
+- `benchmarks/benchmark_rate_density_mechanism.py`
+  - Runs the raw-file mechanism benchmark using 15 smallcut Bimix/Trimix/Segment FCS inputs.
+  - Preserves fluorescence, scatter, source labels, and event order, and modifies only the Time channel for source-linked and random local Time-warp variants.
+  - Runs FlowMOP, FlowCut, and PeacoQC on matched inputs and writes raw-delta summaries for removal fraction, sensitivity, specificity, and balanced score.
 - `FlowMOP/benchmarks/qsub_qc_algorithm_clone_scaling.pbs.sh`
   - PBS wrapper for the FlowMOP/PeacoQC/FlowCut clone-scaling benchmark.
   - Requests 24 CPUs.

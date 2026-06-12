@@ -19,7 +19,7 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Rework the Introduction to describe the current tool landscape, including FlowCut, PeacoQC, GateNet, UNITO, and broader automated gating approaches.
 - Clarify that many existing automated gating or classification tools can remove debris-like populations, while FlowMOP is intended specifically as a preprocessing workflow integrating time, debris, and doublet removal.
 - Add a clearer algorithmic rationale for each FlowMOP module:
-  - time gating using multi-resolution smoothing and parameter voting;
+  - time gating using robust time-bin summary outlier detection and parameter voting;
   - debris gating using FSC-A thresholding as a conservative low-size debris filter;
   - doublet gating using FSC-A/FSC-H ratio structure.
 - Distinguish the algorithmic contribution from the Dask/Python implementation contribution.
@@ -28,9 +28,10 @@ The goal is to convert this into a detailed response letter after the analyses a
 
 **Additional analyses proposed:**
 
-- Add FlowMOP MAD smoothing ablation analysis using the existing `FlowMOP/benchmarks/benchmark_flowmop_mad_smoothing.py` script. This now supports existing generated synthetic-combo FCS datasets through `--dataset-dir`, so the analysis can be run on the already-generated bimix/trimix/segment datasets rather than regenerating all inputs.
+- Do not introduce additional default-parameter sensitivity checks as manuscript results unless the primary manuscript benchmarks are rerun under the same settings.
 - Add parameter sensitivity analysis for PeacoQC and FlowCut where feasible to show that comparisons are not driven solely by default settings. This remains a manuscript-analysis task; the current committed benchmark infrastructure establishes API-correct baseline runners for both tools.
-- Use the smoothing ablation results to replace speculative language such as performance differences that "may be attributed to smoothing" with direct evidence from on/off or grid-based smoothing comparisons.
+- Remove speculative attribution language and replace it with the mechanism explanations that directly match the reported benchmark figures.
+- Integration status: the response now replaces the speculative attribution with the Time-only FlowCut mechanism benchmark and the PeacoQC local peak-estimation-noise explanation.
 
 **PeacoQC versus FlowMOP mechanistic framing to add:**
 
@@ -45,7 +46,7 @@ The goal is to convert this into a detailed response letter after the analyses a
 
 **Draft response-letter wording for PeacoQC comparison:**
 
-> We agree that the manuscript should more clearly distinguish FlowMOP's behavior from PeacoQC rather than treating all comparator differences as a smoothing effect. We have revised the discussion to explain that PeacoQC defines high-quality acquisition as stability of density-peak positions over acquisition time. This is appropriate for many acquisition artifacts, but in mixed-source files local peak estimates can also become unstable because each acquisition bin is a finite draw from multiple fluorescence distributions. Thus, PeacoQC can be susceptible to bin-level noise in peak presence, prominence, or position. We now explicitly connect this mechanism to the observed low-specificity pattern in smaller-bin and compositionally complex mixtures.
+> We agree that the manuscript should more clearly distinguish FlowMOP's behavior from PeacoQC. We have revised the discussion to explain that PeacoQC defines high-quality acquisition as stability of density-peak positions over acquisition time. This is appropriate for many acquisition artifacts, but in mixed-source files local peak estimates can also become unstable because each acquisition bin is a finite draw from multiple fluorescence distributions. Thus, PeacoQC can be susceptible to bin-level noise in peak presence, prominence, or position. We now explicitly connect this mechanism to the observed low-specificity pattern in smaller-bin and compositionally complex mixtures.
 
 **Draft response-letter wording for FlowCut versus FlowMOP comparison:**
 
@@ -60,8 +61,8 @@ The goal is to convert this into a detailed response letter after the analyses a
   - source-time-warped: multiply local Time increments by source identity while leaving fluorescence, scatter, labels, and event order unchanged, using acquisition-interval multipliers spanning 1.0x to 20.0x to stress FlowCut's time-density checks;
   - random-time-warped: apply the same Time-increment multiplier range to contiguous 25,000-event chunks independently of source identity.
 - Rescale the final Time range to match the raw input so that the perturbation tests local acquisition-rate structure rather than total acquisition duration.
-- Run FlowMOP, FlowCut, and PeacoQC on exactly the same generated FCS inputs. FlowMOP should use the current default MAD smoothing (`0.01,0.05`) and positive-geomean fluorescence summaries for the main mechanism run. Historical smoothing (`0.1,0.9`) remains a parameter-sensitivity comparison, not the main interpretation.
-- Primary metrics should match the MAD-smoothing source-label scoring: filename proportions identify the target source or sources with the largest mixture proportion; sensitivity is retained target-source events divided by retained events; specificity is removed non-target-source events divided by removed events; balanced score is the mean of sensitivity and specificity. Also report removal fractions and deltas relative to the matched raw variant.
+- Run FlowMOP, FlowCut, and PeacoQC on exactly the same generated FCS inputs using the fixed FlowMOP configuration used for the mechanism benchmark. Additional parameter settings should not be presented as separate manuscript-level explanatory variables unless the primary benchmark figures are rerun under those same settings.
+- Primary metrics should match the source-label scoring used for the synthetic-combo analyses: filename proportions identify the target source or sources with the largest mixture proportion; sensitivity is retained target-source events divided by retained events; specificity is removed non-target-source events divided by removed events; balanced score is the mean of sensitivity and specificity. Also report removal fractions and deltas relative to the matched raw variant.
 - Expected discriminator:
   - if FlowCut's weakness is rate/density sensitivity, it should show changed removal under Time-only source or random warping despite unchanged fluorescence values;
   - if FlowMOP's advantage is fluorescence/population-summary anchoring, it should be comparatively less affected by Time-only warping while retaining source-label specificity;
@@ -72,7 +73,7 @@ The goal is to convert this into a detailed response letter after the analyses a
 
 - Methods should now describe a matched 30-file smallcut benchmark: ten Bimix, ten Trimix, and ten Segment inputs, each using 500,000 acquisition-order-preserving events and three variants: raw, source-time-warped, and random-time-warped.
 - Results should present raw-matched changes in sensitivity and specificity rather than a new accuracy/error metric. In the completed 30-file run, FlowMOP changed by 0.00 percentage points under both Time-warp variants. FlowCut changed after Time-only perturbation: across all inputs, random Time warping increased sensitivity by 1.17 percentage points and reduced specificity by 11.45 percentage points, while source-linked Time warping reduced sensitivity by 1.60 percentage points and increased specificity by 4.82 percentage points.
-- Discussion should replace the previous smoothing-only explanation with the more specific mechanism: FlowMOP is comparatively invariant to Time-only acquisition-density alteration because the benchmark leaves fluorescence and source composition unchanged, whereas FlowCut's time-density sensitivity changes its removal behavior even when fluorescence values are not perturbed. The most manuscript-relevant failure mode is in Segment inputs, where FlowCut loses 7.84 percentage points sensitivity and 15.25 percentage points specificity under source-linked Time warping.
+- Discussion should use the more specific mechanism: FlowMOP is comparatively invariant to Time-only acquisition-density alteration because the benchmark leaves fluorescence and source composition unchanged, whereas FlowCut's time-density sensitivity changes its removal behavior even when fluorescence values are not perturbed. The most manuscript-relevant failure mode is in Segment inputs, where FlowCut loses 7.84 percentage points sensitivity and 15.25 percentage points specificity under source-linked Time warping.
 - Integration status: this mechanism benchmark is now referenced in `FlowMOP_submission.md` as Figure S3, with Methods, Results, Discussion, and supplementary caption text added.
 
 ## Editor Comment 2: Algorithmic Versus Implementation Advantages
@@ -87,7 +88,7 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Add text explaining whether FlowMOP's workflow is naturally parallelizable at the file, sample, and event-matrix level.
 - Avoid implying that Dask itself makes the algorithm more accurate.
 - Explicitly state which reported advantages are:
-  - algorithmic, such as preprocessing module design, smoothing, and voting;
+  - algorithmic, such as preprocessing module design, fluorescence-summary outlier detection, and voting;
   - computational, such as distributed execution and memory handling.
 
 **Additional analyses proposed:**
@@ -108,9 +109,9 @@ The goal is to convert this into a detailed response letter after the analyses a
   - `flowmop`;
   - `peacoqc`;
   - `flowcut`.
-- Use `FlowMOP/benchmarks/qsub_mad_smoothing_existing_data.pbs.sh` for the MAD smoothing ablation on existing generated synthetic-combo datasets. This also requests 24 CPUs.
 - Present results as speed/scalability benchmarking rather than evidence of biological superiority.
 - In the manuscript, explicitly separate these implementation/scalability results from algorithmic performance claims.
+- Integration status: the clone-based runtime and peak-memory benchmark is now presented as main-body Table 1 rather than as a supplementary table. Values are reported as mean ± SD across three measured repeats after one warm-up run, and the Results text emphasizes that these data support computational scalability rather than biological superiority.
 
 ## Editor Comment 3: Expert Rankings, Absolute Quality, and Downstream Biological Impact
 
@@ -257,11 +258,6 @@ The goal is to convert this into a detailed response letter after the analyses a
   - Runs FlowMOP, PeacoQC, and FlowCut on matched inputs.
   - Captures wall time and peak RAM using `/usr/bin/time -v`.
   - Writes `benchmark_commands.txt`, `metadata.json`, `results.csv`, `summary.csv`, and `summary.md`.
-- `FlowMOP/benchmarks/benchmark_flowmop_mad_smoothing.py`
-  - Runs FlowMOP across MAD smoothing settings.
-  - Can generate labeled synthetic inputs.
-  - Can also consume existing generated synthetic-combo FCS datasets through `--dataset-dir`.
-  - Scores time-gating sensitivity, specificity, and balanced score where source labels are available.
 - `benchmarks/benchmark_rate_density_mechanism.py`
   - Runs the raw-file mechanism benchmark using 30 smallcut Bimix/Trimix/Segment FCS inputs.
   - Preserves fluorescence, scatter, source labels, and event order, and modifies only the Time channel for source-linked and random local Time-warp variants.
@@ -274,12 +270,6 @@ The goal is to convert this into a detailed response letter after the analyses a
   - Requests 24 CPUs.
   - Requires `BASE_FCS`.
   - Allows override of `SIZES`, `REPEATS`, `ALGORITHMS`, `TIMEOUT`, `OUT_DIR`, and `ALLOW_MISSING`.
-- `FlowMOP/benchmarks/qsub_mad_smoothing_existing_data.pbs.sh`
-  - PBS wrapper for running the MAD smoothing ablation on existing generated synthetic-combo datasets.
-  - Requests 24 CPUs.
-  - Requires `DATASET_DIR`.
-  - Allows override of dataset bin size, smoothing grid, output directory, file limit, and timeout.
-
 **API alignment notes for response letter / methods:**
 
 - PeacoQC API checked against the current Bioconductor/r-universe manual and source:
@@ -295,8 +285,9 @@ The goal is to convert this into a detailed response letter after the analyses a
 **How this addresses the comments:**
 
 - `R1` comment 1: provides the requested runtime and peak memory benchmarking table inputs across increasing dataset sizes.
+- Manuscript integration: the speed benchmark now appears as main-body Table 1 with mean ± SD runtime and peak RAM for FlowMOP, PeacoQC, and FlowCut at 10,000, 100,000, 300,000, 1,000,000, and 2,000,000 events.
 - `E1` implementation-versus-algorithm concern: allows the manuscript to explicitly present Dask/Python as a scalability contribution while separately discussing algorithmic behavior.
-- `R1` comment 5: provides infrastructure for FlowMOP MAD smoothing sensitivity/ablation and creates API-correct baseline wrappers for PeacoQC/FlowCut before parameter-sensitivity extensions.
+- `R1` comment 5: provides infrastructure for FlowMOP internal parameter checks and creates API-correct baseline wrappers for PeacoQC/FlowCut before parameter-sensitivity extensions.
 - `R2` comment 7: supports revising the Introduction so Dask is described as computational infrastructure rather than the core gating algorithm.
 
 ## Editor Comment 9: Manuscript Structure, Methods Completeness, and Figure Corrections
@@ -335,7 +326,7 @@ The revision package should therefore contain four major workstreams:
    - add debris and doublet removal rates relative to expert gates.
 
 3. **Algorithmic robustness and sensitivity analysis**
-   - ablate FlowMOP smoothing and parameter voting;
+   - avoid introducing new FlowMOP parameter-sensitivity results unless primary figures are rerun under the same setting;
    - tune PeacoQC and FlowCut parameters across reasonable ranges;
    - revise claims based on observed results.
 

@@ -21,19 +21,18 @@ Track-change notation:
 
 > The editor objects to the statement that FlowMOP's performance difference "may be attributed to smoothing" and asks for direct testing.
 
-🟡 **Status: pending MAD smoothing ablation.**
+🟦 **Status: STAGED - speculative attribution removed.**
 
-This revision should be finalized after the MAD smoothing tests are available.
+**Manuscript change record:** the disputed attribution is removed from the manuscript. The revised text explains the FlowMOP-versus-FlowCut and FlowMOP-versus-PeacoQC differences through the Time-only mechanism benchmark and the local peak-estimation-noise discussion.
 
-🟣 **Option A: pending ablation wording**
-
-> <span style="color:#b00020">~~This difference may be attributed to FlowMOP's 'smoothing' implementation.~~</span>
-> <span style="color:#007a3d">This difference is consistent with FlowMOP's use of both local and smoothed time-bin summaries, although the specific contribution of smoothing is evaluated separately in the ablation analysis.</span>
-
-🟣 **Option B: post-ablation wording template**
+🟣 **Selected manuscript position**
 
 > <span style="color:#b00020">~~This difference may be attributed to FlowMOP's 'smoothing' implementation.~~</span>
-> <span style="color:#007a3d">In the MAD smoothing ablation, [removing/changing] the smoothing component [changed metric] in [scenario], supporting the interpretation that multi-resolution smoothing contributes to FlowMOP's performance under these acquisition perturbations.</span>
+> <span style="color:#007a3d">This difference is instead explained by the dedicated mechanism analyses: FlowCut is sensitive to Time-only acquisition-density structure, whereas PeacoQC can be sensitive to local peak-estimation noise in mixed-source bins.</span>
+
+🟣 **Draft response-letter wording**
+
+> We agree that the original attribution was too speculative. We have removed that claim from the manuscript. The revised text instead explains FlowMOP's comparative behavior through analyses that directly match the reported benchmark figures: the Time-only mechanism benchmark shows that FlowCut can change removal behavior when acquisition-density structure is altered without fluorescence changes, and the PeacoQC discussion explains how local peak-estimation noise in mixed-source bins can reduce source-label specificity.
 
 ## P03b - E1 / R1.5 / R2.20: FlowMOP Versus FlowCut Mechanistic Validation
 
@@ -43,7 +42,7 @@ This revision should be finalized after the MAD smoothing tests are available.
 
 🟦 **Status: STAGED - raw-file time-warp mechanism benchmark complete; manuscript changes documented.**
 
-**Manuscript change record:** add a Methods paragraph describing the matched 30-file smallcut mechanism benchmark, add a Results/Figure panel reporting raw-matched changes in sensitivity and specificity, and revise the Discussion away from the earlier smoothing-based speculation. The revised explanation should state that FlowMOP's time-gating decision is anchored to fluorescence/population summaries and is insensitive to Time-only acquisition-density changes in this benchmark, whereas FlowCut changes its removal behavior when local Time density is altered, especially for Segment inputs. PeacoQC should be discussed separately as a peak-stability method that can overcall low-quality bins when local peak estimates are unstable due to stochastic bin composition in mixed-source files. This has now been integrated into `FlowMOP_submission.md` as Figure S3 and accompanying Methods, Results, and Discussion text.
+**Manuscript change record:** add a Methods paragraph describing the matched 30-file smallcut mechanism benchmark, add a Results/Figure panel reporting raw-matched changes in sensitivity and specificity, and revise the Discussion away from the earlier speculative attribution. The revised explanation should state that FlowMOP's time-gating decision is anchored to fluorescence/population summaries and is insensitive to Time-only acquisition-density changes in this benchmark, whereas FlowCut changes its removal behavior when local Time density is altered, especially for Segment inputs. PeacoQC should be discussed separately as a peak-stability method that can overcall low-quality bins when local peak estimates are unstable due to stochastic bin composition in mixed-source files. This has now been integrated into `FlowMOP_submission.md` as Figure S3 and accompanying Methods, Results, and Discussion text.
 
 The revised analysis should include a focused mechanism benchmark that separates source-linked fluorescence/composition structure from acquisition-rate structure. This is important because the existing Bimix and Trimix files already contain source-specific fluorescence differences through `SampleIDInt`, while their Time channel is approximately normalized during synthetic-combo construction. Segment files preserve stronger source/time-density structure. The new benchmark therefore should not add artificial fluorescence perturbations. Instead, it should preserve the raw events, source labels, scatter channels, fluorescence channels, and acquisition order, and then alter only the Time channel to test whether each algorithm responds to acquisition-rate variation itself.
 
@@ -51,7 +50,7 @@ The benchmark should use source-labelled smallcut synthetic-combo FCS files so t
 
 The source-time-warped variant should multiply local inter-event Time increments according to `SampleIDInt` while leaving all non-Time channels unchanged. To specifically stress FlowCut's acquisition-density checks, the sorted source IDs use stronger acquisition-interval multipliers spanning 1.0x to 20.0x; three-source files interpolate this range across the sorted source IDs. The random-time-warped variant should use the same multiplier range, but assign multipliers to contiguous 25,000-event chunks with a fixed random seed independent of source identity. After warping, the total Time range is rescaled back to the raw file's Time range so that the benchmark tests local acquisition-rate structure rather than total run duration. FlowMOP, FlowCut, and PeacoQC should be run on the exact same generated FCS inputs using the same fluorescence-channel exclusions used in the main benchmarking.
 
-The primary endpoint should use the same source-label truth logic as the MAD-smoothing benchmark: filename proportions identify the target source or sources with the largest mixture proportion; sensitivity is retained target-source events divided by retained events; specificity is removed non-target-source events divided by removed events; and balanced score is the mean of sensitivity and specificity. Results should also report removal fractions and deltas relative to the matched raw variant. The expected interpretation is specific and falsifiable: if FlowCut is sensitive to local acquisition density, it should change removal under Time-only warping even though fluorescence values are unchanged; if FlowMOP is more fluorescence/population-summary anchored, it should be less affected by Time-only warping while preserving source-label specificity. PeacoQC provides a complementary comparison because it can react to local peak-estimation instability caused by stochastic bin composition rather than source-labelled contamination.
+The primary endpoint should use the same source-label truth logic as the source-labelled synthetic-combo analyses: filename proportions identify the target source or sources with the largest mixture proportion; sensitivity is retained target-source events divided by retained events; specificity is removed non-target-source events divided by removed events; and balanced score is the mean of sensitivity and specificity. Results should also report removal fractions and deltas relative to the matched raw variant. The expected interpretation is specific and falsifiable: if FlowCut is sensitive to local acquisition density, it should change removal under Time-only warping even though fluorescence values are unchanged; if FlowMOP is more fluorescence/population-summary anchored, it should be less affected by Time-only warping while preserving source-label specificity. PeacoQC provides a complementary comparison because it can react to local peak-estimation instability caused by stochastic bin composition rather than source-labelled contamination.
 
 🟣 **Draft manuscript wording**
 
@@ -67,7 +66,7 @@ The primary endpoint should use the same source-label truth logic as the MAD-smo
 
 🟣 **Draft response-letter wording**
 
-> We agree that the original manuscript did not sufficiently distinguish why FlowMOP and FlowCut behaved differently. We therefore added a mechanism benchmark that keeps the raw synthetic-combo fluorescence and source composition intact while changing only the Time channel. This benchmark is important because acquisition-rate changes can occur without invalidating fluorescence measurements, whereas the Bimix, Trimix, and Segment inputs already contain source-linked fluorescence and composition differences. By comparing each Time-warped file with its matched raw control across FlowMOP, FlowCut, and PeacoQC, the analysis tests whether each method responds to local acquisition-rate structure itself or to source-linked fluorescence/composition structure. This directly addresses the reviewer concern by replacing a speculative smoothing explanation with a focused algorithmic test of FlowMOP's fluorescence/population-summary time-gating behavior versus FlowCut's sensitivity to time-density structure.
+> We agree that the original manuscript did not sufficiently distinguish why FlowMOP and FlowCut behaved differently. We therefore added a mechanism benchmark that keeps the raw synthetic-combo fluorescence and source composition intact while changing only the Time channel. This benchmark is important because acquisition-rate changes can occur without invalidating fluorescence measurements, whereas the Bimix, Trimix, and Segment inputs already contain source-linked fluorescence and composition differences. By comparing each Time-warped file with its matched raw control across FlowMOP, FlowCut, and PeacoQC, the analysis tests whether each method responds to local acquisition-rate structure itself or to source-linked fluorescence/composition structure. This directly addresses the reviewer concern by replacing a speculative attribution with a focused algorithmic test of FlowMOP's fluorescence/population-summary time-gating behavior versus FlowCut's sensitivity to time-density structure.
 
 ## P21 - R2.16: Bayesian Modelling Placement
 
@@ -119,7 +118,7 @@ We will address this point in the response letter rather than adding further man
 
 🟣 **Option A: caption edit**
 
-> <span style="color:#007a3d">Figure 1 has been revised to include x- and y-axis labels for all schematic plots, explicit labels for the smoothed and unsmoothed time-bin summaries, and a y-axis label for the doublet-ratio histogram.</span>
+> <span style="color:#007a3d">Figure 1 has been revised to include x- and y-axis labels for all schematic plots, explicit labels for the smoothed time-bin fluorescence-summary panels, and a y-axis label for the doublet-ratio histogram.</span>
 
 🟣 **Option B: response-letter wording**
 

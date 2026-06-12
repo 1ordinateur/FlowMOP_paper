@@ -34,19 +34,36 @@ DEFAULT_BASE_FILES = [
     "C1C3_1090_bimix.fcs",
     "A05A3_1585_bimix.fcs",
     "B3B1_5050_bimix.fcs",
+    "A05A1_3565_bimix.fcs",
+    "A1A3_6040_bimix.fcs",
+    "A1A3_5050_bimix.fcs",
+    "B1B3_5545_bimix.fcs",
+    "C1C05_6040_bimix.fcs",
     "B1B3B05_504010_trimix.fcs",
     "A1A05A3_501535_trimix.fcs",
     "A3A1A05_305020_trimix.fcs",
     "A3A1A05_502525_trimix.fcs",
     "C3C1C05_107020_trimix.fcs",
+    "A05A1A3_405010_trimix.fcs",
+    "A1A3A05_106525_trimix.fcs",
+    "B1B05B3_103060_trimix.fcs",
+    "B1B3B05_651025_trimix.fcs",
+    "C1C3C05_353530_trimix.fcs",
     "B3B1_8020_segment.fcs",
     "B05B3_1090_segment.fcs",
     "B3B05_9010_segment.fcs",
     "C1C3_2575_segment.fcs",
     "C05C3_1585_segment.fcs",
+    "A05A1_1090_segment.fcs",
+    "A1A3_5545_segment.fcs",
+    "B1B05_7525_segment.fcs",
+    "B1B3_8515_segment.fcs",
+    "C1C05_9010_segment.fcs",
 ]
 VARIANTS = ("raw", "source_timewarp", "random_timewarp")
 KNOWN_MIX_METHODS = {"segment", "bimix", "trimix"}
+DEFAULT_TIMEWARP_FACTORS = (1.0, 20.0)
+DEFAULT_RANDOM_CHUNK_SIZE = 25_000
 
 
 @dataclass(frozen=True)
@@ -137,7 +154,25 @@ def parse_args() -> argparse.Namespace:
         default=["flowmop", "flowcut", "peacoqc"],
     )
     parser.add_argument("--random-seed", type=int, default=13)
-    parser.add_argument("--random-chunk-size", type=int, default=2_000)
+    parser.add_argument(
+        "--timewarp-factors",
+        type=parse_factor_list,
+        default=DEFAULT_TIMEWARP_FACTORS,
+        help=(
+            "Comma-separated acquisition interval multipliers assigned to sorted SampleIDInt values. "
+            "If the number of factors differs from the number of sources, values are interpolated "
+            f"between the first and last factor. Default: {','.join(map(str, DEFAULT_TIMEWARP_FACTORS))}."
+        ),
+    )
+    parser.add_argument(
+        "--random-chunk-size",
+        type=int,
+        default=DEFAULT_RANDOM_CHUNK_SIZE,
+        help=(
+            "Number of contiguous events sharing one random Time-warp multiplier. "
+            f"Default: {DEFAULT_RANDOM_CHUNK_SIZE}."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -156,6 +191,19 @@ def proportions_from_token(token: str) -> tuple[int, ...]:
     if not token.isdigit() or len(token) % 2 != 0:
         raise ValueError(f"invalid proportion token {token!r}")
     return tuple(int(token[index : index + 2]) for index in range(0, len(token), 2))
+
+
+def parse_factor_list(value: str) -> tuple[float, ...]:
+    parts = [part for part in re.split(r"[,\s]+", value.strip()) if part]
+    if len(parts) < 2:
+        raise argparse.ArgumentTypeError("provide at least two positive Time-warp factors, e.g. 1,20")
+    try:
+        factors = tuple(float(part) for part in parts)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("Time-warp factors must be numeric") from exc
+    if any((not np.isfinite(factor)) or factor <= 0 for factor in factors):
+        raise argparse.ArgumentTypeError("Time-warp factors must be positive finite values")
+    return factors
 
 
 def parse_dataset_info(path: Path) -> DatasetInfo:
@@ -224,9 +272,12 @@ def select_event_window(df: pd.DataFrame, n_events: int, info: DatasetInfo) -> t
     return df.iloc[start:end].copy(), start, end
 
 
-def source_multiplier_map(source_ids: np.ndarray) -> dict[int, float]:
+def source_multiplier_map(source_ids: np.ndarray, factors: Sequence[float]) -> dict[int, float]:
     unique = sorted(int(value) for value in np.unique(source_ids))
-    values = np.linspace(1.0, 2.0, num=len(unique), dtype=float)
+    if len(factors) == len(unique):
+        values = np.array(factors, dtype=float)
+    else:
+        values = np.linspace(float(factors[0]), float(factors[-1]), num=len(unique), dtype=float)
     return {source: float(multiplier) for source, multiplier in zip(unique, values)}
 
 
@@ -275,10 +326,10 @@ def time_from_deltas(start: float, deltas: np.ndarray, n_events: int) -> np.ndar
     return new_time.astype(np.float32)
 
 
-def apply_source_timewarp(df: pd.DataFrame) -> tuple[pd.DataFrame, dict[int, float]]:
+def apply_source_timewarp(df: pd.DataFrame, factors: Sequence[float]) -> tuple[pd.DataFrame, dict[int, float]]:
     warped = df.copy()
     labels = source_ids_from_df(warped)
-    multipliers = source_multiplier_map(labels)
+    multipliers = source_multiplier_map(labels, factors)
     time_values = original_time_values(warped)
     deltas, start, raw_duration = positive_time_deltas(time_values)
     if len(deltas):
@@ -288,12 +339,18 @@ def apply_source_timewarp(df: pd.DataFrame) -> tuple[pd.DataFrame, dict[int, flo
     return warped, multipliers
 
 
-def apply_random_timewarp(df: pd.DataFrame, base_name: str, seed: int, chunk_size: int) -> tuple[pd.DataFrame, dict[int, float]]:
+def apply_random_timewarp(
+    df: pd.DataFrame,
+    base_name: str,
+    seed: int,
+    chunk_size: int,
+    factors: Sequence[float],
+) -> tuple[pd.DataFrame, dict[int, float]]:
     if chunk_size < 1:
         raise ValueError("--random-chunk-size must be positive")
     warped = df.copy()
     labels = source_ids_from_df(warped)
-    multipliers = source_multiplier_map(labels)
+    multipliers = source_multiplier_map(labels, factors)
     multiplier_values = np.array(list(multipliers.values()), dtype=float)
     time_values = original_time_values(warped)
     deltas, start, raw_duration = positive_time_deltas(time_values)
@@ -308,15 +365,22 @@ def apply_random_timewarp(df: pd.DataFrame, base_name: str, seed: int, chunk_siz
     return warped, multipliers
 
 
-def make_variant(df: pd.DataFrame, variant: str, base_name: str, seed: int, chunk_size: int) -> tuple[pd.DataFrame, dict[int, float]]:
+def make_variant(
+    df: pd.DataFrame,
+    variant: str,
+    base_name: str,
+    seed: int,
+    chunk_size: int,
+    factors: Sequence[float],
+) -> tuple[pd.DataFrame, dict[int, float]]:
     labels = source_ids_from_df(df)
-    multipliers = source_multiplier_map(labels)
+    multipliers = source_multiplier_map(labels, factors)
     if variant == "raw":
         return df.copy(), multipliers
     if variant == "source_timewarp":
-        return apply_source_timewarp(df)
+        return apply_source_timewarp(df, factors)
     if variant == "random_timewarp":
-        return apply_random_timewarp(df, base_name=base_name, seed=seed, chunk_size=chunk_size)
+        return apply_random_timewarp(df, base_name=base_name, seed=seed, chunk_size=chunk_size, factors=factors)
     raise ValueError(f"unknown variant {variant!r}")
 
 
@@ -858,7 +922,14 @@ def main() -> int:
         original_labels = source_ids_from_df(base)
 
         for variant in VARIANTS:
-            variant_df, multipliers = make_variant(base, variant, base_name, args.random_seed, args.random_chunk_size)
+            variant_df, multipliers = make_variant(
+                base,
+                variant,
+                base_name,
+                args.random_seed,
+                args.random_chunk_size,
+                args.timewarp_factors,
+            )
             diagnostics = time_diagnostics(variant_df, multipliers, event_start, event_end)
             input_fcs = input_dir / f"{Path(base_name).stem}_{variant}.fcs"
             write_fcs(input_fcs, variant_df)

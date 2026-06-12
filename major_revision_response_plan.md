@@ -54,12 +54,12 @@ The goal is to convert this into a detailed response letter after the analyses a
 **Comprehensive mechanism experiment to delineate FlowCut versus FlowMOP:**
 
 - Build the primary mechanism benchmark from the existing source-labelled smallcut synthetic-combo files rather than from newly simulated fluorescence perturbations. The Bimix and Trimix files already contain source-linked fluorescence/composition differences via `SampleIDInt` and have approximately normalized Time from synthetic-combo construction; Segment files preserve stronger source/time-density structure. This makes the benchmark directly interpretable: only the Time channel is experimentally changed.
-- Use 15 high-count inputs: five Bimix, five Trimix, and five Segment files. Each benchmark input contains 500,000 acquisition-order-preserving events. For Bimix and Trimix, use the first 500,000 events because the sources are already shuffled through the acquisition. For Segment files, use a contiguous 500,000-event window centered on the source transition so that both segment sources are present.
+- Use 30 high-count inputs: ten Bimix, ten Trimix, and ten Segment files. Each benchmark input contains 500,000 acquisition-order-preserving events. For Bimix and Trimix, use the first 500,000 events because the sources are already shuffled through the acquisition. For Segment files, use a contiguous 500,000-event window centered on the source transition so that both segment sources are present.
 - Generate three matched variants for every file:
   - raw: unchanged events and unchanged Time;
-  - source-time-warped: multiply local Time increments by source identity while leaving fluorescence, scatter, labels, and event order unchanged;
-  - random-time-warped: apply the same Time-increment multipliers to contiguous 2,000-event chunks independently of source identity.
-- Use 1.0x and 2.0x local Time multipliers for two-source Bimix/Segment files, and 1.0x, 1.5x, and 2.0x for three-source Trimix files. Rescale the final Time range to match the raw input so that the perturbation tests local acquisition-rate structure rather than total acquisition duration.
+  - source-time-warped: multiply local Time increments by source identity while leaving fluorescence, scatter, labels, and event order unchanged, using acquisition-interval multipliers spanning 1.0x to 20.0x to stress FlowCut's time-density checks;
+  - random-time-warped: apply the same Time-increment multiplier range to contiguous 25,000-event chunks independently of source identity.
+- Rescale the final Time range to match the raw input so that the perturbation tests local acquisition-rate structure rather than total acquisition duration.
 - Run FlowMOP, FlowCut, and PeacoQC on exactly the same generated FCS inputs. FlowMOP should use the current default MAD smoothing (`0.01,0.05`) and positive-geomean fluorescence summaries for the main mechanism run. Historical smoothing (`0.1,0.9`) remains a parameter-sensitivity comparison, not the main interpretation.
 - Primary metrics should match the MAD-smoothing source-label scoring: filename proportions identify the target source or sources with the largest mixture proportion; sensitivity is retained target-source events divided by retained events; specificity is removed non-target-source events divided by removed events; balanced score is the mean of sensitivity and specificity. Also report removal fractions and deltas relative to the matched raw variant.
 - Expected discriminator:
@@ -67,6 +67,12 @@ The goal is to convert this into a detailed response letter after the analyses a
   - if FlowMOP's advantage is fluorescence/population-summary anchoring, it should be comparatively less affected by Time-only warping while retaining source-label specificity;
   - if PeacoQC's weakness is peak-stability sensitivity to composition changes, it may react to real source-linked peak instability even when that instability is not labelled as low-quality under the source-label truth.
 - Present this as a mechanistic supplement, not as another broad leaderboard. The goal is to explain when each algorithm's signal is appropriate: FlowCut for density/time-linked abnormalities, PeacoQC for unstable marker-density peaks, and FlowMOP for fluorescence-population deviations that are less coupled to acquisition rate alone.
+
+**Manuscript change record for this mechanism benchmark:**
+
+- Methods should now describe a matched 30-file smallcut benchmark: ten Bimix, ten Trimix, and ten Segment inputs, each using 500,000 acquisition-order-preserving events and three variants: raw, source-time-warped, and random-time-warped.
+- Results should present raw-matched changes in sensitivity and specificity rather than a new accuracy/error metric. In the completed 30-file run, FlowMOP changed by 0.00 percentage points under both Time-warp variants. FlowCut changed after Time-only perturbation: across all inputs, random Time warping increased sensitivity by 1.17 percentage points and reduced specificity by 11.45 percentage points, while source-linked Time warping reduced sensitivity by 1.60 percentage points and increased specificity by 4.82 percentage points.
+- Discussion should replace the previous smoothing-only explanation with the more specific mechanism: FlowMOP is comparatively invariant to Time-only acquisition-density alteration because the benchmark leaves fluorescence and source composition unchanged, whereas FlowCut's time-density sensitivity changes its removal behavior even when fluorescence values are not perturbed. The most manuscript-relevant failure mode is in Segment inputs, where FlowCut loses 7.84 percentage points sensitivity and 15.25 percentage points specificity under source-linked Time warping.
 
 ## Editor Comment 2: Algorithmic Versus Implementation Advantages
 
@@ -256,9 +262,12 @@ The goal is to convert this into a detailed response letter after the analyses a
   - Can also consume existing generated synthetic-combo FCS datasets through `--dataset-dir`.
   - Scores time-gating sensitivity, specificity, and balanced score where source labels are available.
 - `benchmarks/benchmark_rate_density_mechanism.py`
-  - Runs the raw-file mechanism benchmark using 15 smallcut Bimix/Trimix/Segment FCS inputs.
+  - Runs the raw-file mechanism benchmark using 30 smallcut Bimix/Trimix/Segment FCS inputs.
   - Preserves fluorescence, scatter, source labels, and event order, and modifies only the Time channel for source-linked and random local Time-warp variants.
   - Runs FlowMOP, FlowCut, and PeacoQC on matched inputs and writes raw-delta summaries for removal fraction, sensitivity, specificity, and balanced score.
+- `benchmarks/plot_rate_density_mechanism.py`
+  - Generates the mechanism figure from the strong Time-warp benchmark outputs.
+  - Plots raw-matched changes in sensitivity and specificity for FlowMOP versus FlowCut, with columns for all inputs, Segment, Bimix, and Trimix subsets.
 - `FlowMOP/benchmarks/qsub_qc_algorithm_clone_scaling.pbs.sh`
   - PBS wrapper for the FlowMOP/PeacoQC/FlowCut clone-scaling benchmark.
   - Requests 24 CPUs.

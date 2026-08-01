@@ -65,7 +65,7 @@ PBMC samples were collected from healthy donors under ethics protocols ACT Healt
 
 #### Generation of Synthetic Time Samples
 
-The Segment, Bimix, and Trimix samples were designed as complementary time-artifact stress tests. Source FCS files were sampled to the proportions encoded in the output filename and an event-level source label (`SampleIDInt`) was retained for scoring but excluded from algorithm input. Segment samples model sustained acquisition shifts by sequentially appending sampled source blocks. Bimix and Trimix samples model subtler mid-acquisition changes in event origin or fluorescence distribution by sampling two or three differently stained source files, splitting events into 5000- or 2000-event mixing bins, shuffling those bins, and regenerating the Time channel across the mixed acquisition order. While major blockages often produce segmental deviations, short self-resolving micro-blockages can generate smaller transient changes; the Bimix and Trimix simulations were designed to test detection of these less obvious distributional perturbations under controlled ground-truth conditions.
+Samples were synthetically combined across differing cell concentrations in three manners. Their construction is shown in Figure S1. One in a simple ‘Segmented’ fashion, where events from one or more samples were simply appended onto events from an existing sample. The second, ‘Bimix’ manner, where events from two differently stained samples were randomly synthetically combined in random proportions (e.g. 40:60, 75:25 etc), with one run containing a mixing bin size of 5000 events and the other of 2000 events. The final, ‘Trimix’ contained randomly combined events from three differently stained samples in mixing bin sizes of 5000, and 2000 events. Segmented samples model sustained changes, whereas Bimix and Trimix provide controlled tests of subtler mid-acquisition changes. Flow-rate disturbances without corresponding fluorescence changes should not prompt event exclusion; these samples therefore model fluorescence changes across acquisition order without introducing flow-rate disturbances. Flow-rate effects were tested separately by altering Time either in alignment with source-linked fluorescence changes or independently of them. The event-level source label (`SampleIDInt`) was retained for scoring but excluded from algorithm input.
 
 #### Time-only acquisition-rate mechanism benchmark
 
@@ -166,7 +166,7 @@ The Segment, Bimix, and Trimix samples were designed as complementary time-artif
 
 In the Segmented method, FlowMOP and PeacoQC had significantly higher sensitivity than FlowCut (p < 0.001) (Fig. 2B). FlowMOP also had higher specificity than PeacoQC (p < 0.001). In the Bimix method, for the 5000-bin size, PeacoQC showed higher sensitivity than both FlowMOP and FlowCut (p < 0.001). FlowMOP demonstrated significantly higher specificity than FlowCut (p = 0.02). In the 2000-bin size, PeacoQC showed lower sensitivity than FlowCut (p = 0.002) and lower specificity than both FlowMOP and FlowCut (p < 0.001). In the Trimix method, for the 5000-bin samples, FlowMOP exhibited higher specificity than both other methods (p = 0.004 PeacoQC, p = 0.003 FlowCut). Similarly, in the 2000-bin samples, PeacoQC had lower specificity than both FlowMOP and FlowCut (p = 0.01, p = 0.03). This pattern is consistent with PeacoQC being susceptible to bin-level noise when local peak estimates are unstable.
 
-To test whether FlowCut's lower performance in Segment inputs reflected sensitivity to acquisition-rate structure itself, we altered only the Time channel while leaving fluorescence, scatter, source labels, and event order unchanged (Fig. S3). FlowMOP was unchanged under both source-linked and random Time warping. In contrast, FlowCut's sensitivity and specificity shifted after Time-only perturbation. Across all inputs, random Time warping reduced FlowCut specificity by 11.45 percentage points relative to matched raw inputs. In Segment inputs, source-linked Time warping reduced FlowCut sensitivity by 7.84 percentage points and specificity by 15.25 percentage points. These results support the interpretation that FlowCut responds to local acquisition-density structure even when fluorescence values are unchanged, whereas FlowMOP is less affected by rate-only variation.
+To test the effect of flow-rate disturbances aligned with or independent of source-linked fluorescence changes, we altered only the Time channel while leaving fluorescence, scatter, source labels, and event order unchanged (Fig. S4). FlowMOP was unchanged under both source-linked and random Time warping. In contrast, FlowCut's sensitivity and specificity shifted after Time-only perturbation. Across all inputs, random Time warping reduced FlowCut specificity by 11.45 percentage points relative to matched raw inputs. In Segment inputs, source-linked Time warping reduced FlowCut sensitivity by 7.84 percentage points and specificity by 15.25 percentage points. These results support the interpretation that FlowCut responds to local acquisition-density structure even when fluorescence values are unchanged, whereas FlowMOP is less affected by rate-only variation.
 
 Representative plots for the 2000 bin Bimix method, and the 2000, and 5000 bin Trimix methods can be found in Supp. 1.
 
@@ -208,23 +208,23 @@ FlowMOP significantly decreased the frequency of CTV-CFSE double-positive events
 
 ### Expert Preference Evaluation
 
-To examine FlowMOP’s utility in real-world samples, its performance was evaluated across different flow cytometry files. FlowMOP’s outputs in these samples were compared with expert-provided gates using a forced-ranking preference task. These rankings measure relative expert preference and should not be interpreted as an absolute measure of gating adequacy. The resulting time, debris, and doublet gates were ranked by that sample type’s expert. In the time-gating task, FlowCut and PeacoQC were also included for comparison. Rankings were provided by a relevant expert in that sample type. Lower rankings indicate lower preference.
+To examine FlowMOP’s utility in real-world samples, its performance was evaluated across different flow cytometry files. FlowMOP’s outputs in these samples were compared with expert-provided gates using a forced-ranking preference task. These rankings measure relative expert preference and should not be interpreted as an absolute measure of gating adequacy. The resulting time, debris, and doublet gates were ranked by that sample type’s expert. In the time-gating task, FlowCut and PeacoQC were also included for comparison. Rankings were provided by a relevant expert in that sample type. Rank 1 indicates the greatest preference.
 
-![Embedded image 5](FlowMOP_submission_media/image5.png)
+![Embedded image 5](FlowMOP_submission_media/image5_revised.png)
 
-Figure 5. A) Table showing expert preference rankings for gates provided by each cleanup method or human operator for human experts 1-4, FlowMOP (our method, black border), FlowCut, and PeacoQC (Abbreviations: DRG – Dorsal Root Ganglion, CNS – Central Nervous System). Methods were ranked 1-7 for 9 different datasets by an expert in that respective data type. Lower ranking is worse.  B) Average ranking score across all 9 methods.
+Figure 5. Expert preference rankings for time gates provided by four human experts, FlowMOP (black border), FlowCut, and PeacoQC across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. Abbreviations: DRG, dorsal root ganglion; CNS, central nervous system.
 
-In the biological datasets, FlowMOP ranked the best amongst the algorithmic time gating approaches in the time gate (Fig. 5A, 5B). In the mouse brain and mouse bone marrow tasks, it was ranked sixth and fifth respectively (Fig. 5B). On a Bayesian analysis, FlowMOP was observed to be substantially preferred to FlowCut (BF = 5.39, P = 84.3%) and strongly preferred to PeacoQC (BF = 12.10, P = 92.4%). FlowMOP was ranked inferiorly to all human experts with strong to decisive evidence (Expert 2 BF = 10.55, P = 91.3%, all others BF > 100, P = 100%).
+In the biological datasets, FlowMOP had the lowest mean rank among the algorithmic time-gating approaches (Fig. 5). In the mouse brain and mouse bone marrow tasks, it ranked third and second, respectively (Fig. 5). On a Bayesian analysis, FlowMOP was observed to be substantially preferred to FlowCut (BF = 5.39, P = 84.3%) and strongly preferred to PeacoQC (BF = 12.10, P = 92.4%). FlowMOP was ranked inferiorly to all human experts with strong to decisive evidence (Expert 2 BF = 10.55, P = 91.3%, all others BF > 100, P = 100%).
 
-![Embedded image 6](FlowMOP_submission_media/image6.png)
+![Embedded image 6](FlowMOP_submission_media/image6_revised.png)
 
-Figure 6. A) Table showing ranking preferences for human experts 1-4, and FlowMOP, when ranked 1-5 for 9 different datasets by an expert in debris removal. N/A denotes where samples for that human expert are not available. Lower ranking is worse. B) Bar graphs showing the average ranking score for each method across all datasets.
+Figure 6. Expert preference rankings for debris gates provided by four human experts and FlowMOP (black border) across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across available datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. N/A denotes an unavailable gate.
 
-![Embedded image 7](FlowMOP_submission_media/image7.png)
+![Embedded image 7](FlowMOP_submission_media/image7_revised.png)
 
-Figure 7. A) Table showing ranking preferences for human experts 1-4, and FlowMOP, when ranked 1-5 for 9 different datasets by an expert in doublet removal. NA denotes where samples for that human expert are not available. Lower ranking is worse. B) Bar graphs showing the average ranking score for each method across all datasets. Ranking score is determined by the inverse rank, out of five.
+Figure 7. Expert preference rankings for doublet gates provided by four human experts and FlowMOP (black border) across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across available datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. N/A denotes an unavailable gate.
 
-FlowMOP scored the poorest overall when ranked against the human experts in debris, and in doublets (Fig. 6B, 7B). On a Bayesian analysis, substantial to strong evidence was observed for FlowMOP being inferior to Expert 1 (BF = 5.87, P = 85.5%), Expert 4 (BF = 12.85, P = 92.8%), and Experts 2,3 (BF > 100, P = 100%) in debris removal. In doublet removal, FlowMOP was weakly inferiorly ranked to Expert 4 (BF = 3.14, P = 75.8%), substantially inferiorly ranked to Expert 1 (BF = 5.67, P = 85.0%), strongly inferiorly ranked to Expert 2 (BF = 14.38, P = 93.5%), and decisively inferiorly ranked to Expert 3 (BF > 100, P = 100%).
+FlowMOP had the highest mean rank when compared with the human experts for debris and doublet removal (Figs. 6, 7). On a Bayesian analysis, substantial to strong evidence was observed for FlowMOP being inferior to Expert 1 (BF = 5.87, P = 85.5%), Expert 4 (BF = 12.85, P = 92.8%), and Experts 2,3 (BF > 100, P = 100%) in debris removal. In doublet removal, FlowMOP was weakly inferiorly ranked to Expert 4 (BF = 3.14, P = 75.8%), substantially inferiorly ranked to Expert 1 (BF = 5.67, P = 85.0%), strongly inferiorly ranked to Expert 2 (BF = 14.38, P = 93.5%), and decisively inferiorly ranked to Expert 3 (BF > 100, P = 100%).
 
 FlowMOP’s relative expert preference varied across datasets. For debris, it rated first in the mouse blood task, and third in human liver and mouse skin datasets. In the doublets task, FlowMOP scored second in the human liver task again. For full tabular rankings, see supplementary data Tables 1B-E.
 
@@ -236,7 +236,7 @@ FlowMOP was evaluated for time, debris, and doublet gating using synthetic techn
 
 #### Synthetic Sample Time Gating
 
-In the synthetic time-gating analysis, the Segment time gate is perhaps the most common and consequential time-artifact, as a non-negligible sample portion is often required to be removed in real samples. This type of synthetic data expects gating most similar to current manual gating, where blocks of events are removed. The objective of these samples is to simulate where there is a long blockage or sudden shift in the acquired sample. Here, FlowMOP demonstrated overall a greater sensitivity than FlowCut, and with better specificity than PeacoQC. The Time-only mechanism benchmark suggests that the FlowMOP versus FlowCut difference is not explained solely by implementation. When only local acquisition-rate structure was altered, FlowMOP remained unchanged, whereas FlowCut's removal behavior shifted, especially in Segment inputs (Fig. S3). This supports the interpretation that FlowCut can be affected by acquisition-density changes even when fluorescence values are unchanged, while FlowMOP is more anchored to fluorescence-population summaries across acquisition order.
+In the synthetic time-gating analysis, the Segment time gate is perhaps the most common and consequential time-artifact, as a non-negligible sample portion is often required to be removed in real samples. This type of synthetic data expects gating most similar to current manual gating, where blocks of events are removed. The objective of these samples is to simulate where there is a long blockage or sudden shift in the acquired sample. Here, FlowMOP demonstrated overall a greater sensitivity than FlowCut, and with better specificity than PeacoQC. The Time-only mechanism benchmark suggests that the FlowMOP versus FlowCut difference is not explained solely by implementation. When local acquisition-rate structure was altered either in alignment with source-linked fluorescence changes or independently of them, FlowMOP remained unchanged, whereas FlowCut's removal behavior shifted, especially in Segment inputs (Fig. S4). This supports the interpretation that FlowCut can be affected by acquisition-density changes even when fluorescence values are unchanged, while FlowMOP is more anchored to fluorescence-population summaries across acquisition order.
 
 The Bimix synthetic samples seek to emulate transient microblockages that self-resolve quickly. The size of the simulated microblockage is determined by the ‘bin size’, where the larger bin sizes emulate larger blockages. As expected, algorithm sensitivity and specificity reduced in the smaller bin-sized samples. This degradation was particularly marked for PeacoQC’s sensitivity. PeacoQC had higher sensitivity than both other algorithms at the larger bin size but lower sensitivity than FlowCut in the smaller-bin runs. FlowMOP had higher specificity than FlowCut for the large-bin Bimix samples. In the Trimix results, FlowMOP had higher specificity than both other algorithms at the large bin size and higher specificity than PeacoQC in the smaller-bin samples.
 
@@ -244,7 +244,7 @@ The PeacoQC results are consistent with sensitivity to bin-level noise in local 
 
 The computational benchmark demonstrates that FlowMOP provides speed gains with lower peak RAM usage at larger event counts. This is most evident from 300,000 events onward, where FlowMOP had both the fastest mean runtime and lowest peak memory use. At 2,000,000 events, FlowMOP was approximately 2.5-fold faster than PeacoQC and 3.5-fold faster than FlowCut, while using approximately 32% of PeacoQC’s peak RAM and 45% of FlowCut’s peak RAM.
 
-It is of note that there is a large variation in algorithmic performance across the dataset. One source of this variation is that the 0.5 and 1.0 relative cell concentrations oftentimes exhibited marginal differences in fluorescence intensity (Supp. Fig. 2), especially relative to the 0.5 / 3.0 cell concentrations comparison. Consequently, the 0.5/1.0 discrimination tasks can be considered especially difficult benchmarks to overcome. However, this difficulty was intentionally placed, to ensure the present benchmarking dataset could also show progressive improvement of future time-gating algorithms.
+It is of note that there is a large variation in algorithmic performance across the dataset. One source of this variation is that the 0.5 and 1.0 relative cell concentrations oftentimes exhibited marginal differences in fluorescence intensity (Supp. Fig. 3), especially relative to the 0.5 / 3.0 cell concentrations comparison. Consequently, the 0.5/1.0 discrimination tasks can be considered especially difficult benchmarks to overcome. However, this difficulty was intentionally placed, to ensure the present benchmarking dataset could also show progressive improvement of future time-gating algorithms.
 
 Human gating was not included for the Bimix or Trimix synthetic datasets because the short mixed bins do not provide a practical manual ground-truth target. The retained source labels instead provide an event-level reference for comparing algorithmic performance.
 
@@ -286,7 +286,11 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 
 ## Supplementary data
 
-Figure S1: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Trimix 5000 bin, and Trimix 2000 bin synthetic datasets, with original data inputs, and following cleaning by FlowMOP, FlowCut, and PeacoQC.  Percentages below each figure represent the retained proportion of cells relative to the original representative synthetic sample.
+Figure S1: Construction of Segment, Bimix, and Trimix synthetic time samples. No flow-rate disturbance was introduced. Source labels were retained for scoring only and excluded from algorithm input.
+
+![Figure S1](figs_data/synthetic_time_design_schematic.svg)
+
+Figure S2: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Trimix 5000 bin, and Trimix 2000 bin synthetic datasets, with original data inputs, and following cleaning by FlowMOP, FlowCut, and PeacoQC. Percentages below each figure represent the retained proportion of cells relative to the original representative synthetic sample.
 
 ![Embedded image 8](FlowMOP_submission_media/image8.png)
 
@@ -325,7 +329,7 @@ Figure S1: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Tr
 | FlowCut | 6 |
 | PeacoQC | 7 |
 
-**Table S1C: Time gating rankings**
+**Table S1C: Time gating rankings (1 = best)**
 
 | Rankings | Mouse DRG | Mouse Skin | Human Cultured T Cells | Mouse Bone Marrow |
 | --- | --- | --- | --- | --- |
@@ -345,7 +349,7 @@ Figure S1: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Tr
 | 6 | 5 | 7 | 7 | 7 |
 | 2 | 7 | 6 | 6 | 5 |
 
-**Table S1D: Debris gating rankings**
+**Table S1D: Debris gating rankings (1 = best)**
 
 | Rankings | Mouse DRG | Mouse Skin | Human Cultured T cells | Mouse Bone Marrow |
 | --- | --- | --- | --- | --- |
@@ -361,7 +365,7 @@ Figure S1: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Tr
 | 4 | 4 | 1 | 5 | 3 |
 | 5 | 1 | 5 | 1 |  |
 
-**Table S1E: Doublet gating rankings**
+**Table S1E: Doublet gating rankings (1 = best)**
 
 | Rankings | Mouse DRG | Mouse Skin | Human Cultured T cells | Mouse Bone Marrow |
 | --- | --- | --- | --- | --- |
@@ -388,13 +392,13 @@ Figure S1: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Tr
 | >30 | Decisive evidence |
 
 
-Figure S2:
+Figure S3:
 
 Fluorescence variation as a function of cell concentration.
 
 ![Embedded image 9](FlowMOP_submission_media/image9.jpeg)
 
-Figure S3:
+Figure S4:
 
 Time-only acquisition-rate perturbations reveal FlowCut sensitivity to local Time density. Points show raw-matched changes in sensitivity and specificity, with large points and intervals showing the mean and 95% confidence interval. Negative values indicate reduced sensitivity or specificity relative to the raw control. Columns show all inputs together and the Segment, Bimix, and Trimix subsets separately. FlowMOP remains unchanged under both source-linked and random Time warping. In contrast, FlowCut's sensitivity and specificity shift after Time-only perturbation, with the clearest specificity loss in random Time-warped inputs and the strongest source-linked sensitivity loss in Segment inputs, where acquisition-rate structure aligns with source composition.
 

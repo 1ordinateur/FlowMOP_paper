@@ -42,7 +42,7 @@ Track-change notation:
 
 🟦 **Status: STAGED - raw-file time-warp mechanism benchmark complete; manuscript changes documented.**
 
-**Manuscript change record:** add a Methods paragraph describing the matched 30-file smallcut mechanism benchmark, add a Results/Figure panel reporting raw-matched changes in sensitivity and specificity, and revise the Discussion away from the earlier speculative attribution. The revised explanation should state that FlowMOP's time-gating decision is anchored to fluorescence/population summaries and is insensitive to Time-only acquisition-density changes in this benchmark, whereas FlowCut changes its removal behavior when local Time density is altered, especially for Segment inputs. PeacoQC should be discussed separately as a peak-stability method that can overcall low-quality bins when local peak estimates are unstable due to stochastic bin composition in mixed-source files. This has now been integrated into `FlowMOP_submission.md` as Figure S3 and accompanying Methods, Results, and Discussion text.
+**Manuscript change record:** add a Methods paragraph describing the matched 30-file smallcut mechanism benchmark, add a Results/Figure panel reporting raw-matched changes in sensitivity and specificity, and revise the Discussion away from the earlier speculative attribution. The revised explanation should state that FlowMOP's time-gating decision is anchored to fluorescence/population summaries and is insensitive to Time-only acquisition-density changes in this benchmark, whereas FlowCut changes its removal behavior when local Time density is altered, especially for Segment inputs. PeacoQC should be discussed separately as a peak-stability method that can overcall low-quality bins when local peak estimates are unstable due to stochastic bin composition in mixed-source files. This has now been integrated into `FlowMOP_submission.md` as Figure S4 and accompanying Methods, Results, and Discussion text.
 
 The revised analysis should include a focused mechanism benchmark that separates source-linked fluorescence/composition structure from acquisition-rate structure. This is important because the existing Bimix and Trimix files already contain source-specific fluorescence differences through `SampleIDInt`, while their Time channel is approximately normalized during synthetic-combo construction. Segment files preserve stronger source/time-density structure. The new benchmark therefore should not add artificial fluorescence perturbations. Instead, it should preserve the raw events, source labels, scatter channels, fluorescence channels, and acquisition order, and then alter only the Time channel to test whether each algorithm responds to acquisition-rate variation itself.
 
@@ -118,13 +118,9 @@ We will address this point in the response letter rather than adding further man
 
 > Figure 1A/B/C lack axis titles and clear annotations.
 
-🟣 **Option A: caption edit**
+🟣 **Selected response**
 
-> <span style="color:#007a3d">Figure 1 has been revised to include x- and y-axis labels for all schematic plots, explicit labels for the smoothed time-bin fluorescence-summary panels, and a y-axis label for the doublet-ratio histogram.</span>
-
-🟣 **Option B: response-letter wording**
-
-> <span style="color:#007a3d">We revised Figure 1A-C to label all axes and clarify the two time-summary panels following time-binned fluorescence calculation.</span>
+> <span style="color:#007a3d">We retained Figure 1 as a conceptual schematic rather than adding parameter-specific axis titles. The revised legend states that the fluorescence-intensity and signal-strength axes use arbitrary units and explains the two smoothing resolutions and the quantities shown in each panel.</span>
 
 ## P26 - R2.24: Debris Removal Rate Against Expert
 

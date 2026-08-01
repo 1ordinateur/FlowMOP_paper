@@ -74,7 +74,7 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Methods should now describe a matched 30-file smallcut benchmark: ten Bimix, ten Trimix, and ten Segment inputs, each using 500,000 acquisition-order-preserving events and three variants: raw, source-time-warped, and random-time-warped.
 - Results should present raw-matched changes in sensitivity and specificity rather than a new accuracy/error metric. In the completed 30-file run, FlowMOP changed by 0.00 percentage points under both Time-warp variants. FlowCut changed after Time-only perturbation: across all inputs, random Time warping increased sensitivity by 1.17 percentage points and reduced specificity by 11.45 percentage points, while source-linked Time warping reduced sensitivity by 1.60 percentage points and increased specificity by 4.82 percentage points.
 - Discussion should use the more specific mechanism: FlowMOP is comparatively invariant to Time-only acquisition-density alteration because the benchmark leaves fluorescence and source composition unchanged, whereas FlowCut's time-density sensitivity changes its removal behavior even when fluorescence values are not perturbed. The most manuscript-relevant failure mode is in Segment inputs, where FlowCut loses 7.84 percentage points sensitivity and 15.25 percentage points specificity under source-linked Time warping.
-- Integration status: this mechanism benchmark is now referenced in `FlowMOP_submission.md` as Figure S3, with Methods, Results, Discussion, and supplementary caption text added.
+- Integration status: this mechanism benchmark is now referenced in `FlowMOP_submission.md` as Figure S4, with Methods, Results, Discussion, and supplementary caption text added.
 
 ## Editor Comment 2: Algorithmic Versus Implementation Advantages
 
@@ -124,8 +124,8 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Rename subjective "benchmarking" language to "expert comparison" or "expert evaluation".
 - Reframe the Bayesian ranking analysis as exploratory expert preference, not a definitive measure of algorithmic superiority.
 - Revise figure labels so the creator of the gate and the expert performing the ranking are unambiguous.
-- Consider reversing the ranking scale or explaining it more clearly.
-- Replace or supplement current ranking plots with more directly interpretable summaries, such as average score or absolute quality categories.
+- Display rank 1 as best and state explicitly that lower average scores indicate greater preference.
+- Replace the separate ranking-summary panels with an Average Score column in each ranking grid.
 - Remove or soften contorted interpretations such as FlowMOP being "not least preferred" in selected datasets.
 
 **Additional analyses proposed:**
@@ -171,12 +171,12 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Define "temporal artifacts" in the Abstract and Introduction.
 - Introduce terms such as concatenated perturbations, mixed time perturbations, bimix, trimix, high-debris mixtures, and CFSE/CTV doublets before using them.
 - Rewrite the Methods section describing synthetic time sample generation.
-- Add an illustrative figure or schematic showing the three synthetic time perturbation strategies.
+- Add an illustrative figure or schematic showing the three synthetic time perturbation strategies. Completed as Figure S1.
 - Explain why each synthetic perturbation was designed and which real acquisition artifact it approximates.
 - Clarify whether the simulated fluctuations represent subtle mid-acquisition effects, beginning/end acquisition instability, or both.
 - Add text acknowledging that some real flow-rate deviations are visually obvious, whereas the synthetic mixtures were designed to test subtler artifacts.
 - Clarify the limit-of-detection precleaning rule and justify the 1% default threshold as a pragmatic operational cutoff.
-- Correct missing axis titles and unclear subplots in Figure 1A.
+- Retain Figure 1 as a conceptual schematic and clarify its arbitrary units and component panels in the figure legend rather than adding parameter-specific axis titles.
 
 **Additional analyses proposed:**
 
@@ -309,9 +309,9 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Add cytometer voltage settings or acquisition settings where available.
 - Move or retitle the Bayesian modelling section so it is not incorrectly nested under "Non-synthetic samples".
 - Begin the Bayesian modelling section by clearly stating its purpose.
-- Correct missing axis titles in Figure 1A, Figure 1B, and Figure 1C.
-- Update row-axis titles in ranking grids to "Gate Provided By" or equivalent wording.
-- Consider replacing the scatter plot panel with an average-score column if this improves interpretability.
+- Retain Figure 1 as a conceptual schematic and clarify its arbitrary units and component panels in the figure legend rather than adding parameter-specific axis titles.
+- Update row-axis titles in ranking grids to "Gate Provided By."
+- Replace the separate ranking-summary panels with an Average Score column in each ranking grid.
 
 ## Proposed High-Level Revision Package
 

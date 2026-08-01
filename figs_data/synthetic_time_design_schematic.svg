@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="620" viewBox="0 0 1300 620" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic time-dataset construction</title>
+  <desc id="desc">Block schematic showing Segment, Bimix, and Trimix construction from labelled source files.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#000000"/>
+    </marker>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; fill: #1f2937; }
+      .header { font-size: 17px; font-weight: 700; fill: #4b5563; letter-spacing: .4px; }
+      .panel { font-size: 27px; fill: #000000; }
+      .row { font-size: 23px; font-weight: 700; }
+      .body { font-size: 19px; }
+      .small { font-size: 15px; }
+      .white, .white text { fill: #ffffff; font-size: 17px; font-weight: 700; }
+      .process-arrow { stroke: #000000; stroke-width: 2.4; marker-end: url(#arrow); }
+      .block { stroke: #000000; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1300" height="620" fill="#ffffff"/>
+
+  <text class="header" x="290" y="58">INPUT SOURCES</text>
+  <text class="header" x="595" y="58">CONSTRUCTION</text>
+  <text class="header" x="845" y="58">SYNTHETIC ACQUISITION ORDER</text>
+
+  <!-- A: Segment -->
+  <text class="panel" x="48" y="151">A)</text>
+  <text class="row" x="105" y="151">Segment</text>
+
+  <rect class="block" x="275" y="116" width="70" height="58" fill="#4c78a8"/>
+  <text class="white" x="310" y="151" text-anchor="middle">A</text>
+  <text class="body" x="371" y="151">+</text>
+  <rect class="block" x="400" y="116" width="70" height="58" fill="#f28e2b"/>
+  <text class="white" x="435" y="151" text-anchor="middle">B</text>
+
+  <line class="process-arrow" x1="530" y1="145" x2="580" y2="145"/>
+  <text class="body" x="605" y="151">Concatenate</text>
+  <line class="process-arrow" x1="765" y1="145" x2="815" y2="145"/>
+
+  <rect class="block" x="845" y="116" width="280" height="58" fill="#4c78a8"/>
+  <rect class="block" x="1125" y="116" width="128" height="58" fill="#f28e2b"/>
+  <text class="white" x="985" y="151" text-anchor="middle">A</text>
+  <text class="white" x="1189" y="151" text-anchor="middle">B</text>
+
+  <!-- B: Bimix -->
+  <text class="panel" x="48" y="311">B)</text>
+  <text class="row" x="105" y="311">Bimix</text>
+
+  <rect class="block" x="275" y="276" width="70" height="58" fill="#4c78a8"/>
+  <text class="white" x="310" y="311" text-anchor="middle">A</text>
+  <text class="body" x="371" y="311">+</text>
+  <rect class="block" x="400" y="276" width="70" height="58" fill="#f28e2b"/>
+  <text class="white" x="435" y="311" text-anchor="middle">B</text>
+
+  <line class="process-arrow" x1="530" y1="305" x2="580" y2="305"/>
+  <text class="body" x="605" y="298">Chunk + shuffle</text>
+  <text class="small" x="605" y="325">2,000 or 5,000 events</text>
+  <line class="process-arrow" x1="765" y1="305" x2="815" y2="305"/>
+
+  <g transform="translate(845,276)">
+    <rect x="0" y="0" width="51" height="58" fill="#4c78a8"/>
+    <rect x="51" y="0" width="51" height="58" fill="#f28e2b"/>
+    <rect x="102" y="0" width="51" height="58" fill="#4c78a8"/>
+    <rect x="153" y="0" width="51" height="58" fill="#f28e2b"/>
+    <rect x="204" y="0" width="51" height="58" fill="#4c78a8"/>
+    <rect x="255" y="0" width="51" height="58" fill="#4c78a8"/>
+    <rect x="306" y="0" width="51" height="58" fill="#f28e2b"/>
+    <rect x="357" y="0" width="51" height="58" fill="#4c78a8"/>
+    <g stroke="#ffffff" stroke-width="3">
+      <line x1="51" y1="1" x2="51" y2="57"/><line x1="102" y1="1" x2="102" y2="57"/>
+      <line x1="153" y1="1" x2="153" y2="57"/><line x1="204" y1="1" x2="204" y2="57"/>
+      <line x1="255" y1="1" x2="255" y2="57"/><line x1="306" y1="1" x2="306" y2="57"/>
+      <line x1="357" y1="1" x2="357" y2="57"/>
+    </g>
+    <g class="white" text-anchor="middle">
+      <text x="25" y="35">A</text><text x="76" y="35">B</text><text x="127" y="35">A</text>
+      <text x="178" y="35">B</text><text x="229" y="35">A</text><text x="280" y="35">A</text>
+      <text x="331" y="35">B</text><text x="382" y="35">A</text>
+    </g>
+    <rect x="0" y="0" width="408" height="58" fill="none" stroke="#000000" stroke-width="2"/>
+  </g>
+
+  <!-- C: Trimix -->
+  <text class="panel" x="48" y="471">C)</text>
+  <text class="row" x="105" y="471">Trimix</text>
+
+  <rect class="block" x="235" y="436" width="64" height="58" fill="#4c78a8"/>
+  <text class="white" x="267" y="471" text-anchor="middle">A</text>
+  <text class="body" x="317" y="471">+</text>
+  <rect class="block" x="343" y="436" width="64" height="58" fill="#f28e2b"/>
+  <text class="white" x="375" y="471" text-anchor="middle">B</text>
+  <text class="body" x="425" y="471">+</text>
+  <rect class="block" x="451" y="436" width="64" height="58" fill="#59a14f"/>
+  <text class="white" x="483" y="471" text-anchor="middle">C</text>
+
+  <line class="process-arrow" x1="530" y1="465" x2="580" y2="465"/>
+  <text class="body" x="605" y="458">Chunk + shuffle</text>
+  <text class="small" x="605" y="485">2,000 or 5,000 events</text>
+  <line class="process-arrow" x1="765" y1="465" x2="815" y2="465"/>
+
+  <g transform="translate(845,436)">
+    <rect x="0" y="0" width="45" height="58" fill="#4c78a8"/>
+    <rect x="45" y="0" width="45" height="58" fill="#59a14f"/>
+    <rect x="90" y="0" width="45" height="58" fill="#f28e2b"/>
+    <rect x="135" y="0" width="45" height="58" fill="#4c78a8"/>
+    <rect x="180" y="0" width="45" height="58" fill="#f28e2b"/>
+    <rect x="225" y="0" width="45" height="58" fill="#59a14f"/>
+    <rect x="270" y="0" width="45" height="58" fill="#4c78a8"/>
+    <rect x="315" y="0" width="45" height="58" fill="#59a14f"/>
+    <rect x="360" y="0" width="48" height="58" fill="#f28e2b"/>
+    <g stroke="#ffffff" stroke-width="3">
+      <line x1="45" y1="1" x2="45" y2="57"/><line x1="90" y1="1" x2="90" y2="57"/>
+      <line x1="135" y1="1" x2="135" y2="57"/><line x1="180" y1="1" x2="180" y2="57"/>
+      <line x1="225" y1="1" x2="225" y2="57"/><line x1="270" y1="1" x2="270" y2="57"/>
+      <line x1="315" y1="1" x2="315" y2="57"/><line x1="360" y1="1" x2="360" y2="57"/>
+    </g>
+    <g class="white" text-anchor="middle">
+      <text x="22" y="35">A</text><text x="67" y="35">C</text><text x="112" y="35">B</text>
+      <text x="157" y="35">A</text><text x="202" y="35">B</text><text x="247" y="35">C</text>
+      <text x="292" y="35">A</text><text x="337" y="35">C</text><text x="384" y="35">B</text>
+    </g>
+    <rect x="0" y="0" width="408" height="58" fill="none" stroke="#000000" stroke-width="2"/>
+  </g>
+
+  <text class="small" x="1049" y="536" text-anchor="middle">Acquisition order / Time</text>
+
+  <!-- Legend -->
+  <rect x="350" y="569" width="30" height="23" fill="#4c78a8" stroke="#000000" stroke-width="1.5"/>
+  <text class="small" x="389" y="586">Source A</text>
+  <rect x="490" y="569" width="30" height="23" fill="#f28e2b" stroke="#000000" stroke-width="1.5"/>
+  <text class="small" x="529" y="586">Source B</text>
+  <rect x="630" y="569" width="30" height="23" fill="#59a14f" stroke="#000000" stroke-width="1.5"/>
+  <text class="small" x="669" y="586">Source C</text>
+  <text class="small" x="800" y="586">Retained for scoring only</text>
+</svg>

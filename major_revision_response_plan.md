@@ -175,7 +175,7 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Explain why each synthetic perturbation was designed and which real acquisition artifact it approximates.
 - Clarify whether the simulated fluctuations represent subtle mid-acquisition effects, beginning/end acquisition instability, or both.
 - Add text acknowledging that some real flow-rate deviations are visually obvious, whereas the synthetic mixtures were designed to test subtler artifacts.
-- Add event removal rates for the precleaning datasets and justify the 5% threshold.
+- Clarify the limit-of-detection precleaning rule and justify the 1% default threshold as a pragmatic operational cutoff.
 - Correct missing axis titles and unclear subplots in Figure 1A.
 
 **Additional analyses proposed:**

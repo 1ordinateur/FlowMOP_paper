@@ -96,19 +96,21 @@ We will address this point in the response letter rather than adding further man
 
 </details>
 
-## P22 - R2.17: Event Removal And 5% Threshold
+## P22 - R2.17: Event Removal And Limit-Of-Detection Threshold
 
 🟠 🔵 **Comment**
 
-> Report how many events are removed and justify the 5% threshold.
+> Report how many events are removed and justify the precleaning threshold.
+
+**Clarification:** the current implementation uses a 1% limit-of-detection precleaning threshold. Earlier 5% wording was stale and has been corrected.
 
 🟣 **Option A: supplementary table**
 
 > <span style="color:#007a3d">Supplementary Table [X] reports the number and percentage of events removed by each preprocessing step for each dataset and method.</span>
 
-🟣 **Option B: threshold rationale**
+🟣 **Response-letter wording**
 
-> <span style="color:#007a3d">The 5% threshold was selected as a conservative default to avoid triggering exclusion on very small event fractions; sensitivity to this threshold is reported in Supplementary Figure/Table [X] where available.</span>
+> <span style="color:#007a3d">We agree that an empirically derived threshold would be preferable. This precleaning step is a narrow safeguard for files in which a non-trivial fraction of events are exactly at the acquisition limit, consistent with detector saturation or limit-of-detection artifacts. There is no independent ground-truth rule that uniquely defines the correct cutoff for this situation, so we selected a simple pragmatic default of 1%. This threshold was chosen as a reasonable operational cutoff: low enough to avoid retaining files with clear saturation artifacts, but high enough to avoid triggering removal for isolated maximum-valued events. We have corrected and clarified this threshold in the Methods.</span>
 
 ## P24 - R2.19 / R2.23: Figure 1 Labels
 

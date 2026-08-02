@@ -1,0 +1,4 @@
+sample,annotated_file,events_match,max_abs_difference_first_11,max_abs_difference_zombie
+trim_LB202_T.fcs,flowmop_liver_tumour_1.fcs,True,0.0,0.0
+trim_LB236_T.fcs,flowmop_liver_tumour_2.fcs,True,0.0,0.0
+trim_LB262_T.fcs,flowmop_liver_tumour_3.fcs,True,0.0,0.0

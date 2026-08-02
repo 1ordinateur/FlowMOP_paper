@@ -1,0 +1,4 @@
+sample,raw_events,workspace_manual_time_count,reconstructed_manual_time_count,workspace_manual_cells_after_time_count,reconstructed_manual_cells_after_time_count,workspace_manual_final_count,reconstructed_manual_final_count,raw_flowmop_event_matrix_exact,flowcut_mask_length,peacoqc_mask_length
+trim_LB202_T.fcs,287752,256033,256032,127067,126134,110410,108968,True,287752,287752
+trim_LB236_T.fcs,145520,135395,135395,71803,71607,56749,56134,True,145520,145520
+trim_LB262_T.fcs,301872,277237,277236,219341,219158,205592,205138,True,301872,301872

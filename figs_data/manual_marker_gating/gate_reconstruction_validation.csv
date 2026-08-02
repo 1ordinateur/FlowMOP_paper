@@ -1,0 +1,7 @@
+sample,raw_events,workspace_time_count,reconstructed_time_count,workspace_cell_count,reconstructed_cell_count,workspace_final_singlet_count,reconstructed_final_singlet_count
+trim_LB180_NT.fcs,87792,85851,85851,52570,52266,51317,50966
+trim_LB192_NT.fcs,338456,329204,329204,261240,260329,251484,250374
+trim_LB200_NT.fcs,409824,380394,380394,145958,145287,129620,128302
+trim_LB202_T.fcs,287752,256033,256032,127067,126230,110410,108968
+trim_LB236_T.fcs,145520,135395,135395,71803,71607,56749,56134
+trim_LB262_T.fcs,301872,277237,277236,219341,219186,205592,205139

@@ -1,0 +1,11 @@
+Stage,Method,n,"Events retained (% raw), mean ± SD","Retention relative to matched manual, median (range), manual=100","Zombie-low fraction among retained (%), mean ± SD","Zombie-low fraction difference from manual (pp), mean ± SD","Zombie-low selectivity relative to matched manual, median (range), manual=100",Samples with relative Zombie-low selectivity >100
+Time gate only,Manual,3,91.3 ± 2.1,100.0 (100.0–100.0),56.1 ± 23.4,0.0 ± 0.0,100.0 (100.0–100.0),0/3
+Time gate only,FlowMOP,3,82.2 ± 5.8,92.2 (82.2–95.9),52.6 ± 22.8,-3.5 ± 1.5,82.4 (78.8–92.2),0/3
+Time gate only,FlowCut,3,91.8 ± 3.8,101.9 (95.2–104.5),52.9 ± 22.6,-3.2 ± 1.5,84.3 (78.7–93.8),0/3
+Time gate only,PeacoQC,3,99.2 ± 1.4,108.9 (107.5–109.8),52.8 ± 22.7,-3.3 ± 1.5,83.6 (78.4–93.0),0/3
+Time gate + matched manual debris/singlet,Manual,3,48.1 ± 17.2,100.0 (100.0–100.0),48.8 ± 31.6,0.0 ± 0.0,100.0 (100.0–100.0),0/3
+Time gate + matched manual debris/singlet,FlowMOP,3,41.0 ± 17.6,83.5 (77.9–90.3),48.8 ± 31.7,-0.0 ± 0.2,100.2 (98.3–101.0),2/3
+Time gate + matched manual debris/singlet,FlowCut,3,44.8 ± 14.0,94.9 (89.6–97.3),48.9 ± 31.6,0.1 ± 0.1,100.7 (100.3–100.8),3/3
+Time gate + matched manual debris/singlet,PeacoQC,3,48.9 ± 17.9,102.2 (99.4–102.4),48.8 ± 31.6,-0.0 ± 0.0,99.9 (99.8–100.0),1/3
+Official complete workflow,Manual,3,48.1 ± 17.2,100.0 (100.0–100.0),48.8 ± 31.6,0.0 ± 0.0,100.0 (100.0–100.0),0/3
+Official complete workflow,FlowMOP,3,55.8 ± 5.2,137.8 (77.3–163.1),54.8 ± 30.2,6.0 ± 5.2,124.7 (119.3–162.5),3/3

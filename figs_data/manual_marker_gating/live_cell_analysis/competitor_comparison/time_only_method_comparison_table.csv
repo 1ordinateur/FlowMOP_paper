@@ -1,0 +1,5 @@
+Method,n,Events retained (% raw; mean ± SD),Retention relative to manual (%; median [range]),Zombie-low fraction among retained (%; mean ± SD),Zombie-low fraction difference from manual (percentage points; mean ± SD),Zombie-low selectivity relative to manual (%; median [range]),Samples with relative Zombie-low selectivity >100
+Manual,3,91.3 ± 2.1,100.0 [100.0–100.0],56.1 ± 23.4,0.0 ± 0.0,100.0 [100.0–100.0],Reference
+FlowMOP (time only),3,82.2 ± 5.8,92.2 [82.2–95.9],52.6 ± 22.8,-3.5 ± 1.5,82.4 [78.8–92.2],0/3
+FlowCut,3,91.8 ± 3.8,101.9 [95.2–104.5],52.9 ± 22.6,-3.2 ± 1.5,84.3 [78.7–93.8],0/3
+PeacoQC,3,99.2 ± 1.4,108.9 [107.5–109.8],52.8 ± 22.7,-3.3 ± 1.5,83.6 [78.4–93.0],0/3

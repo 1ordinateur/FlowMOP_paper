@@ -27,6 +27,16 @@ function RawInline(el)
   return revision_inline(el)
 end
 
+function Str(el)
+  if el.text == "BF₁₀" then
+    return {
+      pandoc.Str("BF"),
+      pandoc.RawInline("latex", "$_{10}$")
+    }
+  end
+  return nil
+end
+
 local function image_from_para(block)
   if block and block.t == "Para" and #block.content == 1 and block.content[1].t == "Image" then
     return block.content[1]
@@ -123,8 +133,24 @@ local function table_caption(block)
   )
 end
 
+local function set_table_widths(table_block)
+  local column_count = #table_block.colspecs
+  if column_count < 5 then
+    return
+  end
+
+  -- Pandoc otherwise emits natural-width l/r columns, which makes long
+  -- manuscript headers run beyond the page. Explicit proportional widths let
+  -- the cells wrap within Wiley's portrait or landscape text block.
+  local width = 0.96 / column_count
+  for index, colspec in ipairs(table_block.colspecs) do
+    table_block.colspecs[index] = { colspec[1], width }
+  end
+end
+
 local function add_table(output, table_block, caption_block)
   local column_count = #table_block.colspecs
+  set_table_widths(table_block)
   output:insert(table_start(column_count))
   if caption_block then
     output:insert(table_caption(caption_block))
@@ -135,40 +161,84 @@ end
 
 function Pandoc(doc)
   local output = pandoc.List()
-  local in_abstract = false
   local in_references = false
-  local i = 1
+  local body_start = 1
+  local acknowledgements_index = nil
+  local funding_index = nil
+  local abstract_index = nil
+  local introduction_index = nil
+  local contact_index = nil
+
+  for index, block in ipairs(doc.blocks) do
+    local text = stringify(block)
+    if block.t == "Header" and block.level == 2 and text == "Acknowledgements" then
+      acknowledgements_index = index
+    elseif block.t == "Header" and block.level == 2 and text == "Abstract" then
+      abstract_index = index
+    elseif block.t == "Header" and block.level == 2 and text == "Introduction" then
+      introduction_index = index
+    elseif is_para(block) and text == "Funding information:" then
+      funding_index = index
+    elseif is_para(block) and text == "Contact information for all authors:" then
+      contact_index = index
+    end
+  end
+
+  if abstract_index and introduction_index then
+    local abstract_blocks = pandoc.List()
+    for index = abstract_index + 1, introduction_index - 1 do
+      abstract_blocks:insert(doc.blocks[index])
+    end
+    doc.meta.abstract = pandoc.MetaBlocks(abstract_blocks)
+    body_start = introduction_index
+  end
+
+  if contact_index and acknowledgements_index then
+    local contact_blocks = pandoc.List()
+    for index = contact_index + 1, acknowledgements_index - 1 do
+      contact_blocks:insert(doc.blocks[index])
+    end
+    doc.meta.contactinfo = pandoc.MetaBlocks(contact_blocks)
+  end
+
+  if acknowledgements_index and funding_index then
+    local acknowledgements_blocks = pandoc.List()
+    for index = acknowledgements_index + 1, funding_index - 1 do
+      acknowledgements_blocks:insert(doc.blocks[index])
+    end
+    doc.meta.acknowledgements = pandoc.MetaBlocks(acknowledgements_blocks)
+  end
+
+  if funding_index and abstract_index then
+    local funding_blocks = pandoc.List()
+    for index = funding_index + 1, abstract_index - 1 do
+      funding_blocks:insert(doc.blocks[index])
+    end
+    doc.meta.funding = pandoc.MetaBlocks(funding_blocks)
+  end
+
+  local i = body_start
 
   while i <= #doc.blocks do
     local block = doc.blocks[i]
     local heading = block.t == "Header" and stringify(block) or nil
+    local source_level = block.t == "Header" and block.level or nil
 
-    -- The title is supplied through template metadata.
-    if i == 1 and block.t == "Header" and block.level == 1 then
-      i = i + 1
-      goto continue
+    -- The Markdown title is a level-one heading, so body headings begin at
+    -- level two. The title is moved into Wiley's front matter above; promote
+    -- the remaining headings so Introduction, Methods, and peers are sections.
+    if source_level and source_level >= 2 then
+      block.level = source_level - 1
     end
 
-    if block.t == "Header" and block.level == 2 and heading == "Abstract" then
-      output:insert(pandoc.RawBlock("latex", "\\begin{abstract}"))
-      in_abstract = true
-      i = i + 1
-      goto continue
-    end
-
-    if in_abstract and block.t == "Header" and block.level == 2 then
-      output:insert(pandoc.RawBlock("latex", "\\end{abstract}"))
-      in_abstract = false
-    end
-
-    if block.t == "Header" and block.level == 2 then
+    if source_level == 2 then
       output:insert(pandoc.RawBlock("latex", "\\FloatBarrier"))
       if heading == "Supplementary data" or heading == "References" then
         output:insert(pandoc.RawBlock("latex", "\\clearpage"))
       end
     end
 
-    if block.t == "Header" and block.level == 2 and heading == "References" then
+    if source_level == 2 and heading == "References" then
       output:insert(block)
       output:insert(pandoc.RawBlock("latex", "\\begin{hangparas}{1.5em}{1}"))
       in_references = true
@@ -223,9 +293,6 @@ function Pandoc(doc)
     ::continue::
   end
 
-  if in_abstract then
-    output:insert(pandoc.RawBlock("latex", "\\end{abstract}"))
-  end
   if in_references then
     output:insert(pandoc.RawBlock("latex", "\\end{hangparas}"))
   end

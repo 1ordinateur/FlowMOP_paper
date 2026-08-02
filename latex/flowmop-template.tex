@@ -1,78 +1,43 @@
-\documentclass[10pt,a4paper]{article}
+% Keep Wiley's supplied class and support files in their own directory while
+% making that directory available to package lookups performed by USG.cls.
+\makeatletter
+\def\input@path{{latex/wiley/}}
+\makeatother
+\documentclass[ASNA]{latex/wiley/USG}
 
-\usepackage[a4paper,top=22mm,bottom=24mm,left=22mm,right=22mm,headheight=14pt]{geometry}
+% Wiley's standard PDF-design template is intentionally kept close to the
+% supplied example. The additional packages support manuscript tables,
+% supplementary landscape pages, and the blue revision markup.
+\usepackage{anyfontsize}
 \usepackage{fontspec}
-\setmainfont{DejaVu Serif}
-\setsansfont{DejaVu Sans}
-\setmonofont{DejaVu Sans Mono}[Scale=0.88]
-\usepackage{microtype}
-\usepackage{graphicx}
-\usepackage{grffile}
-\usepackage{booktabs}
+\setmainfont{STIX-Regular.otf}[
+  Path=latex/wiley/Fonts/Stix/,
+  BoldFont=STIX-Bold.otf,
+  ItalicFont=STIX-Italic.otf,
+  BoldItalicFont=STIX-BoldItalic.otf
+]
+\usepackage{colortbl}
+\usepackage{xcolor}
 \usepackage{longtable}
 \newcounter{none}
 \renewcommand{\thenone}{}
-\usepackage{array}
-\usepackage{calc}
-\usepackage{ragged2e}
 \usepackage{pdflscape}
 \usepackage{caption}
-\usepackage{float}
-\usepackage[section]{placeins}
 \usepackage{hanging}
-\usepackage{xcolor}
-\usepackage{fancyhdr}
-\usepackage{hyperref}
-\usepackage{bookmark}
+\usepackage[section]{placeins}
+
+\graphicspath{{latex/wiley/}{latex/wiley/images/}{FlowMOP_submission_media/}{figs_data/}}
+
+% Wiley supplies both EPS logos and PDF conversions. XeLaTeX/Tectonic cannot
+% embed the EPS originals, so redirect the two hard-coded title-page assets to
+% the matching PDFs without modifying the supplied class file.
+\makeatletter
+\patchcmd{\@maketitle}{Wiley_logo.eps}{Wiley_logo-eps-converted-to.pdf}{}{}
+\patchcmd{\@maketitle}{allergy.eps}{allergy-eps-converted-to.pdf}{}{}
+\patchcmd{\@@articletype}{images/openaccess}{openaccess-eps-converted-to.pdf}{}{}
+\makeatother
 
 \definecolor{revisionblue}{HTML}{0066CC}
-\definecolor{linkblue}{HTML}{1F4E79}
-\definecolor{rulegray}{HTML}{B8C2CC}
-
-\hypersetup{
-  colorlinks=true,
-  linkcolor=linkblue,
-  citecolor=linkblue,
-  urlcolor=linkblue,
-  pdfauthor={FlowMOP authors},
-  pdftitle={$title$}
-}
-
-\captionsetup{
-  font=small,
-  labelfont=bf,
-  justification=justified,
-  singlelinecheck=false,
-  skip=6pt
-}
-
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{5.5pt plus 1.5pt minus 1pt}
-\setlength{\emergencystretch}{2em}
-\setlength{\LTpre}{6pt}
-\setlength{\LTpost}{12pt}
-\setlength{\LTleft}{0pt plus 1fill}
-\setlength{\LTright}{0pt plus 1fill}
-\renewcommand{\arraystretch}{1.14}
-\setcounter{secnumdepth}{3}
-\setcounter{tocdepth}{3}
-
-\usepackage{titlesec}
-\titleformat{\section}{\Large\bfseries\sffamily\color{linkblue}}{\thesection}{0.65em}{}
-\titleformat{\subsection}{\large\bfseries\sffamily}{\thesubsection}{0.55em}{}
-\titleformat{\subsubsection}{\normalsize\bfseries\sffamily}{\thesubsubsection}{0.5em}{}
-\titlespacing*{\section}{0pt}{18pt plus 3pt}{7pt}
-\titlespacing*{\subsection}{0pt}{14pt plus 2pt}{5pt}
-\titlespacing*{\subsubsection}{0pt}{11pt plus 2pt}{3pt}
-
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\small\sffamily FlowMOP}
-\fancyhead[R]{\small\sffamily $subtitle$}
-\fancyfoot[C]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\headrule}{\hbox to\headwidth{\color{rulegray}\leaders\hrule height \headrulewidth\hfill}}
-
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \providecommand{\pandocbounded}[1]{#1}
 \providecommand{\passthrough}[1]{#1}
@@ -81,21 +46,80 @@ $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
 
+\articletype{ORIGINAL ARTICLE}
+\received{00}
+\revised{00}
+\accepted{00}
+\journal{Cytometry Part A}
+\volume{0}
+\copyyear{2026}
+\startpage{1}
+\articledoi{}
+
 \begin{document}
 
-\begin{center}
-  {\LARGE\bfseries\sffamily $title$\par}
-  \vspace{7pt}
-  {\large\sffamily\color{linkblue} $subtitle$\par}
-\end{center}
-\vspace{8pt}
+\title{$title$}
+
+\author[1]{Tony Xu}
+\author[1]{Nadia A. Roberts}
+\author[2,3]{Felix Marsh-Wakefield}
+\author[1]{Rebecca A. Jaeger}
+\author[1]{Sarah Croft}
+\author[1]{Abhimanu Pandey}
+\author[4]{Dalton Leibold}
+\author[2,3]{Angela L. Ferguson}
+\author[2,3]{Lily Rodgers}
+\author[3]{Umaimainthan Palendira}
+\author[2,5,6]{Geoffrey W. McCaughan}
+\author[7]{Ben Quah}
+\author[8]{Robin Vlieger}
+\author[1]{Anne Brüstle}
+
+\authormark{XU \textsc{et al.}}
+\titlemark{AUTOMATED PYTHON-BASED SAMPLE CLEANUP}
+
+\address[1]{\orgdiv{Department of Immunology and Infectious Disease, John Curtin School of Medical Research, }\orgname{The Australian National University, }\orgaddress{\city{Canberra, }\state{Australian Capital Territory, }\country{Australia}}}
+
+\address[2]{\orgdiv{Liver Injury \& Cancer Program, Cancer Innovations Centre, }\orgname{Centenary Institute, The University of Sydney, }\orgaddress{\city{Sydney, }\state{New South Wales, }\country{Australia}}}
+
+\address[3]{\orgdiv{Human Immunology Laboratory, School of Medical Sciences, Faculty of Medicine and Health, }\orgname{The University of Sydney, }\orgaddress{\city{Sydney, }\state{New South Wales, }\country{Australia}}}
+
+\address[4]{\orgdiv{Division of Ecology and Evolution, Research School of Biology, }\orgname{The Australian National University, }\orgaddress{\city{Canberra, }\state{Australian Capital Territory, }\country{Australia}}}
+
+\address[5]{\orgdiv{A.W. Morrow Gastroenterology and Liver Centre, }\orgname{Royal Prince Alfred Hospital, }\orgaddress{\city{Sydney, }\state{New South Wales, }\country{Australia}}}
+
+\address[6]{\orgdiv{Sydney Medical School, Faculty of Medicine and Health, }\orgname{The University of Sydney, }\orgaddress{\city{Sydney, }\state{New South Wales, }\country{Australia}}}
+
+\address[7]{\orgdiv{Division of Genome Sciences and Cancer, John Curtin School of Medical Research, }\orgname{The Australian National University, }\orgaddress{\city{Canberra, }\state{Australian Capital Territory, }\country{Australia}}}
+
+\address[8]{\orgdiv{School of Medicine and Psychology, }\orgname{The Australian National University, }\orgaddress{\city{Canberra, }\state{Australian Capital Territory, }\country{Australia}}}
+
+\corres{Robin Vlieger (\email{Robin.Vlieger@anu.edu.au}) and Anne Brüstle (\email{Anne.Bruestle@anu.edu.au})}
+
+$if(funding)$
+\fundingInfo{$funding$}
+$endif$
+
+$if(abstract)$
+\abstract[ABSTRACT]{$abstract$}
+$endif$
+
+\maketitle
 
 $if(tracked)$
 \begin{center}
-\fcolorbox{revisionblue}{revisionblue!5}{%
-  \parbox{0.91\linewidth}{\small\centering\textcolor{revisionblue}{Blue text indicates material added or revised in response to peer review.}}}
+\fcolorbox{revisionblue}{white}{\parbox{0.92\linewidth}{\centering\textcolor{revisionblue}{Blue text indicates material added or revised in response to peer review.}}}
 \end{center}
-\vspace{5pt}
+$endif$
+
+$if(contactinfo)$
+\section*{Contact information for all authors}
+$contactinfo$
+$endif$
+
+$if(acknowledgements)$
+\section*{Acknowledgements}
+$acknowledgements$
 $endif$
 
 $body$

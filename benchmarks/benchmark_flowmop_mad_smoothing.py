@@ -534,7 +534,7 @@ def summarize(rows: Sequence[Dict[str, object]], baseline: SmoothingPair) -> Lis
 
 def render_markdown(summary_rows: Sequence[Dict[str, object]], metadata: Dict[str, object]) -> str:
     lines = [
-        "| MAD Smoothing | Runs | Sensitivity Mean | Specificity Mean | Balanced Mean | Balanced Drop vs Baseline | Median Time (s) | Median RAM (MB) |",
+        "| MAD Smoothing | Runs | Retained-target Purity Mean | Removed-non-target Purity Mean | Mean Purity Score | Mean Purity Drop vs Baseline | Median Time (s) | Median RAM (MB) |",
         "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for row in summary_rows:
@@ -557,13 +557,13 @@ def collect_metadata(args: argparse.Namespace, repo_root: Path) -> Dict[str, obj
         "cpu_os": f"{platform.platform()} | CPUs={os.cpu_count()} | processor={platform.processor()}",
         "command_line": " ".join(sys.argv),
         "random_seed": args.seed,
-        "metric_definition": "Sensitivity=retained target-source events / retained events; specificity=removed non-target-source events / removed events.",
+        "metric_definition": "Retained-target purity=retained target-source events / retained events; removed-non-target purity=removed non-target-source events / removed events.",
     }
 
 
 def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run FlowMOP across MAD smoothing values and score synthetic time-gate sensitivity/specificity."
+        description="Run FlowMOP across MAD smoothing values and score synthetic time-gate retained-target and removed-non-target purity."
     )
     parser.add_argument("--events", type=int, default=100_000)
     parser.add_argument("--repeats", type=int, default=3)

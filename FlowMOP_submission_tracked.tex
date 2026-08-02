@@ -40,6 +40,8 @@
 \pagestyle{plain}
 \floatpagestyle{plain}
 \rotfloatpagestyle{plain}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
 
 \begin{center}
 {\LARGE\bfseries FlowMOP: An Automated Flow Cytometry Time, Debris, and
@@ -105,20 +107,17 @@ scaling was evaluated to 2 million events in a 36-channel file.}
 ground truth for acquisition-time artifacts, debris enrichment, and
 doublet enrichment, together with expert comparison on biological
 datasets.} {\color{revisionblue}In the synthetic benchmarking, FlowMOP
-demonstrated higher sensitivity than FlowCut and greater specificity
-than PeacoQC for segment-type temporal artifacts, and removed labelled
-debris and doublet populations effectively in technical-control
-datasets.} {\color{revisionblue}Subjective rankings often favored manual
-gates, and Bayesian analyses were used to summarize relative expert
-preference rather than objective ground-truth gating quality.}
+demonstrated higher retained-target purity than FlowCut and greater
+removed-non-target purity than PeacoQC for segment-type temporal
+artifacts, and removed labelled debris and doublet populations
+effectively in technical-control datasets.}
+{\color{revisionblue}Subjective rankings often favored manual gates, and
+Bayesian analyses were used to summarize relative expert preference
+rather than objective ground-truth gating quality.}
 {\color{revisionblue}Within the tested settings, FlowMOP provides a
 reproducible workflow for standardizing time, debris, and doublet
 preprocessing.} FlowMOP can be accessed at
 \url{https://github.com/1ordinateur/FlowMOP}.
-
-\begin{center}
-\fcolorbox{revisionblue}{white}{\parbox{0.92\linewidth}{\centering\textcolor{revisionblue}{Blue text indicates material added or revised in response to peer review.}}}
-\end{center}
 
 \section*{Contact information for all authors}
 Tony Xu
@@ -163,11 +162,11 @@ Allocation Scheme.
 
 {\color{revisionblue}Modern flow-cytometry studies can contain
 increasing numbers of files, events, and measured parameters {[}2{]}.}
-{\color{revisionblue}Although this scale does not necessarily make time
-or debris gating more complex within an individual file, it can make
-repeated manual preprocessing impractical and can amplify variability
-between operators.} {\color{revisionblue}Reproducible automated
-preprocessing is therefore valuable for large studies.}
+{\color{revisionblue}The large scale of these data makes repeated manual
+preprocessing time-consuming and often impractical, potentially
+amplifying variability between operators.}
+{\color{revisionblue}Reproducible automated preprocessing is therefore
+valuable for large studies.}
 
 Manual preprocessing of flow cytometry data, whilst still not
 standardised, typically involves three gating components. I) Time
@@ -209,35 +208,15 @@ impractical to exclude reproducibly using multiple manual gates.}
 identification, including the model-based flowClust method {[}13{]}, the
 neural-network method GateNet {[}14{]}, and the bivariate-segmentation
 framework UNITO {[}15{]}; automated gating approaches are reviewed
-elsewhere {[}16{]}.} {\color{revisionblue}These approaches can exclude
-debris-like populations, so FlowMOP is not presented as the first
-automated method capable of debris cleaning.} {\color{revisionblue}Its
-narrower contribution is a Python-based, training-free preprocessing
-workflow that combines automated time-gating, debris removal, and
-doublet exclusion in a single headless tool.}
-{\color{revisionblue}FlowCut and PeacoQC are the most direct comparators
-for its time-gating component because they primarily address
-time-dependent quality control.}
+elsewhere {[}16{]}.} {\color{revisionblue}FlowMOP is a Python-based,
+training-free preprocessing workflow that combines automated
+time-gating, debris removal, and doublet exclusion in a single headless
+tool.} {\color{revisionblue}FlowCut and PeacoQC provide the most direct
+comparison for its time-gating component.}
 
 The Python implementation specifically facilitates integration with
 contemporary machine-learning workflows, which predominantly utilize
-Python-based frameworks. {\color{revisionblue}FlowMOP also supports
-efficient large-file preprocessing through vectorised numerical
-operations and memory-conscious summary calculations.}
-{\color{revisionblue}FlowMOP is more directly parallelisable within a
-file because each fluorescence channel can be summarized and analysed
-independently before a single final parameter-voting step. By contrast,
-PeacoQC and FlowCut require more file-wide reconciliation of bin-level
-peak or segment-level statistical information, respectively, creating
-additional synchronization points {[}5,9{]}. This distinction is
-architectural rather than language-specific: PeacoQC\textquotesingle s
-decision requires jointly assembled peak information and consecutive-bin
-context, while FlowCut\textquotesingle s decision process combines
-file-wide segment distributions, neighbouring-segment comparisons,
-contiguous-region decisions, and possible reruns. Those dependencies
-must be resolved before later stages can proceed, whereas
-FlowMOP\textquotesingle s principal cross-channel dependency is a final
-vote over already compressed bin flags.}
+Python-based frameworks.
 
 {\color{revisionblue}To date, cytometry preprocessing algorithms have
 been evaluated either by comparison to human-defined gold standards (as
@@ -245,9 +224,9 @@ in FlowCut and PeacoQC) or through mathematical metrics (consider
 cyCombine's approach to batch correction {[}11{]}).}
 {\color{revisionblue}The synthetic datasets used here are not intended
 to suggest that simulation-based validation is unique; rather, they
-provide event-level labels for estimating sensitivity and specificity in
-preprocessing tasks where real ground truth is otherwise difficult to
-define.}
+provide event-level labels for estimating retained-target purity and
+removed-non-target purity in preprocessing tasks where real ground truth
+is otherwise difficult to define.}
 
 {\color{revisionblue}Here, we introduce FlowMOP, an automated
 preprocessing tool for time-gating, debris removal, and doublet
@@ -352,7 +331,7 @@ variant, the same multiplier range was assigned to contiguous
 match the raw input so that the benchmark tested local acquisition-rate
 structure rather than total acquisition duration.}
 {\color{revisionblue}Performance was evaluated relative to the matched
-raw file using source-label sensitivity and specificity.}
+raw file using retained-target purity and removed-non-target purity.}
 
 \subsubsection{\texorpdfstring{{\color{revisionblue}MAD-smoothing
 ablation and default
@@ -364,7 +343,7 @@ non-smoothing settings fixed.} {\color{revisionblue}Nine short/long
 smoothing-factor pairs were evaluated against a no-smoothing control.}
 {\color{revisionblue}The primary comparison in Figure 2 used the
 then-default pair (\texttt{0.1,0.9}); this separate ablation was not
-used to rerun the primary comparison (Table S5).}
+used to rerun the primary comparison (Table S4).}
 
 \subsubsection{Mice}\label{mice}
 
@@ -527,7 +506,10 @@ implementation.
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image1.png}
-\caption*{Figure 1. {\color{revisionblue}Conceptual schematics depicting FlowMOP's time-gating (A), debris-gating (B), and doublet-gating (C) methods; plotted fluorescence intensity and signal-strength axes are schematic and use arbitrary units.} {\color{revisionblue}A) FlowMOP selects valid parameters using positive-peak detection, generates time-binned fluorescence summaries, applies two smoothing resolutions, and performs robust outlier rejection across acquisition order.} {\color{revisionblue}B) FlowMOP applies the same valid-parameter check, derives a candidate FSC-A threshold from each eligible parameter's positive events, and uses the median candidate as the final FSC-A gate.} {\color{revisionblue}C) FlowMOP identifies doublets from inflection points in FSC-A/FSC-H and SSC-A/SSC-H ratio histograms, with a fixed-ratio fallback.}}
+\begingroup
+\renewcommand{\thefigure}{1}
+\caption{{\color{revisionblue}Conceptual schematics depicting FlowMOP's time-gating (A), debris-gating (B), and doublet-gating (C) methods; plotted fluorescence intensity and signal-strength axes are schematic and use arbitrary units.} {\color{revisionblue}A) FlowMOP selects valid parameters using positive-peak detection, generates time-binned fluorescence summaries, applies two smoothing resolutions, and performs robust outlier rejection across acquisition order.} {\color{revisionblue}B) FlowMOP applies the same valid-parameter check, derives a candidate FSC-A threshold from each eligible parameter's positive events, and uses the median candidate as the final FSC-A gate.} {\color{revisionblue}C) FlowMOP identifies doublets from inflection points in FSC-A/FSC-H and SSC-A/SSC-H ratio histograms, with a fixed-ratio fallback.}}
+\endgroup
 \end{figure}
 
 \subsection{Algorithmic design}\label{algorithmic-design}
@@ -535,41 +517,13 @@ implementation.
 An overview of FlowMOP's architecture is contained in Fig. 1, detailing
 approaches for its preprocessing, time-gating, debris removal, and
 doublet removal methods. This cleaned data can be applied to downstream
-analysis. {\color{revisionblue}FlowMOP ingests flow cytometry data
-stored in common cytometry and tabular formats, including .csv, .fcs,
-and parquet files.} {\color{revisionblue}The algorithm reduces
-event-level measurements into compact bin- and channel-level summaries
-before applying robust outlier detection and voting steps, limiting
-memory use while supporting reproducible processing from single samples
-to cohort-level analyses.}
+analysis.
 
-{\color{revisionblue}This design keeps the main gating operations
-array-based and deterministic, reducing intermediate data storage during
-preprocessing.}
-
-{\color{revisionblue}Within a file, once the shared acquisition bins
-have been defined, FlowMOP can process eligible fluorescence channels
-independently. Each channel independently establishes its fluorescence
-reference and produces a compact, fixed-shape time-bin summary; the
-smoothing and MAD steps operate on that summary, and only the resulting
-bin flags need to be combined in the final parameter-voting step. This
-creates coarse, regular tasks with limited intermediate state. PeacoQC
-instead determines and reconciles peak configurations across bin-channel
-combinations before applying its MAD, Isolation Tree, and
-consecutive-bin decisions {[}5{]}, while FlowCut calculates multiple
-statistics for each segment and channel before applying adjacent-segment
-and file-wide comparisons, contiguous-region decisions, and an optional
-flagged-file rerun {[}9{]}. These global dependencies are part of the
-comparator decision rules and therefore remain synchronization barriers
-even if the implementations are ported to another language or scheduling
-framework. Both comparator algorithms still contain operations that
-could be parallelised, and files can be processed independently for all
-three methods. The narrower structural advantage is that
-FlowMOP\textquotesingle s early summary reduction confines cross-channel
-reconciliation to a final vote over compact bin flags, producing fewer
-within-file synchronization points and smaller intermediate data
-transfers; this does not imply that FlowCut or PeacoQC cannot be
-parallelised.}
+{\color{revisionblue}FlowMOP accepts \texttt{.csv}, \texttt{.fcs}, and
+Parquet files.} {\color{revisionblue}It reduces event-level measurements
+into time-bin and channel summaries, applies smoothing and robust
+outlier detection, and combines the resulting flags through parameter
+voting.}
 
 \subsubsection{Precleaning}\label{precleaning}
 
@@ -617,54 +571,42 @@ removal caused by isolated noisy channels in high-dimensional panels,
 although an aberration confined to one channel may consequently be
 retained (Figure 1A).}
 
-{\color{revisionblue}FlowMOP measures how the positive-event summary of
-each time bin differs from the sample-level distribution rather than
-recalculating a positive peak independently within every time bin, as in
-PeacoQC.} {\color{revisionblue}Unlike FlowCut, it retains positive-peak
-detection unless Geomean mode is selected.} {\color{revisionblue}The two
-smoothing resolutions target both shorter and more sustained deviations,
-while parameter voting limits removal driven by isolated noisy channels
-in higher-dimensional panels.}
+{\color{revisionblue}FlowMOP summarizes each time bin using the median
+fluorescence of the selected positive population.}
+{\color{revisionblue}If Geomean mode is selected, FlowMOP instead uses
+the geometric mean of all events in the bin.} {\color{revisionblue}The
+two smoothing resolutions target both shorter and more sustained
+deviations, while parameter voting limits removal driven by isolated
+noisy channels in higher-dimensional panels.}
 
 \subsubsection{Debris Gating}\label{debris-gating}
 
-{\color{revisionblue}To debris gate, FlowMOP applies a conservative
-FSC-A-based threshold intended primarily to remove low-FSC debris.}
-{\color{revisionblue}FSC-A was selected because low-forward-scatter
-material is a comparatively universal debris signal across sample types,
-whereas SSC-A patterns are more tissue- and instrument-dependent.}
-{\color{revisionblue}SSC-A can provide useful complementary information
-about internal complexity and may help identify some large debris or
-aggregates. However, large, high-SSC-A events can also be desirable
-intact populations, and their interpretation depends on the tissue,
-staining panel, cytometer configuration, and acquisition settings.
-Unlike the relatively transferable rule that very small, low-FSC events
-are likely to contain debris, there is no comparably universal SSC-A
-direction or threshold for removing large events. In the present
-technical-control datasets, the labelled small-debris and desirable
-source populations also showed substantial overlap along SSC-A, so a
-fixed SSC-A rule provided limited additional discrimination for the
-small-event removal targeted by FlowMOP. SSC-A was therefore not
-incorporated into the current debris decision. A future SSC-A
-implementation would require configurable or sample-specific
-multivariate decision rules validated across the intended tissues,
-panels, and instruments.} {\color{revisionblue}This module is not
-intended to classify all possible debris morphologies.} FlowMOP's debris
-exclusion conducts a similar unimodality check on each fluorescence
-parameter, and the first peak is then excluded as the Time-gating
-feature. Thereafter, FlowMOP detects the global FSC-A peak as a
-reference point. For every parameter's positive events, FlowMOP checks
-first for an FSC-A peak similar to the reference peak (default 30\% of
-the reference peak's value). If there is such a peak, it checks if the
-second FSC-A peak is the global maximum FSC-A peak. If that parameter's
-positive cell's second FSC-A is the global maxima, FlowMOP returns the
-FSC-A threshold as the minima between those two FSC-A peaks. If the
-second FSC-A is not the maximum, it returns the global interpeak minimum
-between the reference peak and maximal peak. Conversely, if there is no
-reference peak present in that parameter's positive population, it
-selects the left-boundary of that parameter's first peak. The median
-FSC-A threshold across all parameters is taken as the final FSC-A gate
-to be applied to the sample (Figure 1B).
+{\color{revisionblue}FlowMOP's debris module targets small, low-FSC
+debris.} {\color{revisionblue}The final gate is applied on FSC-A, but
+its threshold is informed by FSC-A distributions across eligible
+fluorescence-positive populations rather than the overall FSC-A
+histogram alone.} {\color{revisionblue}SSC-A may improve recognition of
+larger or internally complex debris, while pulse-width measurements may
+assist with aggregates.} {\color{revisionblue}Accordingly, FlowMOP does
+not currently incorporate SSC-A or pulse-width measurements into its
+debris decision because broadly applicable thresholds for these features
+are difficult to establish across tissues, panels, instruments, and
+acquisition settings.} FlowMOP's debris exclusion conducts a similar
+unimodality check on each fluorescence parameter, and the first peak is
+then excluded as the Time-gating feature. Thereafter, FlowMOP detects
+the global FSC-A peak as a reference point. For every parameter's
+positive events, FlowMOP checks first for an FSC-A peak similar to the
+reference peak (default 30\% of the reference peak's value). If there is
+such a peak, it checks if the second FSC-A peak is the global maximum
+FSC-A peak. If that parameter's positive cell's second FSC-A is the
+global maxima, FlowMOP returns the FSC-A threshold as the minima between
+those two FSC-A peaks. If the second FSC-A is not the maximum, it
+returns the global interpeak minimum between the reference peak and
+maximal peak. Conversely, if there is no reference peak present in that
+parameter's positive population, it selects the left-boundary of that
+parameter's first peak. The median FSC-A threshold across all parameters
+is taken as the final FSC-A gate to be applied to the sample (Figure
+1B).
 
 \subsubsection{Doublet Gating}\label{doublet-gating}
 
@@ -698,20 +640,23 @@ synthetic datasets, namely the synthetically combined staining time
 samples, the high-debris + low debris samples, and the CTV / CFSE
 doublet samples.
 
-{\color{revisionblue}For time gating samples, sensitivity and
-specificity were reported for each of the benchmarked methods using
-source labels as ground truth.} {\color{revisionblue}Target source(s)
-were defined as the source(s) with the largest filename-encoded mixture
-proportion; tied largest proportions were treated as co-targets.}
-{\color{revisionblue}Sensitivity was defined as retained target-source
-events divided by all retained events.} {\color{revisionblue}Specificity
-was defined as removed non-target-source events divided by all removed
-events.}
+{\color{revisionblue}For time-gating samples, retained-target purity and
+removed-non-target purity were reported for each benchmarked method
+using source labels as the reference.} {\color{revisionblue}Target
+source(s) were defined as the source(s) with the largest
+filename-encoded mixture proportion; tied largest proportions were
+treated as co-targets.} {\color{revisionblue}Retained-target purity was
+defined as retained target-source events divided by all retained
+events.} {\color{revisionblue}Removed-non-target purity was defined as
+removed non-target-source events divided by all removed events.}
 
 \begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image2.png}
-\caption*{Figure 2. A) Representative flow cytometry plots to showing CD3 fluorescence against time. The original synthetically generated sample is shown in column 1, with the resulting output following FlowMOP, PeacoQC, and FlowCut processing shown in the subsequent columns. The first row depicts a representative `segmentation' based synthetic file. The second row shows a representative two-sample mixture, 5000-event bin sample. Frequency percentages shown are the percentage of cells left post-cleaning relative to the original synthetic sample (rounded to the nearest percentage point). B) Bar plots showing algorithmic performance, grouped by sample type (Segmented, Bimix, and Trimix), and algorithm (FlowMOP, PeacoQC, and FlowCut). The first column depicts algorithmic performance sensitivity ± SD, with points representing individual samples. The second column depicts specificity ± SD. The first and second rows representing a 5000 and 2000 event mixing bin size respectively (n=87, 92). All comparisons were performed using a Bonferroni-adjusted paired t-test.}
+\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{figs_data/figure_2.png}
+\begingroup
+\renewcommand{\thefigure}{2}
+\caption{A) Representative flow cytometry plots showing CD3 fluorescence against time. The original synthetically generated sample is shown in column 1, with the resulting output following FlowMOP, PeacoQC, and FlowCut processing shown in the subsequent columns. The first row depicts a representative `segmentation'-based synthetic file. The second row shows a representative two-sample mixture with a 5000-event bin size. Frequency percentages shown are the percentage of cells left post-cleaning relative to the original synthetic sample (rounded to the nearest percentage point). B) Bar plots showing algorithmic performance, grouped by sample type (Segmented, Bimix, and Trimix) and algorithm (FlowMOP, PeacoQC, and FlowCut). The first column depicts retained-target purity ± SD, with points representing individual samples. The second column depicts removed-non-target purity ± SD. The first and second rows represent mixing-bin sizes of 5000 and 2000 events, respectively (n=87, 92). All comparisons were performed using a Bonferroni-adjusted paired t-test.}
+\endgroup
 \end{figure}
 
 \subsubsection{Synthetic Time Gating
@@ -723,36 +668,38 @@ time-dependent quality control, including flowAI {[}10{]}, PeacoQC
 {\color{revisionblue}FlowMOP combines a time-gating component with
 debris and doublet modules in one Python workflow.}
 {\color{revisionblue}Here, its time-gating performance is evaluated
-against PeacoQC and FlowCut as two directly relevant, maintained
-comparators.}
+against PeacoQC and FlowCut.}
 
 {\color{revisionblue}The Segment, Bimix, and Trimix samples were
 designed as complementary time-artifact stress tests, while allowing for
-an objective performance metric as each event's origin is known (Fig.
+objective performance metrics because each event's origin is known (Fig.
 2A).} For samples with two or more equally weighted samples, algorithms
 were benchmarked on their ability to retain both considering that
 neither could be considered `superior' in quality. Algorithmic
 performance against humans was considered not appropriate given the
-inability for humans to accurately remove multiple \textless1000 event
-bins from a sample in the mixed category. Results are reported with
-sensitivity and specificity.
+inability for humans to accurately remove multiple \textless1000-event
+bins from a sample in the mixed category. Results are reported as
+{\color{revisionblue}retained-target purity and removed-non-target
+purity}.
 
 In the Segmented method, FlowMOP and PeacoQC had significantly higher
-sensitivity than FlowCut (p \textless{} 0.001) (Fig. 2B). FlowMOP also
-had higher specificity than PeacoQC (p \textless{} 0.001).
-{\color{revisionblue}In the Bimix method, for the 5000-bin size, PeacoQC
-showed higher sensitivity than both FlowMOP and FlowCut (p \textless{}
-0.001).} FlowMOP demonstrated significantly higher specificity than
-FlowCut (p = 0.02). {\color{revisionblue}In the 2000-bin size, PeacoQC
-showed lower sensitivity than FlowCut (p = 0.002) and lower specificity
-than both FlowMOP and FlowCut (p \textless{} 0.001).}
-{\color{revisionblue}In the Trimix method, for the 5000-bin samples,
-FlowMOP exhibited higher specificity than both other methods (p = 0.004
-PeacoQC, p = 0.003 FlowCut).} {\color{revisionblue}Similarly, in the
-2000-bin samples, PeacoQC had lower specificity than both FlowMOP and
-FlowCut (p = 0.01, p = 0.03).} {\color{revisionblue}This pattern is
-consistent with PeacoQC being susceptible to bin-level noise when local
-peak estimates are unstable.}
+retained-target purity than FlowCut (p \textless{} 0.001) (Fig. 2B).
+FlowMOP also had higher removed-non-target purity than PeacoQC (p
+\textless{} 0.001). {\color{revisionblue}In the Bimix method, for the
+5000-bin size, PeacoQC showed higher retained-target purity than both
+FlowMOP and FlowCut (p \textless{} 0.001).} FlowMOP demonstrated
+significantly higher removed-non-target purity than FlowCut (p = 0.02).
+{\color{revisionblue}In the 2000-bin size, PeacoQC showed lower
+retained-target purity than FlowCut (p = 0.002) and lower
+removed-non-target purity than both FlowMOP and FlowCut (p \textless{}
+0.001).} {\color{revisionblue}In the Trimix method, for the 5000-bin
+samples, FlowMOP exhibited higher removed-non-target purity than both
+other methods (p = 0.004 PeacoQC, p = 0.003 FlowCut).}
+{\color{revisionblue}Similarly, in the 2000-bin samples, PeacoQC had
+lower removed-non-target purity than both FlowMOP and FlowCut (p = 0.01,
+p = 0.03).} {\color{revisionblue}This pattern is consistent with PeacoQC
+being susceptible to bin-level noise when local peak estimates are
+unstable.}
 
 {\color{revisionblue}To test the effect of flow-rate disturbances
 aligned with or independent of source-linked fluorescence changes, we
@@ -760,25 +707,27 @@ altered only the Time channel while leaving fluorescence, scatter,
 source labels, and event order unchanged (Fig. S4).}
 {\color{revisionblue}FlowMOP was unchanged under both source-linked and
 random Time warping.} {\color{revisionblue}In contrast,
-FlowCut\textquotesingle s sensitivity and specificity shifted after
-Time-only perturbation.} {\color{revisionblue}Across all inputs, random
-Time warping reduced FlowCut specificity by 11.45 percentage points
-relative to matched raw inputs.} {\color{revisionblue}In Segment inputs,
-source-linked Time warping reduced FlowCut sensitivity by 7.84
-percentage points and specificity by 15.25 percentage points.}
-{\color{revisionblue}These results support the interpretation that
-FlowCut responds to local acquisition-density structure even when
+FlowCut\textquotesingle s retained-target and removed-non-target purity
+shifted after Time-only perturbation.} {\color{revisionblue}Across all
+inputs, random Time warping reduced FlowCut\textquotesingle s
+removed-non-target purity by 11.45 percentage points relative to matched
+raw inputs.} {\color{revisionblue}In Segment inputs, source-linked Time
+warping reduced FlowCut\textquotesingle s retained-target purity by 7.84
+percentage points and removed-non-target purity by 15.25 percentage
+points.} {\color{revisionblue}These results support the interpretation
+that FlowCut responds to local acquisition-density structure even when
 fluorescence values are unchanged, whereas FlowMOP is less affected by
 rate-only variation.}
 
-{\color{revisionblue}Dual-resolution smoothing increased sensitivity,
-with a corresponding specificity trade-off (Table S5).}
-{\color{revisionblue}Relative to no smoothing, the current
-dual-resolution default (\texttt{0.01,0.05}) increased mean sensitivity
-by 3.1\%, while mean specificity decreased by 3.6\%.}
-{\color{revisionblue}Across the tested dual settings, \texttt{0.02,0.09}
-produced the highest sensitivity (0.9122), whereas the no-smoothing
-control produced the highest specificity (0.6400).}
+{\color{revisionblue}Dual-resolution smoothing increased retained-target
+purity, with a corresponding removed-non-target purity trade-off (Table
+S4).} {\color{revisionblue}Relative to no smoothing, the current
+dual-resolution default (\texttt{0.01,0.05}) increased mean
+retained-target purity by 3.1\%, while mean removed-non-target purity
+decreased by 3.6\%.} {\color{revisionblue}Across the tested dual
+settings, \texttt{0.02,0.09} produced the highest retained-target purity
+(0.9122), whereas the no-smoothing control produced the highest
+removed-non-target purity (0.6400).}
 
 Representative plots for the 2000 bin Bimix method, and the 2000, and
 5000 bin Trimix methods can be found in Supp. 1.
@@ -800,20 +749,22 @@ compared with 1483.4 ± 86.8 MB and 1115.1 ± 0.3 MB.}
 839.5 ± 0.4 MB peak RAM compared with 2614.8 ± 0.1 MB and 1849.8 ± 0.3
 MB.}
 
-{\color{revisionblue}\textbf{Table 1: Clone-based time-gating runtime
-and memory benchmark}}
+\clearpage
+\begingroup
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.10}
+
+\captionsetup{type=table}
+\begingroup
+\renewcommand{\thetable}{1}
+\captionof{table}{{\color{revisionblue}\textbf{Clone-based time-gating runtime and memory benchmark}}}
+\endgroup
 
 {\color{revisionblue}Mean runtime and peak RAM across three measured
 repeats are shown as mean ± SD.} {\color{revisionblue}The
 best-performing runtime and RAM value for each event count is shown in
 bold.}
-
-\clearpage
-\begin{landscape}
-\begingroup
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.12}
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -870,8 +821,6 @@ bold.}
 }
 
 \endgroup
-\end{landscape}
-\clearpage
 
 \subsubsection{Synthetic Debris Gating
 Benchmark}\label{synthetic-debris-gating-benchmark}
@@ -879,7 +828,10 @@ Benchmark}\label{synthetic-debris-gating-benchmark}
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image3.png}
-\caption*{Figure 3. A) Representative flow cytometry plots showing FSC-A/SSC-A debris plots. The first plot represents a representative combined high + low debris sample, the second and third represent the high debris portion and the low debris portion of that sample respectively. The percentages below denote the proportion of the combined sample represented by the annotated plot. B) FSC-A/SSC-A flow plots of the Fig. 3A's representative sample post-processing. Again, the first column shows the combined high + low debris sample, the second and third show the high debris and low debris samples separately respectively. The percentages in the first column denote the proportion of the sample remaining relative to the original combined sample. Percentages in the high debris and low debris columns denote the post-filtering proportion that each comprises (rounded to the nearest percentage). C) Bar plot representing mean proportion percentage ± SD of low debris sample remaining post-processing for FlowMOP and four human experts. FlowMOP has significantly higher low debris sample proportion than Expert 4 (Bonferroni adjusted paired t-test, p = 0.04). D) Bar plots showing mean low debris sample proportion percentage ± SD following human expert gating using either a group or per-sample based strategy (Blue bars denote group-wise results, green sample-wise). No difference was found between the two methods (un-adjusted paired t-test, p \textgreater{} 0.05).}
+\begingroup
+\renewcommand{\thefigure}{3}
+\caption{A) Representative flow cytometry plots showing FSC-A/SSC-A debris plots. The first plot represents a representative combined high + low debris sample, the second and third represent the high debris portion and the low debris portion of that sample respectively. The percentages below denote the proportion of the combined sample represented by the annotated plot. B) FSC-A/SSC-A flow plots of the Fig. 3A's representative sample post-processing. Again, the first column shows the combined high + low debris sample, the second and third show the high debris and low debris samples separately respectively. The percentages in the first column denote the proportion of the sample remaining relative to the original combined sample. Percentages in the high debris and low debris columns denote the post-filtering proportion that each comprises (rounded to the nearest percentage). C) Bar plot representing mean proportion percentage ± SD of low debris sample remaining post-processing for FlowMOP and four human experts. FlowMOP has significantly higher low debris sample proportion than Expert 4 (Bonferroni adjusted paired t-test, p = 0.04). D) Bar plots showing mean low debris sample proportion percentage ± SD following human expert gating using either a group or per-sample based strategy (Blue bars denote group-wise results, green sample-wise). No difference was found between the two methods (un-adjusted paired t-test, p \textgreater{} 0.05).}
+\endgroup
 \end{figure}
 
 {\color{revisionblue}FlowMOP's debris gating performance was tested by
@@ -918,7 +870,10 @@ was compared with the proportions remaining after human-expert gating
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image4.png}
-\caption*{Figure 4. A) Representative flow cytometry plots of synthetic doublet samples and gating. The first row shows all samples by CTV against CFSE, the second FSC-A/FSC-H, and the last by SSC-H/SSC-A. The columns show representative CTV-only stained, CFSE-only stained, mixed CTV-CFSE, human expert doublet-removed, and FlowMOP doublet removed samples. B) Bar graph showing the mean percentage ± SD of CTV-CFSE double positive events removed (relative to the original sample) following FlowMOP or human expert processing. C) Bar graphs showing mean frequency ± SD of remaining CTV-CFSE double positive events following human expert processing, comparing group and per-sample based gating strategies (Blue bars denote group-wise results, green sample-wise). Only Expert 3 had significantly different results (un-adjusted paired t-test, p = 0.001, all others p \textgreater{} 0.05).}
+\begingroup
+\renewcommand{\thefigure}{4}
+\caption{A) Representative flow cytometry plots of synthetic doublet samples and gating. The first row shows all samples by CTV against CFSE, the second FSC-A/FSC-H, and the last by SSC-H/SSC-A. The columns show representative CTV-only stained, CFSE-only stained, mixed CTV-CFSE, human expert doublet-removed, and FlowMOP doublet removed samples. B) Bar graph showing the mean percentage ± SD of CTV-CFSE double positive events removed (relative to the original sample) following FlowMOP or human expert processing. C) Bar graphs showing mean frequency ± SD of remaining CTV-CFSE double positive events following human expert processing, comparing group and per-sample based gating strategies (Blue bars denote group-wise results, green sample-wise). Only Expert 3 had significantly different results (un-adjusted paired t-test, p = 0.001, all others p \textgreater{} 0.05).}
+\endgroup
 \end{figure}
 
 {\color{revisionblue}FlowMOP significantly decreased the frequency of
@@ -953,7 +908,10 @@ were provided by a relevant expert in that sample type.
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image5_revised.png}
-\caption*{Figure 5. {\color{revisionblue}Expert preference rankings for time gates provided by four human experts, FlowMOP (black border), FlowCut, and PeacoQC across nine datasets.} {\color{revisionblue}Rows indicate the gate provider, and the final column shows the mean rank across datasets.} {\color{revisionblue}Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference.} {\color{revisionblue}Abbreviations: DRG, dorsal root ganglion; CNS, central nervous system.}}
+\begingroup
+\renewcommand{\thefigure}{5}
+\caption{{\color{revisionblue}Expert preference rankings for time gates provided by four human experts, FlowMOP (black border), FlowCut, and PeacoQC across nine datasets.} {\color{revisionblue}Rows indicate the gate provider, and the final column shows the mean rank across datasets.} {\color{revisionblue}Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference.} {\color{revisionblue}Abbreviations: DRG, dorsal root ganglion; CNS, central nervous system.}}
+\endgroup
 \end{figure}
 
 {\color{revisionblue}In the biological datasets, FlowMOP had the lowest
@@ -969,13 +927,19 @@ to decisive evidence (Expert 2 BF = 10.55, P = 91.3\%, all others BF
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image6_revised.png}
-\caption*{Figure 6. {\color{revisionblue}Expert preference rankings for debris gates provided by four human experts and FlowMOP (black border) across nine datasets.} {\color{revisionblue}Rows indicate the gate provider, and the final column shows the mean rank across available datasets.} {\color{revisionblue}Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference.} {\color{revisionblue}N/A denotes an unavailable gate.}}
+\begingroup
+\renewcommand{\thefigure}{6}
+\caption{{\color{revisionblue}Expert preference rankings for debris gates provided by four human experts and FlowMOP (black border) across nine datasets.} {\color{revisionblue}Rows indicate the gate provider, and the final column shows the mean rank across available datasets.} {\color{revisionblue}Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference.} {\color{revisionblue}N/A denotes an unavailable gate.}}
+\endgroup
 \end{figure}
 
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image7_revised.png}
-\caption*{Figure 7. {\color{revisionblue}Expert preference rankings for doublet gates provided by four human experts and FlowMOP (black border) across nine datasets.} {\color{revisionblue}Rows indicate the gate provider, and the final column shows the mean rank across available datasets.} {\color{revisionblue}Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference.} {\color{revisionblue}N/A denotes an unavailable gate.}}
+\begingroup
+\renewcommand{\thefigure}{7}
+\caption{{\color{revisionblue}Expert preference rankings for doublet gates provided by four human experts and FlowMOP (black border) across nine datasets.} {\color{revisionblue}Rows indicate the gate provider, and the final column shows the mean rank across available datasets.} {\color{revisionblue}Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference.} {\color{revisionblue}N/A denotes an unavailable gate.}}
+\endgroup
 \end{figure}
 
 {\color{revisionblue}FlowMOP had the highest mean rank when compared
@@ -1062,19 +1026,19 @@ sample portion is often required to be removed in real samples. This
 type of synthetic data expects gating most similar to current manual
 gating, where blocks of events are removed. The objective of these
 samples is to simulate where there is a long blockage or sudden shift in
-the acquired sample. Here, FlowMOP demonstrated overall a greater
-sensitivity than FlowCut, and with better specificity than PeacoQC.
-{\color{revisionblue}The Time-only mechanism benchmark suggests that the
-FlowMOP versus FlowCut difference is not explained solely by
-implementation.} {\color{revisionblue}When local acquisition-rate
-structure was altered either in alignment with source-linked
-fluorescence changes or independently of them, FlowMOP remained
-unchanged, whereas FlowCut\textquotesingle s removal behavior shifted,
-especially in Segment inputs (Fig. S4).} {\color{revisionblue}This
-supports the interpretation that FlowCut can be affected by
-acquisition-density changes even when fluorescence values are unchanged,
-while FlowMOP is more anchored to fluorescence-population summaries
-across acquisition order.}
+the acquired sample. Here, FlowMOP demonstrated overall greater
+retained-target purity than FlowCut and better removed-non-target purity
+than PeacoQC. {\color{revisionblue}The Time-only mechanism benchmark
+suggests that the FlowMOP versus FlowCut difference is not explained
+solely by implementation.} {\color{revisionblue}When local
+acquisition-rate structure was altered either in alignment with
+source-linked fluorescence changes or independently of them, FlowMOP
+remained unchanged, whereas FlowCut\textquotesingle s removal behavior
+shifted, especially in Segment inputs (Fig. S4).}
+{\color{revisionblue}This supports the interpretation that FlowCut can
+be affected by acquisition-density changes even when fluorescence values
+are unchanged, while FlowMOP is more anchored to fluorescence-population
+summaries across acquisition order.}
 
 {\color{revisionblue}Transient acquisition disturbances are not confined
 to the beginning or end of a run: flow-rate surges interspersed
@@ -1097,21 +1061,21 @@ feature of the benchmark: it demonstrates why apparent normality by eye
 is not sufficient ground truth.} {\color{revisionblue}The tumour-liver
 validation further supports the experimental relevance of this design by
 demonstrating mid-acquisition intervals with coordinated multichannel
-fluorescence shifts.} {\color{revisionblue}PLACEHOLDER: additional
-biological-validation result.}
+fluorescence shifts.}
 
 The size of the simulated microblockage is determined by the `bin size',
 where the larger bin sizes emulate larger blockages.
-{\color{revisionblue}As expected, algorithm sensitivity and specificity
-reduced in the smaller bin-sized samples.} This degradation was
-particularly marked for PeacoQC's sensitivity.
-{\color{revisionblue}PeacoQC had higher sensitivity than both other
-algorithms at the larger bin size but lower sensitivity than FlowCut in
-the smaller-bin runs.} {\color{revisionblue}FlowMOP had higher
-specificity than FlowCut for the large-bin Bimix samples.}
-{\color{revisionblue}In the Trimix results, FlowMOP had higher
-specificity than both other algorithms at the large bin size and higher
-specificity than PeacoQC in the smaller-bin samples.}
+{\color{revisionblue}As expected, retained-target and removed-non-target
+purity were reduced in the smaller bin-sized samples.} This degradation
+was particularly marked for PeacoQC's retained-target purity.
+{\color{revisionblue}PeacoQC had higher retained-target purity than both
+other algorithms at the larger bin size but lower retained-target purity
+than FlowCut in the smaller-bin runs.} {\color{revisionblue}FlowMOP had
+higher removed-non-target purity than FlowCut for the large-bin Bimix
+samples.} {\color{revisionblue}In the Trimix results, FlowMOP had higher
+removed-non-target purity than both other algorithms at the large bin
+size and higher removed-non-target purity than PeacoQC in the
+smaller-bin samples.}
 
 {\color{revisionblue}The PeacoQC results are consistent with sensitivity
 to bin-level noise in local peak estimation.}
@@ -1144,16 +1108,26 @@ of FlowCut's peak RAM.}
 
 {\color{revisionblue}These measurements were obtained using local
 non-distributed execution and therefore demonstrate the performance of
-the tested implementations, not a distributed-computing speedup.
-FlowMOP\textquotesingle s separate parallelisation advantage is
-structural: channel-level summary calculations can be scheduled
-independently and return small bin-summary vectors before a final voting
-reduction. PeacoQC\textquotesingle s peak-reconciliation and
-anomaly-detection stages and FlowCut\textquotesingle s
-segment-comparison and contiguous-removal stages require more
-intermediate results to be combined at file level. This makes FlowMOP
-more directly amenable to within-file parallel scheduling, although it
-does not preclude parallel implementations of either comparator.}
+the tested implementations, not a distributed-computing speedup.}
+
+{\color{revisionblue}FlowMOP reduces event-level measurements to
+fixed-shape time-bin summaries that can be processed independently
+across eligible fluorescence channels and combined through a single
+final parameter-voting step.} {\color{revisionblue}This regular
+structure is directly amenable to vectorised execution.}
+{\color{revisionblue}PeacoQC instead performs data-dependent peak
+identification and reconciliation across bin-channel combinations, while
+FlowCut applies adjacent-segment, contiguous-region, file-wide, and
+conditional rerun decisions {[}5,9{]}.} {\color{revisionblue}These
+operations can be parallelised in part, but their intermediate
+dependencies prevent them from being expressed as the same independent
+channel-wise reduction without changing their decision rules.}
+{\color{revisionblue}Porting either implementation to another language
+or scheduling framework would therefore not remove these structural
+dependencies.} {\color{revisionblue}FlowMOP's earlier data reduction,
+fewer full-data passes, and smaller intermediate state are consistent
+with its lower runtime and memory use in our benchmarks, although the
+benchmark does not independently establish causation.}
 
 It is of note that there is a large variation in algorithmic performance
 across the dataset. {\color{revisionblue}One source of this variation is
@@ -1195,41 +1169,22 @@ Similarly, in the doublet removal, the synthetic samples, owing to the
 rather unique preparation, yielded triplets. FlowMOP was able to handle
 this unexpected population and successfully removed it.
 
-When interpreting the synthetic debris and doublet samples, it is
-prudent to note that it is the relative enrichment of the non-lysed
-sample which provides the ground-truth label. This is because the
-standard-lysed samples actually contain debris too, albeit in a smaller
-proportion than the lysed sample. Similarly, some debris components may
-be quite large. Consequently, the resulting proportion of debris, at
-least when defined solely with an FSC-A / SSC-A gate must contain some
-contamination. {\color{revisionblue}FlowMOP\textquotesingle s debris
-module deliberately targets the most generalizable debris phenotype:
-small, low-FSC events with undesirable staining characteristics.}
-{\color{revisionblue}We do not assume that all debris can be identified
-from FSC-A alone.} {\color{revisionblue}SSC-A may improve recognition of
-some large or internally complex debris, and pulse-width measurements
-may help distinguish some aggregates or clumps. However, large and
-internally complex events can also be biologically desirable, while
-pulse-width availability and behaviour vary between instruments and
-acquisition configurations. Consequently, a fixed high-SSC-A or
-pulse-width exclusion rule could remove legitimate populations, and an
-appropriate decision boundary would need to be tailored to the dataset,
-panel, instrument, and intended biological populations.}
-{\color{revisionblue}Larger aggregates or tissue-specific contaminants
-may resemble intact large cells, granulocytes, hepatocytes, or other
-biologically plausible populations in FSC/SSC space, and distinguishing
-these events generally requires domain knowledge or sample-specific
-gating.} Future techniques may look to define debris on a per-event
-methodology based on that event's entire fluorescence profile, rather
-than a traditional `gate' that sets universal thresholds.
-{\color{revisionblue}Future extensions could incorporate SSC-A,
-pulse-width measurements, margin-event metadata, or sample-specific
-multivariate models when these features are available and appropriately
-validated.} {\color{revisionblue}The present liver analysis provides an
-initial test in tumour tissue, but further tumour digests with severe
-necrosis, large aggregates, and heterogeneous scatter profiles remain
-important validation contexts because they may challenge a conservative
-FSC-A-centered debris strategy.}
+{\color{revisionblue}The synthetic debris benchmark measures depletion
+of the source-labelled high-debris component from matched mixtures of
+high- and low-debris samples.} {\color{revisionblue}Because both sources
+contain some debris, these labels represent relative debris enrichment
+rather than per-event debris classification.}
+{\color{revisionblue}FlowMOP targets the small, low-FSC debris phenotype
+observed in these controls and successfully removed the two low-FSC
+debris populations shown in Figure 3A.} {\color{revisionblue}SSC-A may
+improve recognition of larger or internally complex debris, while
+pulse-width measurements may assist with aggregates.}
+{\color{revisionblue}Accordingly, FlowMOP does not currently incorporate
+these features because broadly applicable decision rules are difficult
+to establish across tissues, panels, instruments, and acquisition
+settings.} {\color{revisionblue}Future extensions can evaluate
+configurable or sample-specific multivariate approaches in tumour
+digests with greater necrosis, aggregation, and scatter heterogeneity.}
 
 \subsection{\texorpdfstring{{\color{revisionblue}Biological Datasets:
 Expert Preference
@@ -1263,10 +1218,6 @@ complete workflow should not be treated as a single biological filter:
 time gating detected acquisition-level fluorescence instability without
 consistent Zombie selectivity, debris effects were sample-dependent, and
 the doublet mask generated most of the observed Zombie-high enrichment.}
-{\color{revisionblue}Additional validation against a prespecified
-biological population or functional endpoint will be included to test
-whether these preprocessing differences alter a substantive downstream
-conclusion.}
 
 \subsection{Other remarks}\label{other-remarks}
 
@@ -1321,12 +1272,13 @@ for large cytometry files.}
 
 {\color{revisionblue}Within the tested synthetic scenarios, event-level
 source labels enabled objective evaluation of the targeted artifact
-classes.} {\color{revisionblue}FlowMOP showed higher specificity than
-PeacoQC and better sensitivity than FlowCut for segment-type anomalies,
-while maintaining consistent performance across varying bin sizes.}
-{\color{revisionblue}For debris and doublet removal, FlowMOP removed the
-labelled technical artifact populations effectively in the synthetic
-ground-truth datasets, including unexpected triplet events.}
+classes.} {\color{revisionblue}FlowMOP showed higher removed-non-target
+purity than PeacoQC and better retained-target purity than FlowCut for
+segment-type anomalies, while maintaining consistent performance across
+varying bin sizes.} {\color{revisionblue}For debris and doublet removal,
+FlowMOP removed the labelled technical artifact populations effectively
+in the synthetic ground-truth datasets, including unexpected triplet
+events.}
 
 {\color{revisionblue}Although experts generally preferred manual gates
 in the biological datasets, the synthetic benchmarks provide event-level
@@ -1358,13 +1310,19 @@ for this paper can be accessed at
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{figs_data/synthetic_time_design_schematic.png}
-\caption*{{\color{revisionblue}Figure S1: Construction of Segment, Bimix, and Trimix synthetic time samples.} {\color{revisionblue}No flow-rate disturbance was introduced.} {\color{revisionblue}Source labels were retained for scoring only and excluded from algorithm input.}}
+\begingroup
+\renewcommand{\thefigure}{S1}
+\caption{{\color{revisionblue}Construction of Segment, Bimix, and Trimix synthetic time samples.} {\color{revisionblue}No flow-rate disturbance was introduced.} {\color{revisionblue}Source labels were retained for scoring only and excluded from algorithm input.}}
+\endgroup
 \end{figure}
 
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image8.png}
-\caption*{{\color{revisionblue}Figure S2: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Trimix 5000 bin, and Trimix 2000 bin synthetic datasets, with original data inputs, and following cleaning by FlowMOP, FlowCut, and PeacoQC.} Percentages below each figure represent the retained proportion of cells relative to the original representative synthetic sample.}
+\begingroup
+\renewcommand{\thefigure}{S2}
+\caption{{\color{revisionblue}Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Trimix 5000 bin, and Trimix 2000 bin synthetic datasets, with original data inputs, and following cleaning by FlowMOP, FlowCut, and PeacoQC.} Percentages below each figure represent the retained proportion of cells relative to the original representative synthetic sample.}
+\endgroup
 \end{figure}
 
 \begingroup
@@ -1373,7 +1331,10 @@ for this paper can be accessed at
 \renewcommand{\arraystretch}{1.14}
 
 \captionsetup{type=table}
-\captionof*{table}{\textbf{Table S1A: Dataset Compositions}}
+\begingroup
+\renewcommand{\thetable}{S1A}
+\captionof{table}{\textbf{Dataset Compositions}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1416,6 +1377,12 @@ Australia & Canberra, ACT, Australia & Sydney, NSW, Australia \\
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.14}
 
+\captionsetup{type=table}
+\begingroup
+\renewcommand{\thetable}{S1A}
+\captionof{table}{\textbf{Dataset Compositions} (continued)}
+\endgroup
+
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1920}}
@@ -1453,6 +1420,12 @@ Australia & Canberra, ACT, Australia & Canberra, ACT, Australia \\
 \small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.14}
+
+\captionsetup{type=table}
+\begingroup
+\renewcommand{\thetable}{S1A}
+\captionof{table}{\textbf{Dataset Compositions} (continued)}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1495,7 +1468,10 @@ Australia & Canberra, ACT, Australia & Canberra, ACT, Australia \\
 \renewcommand{\arraystretch}{1.14}
 
 \captionsetup{type=table}
-\captionof*{table}{\textbf{Table S1B: Expert / Algorithm IDs}}
+\begingroup
+\renewcommand{\thetable}{S1B}
+\captionof{table}{\textbf{Expert / Algorithm IDs}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}ll@{}}
@@ -1523,7 +1499,10 @@ PeacoQC & 7 \\
 \renewcommand{\arraystretch}{1.14}
 
 \captionsetup{type=table}
-\captionof*{table}{{\color{revisionblue}\textbf{Table S1C: Time gating rankings (1 = best)}}}
+\begingroup
+\renewcommand{\thetable}{S1C}
+\captionof{table}{{\color{revisionblue}\textbf{Time gating rankings (1 = best)}}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1575,7 +1554,10 @@ Mouse Spleen & Mouse Blood & Mouse Brain & Mouse Central Nervous System
 \renewcommand{\arraystretch}{1.14}
 
 \captionsetup{type=table}
-\captionof*{table}{{\color{revisionblue}\textbf{Table S1D: Debris gating rankings (1 = best)}}}
+\begingroup
+\renewcommand{\thetable}{S1D}
+\captionof{table}{{\color{revisionblue}\textbf{Debris gating rankings (1 = best)}}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1623,7 +1605,10 @@ Mouse Spleen & Mouse Blood & Mouse Brain & Mouse Central Nervous System
 \renewcommand{\arraystretch}{1.14}
 
 \captionsetup{type=table}
-\captionof*{table}{{\color{revisionblue}\textbf{Table S1E: Doublet gating rankings (1 = best)}}}
+\begingroup
+\renewcommand{\thetable}{S1E}
+\captionof{table}{{\color{revisionblue}\textbf{Doublet gating rankings (1 = best)}}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1671,7 +1656,10 @@ Mouse Spleen & Mouse Blood & Mouse Brain & Mouse Central Nervous System
 \renewcommand{\arraystretch}{1.14}
 
 \captionsetup{type=table}
-\captionof*{table}{\textbf{Table S2: Jeffreys' Scale}}
+\begingroup
+\renewcommand{\thetable}{S2}
+\captionof{table}{\textbf{Jeffreys' Scale}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}ll@{}}
@@ -1699,7 +1687,10 @@ Bayes Factor & Hypothesis descriptor \\
 \renewcommand{\arraystretch}{1.12}
 
 \captionsetup{type=table}
-\captionof*{table}{{\color{revisionblue}\textbf{Table S3A: Retention and permissiveness-adjusted Zombie-high exclusion following combined time, debris, and doublet filtering in human liver samples}}}
+\begingroup
+\renewcommand{\thetable}{S3A}
+\captionof{table}{{\color{revisionblue}\textbf{Retention and permissiveness-adjusted Zombie-high exclusion following combined time, debris, and doublet filtering in human liver samples}}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1805,7 +1796,10 @@ reconstructed from the FlowJo workspace.}
 \renewcommand{\arraystretch}{1.14}
 
 \captionsetup{type=table}
-\captionof*{table}{{\color{revisionblue}\textbf{Table S3B: Constituent FlowMOP gate selectivity}}}
+\begingroup
+\renewcommand{\thetable}{S3B}
+\captionof{table}{{\color{revisionblue}\textbf{Constituent FlowMOP gate selectivity}}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
@@ -1863,68 +1857,24 @@ debris mask removed no events.} {\color{revisionblue}The extreme LB202
 and LB236 doublet ratios reflect near-zero removal of Zombie-low
 events.}
 
-\clearpage
-\begin{landscape}
-\begingroup
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.12}
-
-\captionsetup{type=table}
-\captionof*{table}{{\color{revisionblue}\textbf{Table S4: Further downstream biological validation (placeholder)}}}
-
-{\def\LTcaptype{none} % do not increment counter
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1600}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1600}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1600}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1600}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1600}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1600}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-{\color{revisionblue}Validation}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-{\color{revisionblue}Samples or model}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-{\color{revisionblue}Biological endpoint}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-{\color{revisionblue}Comparator}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-{\color{revisionblue}Primary effect measure}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-{\color{revisionblue}Result}
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-{\color{revisionblue}Additional biological validation} &
-{\color{revisionblue}To be added} & {\color{revisionblue}To be added} &
-{\color{revisionblue}Matched manual preprocessing} &
-{\color{revisionblue}Prespecified paired biological effect} &
-{\color{revisionblue}Pending} \\
-\end{longtable}
-}
-
-\endgroup
-\end{landscape}
-\clearpage
-
 \begingroup
 \small
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.14}
 
 \captionsetup{type=table}
-\captionof*{table}{{\color{revisionblue}\textbf{Table S5: FlowMOP MAD-smoothing ablation on the 92 largecut synthetic time-gating files}}}
+\begingroup
+\renewcommand{\thetable}{S4}
+\captionof{table}{{\color{revisionblue}\textbf{FlowMOP MAD-smoothing ablation on the 92 largecut synthetic time-gating files}}}
+\endgroup
 
 {\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}lrrr@{}}
 \toprule\noalign{}
 {\color{revisionblue}Short, long smoothing factors} &
-{\color{revisionblue}Runs} & {\color{revisionblue}Sensitivity, mean ±
-SD} & {\color{revisionblue}Specificity, mean ± SD} \\
+{\color{revisionblue}Runs} & {\color{revisionblue}Retained-target
+purity, mean ± SD} & {\color{revisionblue}Removed-non-target purity,
+mean ± SD} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
@@ -1964,21 +1914,26 @@ SD} & {\color{revisionblue}Specificity, mean ± SD} \\
 
 \endgroup
 
-{\color{revisionblue}Sensitivity and specificity follow the definitions
-used for Figure 2.} {\color{revisionblue}Bold indicates the highest mean
-in each metric.} {\color{revisionblue}Relative enrichment is the
-percentage change in mean sensitivity from the no-smoothing control.}
+{\color{revisionblue}Retained-target purity and removed-non-target
+purity follow the definitions used for Figure 2.}
+{\color{revisionblue}Bold indicates the highest mean in each metric.}
 
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image9.jpeg}
-\caption*{{\color{revisionblue}Figure S3:} Fluorescence variation as a function of cell concentration.}
+\begingroup
+\renewcommand{\thefigure}{S3}
+\caption{ Fluorescence variation as a function of cell concentration.}
+\endgroup
 \end{figure}
 
 \begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image10.png}
-\caption*{{\color{revisionblue}Figure S4:} {\color{revisionblue}Time-only acquisition-rate perturbations reveal FlowCut sensitivity to local Time density.} {\color{revisionblue}Points show raw-matched changes in sensitivity and specificity, with large points and intervals showing the mean and 95\% confidence interval.} {\color{revisionblue}Negative values indicate reduced sensitivity or specificity relative to the raw control.} {\color{revisionblue}Columns show all inputs together and the Segment, Bimix, and Trimix subsets separately.} {\color{revisionblue}FlowMOP remains unchanged under both source-linked and random Time warping.} {\color{revisionblue}In contrast, FlowCut\textquotesingle s sensitivity and specificity shift after Time-only perturbation, with the clearest specificity loss in random Time-warped inputs and the strongest source-linked sensitivity loss in Segment inputs, where acquisition-rate structure aligns with source composition.}}
+\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{figs_data/revision_timewarp_mechanism.png}
+\begingroup
+\renewcommand{\thefigure}{S4}
+\caption{ {\color{revisionblue}Time-only acquisition-rate perturbations reveal FlowCut sensitivity to local Time density.} {\color{revisionblue}Points show raw-matched changes in retained-target purity and removed-non-target purity, with large points and intervals showing the mean and 95\% confidence interval.} {\color{revisionblue}Negative values indicate reduced purity relative to the raw control.} {\color{revisionblue}Columns show all inputs together and the Segment, Bimix, and Trimix subsets separately.} {\color{revisionblue}FlowMOP remains unchanged under both source-linked and random Time warping.} {\color{revisionblue}In contrast, FlowCut\textquotesingle s retained-target and removed-non-target purity shift after Time-only perturbation, with the clearest removed-non-target purity loss in random Time-warped inputs and the strongest source-linked retained-target purity loss in Segment inputs, where acquisition-rate structure aligns with source composition.}}
+\endgroup
 \end{figure}
 
 \FloatBarrier

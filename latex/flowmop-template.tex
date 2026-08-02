@@ -43,6 +43,8 @@ $endif$
 \pagestyle{plain}
 \floatpagestyle{plain}
 \rotfloatpagestyle{plain}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
 
 \begin{center}
 {\LARGE\bfseries $title$\par}
@@ -83,12 +85,6 @@ $endif$
 $if(abstract)$
 \section*{Abstract}
 $abstract$
-$endif$
-
-$if(tracked)$
-\begin{center}
-\fcolorbox{revisionblue}{white}{\parbox{0.92\linewidth}{\centering\textcolor{revisionblue}{Blue text indicates material added or revised in response to peer review.}}}
-\end{center}
 $endif$
 
 $if(contactinfo)$

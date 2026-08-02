@@ -81,15 +81,36 @@ local function latex_for_block(block)
   return rendered:gsub("%s+$", "")
 end
 
+local function caption_details(block, kind)
+  local text = stringify(block)
+  local punctuation = kind == "Figure" and "[:%.]" or ":"
+  local label = text:match("^" .. kind .. "%s+([%w]+)" .. punctuation)
+
+  if not label then
+    return nil, latex_for_block(block)
+  end
+
+  -- Remove only the manual identifier from the rendered caption body. This
+  -- works inside Strong/Span wrappers as well, retaining bold and revision-blue
+  -- styling while leaving the Wiley class to print FIGURE/TABLE plus the label.
+  local caption_tex = latex_for_block(block)
+  caption_tex = caption_tex:gsub(kind .. "%s+" .. label .. punctuation .. "%s*", "", 1)
+  caption_tex = caption_tex:gsub("%{\\color%{revisionblue%}%}", "")
+  return label, caption_tex
+end
+
 local function figure_block(image, caption)
   local source = image.src:gsub("\\", "/")
   source = source:gsub("%.svg$", ".png")
-  local caption_tex = latex_for_block(caption)
+  local label, caption_tex = caption_details(caption, "Figure")
   local latex = table.concat({
     "\\begin{figure}[p]",
     "\\centering",
     "\\includegraphics[width=\\linewidth,height=0.82\\textheight,keepaspectratio]{" .. source .. "}",
-    "\\caption*{" .. caption_tex .. "}",
+    "\\begingroup",
+    "\\renewcommand{\\thefigure}{" .. label .. "}",
+    "\\caption{" .. caption_tex .. "}",
+    "\\endgroup",
     "\\end{figure}"
   }, "\n")
   return pandoc.RawBlock("latex", latex)
@@ -99,7 +120,20 @@ local function is_table_title(block)
   return is_para(block) and stringify(block):match("^Table%s+") ~= nil
 end
 
-local function table_start(column_count)
+local function table_start(column_count, label)
+  -- The benchmark table is short enough to fit cleanly in portrait once its
+  -- columns are allowed to wrap. Start it on a fresh page so its title, note,
+  -- and body cannot become detached.
+  if label == "1" then
+    return pandoc.RawBlock("latex", table.concat({
+      "\\clearpage",
+      "\\begingroup",
+      "\\scriptsize",
+      "\\setlength{\\tabcolsep}{2pt}",
+      "\\renewcommand{\\arraystretch}{1.10}"
+    }, "\n"))
+  end
+
   if column_count >= 6 then
     return pandoc.RawBlock("latex", table.concat({
       "\\clearpage",
@@ -119,17 +153,28 @@ local function table_start(column_count)
   }, "\n"))
 end
 
-local function table_end(column_count)
-  if column_count >= 6 then
+local function table_end(column_count, label)
+  if column_count >= 6 and label ~= "1" then
     return pandoc.RawBlock("latex", "\\endgroup\n\\end{landscape}\n\\clearpage")
   end
   return pandoc.RawBlock("latex", "\\endgroup")
 end
 
-local function table_caption(block)
+local function table_caption(block, continued)
+  local label, caption_tex = caption_details(block, "Table")
+  if continued then
+    caption_tex = caption_tex .. " (continued)"
+  end
+
   return pandoc.RawBlock(
     "latex",
-    "\\captionsetup{type=table}\n\\captionof*{table}{" .. latex_for_block(block) .. "}"
+    table.concat({
+      "\\captionsetup{type=table}",
+      "\\begingroup",
+      "\\renewcommand{\\thetable}{" .. label .. "}",
+      "\\captionof{table}{" .. caption_tex .. "}",
+      "\\endgroup"
+    }, "\n")
   )
 end
 
@@ -148,15 +193,19 @@ local function set_table_widths(table_block)
   end
 end
 
-local function add_table(output, table_block, caption_block)
+local function add_table(output, table_block, caption_block, note_block, continued)
   local column_count = #table_block.colspecs
+  local label = caption_block and select(1, caption_details(caption_block, "Table")) or nil
   set_table_widths(table_block)
-  output:insert(table_start(column_count))
+  output:insert(table_start(column_count, label))
   if caption_block then
-    output:insert(table_caption(caption_block))
+    output:insert(table_caption(caption_block, continued))
+  end
+  if note_block then
+    output:insert(note_block)
   end
   output:insert(table_block)
-  output:insert(table_end(column_count))
+  output:insert(table_end(column_count, label))
 end
 
 function Pandoc(doc)
@@ -274,15 +323,36 @@ function Pandoc(doc)
       goto continue
     end
 
-    -- Bold manuscript table titles become proper unnumbered table captions.
-    if is_table_title(block) and doc.blocks[i + 1] and doc.blocks[i + 1].t == "Table" then
-      add_table(output, doc.blocks[i + 1], block)
-      i = i + 2
-      goto continue
+    -- Manuscript table titles become numbered captions. A single explanatory
+    -- paragraph between a title and table is kept with that table (Table 1).
+    if is_table_title(block) then
+      local table_index = i + 1
+      local note_block = nil
+      if is_para(doc.blocks[table_index])
+        and doc.blocks[table_index + 1]
+        and doc.blocks[table_index + 1].t == "Table" then
+        note_block = doc.blocks[table_index]
+        table_index = table_index + 1
+      end
+
+      if doc.blocks[table_index] and doc.blocks[table_index].t == "Table" then
+        add_table(output, doc.blocks[table_index], block, note_block, false)
+        table_index = table_index + 1
+
+        -- Table S1A is divided into consecutive blocks for readable column
+        -- widths. Give each continuation the same visible table identifier.
+        while doc.blocks[table_index] and doc.blocks[table_index].t == "Table" do
+          add_table(output, doc.blocks[table_index], block, nil, true)
+          table_index = table_index + 1
+        end
+
+        i = table_index
+        goto continue
+      end
     end
 
     if block.t == "Table" then
-      add_table(output, block, nil)
+      add_table(output, block, nil, nil, false)
       i = i + 1
       goto continue
     end

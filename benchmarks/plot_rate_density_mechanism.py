@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Plot raw-matched Time-warp sensitivity from the mechanism benchmark."""
+"""Plot raw-matched Time-warp purity changes from the mechanism benchmark."""
 
 from __future__ import annotations
 
@@ -29,8 +29,8 @@ SUBSETS = (
     ("trimix", "Trimix inputs"),
 )
 METRICS = (
-    ("delta_sensitivity_percent", "Change in sensitivity (%)", (-56, 45)),
-    ("delta_specificity_percent", "Change in specificity (%)", (-66, 75)),
+    ("delta_sensitivity_percent", "Change in retained-target purity (%)", (-56, 45)),
+    ("delta_specificity_percent", "Change in removed-non-target purity (%)", (-66, 75)),
 )
 
 
@@ -197,7 +197,7 @@ def main() -> int:
     fig.text(
         0.5,
         0.095,
-        "Negative values indicate reduced sensitivity or specificity relative to the matched raw input.",
+        "Negative values indicate reduced purity relative to the matched raw input.",
         ha="center",
         va="center",
         fontsize=8.5,

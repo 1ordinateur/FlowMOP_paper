@@ -5,9 +5,10 @@
 \makeatother
 \documentclass[ASNA]{latex/wiley/USG}
 
-% Wiley's standard PDF-design template is intentionally kept close to the
-% supplied example. The additional packages support manuscript tables,
-% supplementary landscape pages, and the blue revision markup.
+% Retain the supplied class for the manuscript body, but use a deliberately
+% plain author-manuscript front matter with no journal branding or publication
+% metadata. The additional packages support manuscript tables, supplementary
+% landscape pages, and the blue revision markup.
 \usepackage{anyfontsize}
 \usepackage{fontspec}
 \setmainfont{STIX-Regular.otf}[
@@ -26,16 +27,7 @@
 \usepackage{hanging}
 \usepackage[section]{placeins}
 
-\graphicspath{{latex/wiley/}{latex/wiley/images/}{FlowMOP_submission_media/}{figs_data/}}
-
-% Wiley supplies both EPS logos and PDF conversions. XeLaTeX/Tectonic cannot
-% embed the EPS originals, so redirect the two hard-coded title-page assets to
-% the matching PDFs without modifying the supplied class file.
-\makeatletter
-\patchcmd{\@maketitle}{Wiley_logo.eps}{Wiley_logo-eps-converted-to.pdf}{}{}
-\patchcmd{\@maketitle}{allergy.eps}{allergy-eps-converted-to.pdf}{}{}
-\patchcmd{\@@articletype}{images/openaccess}{openaccess-eps-converted-to.pdf}{}{}
-\makeatother
+\graphicspath{{FlowMOP_submission_media/}{figs_data/}}
 
 \definecolor{revisionblue}{HTML}{0066CC}
 \providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -43,69 +35,58 @@
 \providecommand{\passthrough}[1]{#1}
 
 
-\articletype{ORIGINAL ARTICLE}
-\received{00}
-\revised{00}
-\accepted{00}
-\journal{Cytometry Part A}
-\volume{0}
-\copyyear{2026}
-\startpage{1}
-\articledoi{}
-
 \begin{document}
 
-\title{FlowMOP: An Automated Flow Cytometry Time, Debris, and Doublet
-Removal Tool}
+\pagestyle{plain}
+\floatpagestyle{plain}
+\rotfloatpagestyle{plain}
 
-\author[1]{Tony Xu}
-\author[1]{Nadia A. Roberts}
-\author[2,3]{Felix Marsh-Wakefield}
-\author[1]{Rebecca A. Jaeger}
-\author[1]{Sarah Croft}
-\author[1]{Abhimanu Pandey}
-\author[4]{Dalton Leibold}
-\author[2,3]{Angela L. Ferguson}
-\author[2,3]{Lily Rodgers}
-\author[3]{Umaimainthan Palendira}
-\author[2,5,6]{Geoffrey W. McCaughan}
-\author[7]{Ben Quah}
-\author[8]{Robin Vlieger}
-\author[1]{Anne Brüstle}
+\begin{center}
+{\LARGE\bfseries FlowMOP: An Automated Flow Cytometry Time, Debris, and
+Doublet Removal Tool\par}
+\vspace{1em}
+{\normalsize
+Tony Xu\textsuperscript{1},
+Nadia A. Roberts\textsuperscript{1},
+Felix Marsh-Wakefield\textsuperscript{2,3},
+Rebecca A. Jaeger\textsuperscript{1},
+Sarah Croft\textsuperscript{1},
+Abhimanu Pandey\textsuperscript{1},
+Dalton Leibold\textsuperscript{4},
+Angela L. Ferguson\textsuperscript{2,3},
+Lily Rodgers\textsuperscript{2,3},
+Umaimainthan Palendira\textsuperscript{3},
+Geoffrey W. McCaughan\textsuperscript{2,5,6},
+Ben Quah\textsuperscript{7},
+Robin Vlieger\textsuperscript{8,*}, and
+Anne Brüstle\textsuperscript{1,*}\par}
+\vspace{0.8em}
+{\small
+\textsuperscript{1}Department of Immunology and Infectious Disease, John Curtin School of Medical Research, The Australian National University, Canberra, Australian Capital Territory, Australia\par
+\textsuperscript{2}Liver Injury \& Cancer Program, Cancer Innovations Centre, Centenary Institute, The University of Sydney, Sydney, New South Wales, Australia\par
+\textsuperscript{3}Human Immunology Laboratory, School of Medical Sciences, Faculty of Medicine and Health, The University of Sydney, Sydney, New South Wales, Australia\par
+\textsuperscript{4}Division of Ecology and Evolution, Research School of Biology, The Australian National University, Canberra, Australian Capital Territory, Australia\par
+\textsuperscript{5}A.W. Morrow Gastroenterology and Liver Centre, Royal Prince Alfred Hospital, Sydney, New South Wales, Australia\par
+\textsuperscript{6}Sydney Medical School, Faculty of Medicine and Health, The University of Sydney, Sydney, New South Wales, Australia\par
+\textsuperscript{7}Division of Genome Sciences and Cancer, John Curtin School of Medical Research, The Australian National University, Canberra, Australian Capital Territory, Australia\par
+\textsuperscript{8}School of Medicine and Psychology, The Australian National University, Canberra, Australian Capital Territory, Australia\par}
+\end{center}
 
-\authormark{XU \textsc{et al.}}
-\titlemark{AUTOMATED PYTHON-BASED SAMPLE CLEANUP}
+\noindent\textbf{Correspondence:} Robin Vlieger (\href{mailto:Robin.Vlieger@anu.edu.au}{Robin.Vlieger@anu.edu.au}) and Anne Brüstle (\href{mailto:Anne.Bruestle@anu.edu.au}{Anne.Bruestle@anu.edu.au})
 
-\address[1]{\orgdiv{Department of Immunology and Infectious Disease, John Curtin School of Medical Research, }\orgname{The Australian National University, }\orgaddress{\city{Canberra, }\state{Australian Capital Territory, }\country{Australia}}}
+\par\noindent\textbf{Funding:} TX is supported by the Australian
+Government Research Training Program PhD Scholarship. There are no other
+relevant sources of funding.
 
-\address[2]{\orgdiv{Liver Injury \& Cancer Program, Cancer Innovations Centre, }\orgname{Centenary Institute, The University of Sydney, }\orgaddress{\city{Sydney, }\state{New South Wales, }\country{Australia}}}
-
-\address[3]{\orgdiv{Human Immunology Laboratory, School of Medical Sciences, Faculty of Medicine and Health, }\orgname{The University of Sydney, }\orgaddress{\city{Sydney, }\state{New South Wales, }\country{Australia}}}
-
-\address[4]{\orgdiv{Division of Ecology and Evolution, Research School of Biology, }\orgname{The Australian National University, }\orgaddress{\city{Canberra, }\state{Australian Capital Territory, }\country{Australia}}}
-
-\address[5]{\orgdiv{A.W. Morrow Gastroenterology and Liver Centre, }\orgname{Royal Prince Alfred Hospital, }\orgaddress{\city{Sydney, }\state{New South Wales, }\country{Australia}}}
-
-\address[6]{\orgdiv{Sydney Medical School, Faculty of Medicine and Health, }\orgname{The University of Sydney, }\orgaddress{\city{Sydney, }\state{New South Wales, }\country{Australia}}}
-
-\address[7]{\orgdiv{Division of Genome Sciences and Cancer, John Curtin School of Medical Research, }\orgname{The Australian National University, }\orgaddress{\city{Canberra, }\state{Australian Capital Territory, }\country{Australia}}}
-
-\address[8]{\orgdiv{School of Medicine and Psychology, }\orgname{The Australian National University, }\orgaddress{\city{Canberra, }\state{Australian Capital Territory, }\country{Australia}}}
-
-\corres{Robin Vlieger (\email{Robin.Vlieger@anu.edu.au}) and Anne Brüstle (\email{Anne.Bruestle@anu.edu.au})}
-
-\fundingInfo{TX is supported by the Australian Government Research
-Training Program PhD Scholarship. There are no other relevant sources of
-funding.}
-
-\abstract[ABSTRACT]{Flow cytometry now generates high-parameter datasets
-whose scale and variability challenge manual preprocessing, leading to
-subjectivity and poor reproducibility. {\color{revisionblue}Temporal
-artifacts are acquisition-time-dependent deviations in event quality or
-fluorescence signal caused by blockages, bubbles, flow instability, or
-instrument instability.} This study introduces FlowMOP, a Python-native
-framework that automates three major preprocessing steps---time-gating,
-debris removal, and doublet exclusion. {\color{revisionblue}FlowMOP was
+\section*{Abstract}
+Flow cytometry now generates high-parameter datasets whose scale and
+variability challenge manual preprocessing, leading to subjectivity and
+poor reproducibility. {\color{revisionblue}Temporal artifacts are
+acquisition-time-dependent deviations in event quality or fluorescence
+signal caused by blockages, bubbles, flow instability, or instrument
+instability.} This study introduces FlowMOP, a Python-native framework
+that automates three major preprocessing steps---time-gating, debris
+removal, and doublet exclusion. {\color{revisionblue}FlowMOP was
 developed to combine these preprocessing steps in a single workflow,
 whereas FlowCut and PeacoQC primarily address time-dependent quality
 control and broader automatic gating frameworks are aimed at population
@@ -133,9 +114,7 @@ preference rather than objective ground-truth gating quality.}
 {\color{revisionblue}Within the tested settings, FlowMOP provides a
 reproducible workflow for standardizing time, debris, and doublet
 preprocessing.} FlowMOP can be accessed at
-\url{https://github.com/1ordinateur/FlowMOP}.}
-
-\maketitle
+\url{https://github.com/1ordinateur/FlowMOP}.
 
 \begin{center}
 \fcolorbox{revisionblue}{white}{\parbox{0.92\linewidth}{\centering\textcolor{revisionblue}{Blue text indicates material added or revised in response to peer review.}}}

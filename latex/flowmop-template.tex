@@ -1,0 +1,103 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,top=22mm,bottom=24mm,left=22mm,right=22mm,headheight=14pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}[Scale=0.88]
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{booktabs}
+\usepackage{longtable}
+\newcounter{none}
+\renewcommand{\thenone}{}
+\usepackage{array}
+\usepackage{calc}
+\usepackage{ragged2e}
+\usepackage{pdflscape}
+\usepackage{caption}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{hanging}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+\definecolor{revisionblue}{HTML}{0066CC}
+\definecolor{linkblue}{HTML}{1F4E79}
+\definecolor{rulegray}{HTML}{B8C2CC}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=linkblue,
+  citecolor=linkblue,
+  urlcolor=linkblue,
+  pdfauthor={FlowMOP authors},
+  pdftitle={$title$}
+}
+
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  justification=justified,
+  singlelinecheck=false,
+  skip=6pt
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5.5pt plus 1.5pt minus 1pt}
+\setlength{\emergencystretch}{2em}
+\setlength{\LTpre}{6pt}
+\setlength{\LTpost}{12pt}
+\setlength{\LTleft}{0pt plus 1fill}
+\setlength{\LTright}{0pt plus 1fill}
+\renewcommand{\arraystretch}{1.14}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\sffamily\color{linkblue}}{\thesection}{0.65em}{}
+\titleformat{\subsection}{\large\bfseries\sffamily}{\thesubsection}{0.55em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\sffamily}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{18pt plus 3pt}{7pt}
+\titlespacing*{\subsection}{0pt}{14pt plus 2pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{11pt plus 2pt}{3pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily FlowMOP}
+\fancyhead[R]{\small\sffamily $subtitle$}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{rulegray}\leaders\hrule height \headrulewidth\hfill}}
+
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+\providecommand{\passthrough}[1]{#1}
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\sffamily $title$\par}
+  \vspace{7pt}
+  {\large\sffamily\color{linkblue} $subtitle$\par}
+\end{center}
+\vspace{8pt}
+
+$if(tracked)$
+\begin{center}
+\fcolorbox{revisionblue}{revisionblue!5}{%
+  \parbox{0.91\linewidth}{\small\centering\textcolor{revisionblue}{Blue text indicates material added or revised in response to peer review.}}}
+\end{center}
+\vspace{5pt}
+$endif$
+
+$body$
+
+\end{document}

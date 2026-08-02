@@ -270,7 +270,9 @@ The Bayesian model is retained because the observed outcome is an ordinal rankin
 
 We agree that neither higher removal nor closer agreement with a single human gate is inherently preferable. Under-cleaning can retain acquisition artifacts that create, inflate, or obscure apparent biological populations. Conversely, over-cleaning can remove rare or transient biological events. The revised Discussion therefore interprets sensitivity and specificity as competing error costs rather than treating one direction of error as universally preferable.
 
-The requested downstream biological-impact analysis remains a PLACEHOLDER.
+We added an initial downstream biological-concordance analysis using three tumour and three non-tumour human liver samples. We compared the complete FlowMOP time, debris, and doublet intersection with the matched final manual gate and used an operational Zombie UV-A threshold as an orthogonal readout. To distinguish biological selectivity from general permissiveness, the primary endpoint was the Zombie-high/Zombie-low removal-rate ratio. The matched FlowMOP/manual comparison was tested using an exact two-sided Wilcoxon signed-rank test on the log-transformed paired ratios.
+
+FlowMOP showed greater selectivity in four of six samples, with a median paired FlowMOP/manual fold-change of 1.68 (range 0.82-2.70), but the paired difference was not statistically significant (p = 0.156). We interpret this as no detected systematic difference in this small sample set, not as proof of equivalence. A secondary decomposition showed that time gating was approximately Zombie-neutral, debris removal was heterogeneous, and the doublet mask was the principal source of Zombie-high enrichment. A further biological validation against a prespecified population or functional endpoint remains a PLACEHOLDER and will be added before submission.
 
 ### Changes made
 
@@ -278,13 +280,15 @@ The requested downstream biological-impact analysis remains a PLACEHOLDER.
 
   > “The biological cost of preprocessing errors is difficult to measure directly, and neither under-cleaning nor over-cleaning is preferable. Under-cleaning may allow acquisition-time artifacts with abnormal staining patterns to confound downstream results, including by creating, inflating, or obscuring apparent rare populations. Conversely, over-cleaning could remove rare or transient biological populations.”
 
-- We added the following limitation concerning downstream effects:
+- We added a paired tumour-liver biological-concordance analysis and report the complete per-sample results in Supplementary Tables S3A-B.
 
-  > “Whether the observed gating differences materially alter downstream biological conclusions remains an important question for future work.”
+- We used a permissiveness-adjusted primary endpoint and a matched statistical test:
 
-- The requested downstream biological-impact analysis remains a PLACEHOLDER.
+  > “FlowMOP had greater permissiveness-adjusted Zombie-high removal selectivity than manual gating in four of six samples. The median paired FlowMOP/manual selectivity fold-change was 1.68 (range 0.82-2.70), but the difference was not statistically significant (exact two-sided Wilcoxon signed-rank test on log ratios, p = 0.156).”
 
-**Location:** Discussion, “Biological Datasets: Expert Preference Evaluation” and “Other remarks”; downstream biological-impact analysis: PLACEHOLDER.
+- We retained a clearly labelled placeholder for a second downstream biological validation using a prespecified biological population or functional endpoint.
+
+**Location:** Methods, “Tumour-liver acquisition-instability and biological-concordance analysis”; Results, “Tumour-liver acquisition instability and downstream biological concordance”; Discussion, “Biological Datasets: Expert Preference Evaluation”; Supplementary Tables S3-S4.
 
 ## Combined Comment 7 — Dataset Scale, Complexity, and Tumor Validation
 
@@ -306,7 +310,9 @@ The requested downstream biological-impact analysis remains a PLACEHOLDER.
 
 We agree that the original wording conflated dataset scale with the intrinsic complexity of an individual preprocessing gate. The revised framing uses “beyond practical manual capacity” to refer to the number of files, total event volume, and panel dimensionality encountered in large studies. We no longer imply that analysis software itself necessarily makes a debris or time gate more complex.
 
-We also agree that tumor digests are an important and difficult validation setting. A sufficiently controlled tumor dataset with an appropriate event-level reference was not available for this revision. We have therefore limited the scope of our claims rather than implying validation in this context. The Discussion now identifies tumor digests, necrotic material, large debris, aggregates, and heterogeneous scatter profiles as important future validation cases that may challenge the present conservative FSC-A-centred debris strategy.
+We also agree that tumour digests are an important and difficult validation setting. We therefore added an analysis of three tumour and three non-tumour human liver samples. For the tumour files, we first evaluated acquisition-time instability by comparing the intervals detected by FlowMOP with manual gating, FlowCut, and PeacoQC and by examining fluorescence-only divergence. FlowMOP captured the principal high-divergence acquisition intervals identified by the other approaches and also identified additional intervals with positive-population fluorescence shifts; residual comparator-only intervals generally showed weaker fluorescence divergence.
+
+We then evaluated the complete time, debris, and doublet workflow using Zombie UV-A as an orthogonal biological readout. FlowMOP and manual gating were not detectably different in the primary paired selectivity comparison (exact two-sided p = 0.156). This result does not establish formal parity, but it provides no evidence of systematic inferiority in this six-sample analysis. We retain an explicit limitation that larger and more necrotic tumour cohorts are needed because these samples lack event-level technical ground truth and cannot represent the full diversity of tumour-digest artifacts.
 
 ### Changes made
 
@@ -314,13 +320,15 @@ We also agree that tumor digests are an important and difficult validation setti
 
   > “Modern flow-cytometry studies can contain increasing numbers of files, events, and measured parameters [2]. Although this scale does not necessarily make time or debris gating more complex within an individual file, it can make repeated manual preprocessing impractical and can amplify variability between operators.”
 
-- We added the following tumor-digest and complex-debris limitation:
+- We added a tumour-liver validation comprising three tumour and three non-tumour samples.
 
-  > “Tumor digests and other high-debris tissues remain important future validation contexts because necrotic debris, aggregates, and heterogeneous scatter profiles may challenge a conservative FSC-A-centered debris strategy.”
+- We added fluorescence-only acquisition-instability analysis for the tumour files and a paired manual-versus-FlowMOP downstream Zombie analysis for all six liver samples.
 
-- We did not add a tumor dataset and do not claim validation on tumor samples.
+- We revised the remaining limitation as follows:
 
-**Location:** Introduction; Discussion, “Synthetic Sample Debris and Doublet Gating.”
+  > “The present liver analysis provides an initial test in tumour tissue, but further tumour digests with severe necrosis, large aggregates, and heterogeneous scatter profiles remain important validation contexts because they may challenge a conservative FSC-A-centered debris strategy.”
+
+**Location:** Methods and Results, “Tumour-liver acquisition instability and biological concordance”; Discussion, “Synthetic Sample Debris and Doublet Gating” and “Biological Datasets: Expert Preference Evaluation”; Supplementary Tables S3-S4.
 
 ## Combined Comment 8 — Acquisition Settings and Newer Scatter Configurations
 

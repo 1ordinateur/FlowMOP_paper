@@ -2,17 +2,15 @@
 
 **Manuscript:** *FlowMOP: An Automated Flow Cytometry Time, Debris, and Doublet Removal Tool*
 
-We thank Dr. David Novo, the Associate Editor, and both reviewers for their careful and constructive assessment of our manuscript. Their comments helped us clarify FlowMOP's algorithmic motivation, distinguish its algorithmic and implementation contributions, strengthen the validation and limitations, and improve the structure and accessibility of the manuscript.
-
 The Associate Editor and reviewers raised several overlapping concerns. To avoid repeating the same response while ensuring that every point is addressed, closely related comments are reproduced verbatim and answered together below. A complete comment-coverage index is provided at the end of this response.
+
+We thank the Associate Editor and reviewers for their considered feedback and believe that the requested amendments have significantly improved the manuscript. We hope that the revised manuscript now addresses the Associate Editor's and reviewers' concerns.
 
 ## Associate Editor's General Assessment
 
 > Novel tools to expedite flow cytometry data analysis are always welcome, and I commend the authors for their effort in introducing these new methods. However, as currently submitted, the manuscript requires major revision. The reviewers have identified numerous areas requiring improvement, and I encourage the authors to address their comments carefully and comprehensively. In addition to the reviewers' critiques, I offer several observations of my own that I believe will strengthen the manuscript's suitability for publication.
 
-**Response:** We thank the Associate Editor for recognizing the potential value of FlowMOP and for identifying the central issues that required attention. We have organized our revisions around the algorithmic motivation, comparative mechanism, computational benchmarking, interpretation of expert evaluations, methodological clarity, and the limits of the current approach. Detailed responses follow.
-
-**Location:** Not applicable; detailed manuscript locations are provided under the specific responses below.
+**Response:** The revisions are organized around the algorithmic motivation, comparative mechanism, computational benchmarking, interpretation of expert evaluations, methodological clarity, and the limits of the current approach. Detailed responses follow.
 
 ## Combined Comment 1 — Algorithmic Motivation, Novelty, Related Tools, and Validation Framing
 
@@ -36,7 +34,7 @@ The Associate Editor and reviewers raised several overlapping concerns. To avoid
 
 ### Response
 
-We thank the Associate Editor and their reviewers for their useful feedback. We have therefore sought to improve the distinction between automated population-gating tools, time-quality-control tools, and FlowMOP's intended role as an integrated preprocessing workflow. We have removed the claim that FlowMOP is the first automated approach capable of debris cleaning. The revised Introduction discusses FlowCut and PeacoQC as time-dependent quality-control approaches and GateNet and UNITO as broader automated population-gating approaches. We now frame FlowMOP more narrowly as a training-free preprocessing workflow that combines time, debris, and doublet removal rather than as the first method capable of identifying debris-like populations.
+We now frame FlowMOP as a training-free preprocessing workflow that combines automated time, debris, and doublet removal. We revised the Introduction to distinguish automated population-gating tools, time-quality-control tools, and FlowMOP's intended role as an integrated preprocessing workflow. We removed the claim that FlowMOP is the first automated approach capable of debris cleaning. The revised Introduction discusses FlowCut and PeacoQC as time-dependent quality-control approaches and GateNet and UNITO as broader automated population-gating approaches.
 
 We have also revised the description of the three FlowMOP modules. Time gating is based on positive-population fluorescence summaries across acquisition order, debris gating derives an FSC-A threshold from cross-parameter positive-population structure, and doublet gating uses FSC-A/FSC-H and SSC-A/SSC-H ratio structure. These algorithmic choices are now distinguished from computational implementation choices.
 
@@ -50,7 +48,7 @@ In response to Reviewer 2's observation that simulated and real data are both co
 
 - We reframed the synthetic-data contribution as follows:
 
-  > “The synthetic datasets used here are not intended to suggest that simulation-based validation is unique; rather, they provide event-level labels for estimating retained-target purity and removed-non-target purity in preprocessing tasks where real ground truth is otherwise difficult to define.”
+  > “The synthetic datasets provide event-level labels for estimating retained-target purity and removed-non-target purity in preprocessing tasks where real ground truth is otherwise difficult to define.”
 
 - We added a concise description of the three algorithmic components to the Figure 1 legend:
 
@@ -58,7 +56,77 @@ In response to Reviewer 2's observation that simulated and real data are both co
 
 **Location:** Introduction; Results, “Algorithmic design,” “Time Gating,” “Debris Gating,” and “Doublet Gating”; Figure 1 legend.
 
-## Combined Comment 2 — Comparative Mechanism, Smoothing, and Parameter Fairness
+## Combined Comment 2 — Computational Benchmarking and Within-Sample Parallelisability
+
+**Raised by:** Associate Editor; Reviewer 1, Comment 1; Reviewer 2, Comment 7.
+
+### Reviewer 1, Comment 1 — Technical Infrastructure and Performance Claims
+
+> The adoption of a Dask-based Python framework is a highly commendable architectural choice. Flow cytometry analysis has historically under-utilized distributed compute resources, and providing a modern, scalable alternative to R-based packages is a significant contribution to the “Big Data” era of spectral cytometry. However, the manuscript currently lacks empirical data to support the claims of improved runtime or memory efficiency, while other contemporary algorithms explicitly highlight their scalability for large datasets.
+>
+> Recommendation: To make a compelling case for FlowMOP’s adoption, the authors could include benchmarking figures (e.g., execution time and peak memory usage) comparing FlowMOP against PeacoQC and FlowCut across datasets of increasing file count and/or size (~10^3 to ~10^7 events or some [Event x Parameter] matrix varying each). Another point of comparison may be in the distributed compute scenario vs. more traditional local compute resources.
+>
+> Example Performance Benchmarking Table:
+>
+> | Dataset Size (Events) | Metric | FlowMOP (Python/Dask) | PeacoQC (R) | FlowCut (R) |
+> | --- | --- | --- | --- | --- |
+> | 10^4 | Execution Time (s) | | | |
+> | | Peak RAM (MB) | | | |
+> | 10^5 | Execution Time (s) | | | |
+> | | Peak RAM (MB) | | | |
+> | ...etc. | | | | |
+
+### Associate Editor — Algorithmic vs. Implementation Advantages
+
+> Reviewer 1 raises several points regarding the use of the Dask framework, and I would like to extend that line of inquiry. Specifically, I would ask the authors to clarify whether there is something inherent to the FlowMop algorithm that makes it particularly well-suited to parallelization via Dask — as distinct from the implementation itself. This distinction matters considerably. Given current development tools, a competent programmer with AI tooling could likely port the existing FlowCut or PeacoQC code — neither of which is especially lengthy — to a Dask-based parallel implementation in a matter of hours. If that is the case, it raises the question of whether a substantial portion of FlowMop's reported advantage derives from the implementation rather than from any intrinsic algorithmic innovation, which would significantly diminish the novelty of the contribution. I would encourage the authors to focus their comparative analysis on algorithmic advantages, particularly in cases where existing algorithms present genuine structural barriers to parallelization.
+
+### Reviewer 2, Comment 7
+
+> The authors should introduce “Dask” before using the “Dask-based framework” in the introduction. Please keep in mind, most readers probably have no experience using Python at all. I use Python a lot myself. Still, I am not familiar with this “Dask” thing. Also, the Dask-based design is about calculation efficiency, instead of accuracy. Readers will be more interested in which algorithm is used for automatic gating, instead of how to speed up calculation. The authors did not really introduce the algorithm for gating in the introduction. But they use a whole paragraph on the Dask-based design.
+
+### Response
+
+We evaluated computational performance using matched 36-channel FCS inputs containing 10,000, 100,000, 300,000, 1,000,000, and 2,000,000 events. FlowMOP, PeacoQC, and FlowCut were run on the same clone-based inputs. Optional plotting, reporting, and output generation were disabled where supported, and FlowMOP's debris and doublet modules were disabled so that the shared time-gating task was timed fairly. Each condition included one warm-up and three measured repeats. Runtime and peak resident memory are reported as mean ± SD in Table 1. At 2,000,000 events, FlowMOP was approximately 2.5-fold faster than PeacoQC and 3.5-fold faster than FlowCut while using approximately 32% and 45% of their respective peak RAM.
+
+The benchmark used local non-distributed execution. Testing active Dask execution showed that its overhead did not improve this workload, so Dask was inactive for the reported benchmark and removed from the manuscript's novelty framing.
+
+Among the three evaluated decision structures, only FlowMOP is inherently suited to independent within-sample channel parallelisation. Once shared acquisition bins have been defined, each eligible channel independently establishes its fluorescence reference, produces a fixed-shape time-bin summary, and applies smoothing and MAD filtering. Cross-channel coordination occurs only when the resulting bin flags are combined in the final parameter vote. This creates coarse, regular channel-level tasks with a single final reduction.
+
+PeacoQC must instead reconcile peak configurations across bin-channel combinations before its MAD, Isolation Tree, and consecutive-bin decisions. FlowCut combines segment- and channel-level statistics through adjacent-segment and file-wide comparisons, contiguous-region decisions, and an optional flagged-file rerun. Both methods can process separate files in parallel, and some internal suboperations could be parallelised, but their complete within-sample decision pipelines contain intermediate dependencies that prevent the same independent channel-wise reduction without changing their decision rules. Reimplementation in Python or another scheduling framework would not remove those structural dependencies.
+
+FlowMOP's within-sample parallelisability is therefore an inherent property of its decision structure rather than its programming language. The reported runtime benchmark used local non-distributed execution, so it measures the performance of the tested implementations rather than an empirical distributed-computing speedup.
+
+### Changes made
+
+- We removed Dask from the manuscript's novelty and accuracy framing and specified the benchmark configuration as follows:
+
+  > “For fair timing of the shared time-gating task, FlowMOP was run using local non-distributed execution, with debris and doublet removal disabled and annotated output FCS writing disabled. PeacoQC and FlowCut were run with optional plotting, reporting, and output generation disabled where supported.”
+
+- We state FlowMOP's contribution and identify the most direct time-gating comparators:
+
+  > “FlowMOP is a Python-based, training-free preprocessing workflow that combines automated time-gating, debris removal, and doublet exclusion in a single headless tool. FlowCut and PeacoQC provide the most direct comparison for its time-gating component.”
+
+- We retained a concise operational description in the Methods:
+
+  > “FlowMOP accepts `.csv`, `.fcs`, and Parquet files. It reduces event-level measurements into time-bin and channel summaries, applies smoothing and robust outlier detection, and combines the resulting flags through parameter voting.”
+
+- We placed the architectural comparison and its relationship to the computational benchmark in the Discussion:
+
+  > “These measurements were obtained using local non-distributed execution and therefore demonstrate the performance of the tested implementations, not a distributed-computing speedup.”
+
+  > “Among the three evaluated decision structures, only FlowMOP exposes an inherently channel-parallel within-sample computation. After shared acquisition bins are defined, each eligible fluorescence channel independently establishes its reference, produces a fixed-shape time-bin summary, and applies smoothing and MAD filtering; cross-channel coordination occurs only in the final parameter vote. PeacoQC instead performs data-dependent peak identification and reconciliation across bin-channel combinations, while FlowCut applies adjacent-segment, contiguous-region, file-wide, and conditional rerun decisions [5,9]. Their suboperations and separate files can be parallelised, but their complete within-sample decision pipelines cannot be expressed as the same independent channel-wise reduction without changing their decision rules. Porting either implementation to another language or scheduling framework would therefore not remove these structural dependencies. This structural distinction, together with FlowMOP’s earlier data reduction, fewer full-data passes, and smaller intermediate state, is consistent with its lower runtime and memory use in our benchmarks, although the benchmark does not independently establish causation.”
+
+- We added matched runtime and peak-memory testing across five event counts:
+
+  > “Computational scalability was evaluated using clone-based real-FCS scaling. A representative FCS file was subsampled/replicated to matched event counts of 10,000, 100,000, 300,000, 1,000,000, and 2,000,000 events while preserving the original 36-channel structure. FlowMOP, PeacoQC, and FlowCut were run on the same generated inputs for each size.”
+
+- We reported the principal computational result as follows:
+
+  > “The computational benchmark demonstrates that FlowMOP provides speed gains with lower peak RAM usage at larger event counts. This is most evident from 300,000 events onward, where FlowMOP had both the fastest mean runtime and lowest peak memory use. At 2,000,000 events, FlowMOP was approximately 2.5-fold faster than PeacoQC and 3.5-fold faster than FlowCut, while using approximately 32% of PeacoQC’s peak RAM and 45% of FlowCut’s peak RAM.”
+
+**Location:** Methods, “Algorithmic design” and “Computational scalability”; Results, “Computational scalability”; Table 1; Discussion, “Synthetic Sample Time Gating.”
+
+## Combined Comment 3 — Gating Mechanism, Smoothing, and Parameter Fairness
 
 **Raised by:** Associate Editor; Reviewer 1, Comment 5; Reviewer 2, Comment 20.
 
@@ -78,13 +146,15 @@ In response to Reviewer 2's observation that simulated and real data are both co
 
 ### Response
 
-We agree that the original attribution to smoothing was speculative and have removed it. We instead added a matched mechanism analysis that changes only the Time channel while preserving fluorescence, scatter, source labels, and event order. Across 30 source-labelled Bimix, Trimix, and Segment files, FlowMOP's performance was unchanged under both source-linked and random Time warping, whereas FlowCut's removal behaviour changed when local Time density was altered. The clearest loss occurred in Segment inputs under source-linked Time warping. This supports a benchmark-specific interpretation: FlowMOP's time-gating decision is anchored to fluorescence-population summaries, whereas FlowCut can respond to acquisition-density changes even when fluorescence is unchanged. It does not establish general superiority across all datasets or parameter settings.
+The computational benchmark in Combined Comment 2 establishes FlowMOP's runtime and memory performance and its inherent suitability for within-sample parallelisation. We then turn to address the mechanism behind FlowMOP's superiority over FlowCut and PeacoQC in the tested Segment scenarios. We sought to ascertain why these performance differences arose. Therefore, we conducted a matched Time-only mechanism analysis. This involved changing only the Time channel while preserving fluorescence, scatter, source labels, and event order across 30 source-labelled Bimix, Trimix, and Segment files. We found that FlowMOP's performance was unchanged under both source-linked and random Time warping, whereas FlowCut's removal behaviour changed when local Time density was altered. The clearest loss occurred in Segment inputs under source-linked Time warping.
+
+We examined PeacoQC separately because it assesses the stability of local density-peak positions across acquisition bins. In mixed-source bins, finite sampling from multiple fluorescence distributions can make those local peak estimates unstable even when the events do not correspond cleanly to the source-labelled contaminating population. This provides a mechanism for the observed difference from PeacoQC: FlowMOP uses globally anchored positive-population thresholds and time-bin fluorescence summaries, whereas PeacoQC can respond to local peak-estimation noise.
+
+Consequently, the earlier smoothing attribution has been removed and replaced with mechanisms that directly match the benchmarked behaviour. FlowMOP's time-gating decision is anchored to fluorescence-population summaries, FlowCut can respond to acquisition-density changes even when fluorescence is unchanged, and PeacoQC can respond to unstable local peak estimates in mixed-source bins. These conclusions are restricted to the tested benchmark conditions and do not establish general superiority across all datasets or parameter settings.
 
 We also tested smoothing directly by holding all other FlowMOP settings fixed across all 92 largecut source-labelled synthetic time-gating files (Table S4). Relative to no smoothing, the current dual-resolution default (`0.01,0.05`) increased mean retained-target purity by 3.1%, while mean removed-non-target purity decreased by 3.6%. Across the tested dual settings, `0.02,0.09` produced the highest retained-target purity. Thus, dual-resolution smoothing improved retained-target purity, with a corresponding removed-non-target purity trade-off.
 
 During revision, we also corrected the terminology used for these two source-composition measures. The quantity previously called “sensitivity” is retained target-source events divided by all retained events, and the quantity previously called “specificity” is removed non-target-source events divided by all removed events. Because these are retained-set and removed-set purity measures rather than conventional sensitivity and specificity, we now call them retained-target purity and removed-non-target purity throughout the manuscript, tables, and figure labels. This relabelling does not alter the values, comparisons, or p-values.
-
-We also clarified the comparison with PeacoQC separately. PeacoQC assesses the stability of local density-peak positions across acquisition bins. In mixed-source bins, finite sampling from multiple fluorescence distributions can make those local peak estimates unstable even when the events do not correspond cleanly to the source-labelled contaminating population. The revised Discussion presents this as a susceptibility of the benchmarked signal, not as evidence that PeacoQC is intrinsically incorrect.
 
 We did not perform a comprehensive PeacoQC or FlowCut parameter-sensitivity sweep. We therefore do not claim that the mechanism benchmark establishes robustness to every possible competitor parameterization. The revised framing identifies the fixed comparison settings, removes or tempers general claims of superiority, and restricts the mechanistic conclusion to the behaviours directly tested by the matched Time-only benchmark.
 
@@ -92,7 +162,7 @@ The two smoothing resolutions are now described as complementary spline fits app
 
 ### Changes made
 
-- We removed the speculative smoothing attribution and added the following matched comparison:
+- We removed the earlier smoothing attribution and added the following matched comparison:
 
   > “To test the effect of flow-rate disturbances aligned with or independent of source-linked fluorescence changes, we altered only the Time channel while leaving fluorescence, scatter, source labels, and event order unchanged (Fig. S4). FlowMOP was unchanged under both source-linked and random Time warping. In contrast, FlowCut's retained-target and removed-non-target purity shifted after Time-only perturbation.”
 
@@ -114,9 +184,9 @@ The two smoothing resolutions are now described as complementary spline fits app
 
 - We added the complete mechanism-benchmark methods and results as Figure S4.
 
-**Location:** Methods, “Time-only acquisition-rate mechanism benchmark” and “MAD-smoothing ablation and default selection”; Results, “Time Gating” and “Synthetic Time Gating Benchmark”; Figure S4; Supplementary Table S4.
+**Location:** Methods, “Time-only acquisition-rate mechanism benchmark” and “MAD-smoothing ablation and default selection”; Results, “Time Gating” and “Synthetic Time Gating Benchmark”; Figure S4; Supplementary Table S4; Discussion, “Synthetic Sample Time Gating.”
 
-## Combined Comment 3 — Parameter Voting and the Ten-Parameter Threshold
+## Combined Comment 4 — Parameter Voting and the Ten-Parameter Threshold
 
 **Raised by:** Reviewer 2, Comments 18 and 21.
 
@@ -130,9 +200,9 @@ The two smoothing resolutions are now described as complementary spline fits app
 
 ### Response
 
-We thank the reviewer for highlighting that the original text implied a stronger theoretical basis than was warranted. The ten-parameter cutoff is an empirical operational threshold, not a mathematically derived boundary, and the manuscript now states this explicitly.
+The revised manuscript identifies the ten-parameter cutoff as an empirical operational threshold rather than a mathematically derived boundary.
 
-The rationale for requiring two channel flags in panels with more than ten eligible parameters is conservative. Biological datasets have a non-zero probability of isolated channel-specific outliers, and the opportunity for such outliers increases with panel dimensionality. Requiring corroboration from a second parameter reduces the risk that a single noisy channel removes otherwise valid biological events. We acknowledge the corresponding trade-off: an abnormality confined to one fluorescence channel may be retained in a high-dimensional panel. We did not add a separate voting-ablation analysis and have avoided presenting the rule as universally optimal.
+The rationale for requiring two channel flags in panels with more than ten eligible parameters is conservative. Biological datasets have a non-zero probability of isolated channel-specific outliers, and the opportunity for such outliers increases with panel dimensionality. Requiring corroboration from a second parameter reduces the risk that a single noisy channel removes otherwise valid biological events. The corresponding trade-off is that an abnormality confined to one fluorescence channel may be retained in a high-dimensional panel. We did not add a separate voting-ablation analysis and have avoided presenting the rule as universally optimal.
 
 ### Changes made
 
@@ -143,86 +213,6 @@ The rationale for requiring two channel flags in panels with more than ten eligi
 - We did not add a voting-ablation experiment and do not present the threshold as universally optimal.
 
 **Location:** Results, “Time Gating.”
-
-## Combined Comment 4 — Dask, Algorithmic Contribution, Runtime, and Memory
-
-**Raised by:** Associate Editor; Reviewer 1, Comment 1; Reviewer 2, Comment 7.
-
-### Associate Editor — Algorithmic vs. Implementation Advantages
-
-> Reviewer 1 raises several points regarding the use of the Dask framework, and I would like to extend that line of inquiry. Specifically, I would ask the authors to clarify whether there is something inherent to the FlowMop algorithm that makes it particularly well-suited to parallelization via Dask — as distinct from the implementation itself. This distinction matters considerably. Given current development tools, a competent programmer with AI tooling could likely port the existing FlowCut or PeacoQC code — neither of which is especially lengthy — to a Dask-based parallel implementation in a matter of hours. If that is the case, it raises the question of whether a substantial portion of FlowMop's reported advantage derives from the implementation rather than from any intrinsic algorithmic innovation, which would significantly diminish the novelty of the contribution. I would encourage the authors to focus their comparative analysis on algorithmic advantages, particularly in cases where existing algorithms present genuine structural barriers to parallelization.
-
-### Reviewer 1, Comment 1 — Technical Infrastructure and Performance Claims
-
-> The adoption of a Dask-based Python framework is a highly commendable architectural choice. Flow cytometry analysis has historically under-utilized distributed compute resources, and providing a modern, scalable alternative to R-based packages is a significant contribution to the “Big Data” era of spectral cytometry. However, the manuscript currently lacks empirical data to support the claims of improved runtime or memory efficiency, while other contemporary algorithms explicitly highlight their scalability for large datasets.
->
-> Recommendation: To make a compelling case for FlowMOP’s adoption, the authors could include benchmarking figures (e.g., execution time and peak memory usage) comparing FlowMOP against PeacoQC and FlowCut across datasets of increasing file count and/or size (~10^3 to ~10^7 events or some [Event x Parameter] matrix varying each). Another point of comparison may be in the distributed compute scenario vs. more traditional local compute resources.
->
-> Example Performance Benchmarking Table:
->
-> | Dataset Size (Events) | Metric | FlowMOP (Python/Dask) | PeacoQC (R) | FlowCut (R) |
-> | --- | --- | --- | --- | --- |
-> | 10^4 | Execution Time (s) | | | |
-> | | Peak RAM (MB) | | | |
-> | 10^5 | Execution Time (s) | | | |
-> | | Peak RAM (MB) | | | |
-> | ...etc. | | | | |
-
-### Reviewer 2, Comment 7
-
-> The authors should introduce “Dask” before using the “Dask-based framework” in the introduction. Please keep in mind, most readers probably have no experience using Python at all. I use Python a lot myself. Still, I am not familiar with this “Dask” thing. Also, the Dask-based design is about calculation efficiency, instead of accuracy. Readers will be more interested in which algorithm is used for automatic gating, instead of how to speed up calculation. The authors did not really introduce the algorithm for gating in the introduction. But they use a whole paragraph on the Dask-based design.
-
-### Response
-
-We agree that the manuscript lacked empirical benchmarking for speed and memory performance. We benchmarked FlowMOP without active Dask execution and found that Dask overhead did not improve the reported workload. Dask is therefore inactive for the reported benchmark, and we have removed Dask from the manuscript.
-
-To address the empirical performance request, we added a clone-based real-FCS scalability benchmark using matched 36-channel inputs containing 10,000, 100,000, 300,000, 1,000,000, and 2,000,000 events. FlowMOP, PeacoQC, and FlowCut were run on the same inputs. Optional plotting, reporting, and output generation were disabled where supported, and FlowMOP's debris and doublet modules were disabled so that the shared time-gating task was timed fairly. Each condition included one warm-up and three measured repeats. Runtime and peak resident memory are reported as mean ± SD in Table 1.
-
-The revised manuscript separates three distinct questions. First, the runtime and peak-memory benchmark evaluates the computational performance of the tested implementations. It supports a claim of computational scalability only and does not establish superior gating behaviour. Second, the architectural comparison considers whether the algorithms are structurally amenable to within-file parallel scheduling. This is conceptually separate from both gating accuracy and the measured local runtime. Third, the source-labelled and Time-only mechanism benchmarks evaluate gating behaviour and explain why FlowMOP and FlowCut respond differently to particular acquisition patterns.
-
-For the architectural question, once shared acquisition bins have been defined, FlowMOP can process eligible channels independently. Each channel establishes its fluorescence reference and returns a compact time-bin summary; smoothing and MAD filtering operate on that summary, and only the resulting bin flags are combined in the final parameter vote. PeacoQC instead must reconcile peak configurations across bin-channel combinations before its MAD, Isolation Tree, and consecutive-bin decisions. FlowCut combines multiple segment/channel statistics through adjacent-segment and file-wide comparisons, contiguous-region decisions, and an optional flagged-file rerun. These dependencies arise from the decision rules themselves rather than from the use of R: later stages cannot proceed until the required file-wide or neighbouring-bin information has been assembled. FlowMOP postpones its principal cross-channel dependency until a final reduction over compact bin flags, creating fewer synchronization points and less intermediate state.
-
-We do not claim that FlowCut or PeacoQC cannot be reimplemented in Python or parallelised, and all three methods can process separate files independently. Our architectural claim is limited to within-file task structure: FlowMOP exposes coarse, regular channel-level tasks that return small summary vectors before a final reduction. The reported runtime benchmark used local non-distributed execution, so it demonstrates the performance of the tested implementations rather than an empirical distributed-computing speedup.
-
-Separately, FlowMOP's gating advantage over FlowCut in the tested Segment scenarios is supported by the source-labelled benchmark and matched Time-only mechanism experiment. This gating result is not offered as an explanation for FlowMOP's runtime or parallelisability. In the mechanism experiment, FlowMOP was invariant to changes in local acquisition density when fluorescence was held fixed, whereas FlowCut's retained-target and removed-non-target purity changed.
-
-### Changes made
-
-- We removed Dask from the manuscript's novelty and accuracy framing and specified the benchmark configuration as follows:
-
-  > “For fair timing of the shared time-gating task, FlowMOP was run using local non-distributed execution, with debris and doublet removal disabled and annotated output FCS writing disabled. PeacoQC and FlowCut were run with optional plotting, reporting, and output generation disabled where supported.”
-
-- We state FlowMOP's contribution and identify the most direct time-gating comparators:
-
-  > “FlowMOP is a Python-based, training-free preprocessing workflow that combines automated time-gating, debris removal, and doublet exclusion in a single headless tool. FlowCut and PeacoQC provide the most direct comparison for its time-gating component.”
-
-- We retained a concise operational description in the Methods:
-
-  > “FlowMOP accepts `.csv`, `.fcs`, and Parquet files. It reduces event-level measurements into time-bin and channel summaries, applies smoothing and robust outlier detection, and combines the resulting flags through parameter voting.”
-
-- We placed the architectural comparison and its relationship to the computational benchmark in the Discussion:
-
-  > “These measurements were obtained using local non-distributed execution and therefore demonstrate the performance of the tested implementations, not a distributed-computing speedup.”
-
-  > “FlowMOP reduces event-level measurements to fixed-shape time-bin summaries that can be processed independently across eligible fluorescence channels and combined through a single final parameter-voting step. This regular structure is directly amenable to vectorised execution. PeacoQC instead performs data-dependent peak identification and reconciliation across bin-channel combinations, while FlowCut applies adjacent-segment, contiguous-region, file-wide, and conditional rerun decisions [5,9]. These operations can be parallelised in part, but their intermediate dependencies prevent them from being expressed as the same independent channel-wise reduction without changing their decision rules. Porting either implementation to another language or scheduling framework would therefore not remove these structural dependencies. FlowMOP’s earlier data reduction, fewer full-data passes, and smaller intermediate state are consistent with its lower runtime and memory use in our benchmarks, although the benchmark does not independently establish causation.”
-
-- We describe FlowMOP's alternative time-bin summaries directly:
-
-  > “FlowMOP summarizes each time bin using the median fluorescence of the selected positive population. If Geomean mode is selected, FlowMOP instead uses the geometric mean of all events in the bin. The two smoothing resolutions target both shorter and more sustained deviations, while parameter voting limits removal driven by isolated noisy channels in higher-dimensional panels.”
-
-- We separately report the tested algorithmic difference from FlowCut using the Time-only mechanism benchmark:
-
-  > “The Time-only mechanism benchmark suggests that the FlowMOP versus FlowCut difference is not explained solely by implementation. When local acquisition-rate structure was altered either in alignment with source-linked fluorescence changes or independently of them, FlowMOP remained unchanged, whereas FlowCut's removal behavior shifted, especially in Segment inputs (Fig. S4). This supports the interpretation that FlowCut can be affected by acquisition-density changes even when fluorescence values are unchanged, while FlowMOP is more anchored to fluorescence-population summaries across acquisition order.”
-
-- We added matched runtime and peak-memory testing across five event counts:
-
-  > “Computational scalability was evaluated using clone-based real-FCS scaling. A representative FCS file was subsampled/replicated to matched event counts of 10,000, 100,000, 300,000, 1,000,000, and 2,000,000 events while preserving the original 36-channel structure. FlowMOP, PeacoQC, and FlowCut were run on the same generated inputs for each size.”
-
-- We reported the principal computational result as follows:
-
-  > “The computational benchmark demonstrates that FlowMOP provides speed gains with lower peak RAM usage at larger event counts. This is most evident from 300,000 events onward, where FlowMOP had both the fastest mean runtime and lowest peak memory use. At 2,000,000 events, FlowMOP was approximately 2.5-fold faster than PeacoQC and 3.5-fold faster than FlowCut, while using approximately 32% of PeacoQC’s peak RAM and 45% of FlowCut’s peak RAM.”
-
-**Location:** Methods, “Algorithmic design” and “Computational scalability”; Results, “Time Gating,” “Synthetic Time Gating Benchmark,” and “Computational scalability”; Table 1; Discussion, “Synthetic Sample Time Gating.”
 
 ## Combined Comment 5 — Expert Rankings, Terminology, Visualisation, and Bayesian Modelling
 
@@ -254,9 +244,9 @@ Separately, FlowMOP's gating advantage over FlowCut in the tested Segment scenar
 
 ### Response
 
-We agree that forced rankings measure relative preference and cannot determine whether a gate is absolutely acceptable for analysis. We have therefore replaced “benchmarking” with “expert comparison” or “expert evaluation,” removed the contorted “not least preferred” interpretation, and now state directly where FlowMOP ranked below the human gates. The ranking results are presented as exploratory evidence of expert preference rather than objective ground-truth evidence of gating quality or algorithmic superiority.
+Forced rankings measure relative preference and cannot determine whether a gate is absolutely acceptable for analysis. We therefore replaced “benchmarking” with “expert comparison” or “expert evaluation,” removed the contorted “not least preferred” interpretation, and now state directly where FlowMOP ranked below the human gates. The ranking results are presented as exploratory evidence of expert preference rather than objective ground-truth evidence of gating quality or algorithmic superiority.
 
-We also acknowledge that the design used a single relevant expert to rank each tissue type and therefore cannot estimate within-tissue consensus across multiple raters. We did not retrospectively collect a new absolute-quality scale because that would require re-running the expert assessment under a newly defined protocol. Instead, we explicitly describe this limitation and interpret the rankings alongside the synthetic technical-control results that contain event-level ground truth.
+The design used a single relevant expert to rank each tissue type and therefore cannot estimate within-tissue consensus across multiple raters. We did not retrospectively collect a new absolute-quality scale because that would require re-running the expert assessment under a newly defined protocol. The revised manuscript states this limitation and interprets the rankings alongside the synthetic technical-control results that contain event-level ground truth.
 
 The visual summaries now include an Average Score column within each ranking grid rather than a separate panel, and the row axis is labelled “Gate Provided By.” The displayed scale now follows the standard convention that rank 1 is best. This display correction did not change the underlying ranking order or Bayesian analysis.
 
@@ -306,7 +296,7 @@ The Bayesian model is retained because the observed outcome is an ordinal rankin
 
 ### Response
 
-We agree that neither higher removal nor closer agreement with a single human gate is inherently preferable. Under-cleaning can retain acquisition artifacts that create, inflate, or obscure apparent biological populations. Conversely, over-cleaning can remove rare or transient biological events. The revised Discussion therefore interprets retained-target purity and removed-non-target purity as complementary composition measures with competing error costs rather than treating one direction of error as universally preferable. These terms replace the earlier nonstandard use of “sensitivity” and “specificity”: retained-target purity is the proportion of retained events from the target source, whereas removed-non-target purity is the proportion of removed events from non-target sources.
+Neither higher removal nor closer agreement with a single human gate is inherently preferable. Under-cleaning can retain acquisition artifacts that create, inflate, or obscure apparent biological populations. Conversely, over-cleaning can remove rare or transient biological events. The revised Discussion therefore interprets retained-target purity and removed-non-target purity as complementary composition measures with competing error costs rather than treating one direction of error as universally preferable. These terms replace the earlier nonstandard use of “sensitivity” and “specificity”: retained-target purity is the proportion of retained events from the target source, whereas removed-non-target purity is the proportion of removed events from non-target sources.
 
 PLACEHOLDER
 
@@ -350,9 +340,9 @@ FlowMOP showed greater selectivity in four of six samples, with a median paired 
 
 ### Response
 
-We agree that the original wording conflated study scale with the intrinsic complexity of an individual preprocessing gate. The revised Introduction now refers explicitly to increasing numbers of files, events, and measured parameters and explains that this scale makes repeated manual preprocessing time-consuming and often impractical. We no longer imply that analysis software itself necessarily makes a debris or time gate more complex.
+The revised Introduction distinguishes study scale from the intrinsic complexity of an individual preprocessing gate. It now refers explicitly to increasing numbers of files, events, and measured parameters and explains that this scale makes repeated manual preprocessing time-consuming and often impractical. It no longer implies that analysis software itself necessarily makes a debris or time gate more complex.
 
-We also agree that tumour digests are an important and difficult validation setting. We therefore added an analysis of three tumour and three non-tumour human liver samples. For the tumour files, we first evaluated acquisition-time instability by comparing the intervals detected by FlowMOP with manual gating, FlowCut, and PeacoQC and by examining fluorescence-only divergence. FlowMOP captured the principal high-divergence acquisition intervals identified by the other approaches and also identified additional intervals with positive-population fluorescence shifts; residual comparator-only intervals generally showed weaker fluorescence divergence.
+We added an analysis of three tumour and three non-tumour human liver samples as a difficult validation setting. For the tumour files, we first evaluated acquisition-time instability by comparing the intervals detected by FlowMOP with manual gating, FlowCut, and PeacoQC and by examining fluorescence-only divergence. FlowMOP captured the principal high-divergence acquisition intervals identified by the other approaches and also identified additional intervals with positive-population fluorescence shifts; residual comparator-only intervals generally showed weaker fluorescence divergence.
 
 We then evaluated the complete time, debris, and doublet workflow using Zombie UV-A as an orthogonal biological readout. FlowMOP and manual gating were not detectably different in the primary paired selectivity comparison (exact two-sided p = 0.156). This result does not establish formal parity, but it provides no evidence of systematic inferiority in this six-sample analysis. We retain an explicit limitation that larger and more necrotic tumour cohorts are needed because these samples lack event-level technical ground truth and cannot represent the full diversity of tumour-digest artifacts.
 
@@ -388,7 +378,7 @@ We then evaluated the complete time, debris, and doublet workflow using Zombie U
 
 The acquisition voltage/gain settings remain a PLACEHOLDER.
 
-We agree that instruments offering multiple scatter measurements introduce both opportunities and configuration choices not covered by the present validation. FlowMOP currently expects the user to identify the scatter channels used by the workflow; it has not been validated systematically across 405-nm, 488-nm, and polar scatter configurations. We therefore present adaptation to these instruments as a future validation and channel-selection task rather than claiming that the current results transfer automatically to every scatter configuration.
+The present validation does not cover all configuration choices introduced by instruments that offer multiple scatter measurements. FlowMOP currently expects the user to identify the scatter channels used by the workflow; it has not been validated systematically across 405-nm, 488-nm, and polar scatter configurations. Adaptation to these instruments therefore remains a future validation and channel-selection task.
 
 ### Changes made
 
@@ -422,9 +412,9 @@ We agree that instruments offering multiple scatter measurements introduce both 
 
 ### Response
 
-We thank the Associate Editor for identifying that the practical relevance of the Bimix and Trimix designs was not sufficiently explained. We now define a “microblockage” operationally as a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed. Existing work supports the substance of this phenomenon even though it uses broader terminology. flowAI documented flow-rate surges interspersed throughout acquisitions and their association with signal-intensity variation [10]. PeacoQC describes temporary acquisition shifts caused by slow sample uptake or a clog and notes that such problems can be difficult to detect manually [5], while FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [9].
+The revised text explains the practical relevance of the Bimix and Trimix designs. It defines a “microblockage” operationally as a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed. Existing work supports the substance of this phenomenon even though it uses broader terminology. flowAI documented flow-rate surges interspersed throughout acquisitions and their association with signal-intensity variation [10]. PeacoQC describes temporary acquisition shifts caused by slow sample uptake or a clog and notes that such problems can be difficult to detect manually [5], while FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [9].
 
-Because the affected intervals can be short and their events interspersed with otherwise plausible events, they are difficult to recognize reliably by eye and impractical to exclude using a series of manual gates. We do not claim that every experiment contains microblockages or estimate their prevalence here; rather, we use the term for a subtle, self-resolving acquisition failure mode that a time-quality-control method should be able to detect.
+Because the affected intervals can be short and their events interspersed with otherwise plausible events, they are difficult to recognize reliably by eye and impractical to exclude using a series of manual gates. We use “microblockage” for this subtle, self-resolving acquisition failure mode that a time-quality-control method should be able to detect. Estimating its prevalence across experiments would require a separate study.
 
 The Bimix and Trimix samples model the observable fluorescence consequence in this operational definition rather than reproducing or proving a physical obstruction. This distinction is important. The synthetic samples can appear acceptable by eye, but their retained source labels reveal short intervals containing events from an intentionally perturbed fluorescence source. Under the benchmark definition, those events should be excluded even when visual inspection alone would not identify a defensible manual gate. The apparent visual normality of these files is therefore the reason an event-labelled benchmark is needed, not evidence that the modeled problem is unimportant.
 
@@ -478,7 +468,7 @@ We also defined temporal artifacts, simplified the terminology, and added Figure
 
 ### Response
 
-We agree. The Abstract has been restructured to begin with the preprocessing problem and its biological and computational context before introducing FlowMOP, the validation design, and the principal findings. We also added a concluding Introduction paragraph that summarizes FlowMOP's intended role and previews the time-gating comparison, debris and doublet validation, expert evaluation, and computational benchmark.
+The Abstract has been restructured to begin with the preprocessing problem and its biological and computational context before introducing FlowMOP, the validation design, and the principal findings. We also added a concluding Introduction paragraph that summarizes FlowMOP's intended role and previews the time-gating comparison, debris and doublet validation, expert evaluation, and computational benchmark.
 
 ### Changes made
 
@@ -518,9 +508,9 @@ We agree. The Abstract has been restructured to begin with the preprocessing pro
 
 ### Response
 
-We agree that the method needed a more precise description. FlowMOP ultimately applies a one-dimensional FSC-A threshold, but that threshold is not obtained from a single unconditioned FSC-A histogram. The algorithm identifies eligible fluorescence parameters, examines the FSC-A structure of each parameter's positive population, derives a candidate FSC-A threshold from each eligible channel, and applies the median candidate threshold to the sample. Thus, information across eligible fluorescence channels informs the final FSC-A gate, while the applied decision remains a conservative FSC-A threshold.
+The revised Methods describes the debris-removal procedure more precisely. FlowMOP ultimately applies a one-dimensional FSC-A threshold, but that threshold is not obtained from a single unconditioned FSC-A histogram. The algorithm identifies eligible fluorescence parameters, examines the FSC-A structure of each parameter's positive population, derives a candidate FSC-A threshold from each eligible channel, and applies the median candidate threshold to the sample. Thus, information across eligible fluorescence channels informs the final FSC-A gate, while the applied decision remains a conservative FSC-A threshold.
 
-We nevertheless agree that this does not make the current module a universal debris classifier. Debris and intact cells can overlap on FSC-A, and large clumps, tumour-associated material, non-biological aggregates, or other high-scatter contaminants may not be removed reliably. We specifically considered whether SSC-A should be incorporated. SSC-A can be informative for large or internally complex debris, but large and internally complex events can also represent desirable populations that should be retained. Their interpretation varies with tissue, staining panel, cytometer configuration, acquisition settings, and the biological populations of interest. Unlike the comparatively transferable relationship between very low FSC-A and small debris, there is no broadly safe high-SSC-A rule for excluding large events.
+The current module is not a universal debris classifier. Debris and intact cells can overlap on FSC-A, and large clumps, tumour-associated material, non-biological aggregates, or other high-scatter contaminants may not be removed reliably. We specifically considered whether SSC-A should be incorporated. SSC-A can be informative for large or internally complex debris, but large and internally complex events can also represent desirable populations that should be retained. Their interpretation varies with tissue, staining panel, cytometer configuration, acquisition settings, and the biological populations of interest. Unlike the comparatively transferable relationship between very low FSC-A and small debris, there is no broadly safe high-SSC-A rule for excluding large events.
 
 In the present technical-control datasets, the labelled small-debris and desirable source populations overlapped substantially along SSC-A, so a fixed SSC-A threshold offered limited additional separation for the small-event removal targeted by FlowMOP. We therefore did not incorporate SSC-A into the current debris decision. Pulse-width measurements may similarly help identify some aggregates or clumps, but their availability and interpretation are instrument- and acquisition-dependent. Incorporating SSC-A or pulse width responsibly would require a wide configurable parameter range or sample-specific multivariate decision rules validated for the intended dataset, panel, instrument, and cell populations. The revised Discussion therefore defines the current scope as conservative low-FSC debris removal and presents SSC-A, pulse-width measurements, margin-event metadata, and sample-specific multivariate models as future extensions rather than universal default filters.
 
@@ -578,9 +568,9 @@ The requested human comparison is already represented by the percentage-based an
 
 ### Response
 
-FlowMOP is not intended to provide a general aggregate-removal solution. Its doublet module targets events whose FSC-A/FSC-H and, where available, SSC-A/SSC-H pulse ratios distinguish them from singlets. It can remove some higher-order coincident events when those events produce separable ratio structure, as observed for triplet-like events in the technical controls, but it cannot identify every aggregate or clump from these ratios alone.
+FlowMOP's doublet module targets events whose FSC-A/FSC-H and, where available, SSC-A/SSC-H pulse ratios distinguish them from singlets. It can remove some higher-order coincident events when those events produce separable ratio structure, as observed for triplet-like events in the technical controls, but it cannot identify every aggregate or clump from these ratios alone.
 
-We agree that informative pulse ratios require the relevant scatter measurements to remain within the instrument's measurement range. If cells are saturated or collapsed at an FSC boundary, the lost pulse-shape information cannot be reconstructed downstream. The revised Results now state this assumption and identify saturated or edge-collapsed scatter and incorrectly configured acquisition parameters as conditions requiring acquisition review, manual intervention, or alternative pulse-shape features. We did not add a new saturation-handling algorithm.
+Informative pulse ratios require the relevant scatter measurements to remain within the instrument's measurement range. If cells are saturated or collapsed at an FSC boundary, the lost pulse-shape information cannot be reconstructed downstream. The revised Results now state this assumption and identify saturated or edge-collapsed scatter and incorrectly configured acquisition parameters as conditions requiring acquisition review, manual intervention, or alternative pulse-shape features. We did not add a new saturation-handling algorithm.
 
 The reviewer is also correct that CTV-CFSE double-positive events represent only heterologous labelled doublets. CTV-CTV and CFSE-CFSE doublets cannot be distinguished from their respective single-labelled populations using the dye labels alone. The technical-control design therefore gives a sensitive measure of retained known heterologous doublets but cannot establish the complete false-positive and false-negative rate for all doublet classes.
 
@@ -600,7 +590,7 @@ Figure 4 already compares the percentage of CTV-CFSE double-positive events remo
 
   > “No statistically significant difference was detected between FlowMOP and any expert for this endpoint (Fig. 4B, paired t-test; unadjusted p > 0.05).”
 
-- We retained the limited observation that FlowMOP removed a triplet-like population in the technical-control samples, but we do not claim universal aggregate removal.
+- We retained the observation that FlowMOP removed a triplet-like population in the technical-control samples and restricted that finding to those samples.
 
 **Location:** Results, “Doublet Gating” and “Synthetic Doublet Gating Benchmark”; Discussion, “Synthetic Sample Debris and Doublet Gating” and “Other remarks”; Figure 4.
 
@@ -636,7 +626,7 @@ PLACEHOLDER
 
 ### Response
 
-We thank the reviewer for identifying these omissions. The duplicated cytometer sentence has been removed.
+The duplicated cytometer sentence has been removed.
 
 **PBMC antibody identities and fluorochromes:** PLACEHOLDER
 
@@ -658,9 +648,9 @@ We thank the reviewer for identifying these omissions. The duplicated cytometer 
 
 ### Response
 
-We thank the reviewer for raising this point. The current implementation uses a 1% threshold, not 5%; the earlier 5% wording was stale and has been corrected. FlowMOP checks the number of events at the maximum FSC-A value and removes those maximum-valued events only when they exceed 1% of the sample.
+The current implementation uses a 1% threshold, not 5%; the inconsistent earlier value has been corrected. FlowMOP checks the number of events at the maximum FSC-A value and removes those maximum-valued events only when they exceed 1% of the sample.
 
-We agree that the number and percentage of events removed by this specific precleaning step are the relevant quantities. A dataset-level summary of those values is not yet complete and remains to be added before submission; percentage-based retention results from later gating stages are not presented as a substitute for this precleaning summary.
+The number and percentage of events removed by this specific precleaning step are the relevant quantities. A dataset-level summary of those values is not yet complete and remains to be added before submission; percentage-based retention results from later gating stages are not presented as a substitute for this precleaning summary.
 
 The 1% cutoff is a pragmatic safeguard rather than a uniquely ground-truth-derived boundary. It is low enough to identify files with a non-trivial accumulation of events at the acquisition maximum while avoiding removal triggered by isolated maximum-valued events. The revised Results state this operational rationale.
 
@@ -692,7 +682,7 @@ The 1% cutoff is a pragmatic safeguard rather than a uniquely ground-truth-deriv
 
 ### Response
 
-We agree that the conceptual nature of Figure 1 does not remove the need for clear descriptions. We retained Figure 1 as a conceptual schematic rather than treating its axes as quantitative measurements. The revised legend explains the two smoothing resolutions in Figure 1A, identifies the debris and doublet-ratio quantities in Figures 1B and 1C, and states that the schematic fluorescence-intensity and signal-strength axes use arbitrary units.
+Figure 1 remains a conceptual schematic, and its axes are not treated as quantitative measurements. The revised legend explains the two smoothing resolutions in Figure 1A, identifies the debris and doublet-ratio quantities in Figures 1B and 1C, and states that the schematic fluorescence-intensity and signal-strength axes use arbitrary units.
 
 ### Changes made
 
@@ -706,7 +696,7 @@ We agree that the conceptual nature of Figure 1 does not remove the need for cle
 
 > Finally, I ask that the authors also provide thorough and complete responses to all comments raised by the other reviewers.
 
-**Response:** We agree. Every comment from Reviewers 1 and 2 is reproduced in this response, and the coverage index below identifies the consolidated response containing each comment. Completed revisions are described and quoted where available; author-supplied methodological details and the ongoing biological-validation analysis remain clearly marked as placeholders.
+**Response:** Every comment from Reviewers 1 and 2 is reproduced in this response, and the coverage index below identifies the consolidated response containing each comment. Completed revisions are described and quoted where available; author-supplied methodological details and the ongoing biological-validation analysis remain clearly marked as placeholders.
 
 **Location:** Not applicable.
 
@@ -718,8 +708,8 @@ We agree that the conceptual nature of Figure 1 does not remove the need for cle
 | --- | --- |
 | General assessment | Associate Editor's General Assessment |
 | Algorithmic motivation and theoretical justification — existing alternatives and design rationale | Combined Comment 1 |
-| Algorithmic motivation and theoretical justification — smoothing speculation | Combined Comment 2 |
-| Algorithmic versus implementation advantages | Combined Comment 4 |
+| Algorithmic motivation and theoretical justification — smoothing mechanism | Combined Comment 3 |
+| Algorithmic versus implementation advantages | Combined Comment 2 |
 | Expert preference rankings and statistical interpretation | Combined Comments 5 and 6 |
 | Smaller point — dataset scale and complexity | Combined Comment 7 |
 | Smaller point — Bimix/Trimix and experimental relevance | Combined Comment 9 |
@@ -729,11 +719,11 @@ We agree that the conceptual nature of Figure 1 does not remove the need for cle
 
 | Reviewer 1 comment | Response location |
 | --- | --- |
-| Comment 1 — Technical infrastructure and performance claims | Combined Comment 4 |
+| Comment 1 — Technical infrastructure and performance claims | Combined Comment 2 |
 | Comment 2 — Debris gating methodology | Combined Comment 11 |
 | Comment 3 — Refinement of human subjective rankings | Combined Comment 5 |
 | Comment 4 — Error costs and sensitivity trade-offs | Combined Comment 6 |
-| Comment 5 — Parametric sensitivity analysis | Combined Comment 2 |
+| Comment 5 — Parametric sensitivity analysis | Combined Comment 3 |
 
 ### Reviewer 2
 
@@ -746,7 +736,7 @@ We agree that the conceptual nature of Figure 1 does not remove the need for cle
 | Comment 4 | Combined Comment 9 |
 | Comment 5 | Combined Comment 12 |
 | Comment 6 | Combined Comment 1 |
-| Comment 7 | Combined Comment 4 |
+| Comment 7 | Combined Comment 2 |
 | Comment 8 | Combined Comment 1 |
 | Comment 9 | Combined Comment 10 |
 | Comment 10 | Combined Comment 7 |
@@ -757,10 +747,10 @@ We agree that the conceptual nature of Figure 1 does not remove the need for cle
 | Comment 15 | Combined Comment 11 |
 | Comment 16 | Combined Comment 5 |
 | Comment 17 | Combined Comment 15 |
-| Comment 18 | Combined Comment 3 |
+| Comment 18 | Combined Comment 4 |
 | Comment 19 | Combined Comment 16 |
-| Comment 20 | Combined Comment 2 |
-| Comment 21 | Combined Comment 3 |
+| Comment 20 | Combined Comment 3 |
+| Comment 21 | Combined Comment 4 |
 | Comment 22 | Combined Comment 11 |
 | Comment 23 | Combined Comment 16 |
 | Comment 24 | Combined Comment 11 |
@@ -771,4 +761,4 @@ We agree that the conceptual nature of Figure 1 does not remove the need for cle
 
 ## Closing Statement
 
-We again thank the Associate Editor and reviewers for their detailed and constructive comments. We believe that the revisions and the more explicit limitations substantially improve the manuscript's clarity, evidentiary basis, and practical interpretation.
+The revisions and explicit limitations provide a clearer account of the manuscript's evidentiary basis and practical interpretation.

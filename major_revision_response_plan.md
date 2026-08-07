@@ -29,24 +29,23 @@ The goal is to convert this into a detailed response letter after the analyses a
 **Additional analyses proposed:**
 
 - Do not introduce additional default-parameter sensitivity checks as manuscript results unless the primary manuscript benchmarks are rerun under the same settings.
-- Add parameter sensitivity analysis for PeacoQC and FlowCut where feasible to show that comparisons are not driven solely by default settings. This remains a manuscript-analysis task; the current committed benchmark infrastructure establishes API-correct baseline runners for both tools.
+- Use PeacoQC's documented acquisition-bin-size trade-off to contextualise its fixed-setting benchmark result.
 - Remove speculative attribution language and replace it with the mechanism explanations that directly match the reported benchmark figures.
-- Integration status: the response now replaces the speculative attribution with the Time-only FlowCut mechanism benchmark and the PeacoQC local peak-estimation-noise explanation.
+- Integration status: the response now replaces the speculative attribution with the Time-only FlowCut mechanism benchmark and PeacoQC's documented bin-size trade-off.
 
-**PeacoQC versus FlowMOP mechanistic framing to add:**
+**PeacoQC versus FlowMOP mechanistic framing:**
 
-- Make the limitation being tested explicit: PeacoQC defines quality through the stability of density-peak positions across acquisition bins. This is well matched to acquisition artifacts that move marker peaks, but peak instability is not uniquely caused by poor acquisition quality.
-- Link this to the actual failure pattern: in mixed-source Bimix and Trimix files, each acquisition bin is a finite draw from multiple fluorescence distributions. This can make local peak estimates less stable because of bin-level sampling noise.
-- Link this directly to the synthetic results: PeacoQC's lower specificity is likely explained by sensitivity to local peak-estimation instability, especially in smaller-bin or compositionally complex mixtures where local peak estimates are noisier.
-- Use careful wording: do not say that PeacoQC is intrinsically wrong. Instead state that its local peak-estimation strategy can be susceptible to bin-level noise, whereas this benchmark scores whether removed events correspond to the source-labelled contaminating population.
+- PeacoQC's documentation identifies acquisition-bin size as a trade-off between within-bin density estimation, the number of bins available for evaluating signal stability, and the impact of removing one bin.
+- The short, interspersed source-defined intervals in the Bimix and Trimix benchmarks provide the relevant context for the fixed-setting difference.
+- The response should use this documented trade-off rather than the unsupported finite-sampling peak-instability explanation.
 
-**Draft manuscript wording for PeacoQC comparison:**
+**Final manuscript position for PeacoQC comparison:**
 
-> PeacoQC detects acquisition instability by identifying density peaks per channel and assessing whether those peak positions remain stable across acquisition bins. This approach is powerful when instrument or sample-flow artifacts produce marker-peak shifts. However, in mixed-source Bimix and Trimix files, each acquisition bin is a finite draw from multiple fluorescence distributions, which can make local peak estimates less stable. PeacoQC may therefore flag bins because their local peak structure is noisy, rather than because the removed events correspond cleanly to the source-labelled contaminating population. FlowMOP's benchmarked time-gating mode instead uses globally anchored positive thresholds and per-bin positive-fluorescence summaries, reducing over-removal when local peak estimates vary because of bin-level noise rather than acquisition failure.
+> PeacoQC's documentation identifies acquisition-bin size as a trade-off between the accuracy of within-bin density estimation, the number of bins available for evaluating signal stability, and the number of events affected when a bin is removed. The Bimix and Trimix benchmarks contain short, interspersed source-defined intervals. FlowMOP's stronger performance under the fixed benchmark settings is therefore consistent with its temporal summarisation being better matched to these brief intervals, whereas PeacoQC's automatically selected bin resolution reflects a general-purpose trade-off.
 
-**Draft response-letter wording for PeacoQC comparison:**
+**Final response-letter position for PeacoQC comparison:**
 
-> We agree that the manuscript should more clearly distinguish FlowMOP's behavior from PeacoQC. We have revised the discussion to explain that PeacoQC defines high-quality acquisition as stability of density-peak positions over acquisition time. This is appropriate for many acquisition artifacts, but in mixed-source files local peak estimates can also become unstable because each acquisition bin is a finite draw from multiple fluorescence distributions. Thus, PeacoQC can be susceptible to bin-level noise in peak presence, prominence, or position. We now explicitly connect this mechanism to the observed low-specificity pattern in smaller-bin and compositionally complex mixtures.
+> We removed the unsupported local peak-noise explanation. PeacoQC's documentation describes acquisition-bin size as a trade-off between within-bin density estimation, the number of bins available for stability assessment, and the impact of removing a bin. This documented trade-off provides the relevant context for FlowMOP's stronger performance under the fixed benchmark settings on short, interspersed Bimix and Trimix intervals.
 
 **Draft response-letter wording for FlowCut versus FlowMOP comparison:**
 
@@ -66,8 +65,8 @@ The goal is to convert this into a detailed response letter after the analyses a
 - Expected discriminator:
   - if FlowCut's weakness is rate/density sensitivity, it should show changed removal under Time-only source or random warping despite unchanged fluorescence values;
   - if FlowMOP's advantage is fluorescence/population-summary anchoring, it should be comparatively less affected by Time-only warping while retaining source-label specificity;
-  - if PeacoQC's weakness is peak-stability sensitivity to composition changes, it may react to real source-linked peak instability even when that instability is not labelled as low-quality under the source-label truth.
-- Present this as a mechanistic supplement, not as another broad leaderboard. The goal is to explain when each algorithm's signal is appropriate: FlowCut for density/time-linked abnormalities, PeacoQC for unstable marker-density peaks, and FlowMOP for fluorescence-population deviations that are less coupled to acquisition rate alone.
+  - PeacoQC provides a control for whether Time-only density variation affects a peak-stability method; it remained unchanged in this test.
+- Present this as a mechanistic supplement, not as another broad leaderboard. PeacoQC's documented bin-size trade-off provides context for the separate fixed-setting comparison.
 
 **Manuscript change record for this mechanism benchmark:**
 

@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 
 
-ALGORITHMS = ("flowmop", "flowcut")
-ALGORITHM_LABELS = {"flowmop": "FlowMOP", "flowcut": "FlowCut"}
+ALGORITHMS = ("flowmop", "peacoqc", "flowcut")
+ALGORITHM_LABELS = {"flowmop": "FlowMOP", "peacoqc": "PeacoQC", "flowcut": "FlowCut"}
 VARIANTS = ("source_timewarp", "random_timewarp")
 VARIANT_LABELS = {
     "source_timewarp": "Source-linked Time warp",

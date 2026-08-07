@@ -522,40 +522,50 @@ abherrations''? please clarify.
 
 \subsubsection{Response}\label{response-2}
 
-The computational benchmark in Combined Comment 2 establishes
-FlowMOP\textquotesingle s runtime and memory performance and its
-inherent suitability for within-sample parallelisation. We then turn to
-address the mechanism behind FlowMOP\textquotesingle s superiority over
-FlowCut and PeacoQC in the tested Segment scenarios. We sought to
-ascertain why these performance differences arose. Therefore, we
-conducted a matched Time-only mechanism analysis. This involved changing
-only the Time channel while preserving fluorescence, scatter, source
-labels, and event order across 30 source-labelled Bimix, Trimix, and
-Segment files. We found that FlowMOP\textquotesingle s performance was
-unchanged under both source-linked and random Time warping, whereas
-FlowCut\textquotesingle s removal behaviour changed when local Time
-density was altered. The clearest loss occurred in Segment inputs under
-source-linked Time warping.
+We now seek to address the mechanisms underlying
+FlowMOP\textquotesingle s superior performance under the primary fixed
+comparison settings in the tested Segment, Bimix, and Trimix scenarios.
+Our hypotheses arose from the different signals used by the methods and
+from the pattern observed in the original benchmark. FlowMOP uses
+acquisition order to define time bins but bases its removal decision on
+fluorescence summaries of globally defined positive populations; Time
+itself is excluded from the quality variables. FlowCut, by contrast, can
+respond to local acquisition-density structure. This distinction was
+particularly relevant because the Segment files retained stronger
+source-linked Time-density structure and showed the clearest FlowCut
+performance loss, whereas Time was approximately normalized in the
+constructed Bimix and Trimix files. We therefore hypothesised that
+FlowCut\textquotesingle s relative loss arose, at least in part, from
+sensitivity to local acquisition rate rather than to the source-linked
+fluorescence defect itself.
 
-We examined PeacoQC separately because it assesses the stability of
-local density-peak positions across acquisition bins. In mixed-source
-bins, finite sampling from multiple fluorescence distributions can make
-those local peak estimates unstable even when the events do not
-correspond cleanly to the source-labelled contaminating population. This
-provides a mechanism for the observed difference from PeacoQC: FlowMOP
-uses globally anchored positive-population thresholds and time-bin
-fluorescence summaries, whereas PeacoQC can respond to local
-peak-estimation noise.
+To test this hypothesis, we conducted a matched Time-only mechanism
+analysis. This involved changing only the Time channel while preserving
+fluorescence, scatter, source labels, and event order across 30
+source-labelled Bimix, Trimix, and Segment files. We found that FlowMOP
+and PeacoQC were both unchanged under source-linked and random Time
+warping, whereas FlowCut\textquotesingle s removal behaviour changed
+when local Time density was altered. The clearest loss occurred in
+Segment inputs under source-linked Time warping.
 
-Consequently, the earlier smoothing attribution has been removed and
-replaced with mechanisms that directly match the benchmarked behaviour.
-FlowMOP\textquotesingle s time-gating decision is anchored to
-fluorescence-population summaries, FlowCut can respond to
-acquisition-density changes even when fluorescence is unchanged, and
-PeacoQC can respond to unstable local peak estimates in mixed-source
-bins. These conclusions are restricted to the tested benchmark
-conditions and do not establish general superiority across all datasets
-or parameter settings.
+PeacoQC\textquotesingle s documentation identifies acquisition-bin size
+as a trade-off between the accuracy of within-bin density estimation,
+the number of bins available for evaluating signal stability, and the
+number of events affected when a bin is removed {[}5{]}. The Bimix and
+Trimix benchmarks contain short, interspersed source-defined intervals.
+FlowMOP\textquotesingle s stronger performance under the fixed benchmark
+settings is therefore consistent with its temporal summarisation being
+better matched to these brief intervals, whereas
+PeacoQC\textquotesingle s automatically selected bin resolution reflects
+a general-purpose trade-off.
+
+Consequently, the earlier smoothing attribution has been removed. The
+matched Time-only benchmark directly supports the distinction between
+FlowMOP\textquotesingle s fluorescence-population-summary decision and
+FlowCut\textquotesingle s response to acquisition-density changes when
+fluorescence is unchanged. PeacoQC\textquotesingle s documented bin-size
+trade-off provides the relevant context for its fixed-setting comparison
+with FlowMOP.
 
 We also tested smoothing directly by holding all other FlowMOP settings
 fixed across all 92 largecut source-labelled synthetic time-gating files
@@ -578,14 +588,6 @@ retained-target purity and removed-non-target purity throughout the
 manuscript, tables, and figure labels. This relabelling does not alter
 the values, comparisons, or p-values.
 
-We did not perform a comprehensive PeacoQC or FlowCut
-parameter-sensitivity sweep. We therefore do not claim that the
-mechanism benchmark establishes robustness to every possible competitor
-parameterization. The revised framing identifies the fixed comparison
-settings, removes or tempers general claims of superiority, and
-restricts the mechanistic conclusion to the behaviours directly tested
-by the matched Time-only benchmark.
-
 The two smoothing resolutions are now described as complementary spline
 fits applied to the same time-bin fluorescence-summary series before MAD
 filtering. A bin can be detected through either smoothing pass; the
@@ -603,8 +605,8 @@ aberrations.''
   ``To test the effect of flow-rate disturbances aligned with or
   independent of source-linked fluorescence changes, we altered only the
   Time channel while leaving fluorescence, scatter, source labels, and
-  event order unchanged (Fig. S4). FlowMOP was unchanged under both
-  source-linked and random Time warping. In contrast,
+  event order unchanged (Fig. S4). FlowMOP and PeacoQC were unchanged
+  under both source-linked and random Time warping. In contrast,
   FlowCut\textquotesingle s retained-target and removed-non-target
   purity shifted after Time-only perturbation.''
   \end{quote}
@@ -636,18 +638,6 @@ aberrations.''
   ``Retained-target purity was defined as retained target-source events
   divided by all retained events. Removed-non-target purity was defined
   as removed non-target-source events divided by all removed events.''
-  \end{quote}
-\item
-  We added the following limitation concerning parameter sensitivity:
-
-  \begin{quote}
-  ``All algorithms were compared using recommended or default settings,
-  including fixed FlowMOP parameters, to reflect typical unsupervised
-  use. We did not perform extensive parameter tuning for FlowCut or
-  PeacoQC because the original method descriptions do not provide
-  dataset-specific guidance for how such tuning should be performed. We
-  therefore treat full cross-method parameter optimization as outside
-  the scope of this validation.''
   \end{quote}
 \item
   We added the complete mechanism-benchmark methods and results as

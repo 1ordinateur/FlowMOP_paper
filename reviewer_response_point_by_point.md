@@ -6,6 +6,14 @@ The Associate Editor and reviewers raised several overlapping concerns. To avoid
 
 We thank the Associate Editor and reviewers for their considered feedback and believe that the requested amendments have significantly improved the manuscript. We hope that the revised manuscript now addresses the Associate Editor's and reviewers' concerns.
 
+## Data Leakage: Correction to the Comparative Benchmark
+
+During revision, we identified a data-leakage error in the original competitor benchmark: the source-label field retained for scoring had inadvertently been available to PeacoQC and FlowCut. The synthetic FCS files deliberately retained `SampleIDInt` so that event-level source truth remained attached for scoring, but the original PeacoQC and FlowCut benchmark paths did not remove this numeric field from the channels available for quality assessment. FlowMOP did not have this issue because its fluorescence-channel selection explicitly excluded channel names containing `sample`, together with Time and scatter channels.
+
+We reran the full benchmark with the source label excluded from all quality-control inputs and used it only for scoring. The correction reinforced rather than reversed the comparative findings. FlowMOP had higher sensitivity than FlowCut for Segment at both tested bin sizes and for the 5000-event Bimix and Trimix benchmarks. At 5000 events, FlowMOP also had higher specificity than both competitors across Segment, Bimix, and Trimix; at 2000 events, it retained higher specificity than PeacoQC in Bimix and Trimix without a significant sensitivity disadvantage and had higher sensitivity and specificity than FlowCut in Segment. Figure 2, its violin distributions, p-values, significance brackets, and all reported comparisons now use these corrected outputs.
+
+This correction is independent of the specific reviewer comments addressed below and is reported for transparency.
+
 ## Associate Editor's General Assessment
 
 > Novel tools to expedite flow cytometry data analysis are always welcome, and I commend the authors for their effort in introducing these new methods. However, as currently submitted, the manuscript requires major revision. The reviewers have identified numerous areas requiring improvement, and I encourage the authors to address their comments carefully and comprehensively. In addition to the reviewers' critiques, I offer several observations of my own that I believe will strengthen the manuscript's suitability for publication.
@@ -156,9 +164,7 @@ In the regenerated primary benchmark, FlowMOP had higher sensitivity than FlowCu
 
 Consequently, the earlier smoothing attribution has been removed. The matched Time-only benchmark directly supports the distinction between FlowMOP's fluorescence-population-summary decision and FlowCut's response to acquisition-density changes when fluorescence is unchanged. PeacoQC's documented bin-size trade-off provides the relevant context for its fixed-setting comparison with FlowMOP.
 
-We thank the reviewers for prompting this direct examination of smoothing. We tested a range of smoothing settings across all 173 primary synthetic time-gating inputs while holding all other FlowMOP settings fixed (Table S4). No smoothing provided the best specificity, but at the cost of sensitivity. Inspection showed that the additional target-source events removed under smoothing lay in distribution shoulders, where target and non-target events were difficult to distinguish reliably. We therefore retained smoothing as the conservative default: it avoids treating ambiguous shoulder events as confidently valid and provides higher sensitivity, while accepting the corresponding specificity trade-off. Among the smoothed settings, `0.01,0.05` provided the strongest balance and was selected as the default. We reran FlowMOP across all Figure 2 inputs and regenerated Figure 2 using these outputs.
-
-During revision, we identified a data-leakage error in the original competitor benchmark: the source-label field retained for scoring had inadvertently been available to PeacoQC and FlowCut. FlowMOP already excluded this field. We reran the full benchmark with the source label excluded from all quality-control inputs and used it only for scoring. Figure 2 and all reported comparisons now use these corrected outputs; the substantive conclusions were strengthened rather than reversed.
+We thank the reviewers for prompting this direct examination of smoothing. We tested a range of smoothing settings across all synthetic time-gating inputs while holding all other FlowMOP settings fixed (Table S4). No smoothing provided the best specificity, but at the cost of sensitivity. Inspection showed that the additional target-source events removed under smoothing lay in distribution shoulders, where target and non-target events were difficult to distinguish reliably. We therefore retained smoothing as the conservative default: it avoids treating ambiguous shoulder events as confidently valid and provides higher sensitivity, while accepting the corresponding specificity trade-off. Among the smoothed settings, `0.01,0.05` provided the strongest balance and was selected as the default. We reran FlowMOP across all Figure 2 inputs and regenerated Figure 2 using these outputs.
 
 All algorithms were compared using documented recommended, default, or automatically selected settings, including fixed FlowMOP parameters, to reflect typical unsupervised use. We did not perform extensive parameter tuning for FlowCut or PeacoQC because the original method descriptions do not provide dataset-specific guidance for how such tuning should be performed. We therefore restrict our conclusions to the fixed comparison settings and the behaviours directly tested by the matched Time-only benchmark.
 
@@ -179,8 +185,6 @@ The two smoothing resolutions are now described as complementary spline fits app
 - We expanded the smoothing analysis across all 173 primary synthetic time-gating inputs. Supplementary Table S4 reports the tested range and identifies `0.01,0.05` as the strongest-performing smoothed setting on the balanced comparison.
 
 - We reran FlowMOP using the selected `0.01,0.05` setting and regenerated the Figure 2 violin distributions, p-values, and significance brackets from these outputs.
-
-- We corrected the competitor benchmark so that the source-label field is excluded from all quality-control inputs and retained only for scoring.
 
 - We clarified the scope of the fixed-setting comparison:
 

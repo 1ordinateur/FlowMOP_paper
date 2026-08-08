@@ -685,12 +685,20 @@ In the Segmented method, FlowMOP and PeacoQC had significantly higher
 retained-target purity than FlowCut (p \textless{} 0.001) (Fig. 2B).
 FlowMOP also had higher removed-non-target purity than PeacoQC (p
 \textless{} 0.001). {\color{revisionblue}In the Bimix method, for the
-5000-bin size, FlowMOP demonstrated significantly higher
-removed-non-target purity than FlowCut (p = 0.02).}
-{\color{revisionblue}In the Trimix method, for the 5000-bin samples,
-FlowMOP also had higher removed-non-target purity than FlowCut (p =
-0.003).} {\color{revisionblue}These primary comparisons used each
-algorithm\textquotesingle s fixed recommended or default settings.}
+5000-bin size, PeacoQC showed higher retained-target purity than both
+FlowMOP and FlowCut (p \textless{} 0.001).} FlowMOP demonstrated
+significantly higher removed-non-target purity than FlowCut (p = 0.02).
+{\color{revisionblue}In the 2000-bin size, PeacoQC showed lower
+retained-target purity than FlowCut (p = 0.002) and lower
+removed-non-target purity than both FlowMOP and FlowCut (p \textless{}
+0.001).} {\color{revisionblue}In the Trimix method, for the 5000-bin
+samples, FlowMOP exhibited higher removed-non-target purity than both
+other methods (p = 0.004 for PeacoQC and p = 0.003 for FlowCut).}
+{\color{revisionblue}Similarly, in the 2000-bin samples, PeacoQC had
+lower removed-non-target purity than both FlowMOP and FlowCut (p = 0.01
+and p = 0.03, respectively).} {\color{revisionblue}These primary
+comparisons used each algorithm\textquotesingle s fixed recommended or
+default settings.}
 
 {\color{revisionblue}To test the effect of flow-rate disturbances
 aligned with or independent of source-linked fluorescence changes, we
@@ -1058,9 +1066,16 @@ fluorescence shifts.}
 The size of the simulated microblockage is determined by the `bin size',
 where the larger bin sizes emulate larger blockages.
 {\color{revisionblue}As expected, retained-target and removed-non-target
-purity were reduced in the smaller bin-sized samples.}
+purity were reduced in the smaller bin-sized samples.} This degradation
+was particularly marked for PeacoQC\textquotesingle s retained-target
+purity. {\color{revisionblue}PeacoQC had higher retained-target purity
+than both other algorithms at the larger bin size but lower
+retained-target purity than FlowCut in the smaller-bin runs.}
 {\color{revisionblue}FlowMOP had higher removed-non-target purity than
-FlowCut for the large-bin Bimix and Trimix samples.}
+FlowCut for the large-bin Bimix samples.} {\color{revisionblue}In the
+Trimix results, FlowMOP had higher removed-non-target purity than both
+other algorithms at the large bin size and higher removed-non-target
+purity than PeacoQC in the smaller-bin samples.}
 
 {\color{revisionblue}PeacoQC\textquotesingle s documentation identifies
 acquisition-bin size as a trade-off between the accuracy of within-bin

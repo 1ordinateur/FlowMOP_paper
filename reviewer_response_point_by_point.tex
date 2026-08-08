@@ -573,15 +573,19 @@ trade-off provides the relevant context for its fixed-setting comparison
 with FlowMOP.
 
 We thank the reviewers for prompting this direct examination of
-smoothing. We tested smoothing across all 173 primary synthetic
-time-gating inputs while holding all other FlowMOP settings fixed (Table
-S4). The no-smoothing control had the highest equal-weight balanced mean
-(0.7551), but its sensitivity was 1.92 percentage points lower than that
-of \texttt{0.01,0.05}. Among smoothed settings, \texttt{0.01,0.05} had
-the highest balanced mean (0.7511), with specificity 2.70 percentage
-points lower than the no-smoothing control. We selected
-\texttt{0.01,0.05} as the default, reran FlowMOP across all Figure 2
-inputs, and regenerated Figure 2 using these outputs.
+smoothing. We tested a range of smoothing settings across all 173
+primary synthetic time-gating inputs while holding all other FlowMOP
+settings fixed (Table S4). No smoothing provided the best specificity,
+but at the cost of sensitivity. Inspection showed that the additional
+target-source events removed under smoothing lay in distribution
+shoulders, where target and non-target events were difficult to
+distinguish reliably. We therefore retained smoothing as the
+conservative default: it avoids treating ambiguous shoulder events as
+confidently valid and provides higher sensitivity, while accepting the
+corresponding specificity trade-off. Among the smoothed settings,
+\texttt{0.01,0.05} provided the strongest balance and was selected as
+the default. We reran FlowMOP across all Figure 2 inputs and regenerated
+Figure 2 using these outputs.
 
 During revision, we identified a data-leakage error in the original
 competitor benchmark: the source-label field retained for scoring had
@@ -590,6 +594,15 @@ excluded this field. We reran the full benchmark with the source label
 excluded from all quality-control inputs and used it only for scoring.
 Figure 2 and all reported comparisons now use these corrected outputs;
 the substantive conclusions were strengthened rather than reversed.
+
+All algorithms were compared using documented recommended, default, or
+automatically selected settings, including fixed FlowMOP parameters, to
+reflect typical unsupervised use. We did not perform extensive parameter
+tuning for FlowCut or PeacoQC because the original method descriptions
+do not provide dataset-specific guidance for how such tuning should be
+performed. We therefore restrict our conclusions to the fixed comparison
+settings and the behaviours directly tested by the matched Time-only
+benchmark.
 
 The two smoothing resolutions are now described as complementary spline
 fits applied to the same time-bin fluorescence-summary series before MAD
@@ -629,10 +642,9 @@ aberrations.''
   \end{quote}
 \item
   We expanded the smoothing analysis across all 173 primary synthetic
-  time-gating inputs. Supplementary Table S4 reports all 19 tested
-  settings and identifies \texttt{0.01,0.05} as the marginally
-  highest-scoring smoothed setting on the equal-weight balanced
-  comparison.
+  time-gating inputs. Supplementary Table S4 reports the tested range
+  and identifies \texttt{0.01,0.05} as the strongest-performing smoothed
+  setting on the balanced comparison.
 \item
   We reran FlowMOP using the selected \texttt{0.01,0.05} setting and
   regenerated the Figure 2 violin distributions, p-values, and
@@ -641,6 +653,14 @@ aberrations.''
   We corrected the competitor benchmark so that the source-label field
   is excluded from all quality-control inputs and retained only for
   scoring.
+\item
+  We clarified the scope of the fixed-setting comparison:
+
+  \begin{quote}
+  ``The primary comparison used recommended or automatically selected
+  settings, including fixed FlowMOP parameters, to reflect typical
+  unsupervised use.''
+  \end{quote}
 \item
   We added the complete mechanism-benchmark methods and results as
   Figure S4.
@@ -1128,11 +1148,9 @@ diversity of tumour-digest artifacts.
   We revised the remaining limitation as follows:
 
   \begin{quote}
-  ``The present liver analysis provides an initial test in tumour
-  tissue, but further tumour digests with severe necrosis, large
-  aggregates, and heterogeneous scatter profiles remain important
-  validation contexts because they may challenge a conservative
-  FSC-A-centered debris strategy.''
+  ``Future extensions can evaluate configurable or sample-specific
+  multivariate approaches in tumour digests with greater necrosis,
+  aggregation, and scatter heterogeneity.''
   \end{quote}
 \end{itemize}
 
@@ -1316,7 +1334,7 @@ FlowCut\textquotesingle s removal behavior shifted (Figure S4).
   In the Methods, we added the following clarification:
 
   \begin{quote}
-  ``Here, we use `microblockage' operationally to denote a short,
+  Here, we use ``microblockage'' operationally to denote a short,
   self-resolving mid-acquisition disturbance that produces a localized
   fluorescence shift; the term does not imply that a physical
   obstruction was directly observed. Segmented samples model sustained
@@ -1328,7 +1346,7 @@ FlowCut\textquotesingle s removal behavior shifted (Figure S4).
   altered intervals are short and interspersed with otherwise plausible
   events; however, the retained source labels identify the intentionally
   perturbed events that should be excluded under the benchmark
-  definition.''
+  definition.
   \end{quote}
 
   \begin{quote}
@@ -1346,8 +1364,8 @@ FlowCut\textquotesingle s removal behavior shifted (Figure S4).
   ``To test the effect of flow-rate disturbances aligned with or
   independent of source-linked fluorescence changes, we altered only the
   Time channel while leaving fluorescence, scatter, source labels, and
-  event order unchanged (Fig. S4). FlowMOP was unchanged under both
-  source-linked and random Time warping. In contrast,
+  event order unchanged (Fig. S4). FlowMOP and PeacoQC were unchanged
+  under both source-linked and random Time warping. In contrast,
   FlowCut\textquotesingle s sensitivity and specificity shifted after
   Time-only perturbation.''
   \end{quote}
@@ -1357,16 +1375,16 @@ FlowCut\textquotesingle s removal behavior shifted (Figure S4).
   benchmark:
 
   \begin{quote}
-  ``Transient acquisition disturbances are not confined to the beginning
+  Transient acquisition disturbances are not confined to the beginning
   or end of a run: flow-rate surges interspersed throughout acquisition
   and associated signal-intensity variation have been documented
   {[}10{]}. PeacoQC notes that temporary acquisition problems can be
   difficult to detect manually {[}5{]}, and FlowCut describes manual
   identification and removal of transient acquisition problems as
-  time-consuming and subjective {[}9{]}. We use `microblockage'
+  time-consuming and subjective {[}9{]}. We use ``microblockage''
   operationally for a short, self-resolving instance of this broader
   phenomenon that produces a localized fluorescence shift, without
-  asserting that a physical obstruction was directly observed.''
+  asserting that a physical obstruction was directly observed.
   \end{quote}
 
   \begin{quote}
@@ -1589,30 +1607,19 @@ comparable than raw removed-event counts.
   We clarified the scope and derivation of the FSC-A gate as follows:
 
   \begin{quote}
-  ``To debris gate, FlowMOP applies a conservative FSC-A-based threshold
-  intended primarily to remove low-FSC debris. FSC-A was selected
-  because low-forward-scatter material is a comparatively universal
-  debris signal across sample types, whereas SSC-A patterns are more
-  tissue- and instrument-dependent.''
+  ``FlowMOP's debris module targets small, low-FSC debris. The final
+  gate is applied on FSC-A, but its threshold is informed by FSC-A
+  distributions across eligible fluorescence-positive populations rather
+  than the overall FSC-A histogram alone.''
   \end{quote}
 
   \begin{quote}
-  ``SSC-A can provide useful complementary information about internal
-  complexity and may help identify some large debris or aggregates.
-  However, large, high-SSC-A events can also be desirable intact
-  populations, and their interpretation depends on the tissue, staining
-  panel, cytometer configuration, and acquisition settings. Unlike the
-  relatively transferable rule that very small, low-FSC events are
-  likely to contain debris, there is no comparably universal SSC-A
-  direction or threshold for removing large events. In the present
-  technical-control datasets, the labelled small-debris and desirable
-  source populations also showed substantial overlap along SSC-A, so a
-  fixed SSC-A rule provided limited additional discrimination for the
-  small-event removal targeted by FlowMOP. SSC-A was therefore not
-  incorporated into the current debris decision. A future SSC-A
-  implementation would require configurable or sample-specific
-  multivariate decision rules validated across the intended tissues,
-  panels, and instruments.''
+  ``SSC-A may improve recognition of larger or internally complex
+  debris, while pulse-width measurements may assist with aggregates.
+  Accordingly, FlowMOP does not currently incorporate SSC-A or
+  pulse-width measurements into its debris decision because broadly
+  applicable thresholds for these features are difficult to establish
+  across tissues, panels, instruments, and acquisition settings.''
   \end{quote}
 
   \begin{quote}
@@ -1623,15 +1630,11 @@ comparable than raw removed-event counts.
   We expanded the Discussion of SSC-A and pulse-width integration:
 
   \begin{quote}
-  ``SSC-A may improve recognition of some large or internally complex
-  debris, and pulse-width measurements may help distinguish some
-  aggregates or clumps. However, large and internally complex events can
-  also be biologically desirable, while pulse-width availability and
-  behaviour vary between instruments and acquisition configurations.
-  Consequently, a fixed high-SSC-A or pulse-width exclusion rule could
-  remove legitimate populations, and an appropriate decision boundary
-  would need to be tailored to the dataset, panel, instrument, and
-  intended biological populations.''
+  ``SSC-A may improve recognition of larger or internally complex
+  debris, while pulse-width measurements may assist with aggregates.
+  Accordingly, FlowMOP does not currently incorporate these features
+  because broadly applicable decision rules are difficult to establish
+  across tissues, panels, instruments, and acquisition settings.''
   \end{quote}
 \item
   We reported the existing expert comparison as follows:
@@ -1646,19 +1649,17 @@ comparable than raw removed-event counts.
   without claiming that they are part of the current implementation:
 
   \begin{quote}
-  ``Future extensions could incorporate SSC-A, pulse-width measurements,
-  margin-event metadata, or sample-specific multivariate models when
-  these features are available and appropriately validated.''
+  ``Future extensions can evaluate configurable or sample-specific
+  multivariate approaches in tumour digests with greater necrosis,
+  aggregation, and scatter heterogeneity.''
   \end{quote}
 \item
   We added the following limitation:
 
   \begin{quote}
-  ``The present liver analysis provides an initial test in tumour
-  tissue, but further tumour digests with severe necrosis, large
-  aggregates, and heterogeneous scatter profiles remain important
-  validation contexts because they may challenge a conservative
-  FSC-A-centered debris strategy.''
+  ``Future extensions can evaluate configurable or sample-specific
+  multivariate approaches in tumour digests with greater necrosis,
+  aggregation, and scatter heterogeneity.''
   \end{quote}
 \end{itemize}
 

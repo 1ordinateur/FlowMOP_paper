@@ -64,6 +64,7 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--results-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--mad-factor", type=int, default=5)
     args = parser.parse_args()
 
     manifest = read_manifest(args.manifest)
@@ -162,6 +163,7 @@ def main() -> int:
         "manifest_inputs_per_setting": int(len(manifest)),
         "primary_inputs_per_setting": int((~manifest["exclude_primary_5050"]).sum()),
         "result_rows": int(len(all_results)),
+        "mad_factor": int(args.mad_factor),
         "all_source_labels_excluded_from_qc": True,
         "primary_selection_rule": "Highest equal-weight macro-average of sensitivity and specificity across the six benchmark groups; Pareto status and secondary harmonic/distance criteria are also reported.",
         "best_equal_weight_setting": best["setting"],

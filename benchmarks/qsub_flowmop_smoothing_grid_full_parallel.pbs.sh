@@ -26,6 +26,7 @@ OUT_ROOT="${OUT_ROOT:?OUT_ROOT is required}"
 RSCRIPT_BIN="${RSCRIPT_BIN:?RSCRIPT_BIN is required}"
 PYTHON_BIN="${PYTHON_BIN:-$(command -v python3)}"
 PYTHON_PACKAGE_DIR="${PYTHON_PACKAGE_DIR:-${BASE_DIR}/python_packages}"
+MAD_FACTOR="${MAD_FACTOR:-5}"
 WORKERS="${PBS_NCPUS:-48}"
 SCRATCH_ROOT="${PBS_JOBFS}/flowmop_smoothing_grid"
 
@@ -85,12 +86,13 @@ run_one() {
         --scratch-dir "${scratch_dir}" \
         --timeout 21600 \
         --algorithms flowmop \
+        --mad-factor "${MAD_FACTOR}" \
         --mad-smoothing "${short}" "${long}"
 }
 
 export -f run_one
 export TOTAL_INPUTS PYTHON_BIN REPO_ROOT FLOWMOP_ROOT MANIFEST_PATH OUT_ROOT
-export RSCRIPT_BIN SCRATCH_ROOT
+export RSCRIPT_BIN SCRATCH_ROOT MAD_FACTOR
 
 TASK_FILE="${PBS_JOBFS}/flowmop_smoothing_grid_tasks.tsv"
 : > "${TASK_FILE}"
@@ -106,6 +108,7 @@ echo "Inputs: ${TOTAL_INPUTS}"
 echo "Settings: ${#SETTINGS[@]}"
 echo "Tasks: $(wc -l < "${TASK_FILE}")"
 echo "Workers: ${WORKERS}"
+echo "MAD factor: ${MAD_FACTOR}"
 echo "Started: $(date --iso-8601=seconds)"
 
 parallel \
@@ -118,6 +121,7 @@ parallel \
 "${PYTHON_BIN}" "${REPO_ROOT}/benchmarks/analyse_flowmop_smoothing_grid.py" \
     --manifest "${MANIFEST_PATH}" \
     --results-root "${OUT_ROOT}" \
-    --output-dir "${OUT_ROOT}/analysis"
+    --output-dir "${OUT_ROOT}/analysis" \
+    --mad-factor "${MAD_FACTOR}"
 
 echo "Completed: $(date --iso-8601=seconds)"

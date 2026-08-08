@@ -256,6 +256,8 @@ def run_index(args: argparse.Namespace) -> None:
                     "positive_geomeans",
                     "--mad-smoothing",
                     *(str(value) for value in args.mad_smoothing),
+                    "--mad-factor",
+                    str(args.mad_factor),
                     "--skip-debris",
                     "--skip-doublets",
                     "--disable-dask",
@@ -563,6 +565,7 @@ def parse_args() -> argparse.Namespace:
         default=(0.1, 0.9),
         metavar=("SHORT", "LONG"),
     )
+    run_parser.add_argument("--mad-factor", type=int, default=5)
 
     analyse_parser = subparsers.add_parser("analyse")
     analyse_parser.add_argument("--manifest", type=Path, required=True)

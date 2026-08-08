@@ -562,7 +562,7 @@ def parse_args() -> argparse.Namespace:
         "--mad-smoothing",
         nargs=2,
         type=float,
-        default=(0.1, 0.9),
+        default=(0.01, 0.05),
         metavar=("SHORT", "LONG"),
     )
     run_parser.add_argument("--mad-factor", type=int, default=5)

@@ -1,0 +1,12 @@
+{
+  "settings": 19,
+  "primary_inputs_per_setting": 173,
+  "result_rows": 3287,
+  "mad_factor": 5,
+  "all_source_labels_excluded_from_qc": true,
+  "primary_selection_rule": "Equal-weight macro-average across the six dataset/bin-size/mix-method benchmark groups.",
+  "best_equal_weight_setting": "0,0",
+  "best_equal_weight_score": 0.7550628044473222,
+  "best_smoothed_setting": "0.01,0.05",
+  "best_smoothed_score": 0.7511388319124015
+}

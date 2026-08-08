@@ -1,0 +1,19 @@
+{
+  "flowmop_gadi_job": "175818850.gadi-pbs",
+  "flowmop_mad_factor": 5,
+  "flowmop_mad_smoothing": [
+    0.01,
+    0.05
+  ],
+  "flowmop_rows": 90,
+  "competitor_rows": 180,
+  "total_rows": 270,
+  "files_per_algorithm": 30,
+  "variants": [
+    "raw",
+    "source_timewarp",
+    "random_timewarp"
+  ],
+  "flowmop_all_variant_deltas_exactly_zero": true,
+  "competitor_source": "Existing corrected 30-file mechanism benchmark; competitor rows unchanged."
+}

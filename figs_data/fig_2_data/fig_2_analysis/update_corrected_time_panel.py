@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Regenerate the Figure 2 time-gating panel with corrected competitors.
+"""Regenerate the Figure 2 time-gating panel with corrected benchmark runs.
 
-FlowMOP values are reconstructed from the original FlowJo exports used for the
-manuscript. PeacoQC and FlowCut values are read from the leakage-corrected
-benchmark analysis and matched by input filename.
+FlowMOP values can be read from a selected full-dataset smoothing rerun.
+PeacoQC and FlowCut values are read from the leakage-corrected benchmark
+analysis and matched by input filename. If no FlowMOP rerun is supplied, the
+historical FlowJo exports are retained for backwards compatibility.
 """
 
 from __future__ import annotations
@@ -43,6 +44,8 @@ def parse_args() -> argparse.Namespace:
     here = Path(__file__).resolve().parent
     parser = argparse.ArgumentParser()
     parser.add_argument("--corrected-primary-results", type=Path, required=True)
+    parser.add_argument("--flowmop-rerun-results", type=Path)
+    parser.add_argument("--flowmop-setting", default="0.01,0.05")
     parser.add_argument(
         "--output-data",
         type=Path,
@@ -127,18 +130,77 @@ def reconstruct_flowmop(path: Path, dataset: str, bin_size: int) -> pd.DataFrame
     return pd.DataFrame(rows)
 
 
-def load_combined_data(corrected_results: Path, here: Path) -> pd.DataFrame:
-    flowmop = pd.concat(
+def load_rerun_flowmop(path: Path, setting: str) -> pd.DataFrame:
+    source = pd.read_csv(path)
+    if "setting" in source.columns:
+        source = source[source["setting"].astype(str) == setting].copy()
+    required = {
+        "dataset",
+        "synthetic_bin_size",
+        "input_name",
+        "mix_method",
+        "exclude_primary_5050",
+        "sensitivity",
+        "specificity",
+    }
+    missing = required.difference(source.columns)
+    if missing:
+        raise ValueError(f"FlowMOP rerun is missing columns: {sorted(missing)}")
+    if source.empty:
+        raise ValueError(f"FlowMOP setting {setting!r} was not found in {path}")
+    flowmop = source.rename(
+        columns={
+            "sensitivity": "retained_target_purity",
+            "specificity": "removed_nontarget_purity",
+        }
+    )[
         [
-            reconstruct_flowmop(
-                here / "flowmop_timegates_combos.csv", "largecut", 5000
-            ),
-            reconstruct_flowmop(
-                here / "flowmop_timegates_smallcut.csv", "smallcut", 2000
-            ),
-        ],
-        ignore_index=True,
-    )
+            "dataset",
+            "synthetic_bin_size",
+            "input_name",
+            "mix_method",
+            "exclude_primary_5050",
+            *METRICS,
+        ]
+    ].copy()
+    flowmop["mix_method"] = flowmop["mix_method"].str.capitalize()
+    flowmop["algorithm"] = "flowmop"
+    flowmop = flowmop[
+        [
+            "dataset",
+            "synthetic_bin_size",
+            "input_name",
+            "mix_method",
+            "algorithm",
+            "exclude_primary_5050",
+            *METRICS,
+        ]
+    ]
+    if flowmop.duplicated(["dataset", "input_name"]).any():
+        raise ValueError(f"FlowMOP setting {setting!r} contains duplicate inputs")
+    return flowmop
+
+
+def load_combined_data(
+    corrected_results: Path,
+    here: Path,
+    flowmop_rerun_results: Path | None = None,
+    flowmop_setting: str = "0.01,0.05",
+) -> pd.DataFrame:
+    if flowmop_rerun_results is None:
+        flowmop = pd.concat(
+            [
+                reconstruct_flowmop(
+                    here / "flowmop_timegates_combos.csv", "largecut", 5000
+                ),
+                reconstruct_flowmop(
+                    here / "flowmop_timegates_smallcut.csv", "smallcut", 2000
+                ),
+            ],
+            ignore_index=True,
+        )
+    else:
+        flowmop = load_rerun_flowmop(flowmop_rerun_results, flowmop_setting)
     corrected = pd.read_csv(corrected_results)
     corrected = corrected[
         corrected["algorithm"].isin(("peacoqc", "flowcut"))
@@ -293,7 +355,12 @@ def plot_panel(data: pd.DataFrame, output_svg: Path) -> None:
 def main() -> int:
     args = parse_args()
     here = Path(__file__).resolve().parent
-    data = load_combined_data(args.corrected_primary_results, here)
+    data = load_combined_data(
+        args.corrected_primary_results,
+        here,
+        args.flowmop_rerun_results,
+        args.flowmop_setting,
+    )
     tests = paired_tests(data)
     args.output_data.parent.mkdir(parents=True, exist_ok=True)
     data.to_csv(args.output_data, index=False)

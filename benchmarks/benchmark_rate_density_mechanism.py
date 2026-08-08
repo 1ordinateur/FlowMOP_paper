@@ -153,6 +153,12 @@ def parse_args() -> argparse.Namespace:
         choices=("flowmop", "flowcut", "peacoqc"),
         default=["flowmop", "flowcut", "peacoqc"],
     )
+    parser.add_argument(
+        "--mad-factor",
+        type=int,
+        default=5,
+        help="FlowMOP MAD threshold. Default: 5.",
+    )
     parser.add_argument("--random-seed", type=int, default=13)
     parser.add_argument(
         "--timewarp-factors",
@@ -535,7 +541,13 @@ def subprocess_env(output_dir: Path) -> dict[str, str]:
     return env
 
 
-def run_flowmop(flowmop_exec: Path, input_fcs: Path, output_dir: Path, timeout: float | None) -> tuple[int, str]:
+def run_flowmop(
+    flowmop_exec: Path,
+    input_fcs: Path,
+    output_dir: Path,
+    timeout: float | None,
+    mad_factor: float,
+) -> tuple[int, str]:
     cmd = [
         sys.executable,
         str(flowmop_exec),
@@ -547,6 +559,8 @@ def run_flowmop(flowmop_exec: Path, input_fcs: Path, output_dir: Path, timeout: 
         "--mad-smoothing",
         "0.01",
         "0.05",
+        "--mad-factor",
+        str(mad_factor),
         "--skip-debris",
         "--skip-doublets",
         "--disable-remove-zeros",
@@ -938,7 +952,13 @@ def main() -> int:
             if "flowmop" in args.algorithms:
                 print(f"Running FlowMOP {input_fcs.name}")
                 output_dir = flowmop_dir / input_fcs.stem
-                code, stderr_tail = run_flowmop(flowmop_exec, input_fcs, output_dir, args.timeout)
+                code, stderr_tail = run_flowmop(
+                    flowmop_exec,
+                    input_fcs,
+                    output_dir,
+                    args.timeout,
+                    args.mad_factor,
+                )
                 output_fcs = output_dir / f"flowmop_{input_fcs.name}"
                 if code == 0 and output_fcs.exists():
                     try:

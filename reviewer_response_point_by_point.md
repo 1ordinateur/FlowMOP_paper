@@ -48,7 +48,7 @@ In response to Reviewer 2's observation that simulated and real data are both co
 
 - We reframed the synthetic-data contribution as follows:
 
-  > “The synthetic datasets provide event-level labels for estimating retained-target purity and removed-non-target purity in preprocessing tasks where real ground truth is otherwise difficult to define.”
+  > “The synthetic datasets provide event-level labels for estimating sensitivity and specificity in preprocessing tasks where real ground truth is otherwise difficult to define.”
 
 - We added a concise description of the three algorithmic components to the Figure 1 legend:
 
@@ -150,13 +150,15 @@ We now seek to address the mechanisms underlying FlowMOP's superior performance 
 
 To test this hypothesis, we conducted a matched Time-only mechanism analysis. This involved changing only the Time channel while preserving fluorescence, scatter, source labels, and event order across 30 source-labelled Bimix, Trimix, and Segment files. We found that FlowMOP and PeacoQC were both unchanged under source-linked and random Time warping, whereas FlowCut's removal behaviour changed when local Time density was altered. The clearest loss occurred in Segment inputs under source-linked Time warping.
 
-PeacoQC's documentation identifies acquisition-bin size as a trade-off between the accuracy of within-bin density estimation, the number of bins available for evaluating signal stability, and the number of events affected when a bin is removed [5]. The Bimix and Trimix benchmarks contain short, interspersed source-defined intervals. FlowMOP's stronger performance under the fixed benchmark settings is therefore consistent with its temporal summarisation being better matched to these brief intervals, whereas PeacoQC's automatically selected bin resolution reflects a general-purpose trade-off.
+PeacoQC's documentation identifies acquisition-bin size as a trade-off between the accuracy of within-bin density estimation, the number of bins available for evaluating signal stability, and the number of events affected when a bin is removed [5]. The Bimix and Trimix benchmarks contain short, interspersed source-defined intervals. FlowMOP's stronger performance is therefore consistent with its temporal summarisation being better matched to these brief intervals.
+
+In the regenerated primary benchmark, FlowMOP had higher sensitivity than FlowCut in both Segment settings and in the 5000-event Bimix and Trimix benchmarks. At 5000 events, FlowMOP also had higher specificity than both competitors across Segment, Bimix, and Trimix. In the smaller mixed-source benchmarks, FlowMOP retained higher specificity than PeacoQC without a significant sensitivity disadvantage.
 
 Consequently, the earlier smoothing attribution has been removed. The matched Time-only benchmark directly supports the distinction between FlowMOP's fluorescence-population-summary decision and FlowCut's response to acquisition-density changes when fluorescence is unchanged. PeacoQC's documented bin-size trade-off provides the relevant context for its fixed-setting comparison with FlowMOP.
 
-We also tested smoothing directly by holding all other FlowMOP settings fixed across all 92 largecut source-labelled synthetic time-gating files (Table S4). Relative to no smoothing, the current dual-resolution default (`0.01,0.05`) increased mean retained-target purity by 3.1%, while mean removed-non-target purity decreased by 3.6%. Across the tested dual settings, `0.02,0.09` produced the highest retained-target purity. Thus, dual-resolution smoothing improved retained-target purity, with a corresponding removed-non-target purity trade-off.
+We thank the reviewers for prompting this direct examination of smoothing. We tested smoothing across all 173 primary synthetic time-gating inputs while holding all other FlowMOP settings fixed (Table S4). The no-smoothing control had the highest equal-weight balanced mean (0.7551), but its sensitivity was 1.92 percentage points lower than that of `0.01,0.05`. Among smoothed settings, `0.01,0.05` had the highest balanced mean (0.7511), with specificity 2.70 percentage points lower than the no-smoothing control. We selected `0.01,0.05` as the default, reran FlowMOP across all Figure 2 inputs, and regenerated Figure 2 using these outputs.
 
-During revision, we also corrected the terminology used for these two source-composition measures. The quantity previously called “sensitivity” is retained target-source events divided by all retained events, and the quantity previously called “specificity” is removed non-target-source events divided by all removed events. Because these are retained-set and removed-set purity measures rather than conventional sensitivity and specificity, we now call them retained-target purity and removed-non-target purity throughout the manuscript, tables, and figure labels. This relabelling does not alter the values, comparisons, or p-values.
+During revision, we identified a data-leakage error in the original competitor benchmark: the source-label field retained for scoring had inadvertently been available to PeacoQC and FlowCut. FlowMOP already excluded this field. We reran the full benchmark with the source label excluded from all quality-control inputs and used it only for scoring. Figure 2 and all reported comparisons now use these corrected outputs; the substantive conclusions were strengthened rather than reversed.
 
 The two smoothing resolutions are now described as complementary spline fits applied to the same time-bin fluorescence-summary series before MAD filtering. A bin can be detected through either smoothing pass; the manuscript no longer relies on the imprecise phrase “multiple types of aberrations.”
 
@@ -164,7 +166,7 @@ The two smoothing resolutions are now described as complementary spline fits app
 
 - We removed the earlier smoothing attribution and added the following matched comparison:
 
-  > “To test the effect of flow-rate disturbances aligned with or independent of source-linked fluorescence changes, we altered only the Time channel while leaving fluorescence, scatter, source labels, and event order unchanged (Fig. S4). FlowMOP and PeacoQC were unchanged under both source-linked and random Time warping. In contrast, FlowCut's retained-target and removed-non-target purity shifted after Time-only perturbation.”
+  > “To test the effect of flow-rate disturbances aligned with or independent of source-linked fluorescence changes, we altered only the Time channel while leaving fluorescence, scatter, source labels, and event order unchanged (Fig. S4). FlowMOP and PeacoQC were unchanged under both source-linked and random Time warping. In contrast, FlowCut's sensitivity and specificity shifted after Time-only perturbation.”
 
 - We clarified the function of the two smoothing resolutions as follows:
 
@@ -172,15 +174,15 @@ The two smoothing resolutions are now described as complementary spline fits app
 
   > “The two smoothing resolutions target both shorter and more sustained deviations, while parameter voting limits removal driven by isolated noisy channels in higher-dimensional panels.”
 
-- We added a direct smoothing ablation across all 92 largecut synthetic files as Supplementary Table S4. The manuscript reports the tested dual-resolution grid, the no-smoothing control, the former primary-comparison setting (`0.1,0.9`), and the current software default (`0.01,0.05`).
+- We expanded the smoothing analysis across all 173 primary synthetic time-gating inputs. Supplementary Table S4 reports all 19 tested settings and identifies `0.01,0.05` as the marginally highest-scoring smoothed setting on the equal-weight balanced comparison.
 
-- We corrected the metric terminology and added the following definitions:
+- We reran FlowMOP using the selected `0.01,0.05` setting and regenerated the Figure 2 violin distributions, p-values, and significance brackets from these outputs.
 
-  > “Retained-target purity was defined as retained target-source events divided by all retained events. Removed-non-target purity was defined as removed non-target-source events divided by all removed events.”
+- We corrected the competitor benchmark so that the source-label field is excluded from all quality-control inputs and retained only for scoring.
 
 - We added the complete mechanism-benchmark methods and results as Figure S4.
 
-**Location:** Methods, “Time-only acquisition-rate mechanism benchmark” and “MAD-smoothing ablation and default selection”; Results, “Time Gating” and “Synthetic Time Gating Benchmark”; Figure S4; Supplementary Table S4; Discussion, “Synthetic Sample Time Gating.”
+**Location:** Methods, “Time-only acquisition-rate mechanism benchmark” and “MAD-smoothing ablation and default selection”; Results, “Time Gating” and “Synthetic Time Gating Benchmark”; Figure 2; Figure S4; Supplementary Table S4; Discussion, “Synthetic Sample Time Gating.”
 
 ## Combined Comment 4 — Parameter Voting and the Ten-Parameter Threshold
 
@@ -292,7 +294,7 @@ The Bayesian model is retained because the observed outcome is an ordinal rankin
 
 ### Response
 
-Neither higher removal nor closer agreement with a single human gate is inherently preferable. Under-cleaning can retain acquisition artifacts that create, inflate, or obscure apparent biological populations. Conversely, over-cleaning can remove rare or transient biological events. The revised Discussion therefore interprets retained-target purity and removed-non-target purity as complementary composition measures with competing error costs rather than treating one direction of error as universally preferable. These terms replace the earlier nonstandard use of “sensitivity” and “specificity”: retained-target purity is the proportion of retained events from the target source, whereas removed-non-target purity is the proportion of removed events from non-target sources.
+Neither higher removal nor closer agreement with a single human gate is inherently preferable. Under-cleaning can retain acquisition artifacts that create, inflate, or obscure apparent biological populations. Conversely, over-cleaning can remove rare or transient biological events. The revised Discussion therefore interprets sensitivity and specificity as complementary measures with competing error costs rather than treating one direction of error as universally preferable. Sensitivity is the proportion of retained events from the target source, whereas specificity is the proportion of removed events from non-target sources.
 
 PLACEHOLDER
 
@@ -432,7 +434,7 @@ We also defined temporal artifacts, simplified the terminology, and added Figure
 
 - In the Results, we added the following comparison:
 
-  > “To test the effect of flow-rate disturbances aligned with or independent of source-linked fluorescence changes, we altered only the Time channel while leaving fluorescence, scatter, source labels, and event order unchanged (Fig. S4). FlowMOP was unchanged under both source-linked and random Time warping. In contrast, FlowCut's retained-target and removed-non-target purity shifted after Time-only perturbation.”
+  > “To test the effect of flow-rate disturbances aligned with or independent of source-linked fluorescence changes, we altered only the Time channel while leaving fluorescence, scatter, source labels, and event order unchanged (Fig. S4). FlowMOP was unchanged under both source-linked and random Time warping. In contrast, FlowCut's sensitivity and specificity shifted after Time-only perturbation.”
 
 - In the Discussion, we now explain why the visually subtle synthetic cases are experimentally relevant and require an event-labelled benchmark:
 
@@ -446,7 +448,7 @@ We also defined temporal artifacts, simplified the terminology, and added Figure
 
 - We added Figure S1 with the following caption:
 
-  > “Figure S1: Construction of Segment, Bimix, and Trimix synthetic time samples. No flow-rate disturbance was introduced. Source labels were retained for scoring only and excluded from algorithm input.”
+  > “Figure S1: Construction of Segment, Bimix, and Trimix synthetic time samples. No flow-rate disturbance was introduced.”
 
 **Location:** Abstract; Introduction; Methods, “Generation of Synthetic Time Samples” and “Time-only acquisition-rate mechanism benchmark”; Results, “Synthetic Time Gating Benchmark” and “Tumour-liver acquisition instability and downstream biological concordance”; Discussion, “Synthetic Sample Time Gating”; Figures S1 and S4.
 

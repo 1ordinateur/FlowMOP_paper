@@ -37,6 +37,12 @@ ANNOTATION_POSITIONS = {
         (198, 251, 549, 555, 544),
     (5000, "retained_target_purity", "Bimix", "peacoqc", "flowcut"):
         (225, 249, 524, 530, 519),
+    (5000, "retained_target_purity", "Trimix", "flowmop", "flowcut"):
+        (299, 352, 549, 555, 544),
+    (5000, "removed_nontarget_purity", "Segment", "flowmop", "peacoqc"):
+        (436, 463, 551, 557, 545),
+    (5000, "removed_nontarget_purity", "Segment", "flowmop", "flowcut"):
+        (436, 490, 526, 532, 520),
     (5000, "removed_nontarget_purity", "Bimix", "flowmop", "peacoqc"):
         (536, 563, 551, 557, 545),
     (5000, "removed_nontarget_purity", "Bimix", "flowmop", "flowcut"):
@@ -51,6 +57,8 @@ ANNOTATION_POSITIONS = {
         (124, 148, 758, 763, 753),
     (2000, "retained_target_purity", "Bimix", "peacoqc", "flowcut"):
         (225, 252, 779, 785, 773),
+    (2000, "removed_nontarget_purity", "Segment", "flowmop", "flowcut"):
+        (436, 490, 778, 784, 773),
     (2000, "removed_nontarget_purity", "Bimix", "flowmop", "peacoqc"):
         (536, 563, 804, 810, 798),
     (2000, "removed_nontarget_purity", "Bimix", "peacoqc", "flowcut"):

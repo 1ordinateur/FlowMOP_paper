@@ -40,8 +40,8 @@ def parse_args() -> argparse.Namespace:
         "--input",
         type=Path,
         default=Path(
-            "benchmark_results/rate_density_mechanism/"
-            "mixed_segment_timewarp_500k_strong_30files/results_with_raw_delta.csv"
+            "figs_data/revision_timewarp_mechanism_data/"
+            "results_with_raw_delta.csv"
         ),
     )
     parser.add_argument(
@@ -169,6 +169,7 @@ def main() -> int:
             "axes.labelsize": 9,
             "axes.titlesize": 10,
             "svg.fonttype": "none",
+            "svg.hashsalt": "flowmop-rate-density-mechanism",
         }
     )
 
@@ -204,7 +205,7 @@ def main() -> int:
         color="#333333",
     )
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(args.output, bbox_inches="tight")
+    fig.savefig(args.output, bbox_inches="tight", metadata={"Date": None})
     if args.png is not None:
         args.png.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(args.png, dpi=300, bbox_inches="tight")

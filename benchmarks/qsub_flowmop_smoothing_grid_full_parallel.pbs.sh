@@ -4,9 +4,9 @@
 #PBS -P eu59
 #PBS -q expresssr
 #PBS -l walltime=01:00:00
-#PBS -l ncpus=48
-#PBS -l mem=190GB
-#PBS -l jobfs=190GB
+#PBS -l ncpus=104
+#PBS -l mem=500GB
+#PBS -l jobfs=400GB
 #PBS -l storage=gdata/eu59+scratch/eu59+gdata/dk92
 #PBS -j oe
 #PBS -m abe
@@ -27,7 +27,7 @@ RSCRIPT_BIN="${RSCRIPT_BIN:?RSCRIPT_BIN is required}"
 PYTHON_BIN="${PYTHON_BIN:-$(command -v python3)}"
 PYTHON_PACKAGE_DIR="${PYTHON_PACKAGE_DIR:-${BASE_DIR}/python_packages}"
 MAD_FACTOR="${MAD_FACTOR:-5}"
-WORKERS="${PBS_NCPUS:-48}"
+WORKERS="${PBS_NCPUS:-104}"
 SCRATCH_ROOT="${PBS_JOBFS}/flowmop_smoothing_grid"
 
 export PYTHONPATH="${PYTHON_PACKAGE_DIR}${PYTHONPATH:+:${PYTHONPATH}}"

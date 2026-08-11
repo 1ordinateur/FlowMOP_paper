@@ -35,7 +35,7 @@ Flow cytometry now generates high-parameter datasets whose scale and variability
 
 Methodologically, temporal artifacts are identified via parameter-wise peak checks, bin-level fluorescence summaries across acquisition time, and robust outlier rejection. Debris is excluded by adaptive FSC-A thresholding derived from cross-parameter peak structure. Finally, doublets are removed using dynamic inflection detection on FSC-A/FSC-H and SSC-A/SSC-H ratio histograms. The implementation uses memory-conscious array operations; computational scaling was evaluated to 2 million events in a 36-channel file.
 
-Validation used synthetic datasets with event-level ground truth for acquisition-time artifacts, debris enrichment, and doublet enrichment, together with expert comparison on biological datasets. In the synthetic time-gating benchmark, FlowMOP had higher sensitivity than FlowCut for Segment artifacts at both tested bin sizes and in the 5000-event Bimix and Trimix settings, and higher specificity than both competitors across all three 5000-event scenarios. FlowMOP also removed labelled debris and doublet populations effectively in technical-control datasets. Subjective rankings often favored manual gates, and Bayesian analyses were used to summarize relative expert preference rather than objective ground-truth gating quality. Within the tested settings, FlowMOP provides a reproducible workflow for standardizing time, debris, and doublet preprocessing. FlowMOP can be accessed at https://github.com/1ordinateur/FlowMOP.
+Validation used synthetic datasets with event-level ground truth for acquisition-time artifacts, debris enrichment, and doublet enrichment, together with an exploratory expert comparison on biological datasets. In the synthetic time-gating benchmark, FlowMOP had higher sensitivity than FlowCut for Segment artifacts at both tested bin sizes and in the 5000-event Bimix and Trimix settings, and higher specificity than both competitors across all three 5000-event scenarios. FlowMOP also removed labelled debris and doublet populations effectively in technical-control datasets. The expert comparison, which used an earlier FlowMOP configuration, generally favoured manual gates and is reported in the Supplementary Information. **[PLACEHOLDER: Principal biological-validation finding from Figure 5.]** **[PLACEHOLDER: Principal tumour-validation finding from Figure 6.]** Within the tested settings, FlowMOP provides a reproducible workflow for standardizing time, debris, and doublet preprocessing. FlowMOP can be accessed at https://github.com/1ordinateur/FlowMOP.
 
 ## Introduction
 
@@ -77,7 +77,7 @@ Each input generated three matched variants: raw, source-time-warped, and random
 
 #### MAD-smoothing ablation and default selection
 
-To test spline smoothing directly, FlowMOP was rerun across all 173 primary synthetic time-gating inputs with all non-smoothing settings fixed. Nineteen short/long smoothing-factor pairs, including a no-smoothing control, were compared by equally weighting the six benchmark groups. The current default (`0.01,0.05`) was selected as the marginally highest-scoring smoothed setting on this balanced comparison (Table S4).
+To test spline smoothing directly, FlowMOP was rerun across all 173 primary synthetic time-gating inputs with all non-smoothing settings fixed. Nineteen short/long smoothing-factor pairs, including a no-smoothing control, were compared by equally weighting the six benchmark groups. The current default (`0.01,0.05`) was selected as the marginally highest-scoring smoothed setting on this balanced comparison (Table S4). Figure 2 was regenerated using this setting. All completed quantitative FlowMOP results retained in the main figures use the current selected configuration for the relevant module, and the planned biological-validation figures will likewise use the current configuration. The earlier expert preference evaluation used a previous FlowMOP configuration; because updating it would require repeating the blinded expert assessment, it is presented as an exploratory supplementary analysis (Figs. S5-S7).
 
 #### Mice
 
@@ -97,25 +97,19 @@ To generate samples with high proportions of doublets, mouse spleens were digest
 
 Human liver samples used in the non-synthetic validation datasets were collected under ethics approval from the Sydney Local Health District Ethics Review Committee (X19-0488 and 2019/ETH13790).
 
+### Biological-validation analysis
+
+**[PLACEHOLDER: Figure 5 biological-validation samples, preprocessing comparisons, prespecified biological endpoints, and statistical analysis.]**
+
 ### Tumour-liver acquisition-instability and biological-concordance analysis
+
+**[PLACEHOLDER: Update this section to match Felix's final Figure 6 tumour-validation analysis.]**
 
 Three tumour and three non-tumour human liver FCS files were used for an additional biological validation. For the acquisition-instability analysis, the three tumour files were divided into common acquisition-order bins, and the time masks produced by manual gating, FlowMOP, FlowCut, and PeacoQC were projected onto those bins. Bin-level deviations were evaluated using fluorescence channels only; Time, FSC, and SSC measurements were excluded. Method-overlap and method-specific residual bins were then examined using robustly scaled fluorescence summaries and positive-population deviations.
 
 For the downstream analysis, the FlowMOP output was defined as the intersection of its independently calculated time, debris, and doublet masks; the limit-of-detection mask was excluded. The corresponding manual population was reconstructed from the final time, cells, and single-cell gates in the FlowJo workspace. Zombie-low events were defined operationally as Zombie UV-A values below 12,000 raw units, with the same threshold applied to every sample. This threshold-based analysis was used as an orthogonal biological-concordance check and not as a universal live/dead classifier.
 
 To separate selective Zombie-high exclusion from the overall extent of event removal, selectivity was defined within each sample as the Zombie-high removal rate divided by the Zombie-low removal rate. The primary comparison was the paired FlowMOP/manual selectivity fold-change. Because selectivity is multiplicative and the sample size was small, FlowMOP and manual values were compared using an exact two-sided Wilcoxon signed-rank test applied to the log-transformed paired ratios. Constituent time, debris, and doublet masks were evaluated separately as secondary mechanistic analyses. No equivalence or non-inferiority margin was prespecified; consequently, a non-significant paired comparison was interpreted as no detected difference rather than proof of equivalence.
-
-### Statistical Analysis of Expert Preference Rankings
-
-The expert-ranking analysis was used to summarize relative preferences among gates generated by FlowMOP, comparator algorithms, and human operators; it was not treated as an absolute measure of gating adequacy.
-
-Rankings were modelled using a Plackett–Luce model with latent method abilities; identifiability was enforced by fixing a reference ability to zero. Independent Normal priors were placed on non‑reference abilities. Posterior inference was performed with an affine‑invariant ensemble Markov Chain Monte Carlo sampler (emcee; 32 walkers, 5,000 iterations; 1,000 burn‑in), and posterior medians with 95% credible intervals were reported. Directional hypotheses (superiority/inferiority) were evaluated by computing P = Pr(H1 | data) and converting to a Bayes factor BF₁₀ = p/(1 – p) under equal prior odds, interpreted using Jeffreys’ scale and reported as BF, P (Bayes factor, Posterior probability of alternative hypothesis) (see Supp. Table 2).
-
-For each Plackett–Luce fit, the ensemble sampler’s mean acceptance fraction and an integrated‑autocorrelation‑time–based effective sample size was monitored (both as implemented in emcee) to assess MCMC convergence. Across all analyses, mean acceptance fractions ranged from 0.520 – 0.60, effective sample sizes ranging from 134042 to 128003.
-
-Posterior predictive checks were carried out by comparing observed pairwise win counts with those implied by posterior draws under a Bradley–Terry formulation, using a chi‑square‑type discrepancy averaged over method pairs. The resulting average χ² per comparison with a maximum of 0.56, indicating good agreement between the model and the observed rankings.
-
-Computations were implemented in Python with numerically stable log‑likelihoods.
 
 ### Computational scalability benchmark
 
@@ -224,29 +218,17 @@ Figure 4. A) Representative flow cytometry plots of synthetic doublet samples an
 
 FlowMOP significantly decreased the frequency of CTV-CFSE double-positive events from 7.84 ± 1.21% to 0.27 ± 0.11% (paired t-test; p = 0.001). No statistically significant difference was detected between FlowMOP and any expert for this endpoint (Fig. 4B, paired t-test; unadjusted p > 0.05). To assess whether sample-wise gating systematically affected the comparison, human experts also performed sample-wise and groupwise doublet gating. No statistical difference was detected between these approaches except for Expert 3 (Fig. 4C, paired t-test; unadjusted p values). Expert 3 consistently removed fewer doublets with the sample-wise method than with the group method (Fig. 4C, paired t-test; p = 0.009).
 
-### Expert Preference Evaluation
+### Biological validation
 
-To examine FlowMOP’s utility in real-world samples, its performance was evaluated across different flow cytometry files. FlowMOP’s outputs in these samples were compared with expert-provided gates using a forced-ranking preference task. These rankings measure relative expert preference and should not be interpreted as an absolute measure of gating adequacy. The resulting time, debris, and doublet gates were ranked by that sample type’s expert. In the time-gating task, FlowCut and PeacoQC were also included for comparison. Rankings were provided by a relevant expert in that sample type. Rank 1 indicates the greatest preference.
+Following the objective synthetic benchmarks, FlowMOP will be evaluated using prespecified biological population endpoints in biological flow-cytometry datasets.
 
-![Embedded image 5](FlowMOP_submission_media/image5_revised.png)
+**[PLACEHOLDER: Figure 5 biological-validation cohort, endpoints, results, and statistical comparisons.]**
 
-Figure 5. Expert preference rankings for time gates provided by four human experts, FlowMOP (black border), FlowCut, and PeacoQC across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. Abbreviations: DRG, dorsal root ganglion; CNS, central nervous system.
-
-In the biological datasets, FlowMOP had the lowest mean rank among the algorithmic time-gating approaches (Fig. 5). In the mouse brain and mouse bone marrow tasks, it ranked third and second, respectively (Fig. 5). On a Bayesian analysis, FlowMOP was observed to be substantially preferred to FlowCut (BF = 5.39, P = 84.3%) and strongly preferred to PeacoQC (BF = 12.10, P = 92.4%). FlowMOP was ranked inferiorly to all human experts with strong to decisive evidence (Expert 2 BF = 10.55, P = 91.3%, all others BF > 100, P = 100%).
-
-![Embedded image 6](FlowMOP_submission_media/image6_revised.png)
-
-Figure 6. Expert preference rankings for debris gates provided by four human experts and FlowMOP (black border) across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across available datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. N/A denotes an unavailable gate.
-
-![Embedded image 7](FlowMOP_submission_media/image7_revised.png)
-
-Figure 7. Expert preference rankings for doublet gates provided by four human experts and FlowMOP (black border) across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across available datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. N/A denotes an unavailable gate.
-
-FlowMOP had the highest mean rank when compared with the human experts for debris and doublet removal (Figs. 6, 7). On a Bayesian analysis, substantial to strong evidence was observed for FlowMOP being inferior to Expert 1 (BF = 5.87, P = 85.5%), Expert 4 (BF = 12.85, P = 92.8%), and Experts 2,3 (BF > 100, P = 100%) in debris removal. In doublet removal, FlowMOP was weakly inferiorly ranked to Expert 4 (BF = 3.14, P = 75.8%), substantially inferiorly ranked to Expert 1 (BF = 5.67, P = 85.0%), strongly inferiorly ranked to Expert 2 (BF = 14.38, P = 93.5%), and decisively inferiorly ranked to Expert 3 (BF > 100, P = 100%).
-
-FlowMOP’s relative expert preference varied across datasets. For debris, it rated first in the mouse blood task, and third in human liver and mouse skin datasets. In the doublets task, FlowMOP scored second in the human liver task again. For full tabular rankings, see supplementary data Tables 1B-E.
+**[PLACEHOLDER: Figure 5. Biological validation of FlowMOP cleaning.]**
 
 ### Tumour-liver acquisition instability and downstream biological concordance
+
+**[PLACEHOLDER: Final Figure 6 analysis and corresponding text from Felix's tumour-validation dataset.]**
 
 In the three tumour-liver files, FlowMOP identified the principal acquisition intervals with strong multichannel fluorescence instability, including the major disturbances identified by manual gating, FlowCut, or PeacoQC. FlowMOP also identified additional intervals with shifts in positive-population fluorescence, whereas residual intervals detected only by comparator methods generally showed weaker fluorescence divergence. The substantial overlap between retained and removed events at the individual-event level indicates that the time gate detected acquisition-dependent shifts in population summaries rather than a discrete aberrant cell phenotype.
 
@@ -255,6 +237,8 @@ These findings also demonstrate that acquisition instability was not confined to
 Across the three tumour and three non-tumour liver samples, the combined FlowMOP time, debris, and doublet masks retained 61.1% ± 10.0% of events, compared with 51.3% ± 17.8% after reconstructed manual gating (Tables S3A-B). FlowMOP had greater permissiveness-adjusted Zombie-high removal selectivity than manual gating in four of six samples. The median paired FlowMOP/manual selectivity fold-change was 1.68 (range 0.82-2.70), but the difference was not statistically significant (exact two-sided Wilcoxon signed-rank test on log ratios, p = 0.156). Thus, this analysis detected neither systematic superiority nor inferiority relative to manual gating; it was not designed to establish statistical equivalence.
 
 Decomposition of the FlowMOP workflow showed distinct contributions from its three masks. The time mask was approximately composition-neutral (median Zombie-high/Zombie-low removal ratio 1.04), and debris removal was heterogeneous across samples. The doublet mask preferentially excluded Zombie-high events in all six samples (median ratio 7.38; secondary exact two-sided paired test, p = 0.031), making it the principal source of Zombie-high enrichment in the combined output. The doublet inflection procedure used its prespecified MAD fallback in these files, so this association provides biological concordance for the resulting mask but does not establish that every removed event was an invalid doublet.
+
+**[PLACEHOLDER: Figure 6. FlowMOP validation in tumour-derived biological samples.]**
 
 ## Discussion
 
@@ -290,13 +274,15 @@ Similarly, in the doublet removal, the synthetic samples, owing to the rather un
 
 The synthetic debris benchmark measures depletion of the source-labelled high-debris component from matched mixtures of high- and low-debris samples. Because both sources contain some debris, these labels represent relative debris enrichment rather than per-event debris classification. FlowMOP targets the small, low-FSC debris phenotype observed in these controls and successfully removed the two low-FSC debris populations shown in Figure 3A. SSC-A may improve recognition of larger or internally complex debris, while pulse-width measurements may assist with aggregates. Accordingly, FlowMOP does not currently incorporate these features because broadly applicable decision rules are difficult to establish across tissues, panels, instruments, and acquisition settings. Future extensions can evaluate configurable or sample-specific multivariate approaches in tumour digests with greater necrosis, aggregation, and scatter heterogeneity.
 
-### Biological Datasets: Expert Preference Evaluation
+### Biological validation
 
-Nine datasets were selected for expert evaluation across human and mouse sample types, including samples that were intentionally difficult to gate. FlowMOP received lower overall preference rankings than the human-generated gates, particularly for debris and doublet removal.
+**[PLACEHOLDER: Interpretation of the Figure 5 biological-validation endpoint and its implications for preservation of biologically meaningful populations following cleaning.]**
 
-These forced rankings have important limitations. One relevant expert ranked each tissue type, only four experts contributed gates, and the ordering does not distinguish a marginal preference from a judgement that a gate is unsuitable for analysis. Gate style could also reveal which outputs were algorithmic. We therefore interpret the ranking results as exploratory relative preferences, not as absolute quality scores or proof of algorithmic superiority or inferiority.
+**[PLACEHOLDER: Integrate Felix's final Figure 6 tumour-validation findings here.]**
 
 The tumour-liver analysis provides an initial downstream biological-concordance assessment. FlowMOP retained more events on average, while its permissiveness-adjusted Zombie-high selectivity was statistically indistinguishable from the matched manual strategy in this six-sample analysis. This result is compatible with similar performance but does not demonstrate parity, because the analysis was not powered or prespecified as an equivalence or non-inferiority test. The constituent analysis further indicates that the complete workflow should not be treated as a single biological filter: time gating detected acquisition-level fluorescence instability without consistent Zombie selectivity, debris effects were sample-dependent, and the doublet mask generated most of the observed Zombie-high enrichment.
+
+An earlier expert preference exercise across nine human and mouse datasets is reported in Supplementary Figures S5-S7. The exercise used an earlier FlowMOP configuration and involved one relevant expert per tissue type. These rankings are therefore interpreted as exploratory relative preferences rather than absolute quality scores or evidence of the performance of the current implementation.
 
 ### Other remarks
 
@@ -314,7 +300,7 @@ FlowMOP provides time-gating, conservative low-FSC debris removal, and scatter-r
 
 Within the tested synthetic scenarios, event-level source labels enabled objective evaluation of the targeted artifact classes. FlowMOP had higher sensitivity than FlowCut for Segment anomalies at both bin sizes and higher specificity than both competitors across the 5000-event Segment, Bimix, and Trimix benchmarks. For debris and doublet removal, FlowMOP removed the labelled technical artifact populations effectively in the synthetic ground-truth datasets, including unexpected triplet events.
 
-Although experts generally preferred manual gates in the biological datasets, the synthetic benchmarks provide event-level labels for the specific artifact classes tested. In the tumour-liver analysis, FlowMOP and manual gating were not detectably different in permissiveness-adjusted Zombie-high selectivity, while FlowMOP time gating captured the principal fluorescence-instability intervals. The open-source Python implementation supports reproducible preprocessing across cytometry datasets of increasing scale.
+An exploratory expert comparison using an earlier FlowMOP configuration generally favoured manual gates and is reported in the Supplementary Information. **[PLACEHOLDER: Figure 5 biological-validation conclusion.]** **[PLACEHOLDER: Figure 6 tumour-validation conclusion.]** The open-source Python implementation supports reproducible preprocessing across cytometry datasets of increasing scale.
 
 ## Data and Code Availability
 
@@ -493,6 +479,44 @@ Figure S4:
 Time-only acquisition-rate perturbations reveal FlowCut sensitivity to local Time density. Points show raw-matched changes in sensitivity and specificity, with large points and intervals showing the mean and 95% confidence interval. Negative values indicate reduced performance relative to the raw control. Columns show all inputs together and the Segment, Bimix, and Trimix subsets separately. FlowMOP and PeacoQC remain unchanged under both source-linked and random Time warping. In contrast, FlowCut's sensitivity and specificity shift after Time-only perturbation, with the clearest specificity loss in random Time-warped inputs and the strongest source-linked sensitivity loss in Segment inputs, where acquisition-rate structure aligns with source composition.
 
 ![Figure S4](figs_data/revision_timewarp_mechanism.svg)
+
+### Supplementary expert preference evaluation
+
+The expert-ranking exercise was performed using gates generated with an earlier FlowMOP configuration. It is therefore retained as an exploratory historical evaluation rather than a primary assessment of the current selected implementation. The rankings measure relative preference and do not establish absolute gating adequacy or event-level accuracy.
+
+#### Supplementary methods
+
+The expert-ranking analysis was used to summarize relative preferences among gates generated by FlowMOP, comparator algorithms, and human operators; it was not treated as an absolute measure of gating adequacy.
+
+Rankings were modelled using a Plackett–Luce model with latent method abilities; identifiability was enforced by fixing a reference ability to zero. Independent Normal priors were placed on non-reference abilities. Posterior inference was performed with an affine-invariant ensemble Markov Chain Monte Carlo sampler (emcee; 32 walkers, 5,000 iterations; 1,000 burn-in), and posterior medians with 95% credible intervals were reported. Directional hypotheses (superiority/inferiority) were evaluated by computing P = Pr(H1 | data) and converting to a Bayes factor BF₁₀ = p/(1 – p) under equal prior odds, interpreted using Jeffreys’ scale and reported as BF, P (Bayes factor, posterior probability of the alternative hypothesis) (Table S2).
+
+For each Plackett–Luce fit, the ensemble sampler’s mean acceptance fraction and an integrated-autocorrelation-time-based effective sample size were monitored (both as implemented in emcee) to assess MCMC convergence. Across all analyses, mean acceptance fractions ranged from 0.520 to 0.60, and effective sample sizes ranged from 128,003 to 134,042.
+
+Posterior predictive checks compared observed pairwise win counts with those implied by posterior draws under a Bradley–Terry formulation, using a chi-square-type discrepancy averaged over method pairs. The maximum average χ² per comparison was 0.56, indicating good agreement between the model and the observed rankings.
+
+Computations were implemented in Python with numerically stable log-likelihoods.
+
+#### Supplementary results
+
+FlowMOP outputs were compared with expert-provided gates using a forced-ranking preference task across nine biological datasets. These rankings measure relative expert preference and should not be interpreted as an absolute measure of gating adequacy. The resulting time, debris, and doublet gates were ranked by an expert familiar with that sample type. FlowCut and PeacoQC were also included in the time-gating comparison. Rank 1 indicates greatest preference.
+
+![Supplementary Figure S5](FlowMOP_submission_media/image5_revised.png)
+
+Figure S5. Expert preference rankings for time gates provided by four human experts, FlowMOP (black border), FlowCut, and PeacoQC across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. Abbreviations: DRG, dorsal root ganglion; CNS, central nervous system.
+
+In the biological datasets, FlowMOP had the lowest mean rank among the algorithmic time-gating approaches (Fig. S5). In the mouse brain and mouse bone marrow tasks, it ranked third and second, respectively (Fig. S5). On a Bayesian analysis, FlowMOP was observed to be substantially preferred to FlowCut (BF = 5.39, P = 84.3%) and strongly preferred to PeacoQC (BF = 12.10, P = 92.4%). FlowMOP was ranked inferiorly to all human experts with strong to decisive evidence (Expert 2 BF = 10.55, P = 91.3%, all others BF > 100, P = 100%).
+
+![Supplementary Figure S6](FlowMOP_submission_media/image6_revised.png)
+
+Figure S6. Expert preference rankings for debris gates provided by four human experts and FlowMOP (black border) across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across available datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. N/A denotes an unavailable gate.
+
+![Supplementary Figure S7](FlowMOP_submission_media/image7_revised.png)
+
+Figure S7. Expert preference rankings for doublet gates provided by four human experts and FlowMOP (black border) across nine datasets. Rows indicate the gate provider, and the final column shows the mean rank across available datasets. Rank 1 indicates greatest preference; therefore, a lower average score indicates greater preference. N/A denotes an unavailable gate.
+
+FlowMOP had the highest mean rank when compared with the human experts for debris and doublet removal (Figs. S6, S7). On a Bayesian analysis, substantial to strong evidence was observed for FlowMOP being inferior to Expert 1 (BF = 5.87, P = 85.5%), Expert 4 (BF = 12.85, P = 92.8%), and Experts 2 and 3 (BF > 100, P = 100%) in debris removal. In doublet removal, FlowMOP was weakly inferiorly ranked to Expert 4 (BF = 3.14, P = 75.8%), substantially inferiorly ranked to Expert 1 (BF = 5.67, P = 85.0%), strongly inferiorly ranked to Expert 2 (BF = 14.38, P = 93.5%), and decisively inferiorly ranked to Expert 3 (BF > 100, P = 100%).
+
+FlowMOP’s relative expert preference varied across datasets. For debris, it ranked first in the mouse blood task and third in the human liver and mouse skin datasets. In the doublet task, FlowMOP ranked second in the human liver task. Full tabular rankings are provided in Tables S1B-E.
 
 ## References
 

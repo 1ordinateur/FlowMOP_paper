@@ -346,23 +346,17 @@ The Bayesian model is retained because the observed outcome is an ordinal rankin
 
 **Location:** Supplementary Information, “Supplementary expert preference evaluation,” including “Supplementary methods” and “Supplementary results”; Supplementary Figures S5–S7.
 
-## Combined Comment 7 — Dataset Scale, Complexity, and Manuscript Structure
+## Combined Comment 7 — Dataset Scale and Complexity
 
-**Raised by:** Associate Editor; Reviewer 2, general assessment.
+**Raised by:** Associate Editor.
 
 ### Associate Editor — Smaller Point
 
 > In the Introduction, the authors state that sophisticated analysis software has contributed to datasets of increasing size and complexity. It is not clear to me how analysis software makes debris or time gating more complex, particularly when pre-processing is predominantly scatter-based. Do the authors perhaps mean that derived parameters from imaging cytometry increase pre-processing complexity? Similarly, the claim that “datasets exceed human capabilities” presumably refers to the sheer number of files rather than the complexity of individual datasets — this should be stated explicitly. It is also not apparent from the manuscript how the tools described here depend on data complexity per se.
 
-### Reviewer 2 — General Assessment (Manuscript Structure)
-
-> Also, the manuscript is not well structured. Careful edition by experienced researcher is needed to increase the readability of the manuscript.
-
 ### Response
 
 The revised Introduction distinguishes study scale from the intrinsic complexity of an individual preprocessing gate. It now refers explicitly to increasing numbers of files, events, and measured parameters and explains that this scale makes repeated manual preprocessing time-consuming and often impractical. It no longer implies that analysis software itself necessarily makes a debris or time gate more complex.
-
-We have also substantially reorganized and edited the manuscript to improve its progression from motivation and algorithmic design through technical benchmarking, biological validation, and limitations. The difficult-sample and tumour-validation portions of Reviewer 2's general assessment are addressed together with the other downstream biological-validation concerns in Combined Comment 3.
 
 ### Changes made
 
@@ -370,9 +364,7 @@ We have also substantially reorganized and edited the manuscript to improve its 
 
   > “Modern flow-cytometry studies can contain increasing numbers of files, events, and measured parameters [2]. The large scale of these data makes repeated manual preprocessing time-consuming and often impractical, potentially amplifying variability between operators. Reproducible automated preprocessing is therefore valuable for large studies.”
 
-- We reorganized the manuscript so that the algorithmic design, technical benchmarks, biological validation, expert evaluation, and limitations are presented in distinct sections.
-
-**Location:** Introduction; Methods; Results; Discussion. The biological-validation changes are detailed in Combined Comment 3.
+**Location:** Introduction.
 
 ## Combined Comment 8 — Acquisition Settings and Newer Scatter Configurations
 
@@ -462,35 +454,7 @@ We also defined temporal artifacts, simplified the terminology, and added Figure
 
 **Location:** Abstract; Introduction; Methods, “Generation of Synthetic Time Samples” and “Time-only acquisition-rate mechanism benchmark”; Results, “Synthetic Time Gating Benchmark”; Discussion, “Synthetic Sample Time Gating”; Figures S1 and S4. The biological-validation changes are detailed in Combined Comment 3.
 
-## Combined Comment 10 — Abstract and Introduction Structure
-
-**Raised by:** Reviewer 2, Comments 2 and 9.
-
-### Reviewer 2, Comment 2
-
-> The structure of abstract is kind of odd. The first paragraph should focus on background instead of providing a conclusion.
-
-### Reviewer 2, Comment 9
-
-> The introduction is missing an end paragraph for summary.
-
-### Response
-
-The Abstract now begins with the general preprocessing problem and introduces FlowMOP directly. Temporal artifacts are then defined within the methodological summary before the validation design and principal findings are presented. We also added a concluding Introduction paragraph that summarizes FlowMOP's intended role and previews the time-gating comparison, debris and doublet validation, expert evaluation, and computational benchmark.
-
-### Changes made
-
-- We reordered the Abstract so that it begins with the study context:
-
-  > “Flow cytometry now generates high-parameter datasets whose scale and variability challenge manual preprocessing, leading to subjectivity and poor reproducibility. Here, we introduce FlowMOP, a Python-native framework that automates three major preprocessing steps—time-gating, debris removal, and doublet exclusion.”
-
-- We added the following study summary to the end of the Introduction:
-
-  > “Here, we introduce FlowMOP, an automated preprocessing tool for time-gating, debris removal, and doublet exclusion. We compare time-gating performance with PeacoQC and FlowCut, evaluate debris and doublet removal using synthetic ground-truth datasets and expert comparison, and benchmark computational scalability.”
-
-**Location:** Abstract; final paragraph of the Introduction.
-
-## Combined Comment 11 — Debris Methodology and Validation
+## Combined Comment 10 — Debris Methodology and Validation
 
 **Raised by:** Reviewer 1, Comment 2; Reviewer 2, Comments 15, 22, and 24.
 
@@ -552,7 +516,7 @@ The requested human comparison is already represented by the percentage-based an
 
 **Location:** Methods, “Synthetic Debris Sample Preparation and Generation”; Results, “Debris Gating” and “Synthetic Debris Gating Benchmark”; Discussion, “Synthetic Sample Debris and Doublet Gating”; Figure 3.
 
-## Combined Comment 12 — Aggregates, Doublets, Saturation, and Validation
+## Combined Comment 11 — Aggregates, Doublets, Saturation, and Validation
 
 **Raised by:** Reviewer 2, Comments 5, 25, and 26.
 
@@ -594,7 +558,7 @@ Figure 4 already compares the percentage of CTV-CFSE double-positive events remo
 
 **Location:** Results, “Doublet Gating” and “Synthetic Doublet Gating Benchmark”; Discussion, “Synthetic Sample Debris and Doublet Gating” and “Other remarks”; Figure 4.
 
-## Combined Comment 13 — CTV/CFSE Preparation Protocol
+## Combined Comment 12 — CTV/CFSE Preparation Protocol
 
 **Raised by:** Reviewer 2, Comment 27.
 
@@ -612,7 +576,7 @@ PLACEHOLDER
 
 **Location:** PLACEHOLDER
 
-## Combined Comment 14 — Missing and Duplicated Methods Information
+## Combined Comment 13 — Missing and Duplicated Methods Information
 
 **Raised by:** Reviewer 2, Comments 11 and 12.
 
@@ -626,19 +590,19 @@ PLACEHOLDER
 
 ### Response
 
-The duplicated cytometer sentence has been removed.
-
-**PBMC antibody identities and fluorochromes:** PLACEHOLDER
+The duplicated cytometer sentence has been removed. The benchmarking uses real, existing datasets acquired with biology-specific antibody panels. Consequently, the antigen–fluorochrome combinations differ among datasets and are not variables under evaluation; they are not material to the preprocessing questions raised here. We have clarified this scope in the Methods rather than presenting a single fluorochrome list that would not describe the distinct panels used across the benchmark datasets.
 
 ### Changes made
 
 - We removed the duplicated sentence, “Samples were acquired on a Cytek Northern Lights 3-laser (V/B/R) spectral flow cytometer.”
 
-- The complete PBMC antibody panel remains a PLACEHOLDER.
+- We clarified why a single fluorochrome list is not applicable across the benchmark datasets:
 
-**Location:** Methods, “Preparation of Human PBMC Samples for Synthetic Time Benchmarking Samples”; complete PBMC antibody panel: PLACEHOLDER.
+  > “The benchmarking uses real, existing datasets acquired with biology-specific antibody panels. Consequently, the antigen–fluorochrome combinations differ among datasets and are not variables under evaluation; they are not material to the preprocessing questions addressed here.”
 
-## Combined Comment 15 — Precleaning Event Removal and Threshold
+**Location:** Methods, “Preparation of Human PBMC Samples for Synthetic Time Benchmarking Samples.”
+
+## Combined Comment 14 — Precleaning Event Removal and Threshold
 
 **Raised by:** Reviewer 2, Comment 17.
 
@@ -668,7 +632,7 @@ The 1% cutoff is a pragmatic safeguard rather than a uniquely ground-truth-deriv
 
 **Location:** Results, “Precleaning.”
 
-## Combined Comment 16 — Figure 1 Axes and Annotations
+## Combined Comment 15 — Figure 1 Axes and Annotations
 
 **Raised by:** Reviewer 2, Comments 19 and 23.
 
@@ -691,6 +655,40 @@ Figure 1 remains a conceptual schematic, and its axes are not treated as quantit
   > “Figure 1. Conceptual schematics depicting FlowMOP’s time-gating (A), debris-gating (B), and doublet-gating (C) methods; plotted fluorescence intensity and signal-strength axes are schematic and use arbitrary units. A) FlowMOP selects valid parameters using positive-peak detection, generates time-binned fluorescence summaries, applies two smoothing resolutions, and performs robust outlier rejection across acquisition order. B) FlowMOP applies the same valid-parameter check, derives a candidate FSC-A threshold from each eligible parameter’s positive events, and uses the median candidate as the final FSC-A gate. C) FlowMOP identifies doublets from inflection points in FSC-A/FSC-H and SSC-A/SSC-H ratio histograms, with a fixed-ratio fallback.”
 
 **Location:** Figure 1 legend.
+
+## Combined Comment 16 — Abstract, Introduction, and Overall Manuscript Structure
+
+**Raised by:** Reviewer 2, general assessment and Comments 2 and 9.
+
+### Reviewer 2 — General Assessment (Manuscript Structure)
+
+> Also, the manuscript is not well structured. Careful edition by experienced researcher is needed to increase the readability of the manuscript.
+
+### Reviewer 2, Comment 2
+
+> The structure of abstract is kind of odd. The first paragraph should focus on background instead of providing a conclusion.
+
+### Reviewer 2, Comment 9
+
+> The introduction is missing an end paragraph for summary.
+
+### Response
+
+The manuscript has been considerably restructured and rewritten. The Abstract now begins with the general preprocessing problem and introduces FlowMOP directly. Temporal artifacts are then defined within the methodological summary before the validation design and principal findings are presented. We also added a concluding Introduction paragraph that summarizes FlowMOP's intended role and previews the time-gating comparison, debris and doublet validation, expert evaluation, and computational benchmark. Considering that the paper has been considerably restructured, we hope that the new format and writing address the reviewer's concerns.
+
+### Changes made
+
+- We reordered the Abstract so that it begins with the study context:
+
+  > “Flow cytometry now generates high-parameter datasets whose scale and variability challenge manual preprocessing, leading to subjectivity and poor reproducibility. Here, we introduce FlowMOP, a Python-native framework that automates three major preprocessing steps—time-gating, debris removal, and doublet exclusion.”
+
+- We added the following study summary to the end of the Introduction:
+
+  > “Here, we introduce FlowMOP, an automated preprocessing tool for time-gating, debris removal, and doublet exclusion. We compare time-gating performance with PeacoQC and FlowCut, evaluate debris and doublet removal using synthetic ground-truth datasets and expert comparison, and benchmark computational scalability.”
+
+- We reorganized and edited the manuscript so that the motivation, algorithmic design, technical benchmarks, biological validation, expert evaluation, and limitations are presented in a clearer progression.
+
+**Location:** Abstract; final paragraph of the Introduction; structure and writing throughout the manuscript.
 
 ## Associate Editor's Closing Request
 
@@ -720,7 +718,7 @@ Figure 1 remains a conceptual schematic, and its axes are not treated as quantit
 | Reviewer 1 comment | Response location |
 | --- | --- |
 | Comment 1 — Technical infrastructure and performance claims | Combined Comment 2 |
-| Comment 2 — Debris gating methodology | Combined Comment 11 |
+| Comment 2 — Debris gating methodology | Combined Comment 10 |
 | Comment 3 — Refinement of human subjective rankings and dataset breadth | Combined Comments 3 and 6 |
 | Comment 4 — Error costs and sensitivity trade-offs | Combined Comment 3 |
 | Comment 5 — Parametric sensitivity analysis | Combined Comment 4 |
@@ -729,34 +727,34 @@ Figure 1 remains a conceptual schematic, and its axes are not treated as quantit
 
 | Reviewer 2 comment | Response location |
 | --- | --- |
-| General assessment | Combined Comments 3 and 7 |
+| General assessment | Combined Comments 3 and 16 |
 | Comment 1 | Combined Comment 1 |
-| Comment 2 | Combined Comment 10 |
+| Comment 2 | Combined Comment 16 |
 | Comment 3 | Combined Comment 9 |
 | Comment 4 | Combined Comment 9 |
-| Comment 5 | Combined Comment 12 |
+| Comment 5 | Combined Comment 11 |
 | Comment 6 | Combined Comment 1 |
 | Comment 7 | Combined Comment 2 |
 | Comment 8 | Combined Comment 1 |
-| Comment 9 | Combined Comment 10 |
+| Comment 9 | Combined Comment 16 |
 | Comment 10 | Combined Comment 3 |
-| Comment 11 | Combined Comment 14 |
-| Comment 12 | Combined Comment 14 |
+| Comment 11 | Combined Comment 13 |
+| Comment 12 | Combined Comment 13 |
 | Comment 13 | Combined Comment 8 |
 | Comment 14 | Combined Comment 9 |
-| Comment 15 | Combined Comment 11 |
+| Comment 15 | Combined Comment 10 |
 | Comment 16 | Combined Comment 6 |
-| Comment 17 | Combined Comment 15 |
+| Comment 17 | Combined Comment 14 |
 | Comment 18 | Combined Comment 5 |
-| Comment 19 | Combined Comment 16 |
+| Comment 19 | Combined Comment 15 |
 | Comment 20 | Combined Comment 4 |
 | Comment 21 | Combined Comment 5 |
-| Comment 22 | Combined Comment 11 |
-| Comment 23 | Combined Comment 16 |
-| Comment 24 | Combined Comment 11 |
-| Comment 25 | Combined Comment 12 |
-| Comment 26 | Combined Comment 12 |
-| Comment 27 | Combined Comment 13 |
+| Comment 22 | Combined Comment 10 |
+| Comment 23 | Combined Comment 15 |
+| Comment 24 | Combined Comment 10 |
+| Comment 25 | Combined Comment 11 |
+| Comment 26 | Combined Comment 11 |
+| Comment 27 | Combined Comment 12 |
 | Comment 28 | Combined Comment 8 |
 
 ## Closing Statement

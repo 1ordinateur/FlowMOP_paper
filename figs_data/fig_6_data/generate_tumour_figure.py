@@ -545,46 +545,47 @@ def make_figure_6(
             ha="center",
             va="center",
         )
-    vertical_arrow_x = grid_left - 0.030
+    axis_origin_x = grid_left - 0.030
+    axis_origin_y = grid_bottom - 0.020
+    axis_arrow_length = 0.065
     vertical_arrow = FancyArrowPatch(
-        (vertical_arrow_x, grid_bottom),
-        (vertical_arrow_x, grid_top),
+        (axis_origin_x, axis_origin_y),
+        (axis_origin_x, axis_origin_y + axis_arrow_length),
         transform=fig.transFigure,
         arrowstyle="-|>",
-        mutation_scale=24,
-        linewidth=2.4,
+        mutation_scale=16,
+        linewidth=1.8,
         color="#111111",
         zorder=10,
     )
     fig.add_artist(vertical_arrow)
     fig.text(
-        vertical_arrow_x - 0.018,
-        (grid_bottom + grid_top) / 2,
+        axis_origin_x - 0.014,
+        axis_origin_y + axis_arrow_length / 2,
         "CD3",
-        fontsize=25,
+        fontsize=18,
         fontweight="bold",
         ha="center",
         va="center",
         rotation=90,
     )
 
-    horizontal_arrow_y = grid_bottom - 0.028
     horizontal_arrow = FancyArrowPatch(
-        (grid_left, horizontal_arrow_y),
-        (grid_right, horizontal_arrow_y),
+        (axis_origin_x, axis_origin_y),
+        (axis_origin_x + axis_arrow_length, axis_origin_y),
         transform=fig.transFigure,
         arrowstyle="-|>",
-        mutation_scale=24,
-        linewidth=2.4,
+        mutation_scale=16,
+        linewidth=1.8,
         color="#111111",
         zorder=10,
     )
     fig.add_artist(horizontal_arrow)
     fig.text(
-        (grid_left + grid_right) / 2,
-        horizontal_arrow_y - 0.017,
+        axis_origin_x + axis_arrow_length / 2,
+        axis_origin_y - 0.012,
         "CD19",
-        fontsize=25,
+        fontsize=18,
         fontweight="bold",
         ha="center",
         va="top",
@@ -640,15 +641,22 @@ def make_figure_6(
                 method_index,
                 mean,
                 yerr=sd,
-                fmt="D",
-                markersize=8,
+                fmt="none",
                 color="#111111",
-                markerfacecolor=METHOD_COLOURS[method],
-                markeredgecolor="#111111",
                 capsize=5,
                 capthick=1.8,
                 lw=2.0,
-                zorder=4,
+                zorder=2,
+            )
+            ax.scatter(
+                method_index,
+                mean,
+                marker="D",
+                s=64,
+                facecolor=METHOD_COLOURS[method],
+                edgecolor="#111111",
+                linewidth=1.0,
+                zorder=2.5,
             )
 
         ax.axhline(100, color="#777777", lw=1.2, ls="--", zorder=0)
@@ -713,12 +721,13 @@ def figure_arrow(
     end: tuple[float, float],
     *,
     connectionstyle: str = "arc3,rad=0",
+    arrowstyle: str = "-|>",
 ) -> None:
     arrow = FancyArrowPatch(
         start,
         end,
         transform=fig.transFigure,
-        arrowstyle="-|>",
+        arrowstyle=arrowstyle,
         mutation_scale=16,
         linewidth=1.5,
         color="#444444",
@@ -762,6 +771,18 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
     )
     manual_images = [crop_points(manual_page, rect, scale) for rect in manual_rects]
     flowmop_images = [crop_points(qc_page, rect, scale) for rect in flowmop_rects]
+
+    # The first source crops contain small FlowJo method tags above the plots.
+    # The figure already identifies each workflow with the large row labels.
+    ImageDraw.Draw(manual_images[0]).rectangle(
+        (0, 0, manual_images[0].width, round(25 * scale)),
+        fill="white",
+    )
+    ImageDraw.Draw(flowmop_images[0]).rectangle(
+        (0, 0, flowmop_images[0].width, round(15 * scale)),
+        fill="white",
+    )
+
     flowmop_square_size = round(90 * scale)
     flowmop_images = [
         image.resize(
@@ -799,11 +820,11 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
         for x, image in zip(flow_x_positions, flowmop_images)
     ]
     flow_top = flow_y + flow_h
-    split_y = flow_top + 0.015
+    split_y = flow_top + 0.03
     for x, title in zip(flow_x_positions, flow_titles):
         fig.text(
             x + flow_width / 2,
-            split_y + 0.04,
+            split_y + 0.035,
             title,
             ha="center",
             va="center",
@@ -870,7 +891,7 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
         figure_arrow(
             fig,
             (pos.x0 + pos.width / 2, split_y),
-            (pos.x0 + pos.width / 2, pos.y1 + 0.004),
+            (pos.x0 + pos.width / 2, pos.y1 - 0.002),
         )
 
     # The three independent branches converge at a bracket representing the
@@ -881,11 +902,6 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
         for ax in flow_axes
     ]
     join_offset = 0.035
-    figure_arrow(
-        fig,
-        (branch_centres[0] + join_offset, merge_y),
-        (result_box_left, merge_y),
-    )
     for ax, branch_x in zip(flow_axes, branch_centres):
         pos = ax.get_position()
         figure_arrow(
@@ -893,7 +909,15 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
             (branch_x, pos.y0 - 0.004),
             (branch_x + join_offset, merge_y),
             connectionstyle="arc3,rad=0.35",
+            arrowstyle="-",
         )
+    # Draw the final arrow after the branch connectors so its baseline remains
+    # visually continuous through each merge point.
+    figure_arrow(
+        fig,
+        (branch_centres[0] + join_offset, merge_y),
+        (result_box_left, merge_y),
+    )
 
     fig.text(
         result_box_x,

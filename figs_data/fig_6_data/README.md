@@ -17,8 +17,8 @@ CD3-CD19+ Q3 population, and frequencies use the original event count as
 their denominator. Statistical values are normalized within sample to
 the matched Raw value before the unadjusted, two-sided paired t-tests.
 Figure 6 displays only the T/B gates. FlowJo's numerical axes are removed,
-and one shared pair of directional CD3/CD19 arrows identifies increasing
-protein signal across Panel A. The rasterised FlowJo quadrant annotations are
+and a compact shared pair of directional CD3/CD19 arrows at the lower-left
+identifies increasing protein signal across Panel A. The rasterised FlowJo quadrant annotations are
 masked and redrawn as larger vector text using percentages calculated from the
 workspace population counts. Only statistically significant comparisons are
 annotated.

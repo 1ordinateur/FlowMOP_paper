@@ -1,0 +1,13 @@
+endpoint,endpoint_label,comparison,method_a,method_b,n_pairs,t_statistic,p_value,p_adjustment
+live_cd45_count,Live CD45+ cells,Manual vs Raw,Manual,Raw,3,-3.6054848742911223,0.06905294976468218,none
+live_cd45_count,Live CD45+ cells,FlowMOP vs Raw,FlowMOP,Raw,3,-6.319272886175264,0.02413878756883129,none
+live_cd45_count,Live CD45+ cells,Manual vs FlowMOP,Manual,FlowMOP,3,-0.7223630020138053,0.5451172596060035,none
+t_cell_frequency_pct_total,T-cell frequency (% original total),Manual vs Raw,Manual,Raw,3,-6.547627857147046,0.02253991920477189,none
+t_cell_frequency_pct_total,T-cell frequency (% original total),FlowMOP vs Raw,FlowMOP,Raw,3,-12.596617028515789,0.006243241891017898,none
+t_cell_frequency_pct_total,T-cell frequency (% original total),Manual vs FlowMOP,Manual,FlowMOP,3,0.021176175034169437,0.9850278614301513,none
+b_cell_frequency_pct_total,B-cell frequency (% original total),Manual vs Raw,Manual,Raw,3,-6.209215545114813,0.024970013349096258,none
+b_cell_frequency_pct_total,B-cell frequency (% original total),FlowMOP vs Raw,FlowMOP,Raw,3,-6.890978635800339,0.020416317359503784,none
+b_cell_frequency_pct_total,B-cell frequency (% original total),Manual vs FlowMOP,Manual,FlowMOP,3,0.2069249607687711,0.855223507751613,none
+t_b_ratio,T:B-cell ratio,Manual vs Raw,Manual,Raw,3,-0.4199856525526397,0.7153138768719286,none
+t_b_ratio,T:B-cell ratio,FlowMOP vs Raw,FlowMOP,Raw,3,0.13331512203179963,0.9061480566553272,none
+t_b_ratio,T:B-cell ratio,Manual vs FlowMOP,Manual,FlowMOP,3,-0.5531887210315867,0.6357144095973233,none

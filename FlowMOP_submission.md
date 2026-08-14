@@ -35,7 +35,7 @@ Flow cytometry now generates high-parameter datasets whose scale and variability
 
 Methodologically, FlowMOP identifies temporal artifacts—acquisition-dependent deviations in event quality or fluorescence signal—via parameter-wise peak checks, bin-level fluorescence summaries across acquisition time, and robust outlier rejection. Debris is excluded by adaptive FSC-A thresholding derived from cross-parameter peak structure. Finally, doublets are removed using dynamic inflection detection on FSC-A/FSC-H and SSC-A/SSC-H ratio histograms. The implementation uses memory-conscious array operations; computational scaling was evaluated to 2 million events in a 36-channel file.
 
-Validation used synthetic datasets with event-level ground truth for acquisition-time artifacts, debris enrichment, and doublet enrichment, together with an exploratory expert comparison on biological datasets. In the synthetic time-gating benchmark, FlowMOP had higher sensitivity than FlowCut for Segment artifacts at both tested bin sizes and in the 5000-event Bimix and Trimix settings, and higher specificity than both competitors across all three 5000-event scenarios. FlowMOP also removed labelled debris and doublet populations effectively in technical-control datasets. The expert comparison, which used an earlier FlowMOP configuration, generally favoured manual gates and is reported in the Supplementary Information. **[PLACEHOLDER: Principal biological-validation finding from Figure 5.]** **[PLACEHOLDER: Principal tumour-validation finding from Figure 6.]** Within the tested settings, FlowMOP provides a reproducible workflow for standardizing time, debris, and doublet preprocessing. FlowMOP can be accessed at https://github.com/1ordinateur/FlowMOP.
+Validation used synthetic datasets with event-level ground truth for acquisition-time artifacts, debris enrichment, and doublet enrichment, together with an exploratory expert comparison on biological datasets. In the synthetic time-gating benchmark, FlowMOP had higher sensitivity than FlowCut for Segment artifacts at both tested bin sizes and in the 5000-event Bimix and Trimix settings, and higher specificity than both competitors across all three 5000-event scenarios. FlowMOP also removed labelled debris and doublet populations effectively in technical-control datasets. The expert comparison, which used an earlier FlowMOP configuration, generally favoured manual gates and is reported in the Supplementary Information. **[PLACEHOLDER: Principal biological-validation finding from Figure 5.]** In three tumour samples, no difference was detected between FlowMOP and manual preprocessing for the T:B-cell ratio, Live CD45+ cell count, B-cell frequency, or T-cell frequency. Within the tested settings, FlowMOP provides a reproducible workflow for standardizing time, debris, and doublet preprocessing. FlowMOP can be accessed at https://github.com/1ordinateur/FlowMOP.
 
 ## Introduction
 
@@ -101,15 +101,11 @@ Human liver samples used in the non-synthetic validation datasets were collected
 
 **[PLACEHOLDER: Figure 5 biological-validation samples, preprocessing comparisons, prespecified biological endpoints, and statistical analysis.]**
 
-### Tumour-liver acquisition-instability and biological-concordance analysis
+### Tumour biological-validation analysis
 
-**[PLACEHOLDER: Update this section to match Felix's final Figure 6 tumour-validation analysis.]**
+Three human tumour-liver FCS files (LB202, LB236, and LB262) were analysed in their Raw state and after either manual or FlowMOP preprocessing. The manual population was reconstructed from sequential time, cells/debris, and single-cell gates in the FlowJo workspace. FlowMOP calculated time, debris, and doublet exclusions independently; the union of excluded events was removed, equivalently retaining the intersection of the three passed-event masks. The limit-of-detection mask was not included.
 
-Three tumour and three non-tumour human liver FCS files were used for an additional biological validation. For the acquisition-instability analysis, the three tumour files were divided into common acquisition-order bins, and the time masks produced by manual gating, FlowMOP, FlowCut, and PeacoQC were projected onto those bins. Bin-level deviations were evaluated using fluorescence channels only; Time, FSC, and SSC measurements were excluded. Method-overlap and method-specific residual bins were then examined using robustly scaled fluorescence summaries and positive-population deviations.
-
-For the downstream analysis, the FlowMOP output was defined as the intersection of its independently calculated time, debris, and doublet masks; the limit-of-detection mask was excluded. The corresponding manual population was reconstructed from the final time, cells, and single-cell gates in the FlowJo workspace. Zombie-low events were defined operationally as Zombie UV-A values below 12,000 raw units, with the same threshold applied to every sample. This threshold-based analysis was used as an orthogonal biological-concordance check and not as a universal live/dead classifier.
-
-To separate selective Zombie-high exclusion from the overall extent of event removal, selectivity was defined within each sample as the Zombie-high removal rate divided by the Zombie-low removal rate. The primary comparison was the paired FlowMOP/manual selectivity fold-change. Because selectivity is multiplicative and the sample size was small, FlowMOP and manual values were compared using an exact two-sided Wilcoxon signed-rank test applied to the log-transformed paired ratios. Constituent time, debris, and doublet masks were evaluated separately as secondary mechanistic analyses. No equivalence or non-inferiority margin was prespecified; consequently, a non-significant paired comparison was interpreted as no detected difference rather than proof of equivalence.
+T and B cells were identified from CD3 and CD19 expression. T cells were defined as CD3+CD19− (Q1) and B cells as CD3−CD19+ (Q3). Four prespecified endpoints were calculated: the T:B-cell count ratio, the number of Live CD45+ cells, and T- and B-cell frequencies as percentages of the original total event count. Each endpoint was normalized within sample to its matched Raw value (Raw = 100%). Raw, Manual, and FlowMOP values were compared using all three unadjusted, two-sided paired t-tests.
 
 ### Computational scalability benchmark
 
@@ -226,19 +222,15 @@ Following the objective synthetic benchmarks, FlowMOP will be evaluated using pr
 
 **[PLACEHOLDER: Figure 5. Biological validation of FlowMOP cleaning.]**
 
-### Tumour-liver acquisition instability and downstream biological concordance
+### Tumour biological validation
 
-**[PLACEHOLDER: Final Figure 6 analysis and corresponding text from Felix's tumour-validation dataset.]**
+Next, we wished to examine FlowMOP's performance in a more complex sample type, such as tumour samples. Consequently, we tested whether manual and FlowMOP preprocessing produced different downstream population measurements in three tumour samples (Fig. 6A). Relative to matched Raw values, the mean ± SD T:B-cell ratio was 85.6 ± 59.2% after manual preprocessing and 108.6 ± 112.2% after FlowMOP preprocessing. No comparison was significant (Manual versus Raw, p = 0.715; FlowMOP versus Raw, p = 0.906; Manual versus FlowMOP, p = 0.636; Fig. 6B).
 
-In the three tumour-liver files, FlowMOP identified the principal acquisition intervals with strong multichannel fluorescence instability, including the major disturbances identified by manual gating, FlowCut, or PeacoQC. FlowMOP also identified additional intervals with shifts in positive-population fluorescence, whereas residual intervals detected only by comparator methods generally showed weaker fluorescence divergence. The substantial overlap between retained and removed events at the individual-event level indicates that the time gate detected acquisition-dependent shifts in population summaries rather than a discrete aberrant cell phenotype.
+The Live CD45+ cell count was 62.9 ± 17.8% of Raw after manual preprocessing and 73.3 ± 7.3% after FlowMOP preprocessing. FlowMOP differed from Raw (p = 0.024), whereas Manual did not (p = 0.069), and Manual and FlowMOP did not differ (p = 0.545). B-cell frequency was 32.5 ± 18.8% of Raw after Manual and 32.2 ± 17.0% after FlowMOP; both differed from Raw (p = 0.025 and p = 0.020, respectively), but not from each other (p = 0.855). T-cell frequency was 23.0 ± 20.4% of Raw after Manual and 22.8 ± 10.6% after FlowMOP; both differed from Raw (p = 0.023 and p = 0.006, respectively), but not from each other (p = 0.985). Thus, although both preprocessing strategies changed absolute population recovery relative to Raw, no difference between Manual and FlowMOP was detected for any prespecified endpoint.
 
-These findings also demonstrate that acquisition instability was not confined to conspicuous beginning- or end-of-run departures: the biological files contained mid-acquisition intervals with coordinated fluorescence shifts, including subtle intervals that would be difficult to define reproducibly by visual gating alone.
+![Figure 6](figs_data/figure_6.png)
 
-Across the three tumour and three non-tumour liver samples, the combined FlowMOP time, debris, and doublet masks retained 61.1% ± 10.0% of events, compared with 51.3% ± 17.8% after reconstructed manual gating (Tables S3A-B). FlowMOP had greater permissiveness-adjusted Zombie-high removal selectivity than manual gating in four of six samples. The median paired FlowMOP/manual selectivity fold-change was 1.68 (range 0.82-2.70), but the difference was not statistically significant (exact two-sided Wilcoxon signed-rank test on log ratios, p = 0.156). Thus, this analysis detected neither systematic superiority nor inferiority relative to manual gating; it was not designed to establish statistical equivalence.
-
-Decomposition of the FlowMOP workflow showed distinct contributions from its three masks. The time mask was approximately composition-neutral (median Zombie-high/Zombie-low removal ratio 1.04), and debris removal was heterogeneous across samples. The doublet mask preferentially excluded Zombie-high events in all six samples (median ratio 7.38; secondary exact two-sided paired test, p = 0.031), making it the principal source of Zombie-high enrichment in the combined output. The doublet inflection procedure used its prespecified MAD fallback in these files, so this association provides biological concordance for the resulting mask but does not establish that every removed event was an invalid doublet.
-
-**[PLACEHOLDER: Figure 6. FlowMOP validation in tumour-derived biological samples.]**
+Figure 6. Downstream tumour-population measurements after manual and FlowMOP preprocessing. A) CD3-versus-CD19 plots for tumour Samples 1, 2, and 3 in the Raw data and after Manual or FlowMOP preprocessing. T cells are CD3+CD19− (Q1), and B cells are CD3−CD19+ (Q3). B) T:B-cell ratio, Live CD45+ cell count, B-cell frequency, and T-cell frequency after normalization within sample to the matched Raw value (Raw = 100%). Small circles show individual samples, lines connect the matched samples across preprocessing methods, and diamonds and error bars show mean ± SD. All three unadjusted, two-sided paired t-tests were performed for each endpoint; brackets and P values are displayed only for significant comparisons (p < 0.05).
 
 ## Discussion
 
@@ -250,7 +242,7 @@ FlowMOP was evaluated for time, debris, and doublet gating using synthetic techn
 
 In the synthetic time-gating analysis, the Segment time gate is perhaps the most common and consequential time-artifact, as a non-negligible sample portion is often required to be removed in real samples. This type of synthetic data expects gating most similar to current manual gating, where blocks of events are removed. The objective of these samples is to simulate where there is a long blockage or sudden shift in the acquired sample. Here, FlowMOP had higher sensitivity than FlowCut at both tested bin sizes. It also had higher specificity than both competitors at 5000 events and than FlowCut at 2000 events. The Time-only mechanism benchmark suggests that the FlowMOP versus FlowCut difference is not explained solely by implementation. When local acquisition-rate structure was altered either in alignment with source-linked fluorescence changes or independently of them, FlowMOP remained unchanged, whereas FlowCut's removal behavior shifted, especially in Segment inputs (Fig. S4). This supports the interpretation that FlowCut can be affected by acquisition-density changes even when fluorescence values are unchanged, while FlowMOP is more anchored to fluorescence-population summaries across acquisition order.
 
-Transient acquisition disturbances are not confined to the beginning or end of a run: flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have been documented [10]. PeacoQC notes that temporary acquisition problems can be difficult to detect manually [5], and FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [9]. We use “microblockage” operationally for a short, self-resolving instance of this broader phenomenon that produces a localized fluorescence shift, without asserting that a physical obstruction was directly observed. The Bimix and Trimix samples were designed to represent this under-addressed case. Although these synthetic samples can appear acceptable on visual inspection, the source labels show that the short altered intervals contain events from an intentionally perturbed fluorescence source and therefore should be excluded under the benchmark definition. Visual subtlety is thus a central feature of the benchmark: it demonstrates why apparent normality by eye is not sufficient ground truth. The tumour-liver validation further supports the experimental relevance of this design by demonstrating mid-acquisition intervals with coordinated multichannel fluorescence shifts.
+Transient acquisition disturbances are not confined to the beginning or end of a run: flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have been documented [10]. PeacoQC notes that temporary acquisition problems can be difficult to detect manually [5], and FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [9]. We use “microblockage” operationally for a short, self-resolving instance of this broader phenomenon that produces a localized fluorescence shift, without asserting that a physical obstruction was directly observed. The Bimix and Trimix samples were designed to represent this under-addressed case. Although these synthetic samples can appear acceptable on visual inspection, the source labels show that the short altered intervals contain events from an intentionally perturbed fluorescence source and therefore should be excluded under the benchmark definition. Visual subtlety is thus a central feature of the benchmark: it demonstrates why apparent normality by eye is not sufficient ground truth.
 
 The size of the simulated microblockage was determined by the mixing-bin size, with the 2000-event samples representing shorter and more difficult disturbances than the 5000-event samples. FlowMOP provided the strongest overall performance profile across these conditions. At 5000 events, it had higher sensitivity than FlowCut and higher specificity than both competitors across Segment, Bimix, and Trimix. At 2000 events, FlowMOP had higher sensitivity and specificity than FlowCut in Segment and retained higher specificity than PeacoQC in Bimix and Trimix without a significant sensitivity disadvantage. Thus, FlowMOP's principal advantage was its consistent combination of high sensitivity with stronger specificity across sustained and short, interspersed time artifacts.
 
@@ -278,9 +270,7 @@ The synthetic debris benchmark measures depletion of the source-labelled high-de
 
 **[PLACEHOLDER: Interpretation of the Figure 5 biological-validation endpoint and its implications for preservation of biologically meaningful populations following cleaning.]**
 
-**[PLACEHOLDER: Integrate Felix's final Figure 6 tumour-validation findings here.]**
-
-The tumour-liver analysis provides an initial downstream biological-concordance assessment. FlowMOP retained more events on average, while its permissiveness-adjusted Zombie-high selectivity was statistically indistinguishable from the matched manual strategy in this six-sample analysis. This result is compatible with similar performance but does not demonstrate parity, because the analysis was not powered or prespecified as an equivalence or non-inferiority test. The constituent analysis further indicates that the complete workflow should not be treated as a single biological filter: time gating detected acquisition-level fluorescence instability without consistent Zombie selectivity, debris effects were sample-dependent, and the doublet mask generated most of the observed Zombie-high enrichment.
+The tumour analysis provides an initial downstream biological assessment in a complex sample type (Fig. 6). Manual and FlowMOP preprocessing both reduced Live CD45+ recovery and B- and T-cell frequencies relative to Raw, but neither produced a detectable change in the T:B-cell ratio. More importantly for method concordance, Manual and FlowMOP did not differ for any of the four prespecified endpoints. FlowMOP therefore appears to extend to complex tumour samples, with broadly comparable downstream results to matched human-expert manual gating.
 
 An earlier expert preference exercise across nine human and mouse datasets is reported in Supplementary Figures S5-S7. The exercise used an earlier FlowMOP configuration and involved one relevant expert per tissue type. These rankings are therefore interpreted as exploratory relative preferences rather than absolute quality scores or evidence of the performance of the current implementation.
 
@@ -300,7 +290,7 @@ FlowMOP provides time-gating, conservative low-FSC debris removal, and scatter-r
 
 Within the tested synthetic scenarios, event-level source labels enabled objective evaluation of the targeted artifact classes. FlowMOP had higher sensitivity than FlowCut for Segment anomalies at both bin sizes and higher specificity than both competitors across the 5000-event Segment, Bimix, and Trimix benchmarks. For debris and doublet removal, FlowMOP removed the labelled technical artifact populations effectively in the synthetic ground-truth datasets, including unexpected triplet events.
 
-An exploratory expert comparison using an earlier FlowMOP configuration generally favoured manual gates and is reported in the Supplementary Information. **[PLACEHOLDER: Figure 5 biological-validation conclusion.]** **[PLACEHOLDER: Figure 6 tumour-validation conclusion.]** The open-source Python implementation supports reproducible preprocessing across cytometry datasets of increasing scale.
+An exploratory expert comparison using an earlier FlowMOP configuration generally favoured manual gates and is reported in the Supplementary Information. **[PLACEHOLDER: Figure 5 biological-validation conclusion.]** In three tumour samples, Manual and FlowMOP preprocessing did not differ for the T:B-cell ratio, Live CD45+ cell count, B-cell frequency, or T-cell frequency. The open-source Python implementation supports reproducible preprocessing across cytometry datasets of increasing scale.
 
 ## Data and Code Availability
 
@@ -413,34 +403,6 @@ Figure S2: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Tr
 | 10-30 | Very strong evidence |
 | >30 | Decisive evidence |
 
-**Table S3A: Retention and permissiveness-adjusted Zombie-high exclusion following combined time, debris, and doublet filtering in human liver samples**
-
-| Sample | Tissue | Manual retained (%) | FlowMOP retained (%) | Zombie-high in raw (%) | Zombie-high among FlowMOP-removed (%) | Zombie-low removed (%) | Zombie-high removed (%) | Manual selectivity ratio | FlowMOP selectivity ratio | FlowMOP/manual fold-change |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| LB180 | Non-tumour | 58.1 | 64.1 | 17.2 | 27.9 | 31.3 | 58.0 | 1.13 | 1.85 | 1.64 |
-| LB192 | Non-tumour | 74.0 | 79.1 | 1.4 | 4.1 | 20.3 | 61.5 | 1.12 | 3.03 | 2.70 |
-| LB200 | Non-tumour | 31.3 | 53.7 | 9.2 | 17.3 | 42.2 | 86.9 | 1.17 | 2.06 | 1.76 |
-| LB202 | Tumour | 37.9 | 62.0 | 55.4 | 64.8 | 30.0 | 44.4 | 0.86 | 1.48 | 1.71 |
-| LB236 | Tumour | 38.6 | 54.1 | 64.7 | 54.4 | 59.3 | 38.5 | 0.74 | 0.65 | 0.88 |
-| LB262 | Tumour | 68.0 | 53.6 | 21.6 | 29.8 | 41.5 | 63.9 | 1.88 | 1.54 | 0.82 |
-| Summary | Six samples | 51.3 ± 17.8 | 61.1 ± 10.0 |  |  |  |  | 1.13 median | 1.70 median | 1.68 median (0.82-2.70) |
-
-Selectivity is the Zombie-high removal rate divided by the Zombie-low removal rate. The primary exact two-sided paired Wilcoxon signed-rank test was applied to log-transformed FlowMOP/manual selectivity ratios (p = 0.156). FlowMOP output is the intersection of the time, debris, and doublet masks and excludes the limit-of-detection mask. Zombie-low was defined operationally as Zombie UV-A <12,000 raw units. Manual populations were reconstructed from the FlowJo workspace.
-
-**Table S3B: Constituent FlowMOP gate selectivity**
-
-| Sample | Time | Debris | Doublet | Combined |
-| --- | ---: | ---: | ---: | ---: |
-| LB180 | 1.08 | 1.46 | 4.89 | 1.85 |
-| LB192 | 1.04 | N/A | 5.64 | 3.03 |
-| LB200 | 1.27 | 0.02 | 9.13 | 2.06 |
-| LB202 | 0.95 | 0.10 | 60.85 | 1.48 |
-| LB236 | 0.97 | 0.15 | 246.30 | 0.65 |
-| LB262 | 1.04 | 1.34 | 4.77 | 1.54 |
-| Median | 1.04 | 0.15 | 7.38 | 1.70 |
-
-Values are Zombie-high/Zombie-low removal-rate ratios; values above 1 indicate preferential Zombie-high exclusion. The LB192 debris ratio is undefined because the debris mask removed no events. The extreme LB202 and LB236 doublet ratios reflect near-zero removal of Zombie-low events.
-
 **Table S4: Full-dataset FlowMOP MAD-smoothing analysis**
 
 | Short, long smoothing factors | Sensitivity | Specificity | Balanced mean |
@@ -517,6 +479,10 @@ Figure S7. Expert preference rankings for doublet gates provided by four human e
 FlowMOP had the highest mean rank when compared with the human experts for debris and doublet removal (Figs. S6, S7). On a Bayesian analysis, substantial to strong evidence was observed for FlowMOP being inferior to Expert 1 (BF = 5.87, P = 85.5%), Expert 4 (BF = 12.85, P = 92.8%), and Experts 2 and 3 (BF > 100, P = 100%) in debris removal. In doublet removal, FlowMOP was weakly inferiorly ranked to Expert 4 (BF = 3.14, P = 75.8%), substantially inferiorly ranked to Expert 1 (BF = 5.67, P = 85.0%), strongly inferiorly ranked to Expert 2 (BF = 14.38, P = 93.5%), and decisively inferiorly ranked to Expert 3 (BF > 100, P = 100%).
 
 FlowMOP’s relative expert preference varied across datasets. For debris, it ranked first in the mouse blood task and third in the human liver and mouse skin datasets. In the doublet task, FlowMOP ranked second in the human liver task. Full tabular rankings are provided in Tables S1B-E.
+
+![Supplementary Figure S8](figs_data/Supp_fig_8.png)
+
+Figure S8. Representative preprocessing strategies for tumour Sample 1. Manual preprocessing applies time, cells/debris, and single-cell gates sequentially from left to right. FlowMOP calculates time, debris, and doublet exclusions independently in parallel. The intersection of events retained by the time, debris, and doublet gates forms the final FlowMOP population.
 
 ## References
 

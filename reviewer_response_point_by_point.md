@@ -164,11 +164,15 @@ FlowMOP's within-sample parallelisability is therefore an inherent property of i
 
 We agree that the most important validation question is whether automated preprocessing preserves biologically meaningful downstream results. We have therefore brought the downstream biological-validation evidence together here, rather than dispersing it across the responses concerning expert preference, tumour samples, and the experimental relevance of the synthetic benchmark.
 
+We also clarify that the original study was not restricted to murine samples. It already included three distinct human sample contexts: PBMCs in the synthetic time-gating benchmark, cultured human T cells in the expert-ranking comparison, and human liver tissue in the expert-ranking comparison. The revised study builds on this existing human-sample breadth by adding a direct downstream comparison between FlowMOP and matched manual expert preprocessing in complex human tumour-liver samples.
+
+To address Reviewer 2's request directly, we evaluated FlowMOP in three complex human tumour-liver samples and compared its complete preprocessing output with matched manual expert gating. We assessed downstream biological consequences using four prespecified endpoints rather than relying solely on gate overlap. This analysis therefore addresses the request for testing in tumour samples, comparison with a human expert, and evaluation of whether automated cleaning changes downstream biological conclusions.
+
 The principal additional biological validation uses human PBMC data and prespecified downstream population endpoints. This analysis evaluates whether cleaning preserves the B-cell-to-T-cell ratio and relevant constituent populations, providing a direct biological readout rather than another subjective gate-ranking exercise. PLACEHOLDER: the final PBMC cohort description, population definitions, results, statistical comparisons, and Figure 5 references will be inserted here when the analysis is complete.
 
-We also added an initial difficult-sample analysis using three tumour and three non-tumour human liver samples. For the tumour files, we compared acquisition intervals detected by FlowMOP with manual gating, FlowCut, and PeacoQC and examined fluorescence-only divergence. FlowMOP captured the principal high-divergence acquisition intervals identified by the other approaches and also identified additional intervals with positive-population fluorescence shifts; residual comparator-only intervals generally showed weaker fluorescence divergence.
+We compared the Raw data with sequential manual preprocessing and the complete FlowMOP output, in which independently calculated time, debris, and doublet exclusions are combined as a union of excluded events. We then quantified four prespecified downstream endpoints: the T:B-cell ratio, Live CD45+ cell count, B-cell frequency, and T-cell frequency. T cells were defined as CD3+CD19− and B cells as CD3−CD19+. Each endpoint was normalized within sample to its matched Raw value, and all three unadjusted, two-sided paired t-tests were performed.
 
-For all six liver samples, we compared the complete FlowMOP time, debris, and doublet intersection with the matched final manual gate and used an operational Zombie UV-A threshold as an orthogonal downstream readout. A secondary decomposition showed that time gating was approximately Zombie-neutral, debris removal was heterogeneous, and the doublet mask was the principal source of Zombie-high enrichment.
+No difference between Manual and FlowMOP was detected for the T:B-cell ratio (p = 0.636), Live CD45+ cell count (p = 0.545), B-cell frequency (p = 0.855), or T-cell frequency (p = 0.985). Relative to Raw, both methods reduced B-cell frequency (Manual p = 0.025; FlowMOP p = 0.020) and T-cell frequency (Manual p = 0.023; FlowMOP p = 0.006). FlowMOP also reduced the Live CD45+ cell count relative to Raw (p = 0.024), whereas the Manual-versus-Raw comparison was not significant (p = 0.069). No T:B-cell ratio comparison was significant (Manual versus Raw, p = 0.715; FlowMOP versus Raw, p = 0.906; Manual versus FlowMOP, p = 0.636). These results support concordant downstream conclusions in these three complex samples. The analysis compares the complete preprocessing workflows and their downstream consequences; it does not provide event-level tumour-debris ground truth or isolate debris-classification accuracy. Figure S8 additionally contrasts the sequential manual strategy with FlowMOP's parallel exclusion logic.
 
 These biological analyses complement, but do not convert, the earlier forced expert rankings into an objective benchmark. The expert-ranking exercise remains an exploratory comparison of relative preferences and is addressed separately in Combined Comment 6.
 
@@ -178,13 +182,15 @@ Neither higher removal nor closer agreement with a single human gate is inherent
 
 - We added a PBMC biological-validation section based on prespecified downstream population endpoints; the final analysis and Figure 5 content remain a PLACEHOLDER.
 
-- We added a tumour-liver validation comprising three tumour and three non-tumour samples, including fluorescence-only acquisition-instability analysis for the tumour files and a paired manual-versus-FlowMOP downstream Zombie analysis for all six liver samples.
+- We added a tumour validation comprising three tumour samples, with paired Raw, Manual, and FlowMOP comparisons of the T:B-cell ratio, Live CD45+ cell count, B-cell frequency, and T-cell frequency (Figure 6).
+
+- We added a representative schematic showing sequential manual gates versus FlowMOP's parallel exclusions and union/intersection logic (Figure S8).
 
 - We added the following discussion of competing error costs:
 
   > “The biological cost of preprocessing errors is difficult to measure directly, and neither under-cleaning nor over-cleaning is preferable. Under-cleaning may allow acquisition-time artifacts with abnormal staining patterns to confound downstream results, including by creating, inflating, or obscuring apparent rare populations. Conversely, over-cleaning could remove rare or transient biological populations.”
 
-**Location:** Methods and Results, “Biological validation” and “Tumour-liver acquisition instability and downstream biological concordance”; Discussion, “Biological validation” and “Other remarks”; Figures 5 and 6; Supplementary Tables S3A-B.
+**Location:** Methods, “Tumour biological-validation analysis”; Results, “Tumour biological validation”; Discussion, “Biological validation” and “Other remarks”; Figures 5 and 6; Figure S8.
 
 ## Combined Comment 4 — Gating Mechanism, Smoothing, and Parameter Fairness
 
@@ -486,7 +492,7 @@ The current module is not a universal debris classifier. Debris and intact cells
 
 In the present technical-control datasets, the labelled small-debris and desirable source populations overlapped substantially along SSC-A, so a fixed SSC-A threshold offered limited additional separation for the small-event removal targeted by FlowMOP. We therefore did not incorporate SSC-A into the current debris decision. Pulse-width measurements may similarly help identify some aggregates or clumps, but their availability and interpretation are instrument- and acquisition-dependent. Incorporating SSC-A or pulse width responsibly would require a wide configurable parameter range or sample-specific multivariate decision rules validated for the intended dataset, panel, instrument, and cell populations. The revised Discussion therefore defines the current scope as conservative low-FSC debris removal and presents SSC-A, pulse-width measurements, margin-event metadata, and sample-specific multivariate models as future extensions rather than universal default filters.
 
-Preservation of downstream PBMC population structure and the difficult-sample tumour-liver analysis are addressed as biological-validation questions in Combined Comment 3. We cross-reference those analyses here rather than repeating them as part of the debris-method description.
+Preservation of downstream PBMC population structure and the difficult-sample tumour analysis are addressed as biological-validation questions in Combined Comment 3. We cross-reference those analyses here rather than repeating them as part of the debris-method description.
 
 The synthetic preparation is now described explicitly. Approximately equal event numbers were sampled from the high-debris and low-debris sources and concatenated into matched mixtures while retaining source labels. These source labels provide the objective basis for the reported post-cleaning proportions.
 

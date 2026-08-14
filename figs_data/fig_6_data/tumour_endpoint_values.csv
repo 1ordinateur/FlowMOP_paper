@@ -1,0 +1,37 @@
+sample,method,endpoint,endpoint_label,value,raw_total_events,live_cd45_count,t_cell_count_q1,b_cell_count_q3,raw_normalized_pct
+LB202,Raw,live_cd45_count,Live CD45+ cells,84738.0,287752,84738,179483,9481,100.0
+LB202,Raw,t_cell_frequency_pct_total,T-cell frequency (% original total),62.37419722538853,287752,84738,179483,9481,100.0
+LB202,Raw,b_cell_frequency_pct_total,B-cell frequency (% original total),3.294851121799327,287752,84738,179483,9481,100.0
+LB202,Raw,t_b_ratio,T:B-cell ratio,18.930808986393842,287752,84738,179483,9481,100.0
+LB202,Manual,live_cd45_count,Live CD45+ cells,39960.0,287752,39960,26217,1027,47.15711959215464
+LB202,Manual,t_cell_frequency_pct_total,T-cell frequency (% original total),9.110970557980483,287752,39960,26217,1027,14.606954419081474
+LB202,Manual,b_cell_frequency_pct_total,B-cell frequency (% original total),0.35690455670160415,287752,39960,26217,1027,10.832190697183842
+LB202,Manual,t_b_ratio,T:B-cell ratio,25.527750730282374,287752,39960,26217,1027,134.8476483420754
+LB202,FlowMOP,live_cd45_count,Live CD45+ cells,68598.0,287752,68598,54092,1208,80.95305529986547
+LB202,FlowMOP,t_cell_frequency_pct_total,T-cell frequency (% original total),18.79813172454058,287752,68598,54092,1208,30.13767320581894
+LB202,FlowMOP,b_cell_frequency_pct_total,B-cell frequency (% original total),0.41980594400733967,287752,68598,54092,1208,12.741272017719652
+LB202,FlowMOP,t_b_ratio,T:B-cell ratio,44.77814569536424,287752,68598,54092,1208,236.53582753672956
+LB236,Raw,live_cd45_count,Live CD45+ cells,21115.0,145520,21115,110075,1003,100.0
+LB236,Raw,t_cell_frequency_pct_total,T-cell frequency (% original total),75.64252336448598,145520,21115,110075,1003,100.0
+LB236,Raw,b_cell_frequency_pct_total,B-cell frequency (% original total),0.6892523364485982,145520,21115,110075,1003,100.0
+LB236,Raw,t_b_ratio,T:B-cell ratio,109.7457627118644,145520,21115,110075,1003,100.0
+LB236,Manual,live_cd45_count,Live CD45+ cells,12496.0,145520,12496,9061,414,59.18067724366564
+LB236,Manual,t_cell_frequency_pct_total,T-cell frequency (% original total),6.2266355140186915,145520,12496,9061,414,8.231660231660232
+LB236,Manual,b_cell_frequency_pct_total,B-cell frequency (% original total),0.2844969763606377,145520,12496,9061,414,41.276171485543365
+LB236,Manual,t_b_ratio,T:B-cell ratio,21.886473429951693,145520,12496,9061,414,19.94288698636525
+LB236,FlowMOP,live_cd45_count,Live CD45+ cells,15314.0,145520,15314,11721,399,72.52663982950509
+LB236,FlowMOP,t_cell_frequency_pct_total,T-cell frequency (% original total),8.054562946673997,145520,15314,11721,399,10.648194412900295
+LB236,FlowMOP,b_cell_frequency_pct_total,B-cell frequency (% original total),0.2741891148982958,145520,15314,11721,399,39.780658025922236
+LB236,FlowMOP,t_b_ratio,T:B-cell ratio,29.37593984962406,145520,15314,11721,399,26.7672656544837
+LB262,Raw,live_cd45_count,Live CD45+ cells,202887.0,301872,202887,94072,46146,100.0
+LB262,Raw,t_cell_frequency_pct_total,T-cell frequency (% original total),31.16287698097207,301872,202887,94072,46146,100.0
+LB262,Raw,b_cell_frequency_pct_total,B-cell frequency (% original total),15.286611543965654,301872,202887,94072,46146,100.0
+LB262,Raw,t_b_ratio,T:B-cell ratio,2.0385732241147663,301872,202887,94072,46146,100.0
+LB262,Manual,live_cd45_count,Live CD45+ cells,166894.0,301872,166894,43509,20895,82.25958292054197
+LB262,Manual,t_cell_frequency_pct_total,T-cell frequency (% original total),14.413062490062012,301872,166894,43509,20895,46.25074411089378
+LB262,Manual,b_cell_frequency_pct_total,B-cell frequency (% original total),6.921807918588011,301872,166894,43509,20895,45.28019763359772
+LB262,Manual,t_b_ratio,T:B-cell ratio,2.0822684852835605,301872,166894,43509,20895,102.14342367749721
+LB262,FlowMOP,live_cd45_count,Live CD45+ cells,134646.0,301872,134646,26032,20397,66.36502092297683
+LB262,FlowMOP,t_cell_frequency_pct_total,T-cell frequency (% original total),8.623522552605078,301872,134646,26032,20397,27.672421124245258
+LB262,FlowMOP,b_cell_frequency_pct_total,B-cell frequency (% original total),6.756837335029417,301872,134646,26032,20397,44.201014172409316
+LB262,FlowMOP,t_b_ratio,T:B-cell ratio,1.2762661175663088,301872,134646,26032,20397,62.60585111533175

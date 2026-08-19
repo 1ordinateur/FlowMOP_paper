@@ -21,4 +21,6 @@ and a compact shared pair of directional CD3/CD19 arrows at the lower-left
 identifies increasing protein signal across Panel A. The rasterised FlowJo quadrant annotations are
 masked and redrawn as larger vector text using percentages calculated from the
 workspace population counts. Only statistically significant comparisons are
-annotated.
+annotated. Panel B displays Live CD45+ cell count, B-cell frequency, and T-cell
+frequency; the T:B-cell ratio remains in the statistical output tables but is
+not plotted.

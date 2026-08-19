@@ -593,15 +593,14 @@ def make_figure_6(
 
     stats_grid = fig.add_gridspec(
         1,
-        4,
-        left=0.075,
-        right=0.985,
+        3,
+        left=0.095,
+        right=0.975,
         bottom=0.045,
         top=0.255,
-        wspace=0.32,
+        wspace=0.34,
     )
     endpoint_order = (
-        "t_b_ratio",
         "live_cd45_count",
         "b_cell_frequency_pct_total",
         "t_cell_frequency_pct_total",
@@ -706,7 +705,7 @@ def make_figure_6(
         else:
             ax.set_ylim(data_min, data_max + max(8.0, span * 0.10))
 
-    stats_top = max(ax.get_position().y1 for ax in fig.axes[-4:])
+    stats_top = max(ax.get_position().y1 for ax in fig.axes[-3:])
     fig.text(0.018, stats_top + 0.055, "B)", fontsize=23, fontweight="bold", va="top")
 
     fig.savefig(FIGURE_SVG)
@@ -765,21 +764,21 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
         (310, 500, 485, 690),
     )
     flowmop_rects = (
-        (250, 65, 330, 161),
-        (250, 178, 330, 260),
-        (250, 295, 330, 352),
+        # Use identically sized crops around each plotting frame. The source
+        # PDF rows are separated by different amounts of metadata, so the
+        # previous row-specific bounds left the time plot lower and clipped
+        # the top of the doublet plot after the crops were resized.
+        (250, 79, 330, 154),
+        (250, 177, 330, 252),
+        (250, 273, 330, 348),
     )
     manual_images = [crop_points(manual_page, rect, scale) for rect in manual_rects]
     flowmop_images = [crop_points(qc_page, rect, scale) for rect in flowmop_rects]
 
-    # The first source crops contain small FlowJo method tags above the plots.
+    # The first manual crop contains a small FlowJo method tag above the plot.
     # The figure already identifies each workflow with the large row labels.
     ImageDraw.Draw(manual_images[0]).rectangle(
         (0, 0, manual_images[0].width, round(25 * scale)),
-        fill="white",
-    )
-    ImageDraw.Draw(flowmop_images[0]).rectangle(
-        (0, 0, flowmop_images[0].width, round(15 * scale)),
         fill="white",
     )
 
@@ -862,9 +861,10 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
         (result_box_left, manual_result_y),
     )
 
-    # FlowMOP supplies the same Raw input to three independent branches. A
-    # split rail above and convergence rail below keep the arrows out of the
-    # source plots while making the parallel structure explicit.
+    # FlowMOP supplies the same Raw input to three independent branches. The
+    # upper rail mirrors the lower convergence rail: curved arrows peel away
+    # from one shared Raw-event line, while the lower curves merge retained
+    # events into their intersection.
     fig.text(
         0.085,
         split_y,
@@ -875,7 +875,9 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
         bbox=dict(boxstyle="round,pad=0.45", fc="#f3f3f3", ec="#666666", lw=1.4),
     )
     input_rail_start = 0.14
-    input_rail_end = flow_axes[-1].get_position().x1 + 0.025
+    branch_offset = 0.035
+    last_flow_pos = flow_axes[-1].get_position()
+    input_rail_end = last_flow_pos.x0 + last_flow_pos.width / 2 - branch_offset
     fig.add_artist(
         mpl.lines.Line2D(
             [input_rail_start, input_rail_end],
@@ -888,10 +890,16 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
     figure_arrow(fig, (0.12, split_y), (input_rail_start, split_y))
     for ax in flow_axes:
         pos = ax.get_position()
+        branch_x = pos.x0 + pos.width / 2
         figure_arrow(
             fig,
-            (pos.x0 + pos.width / 2, split_y),
-            (pos.x0 + pos.width / 2, pos.y1 - 0.002),
+            (branch_x - branch_offset, split_y),
+            # Put the arrowhead visibly inside the plotting frame rather than
+            # leaving it hovering immediately above the upper border.
+            (branch_x, pos.y1 - 0.012),
+            # Leave the shared rail horizontally, then turn through 90 degrees
+            # so the arrowhead enters the plot vertically from above.
+            connectionstyle="angle3,angleA=0,angleB=90",
         )
 
     # The three independent branches converge at a bracket representing the

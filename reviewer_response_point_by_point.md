@@ -182,7 +182,7 @@ Neither higher removal nor closer agreement with a single human gate is inherent
 
 - We added a PBMC biological-validation section based on prespecified downstream population endpoints; the final analysis and Figure 5 content remain a PLACEHOLDER.
 
-- We added a tumour validation comprising three tumour samples, with paired Raw, Manual, and FlowMOP comparisons of the T:B-cell ratio, Live CD45+ cell count, B-cell frequency, and T-cell frequency (Figure 6).
+- We added a tumour validation comprising three tumour samples, with paired Raw, Manual, and FlowMOP comparisons of the T:B-cell ratio, Live CD45+ cell count, B-cell frequency, and T-cell frequency. Figure 6 displays the matched gating plots and the Live CD45+ cell-count, B-cell-frequency, and T-cell-frequency comparisons.
 
 - We added a representative schematic showing sequential manual gates versus FlowMOP's parallel exclusions and union/intersection logic (Figure S8).
 
@@ -574,13 +574,17 @@ Figure 4 already compares the percentage of CTV-CFSE double-positive events remo
 
 ### Response
 
-PLACEHOLDER
+We agree that the original description did not provide enough information to reproduce the CTV/CFSE preparation, particularly the wash and quenching steps. We have replaced the abbreviated description with a detailed protocol specifying the digestion conditions, filtration and RBC lysis, cell numbers, centrifugation and wash steps, dye stocks and volumes, labelling and quenching conditions, 1:1 recombination of the labelled populations, viability staining, and acquisition platform.
 
 ### Changes made
 
-PLACEHOLDER
+The revised Methods now state:
 
-**Location:** PLACEHOLDER
+> “To generate samples with high proportions of doublets, C57BL/6 mouse spleens were injected with 1 mL digestion buffer comprising RPMI supplemented with 50 µg/mL collagenase P (Roche) and 10 µg/mL DNase I (Roche). Spleens were incubated for 20 minutes at room temperature (RT) in a further 1 mL of digestion buffer, mechanically dissociated, and incubated for a further 20 minutes at RT. Samples were passed through a 70-µm cell strainer with 10 mL FACS wash (PBS containing 2% heat-inactivated fetal bovine serum [FBS]), centrifuged (5 minutes, 500 × *g*, RT), and the supernatant discarded. Cell pellets were resuspended in 3 mL RBC lysis buffer and incubated for 3 minutes at RT, after which cells were washed twice with FACS wash and recovered by centrifugation.
+>
+> For dye labelling, 5 × 10^6 cells were transferred to each fresh 15-mL tube and stained with either CellTrace Violet (CTV; Invitrogen) or carboxyfluorescein succinimidyl ester (CFSE; eBioscience). Cells were centrifuged (5 minutes, 500 × *g*, 4°C), the supernatant was removed, and pellets were resuspended in 1 mL complete IMDM (cIMDM; Gibco IMDM supplemented with 10% heat-inactivated FBS, 100 U/mL penicillin, 100 µg/mL streptomycin, 2 mM L-glutamine, and 55 µM 2-mercaptoethanol). Two microlitres of 5 mM CTV or 10 mM CFSE were added to the side of the corresponding tube; samples were rapidly inverted and mixed, then incubated for 10 minutes at 37°C. Labelling was quenched by adding 5 mL ice-cold cIMDM and incubating for a further 5 minutes at RT. Cells were centrifuged and resuspended in cIMDM, after which 2 × 10^6 CTV-labelled cells and 2 × 10^6 CFSE-labelled cells were combined in a single sample and incubated for 30 minutes at 37°C and 5% CO2. Samples were centrifuged, the supernatant was removed, and cells were stained for 20 minutes at RT with Fixable Viability Dye eFluor 780 (Invitrogen; 1:1,000 in PBS). Cells were washed with PBS, centrifuged, resuspended in FACS wash, and acquired on a BD LSRII flow cytometer.”
+
+**Location:** Methods, “Synthetic Doublet Sample Preparation and Generation”.
 
 ## Combined Comment 13 — Missing and Duplicated Methods Information
 

@@ -1,0 +1,117 @@
+# Figures 5 and 6: PBMC biological validation
+
+This directory contains the reproducible event-level analysis for main Figures 5 and 6.
+All 36 matched PBMC samples are retained as distinct biological samples.
+
+## Run
+
+Install `flowkit`, `flowio`, `numpy`, `pandas`, `matplotlib`, `scipy`, and
+`cairosvg`, then run from the repository root:
+
+```bash
+python figs_data/fig_5_data/generate_biological_validation_figure.py \
+  --source-dir /mnt/d/github_remotes/flowmop_data/nadia_biological_validation
+```
+
+On systems where Python is exposed as `python3`, substitute `python3` in the
+same command. `--output-dir` and `--data-dir` may be used to redirect the
+figure and table outputs.
+
+## Analysis
+
+The generator imports Nadia's FlowJo 10 gates with FlowKit. Because the
+workspace contains three branches with duplicate display names, it creates a
+temporary, one-sample FlowMOP workspace for each biological sample before
+extracting event-level memberships. Gate geometry is hashed after removing
+FlowJo IDs and display styling; the two singlet gates, debris gate, live-cell
+gate, CD45 gate, all four CD19 × CD3 quadrants, and named NKT hierarchy must be
+coordinate-identical across the FlowMOP, FlowCut, and PeacoQC branches for all
+36 samples.
+
+Manually cleaned, FlowCut, and PeacoQC events are mapped to the row-complete
+FCS file by their six shared FSC/SSC pulse-geometry channels. FlowJo can
+rewrite Time and compensated fluorescence values during manual export, so
+those values are deliberately not used as identity keys. Every retained event
+must have one exact, unique match and the complete mapping must be strictly
+monotonic.
+
+The biological endpoints are Live CD45+, B cells defined as Live CD45+ ∩
+Q1 (CD3−/CD19+), T cells defined as Live CD45+ ∩ Q3 (CD3+/CD19−),
+and NKT cells defined as Live CD45+ CD19− CD3+ CD56+ events. The matched ungated inputs are:
+
+- time: Nadia singlet and debris masks, with no time mask;
+- debris: Nadia time and doublet masks, with no debris mask;
+- doublet: Nadia time and debris masks, with no doublet mask;
+- all steps: no time, debris, or doublet preprocessing mask.
+
+Every endpoint count is divided by its matched ungated-input count, with Raw
+equal to exactly 1. Frequencies follow the displayed biological hierarchy:
+Live CD45+ is expressed relative to Live cells, while B, T, and NKT cells are
+expressed relative to Live CD45+ cells. Figure 5B (counts) and Figure 5C
+(frequencies) test all ten pairwise contrasts among Raw, Nadia Manual,
+FlowMOP, PeacoQC, and FlowCut, with Holm adjustment separately within each
+endpoint and metric. Figure 6D (counts) and Figure 6E (frequencies) test Nadia
+versus Raw, FlowMOP versus Raw, and FlowMOP versus Nadia, with Holm adjustment
+across the three contrasts separately within each endpoint, metric, and gate group. Sample
+15A is excluded from every NKT summary and test; all other raw denominators
+must be valid and nonzero.
+
+Representative samples must have complete endpoint data and at least 5,000
+live CD45+ events under every displayed workflow. The general representative
+remains the most central eligible supplied-PDF sample under the full
+raw-normalized endpoint vector, selecting 19A. Because every sample supplied
+in the debris PDF belongs to the FlowMOP-retain-all debris mode, the debris
+block uses a separate event-level representative. It selects the least
+atypical eligible sample with FlowMOP debris-controlled Live CD45+ retention
+below Nadia Manual, selecting 6A. Representative plots show retained events
+only and use up to 100,000 events, fine-grid smoothed local-density estimates,
+sub-point event marks, and the deep-blue-through-cyan, green, yellow, and red
+FlowJo pseudocolor scale.
+
+Counts and biological frequencies are each divided within sample by their
+corresponding matched Raw value, so Raw is exactly 1 for both metrics. Before
+normalization, Live CD45+ frequency is calculated relative to Live cells and
+B-, T-, and NKT-cell frequencies are calculated relative to Live CD45+ cells.
+
+Figure 5A is a 4 × 5 grid of Time, Live CD45+, shared CD19 × CD3 B/T quadrants,
+and NKT representatives, including a completely Raw column followed by the
+four time workflows; Figure 5B contains the matched time-cleaning counts and
+Figure 5C contains the matched time-cleaning frequencies.
+Figure 6A, B, and C contain Debris, Doublet, and the combined Time + Debris +
+Doublet representative blocks, respectively, with Debris enlarged relative to
+the other blocks. The rows are Ungated input, Expert Manual, and FlowMOP.
+Doublet rows use Nadia's
+FSC-H × FSC-W and SSC-H × SSC-W axes and rectangles; the FlowMOP-retained
+events are projected onto those same axes. Every row also shows Live CD45+,
+the shared B/T quadrant plot, and NKT after its corresponding mask. Axes are
+asserted identical within every representative comparison. Representative
+frequencies use semi-transparent white labels; B and T frequencies are placed
+in Q1 and Q3. Statistical panels use Figure 6-style pairwise significance
+brackets for method-versus-method contrasts only. Raw values remain plotted,
+but Raw-comparison brackets are omitted; the caption and Methods state that
+every count comparison with Raw was significant and direct readers to the
+statistical CSV for the frequency comparisons. Bracket labels use `p` for
+brevity. Figure 5A uses one arrow-axis key per row; Figure 6A-C use one
+per relevant column. The representative block titles occupy centred header
+bands separated from their column titles by a horizontal rule. Figure 6D
+contains the count comparisons and Figure 6E contains the frequency
+comparisons; both label the full Time + Debris + Doublet comparison as
+Combined.
+
+## Outputs
+
+- `../figure_5.svg` and `../figure_5.png`: time-cleaning Figure 5;
+- `../figure_6.svg` and `../figure_6.png`: debris, doublet, combined-cleaning, and statistics Figure 6;
+- `biological_validation_endpoint_counts.csv`: plotted absolute counts, frequency denominators, and frequencies;
+- `biological_validation_raw_normalized_ratios.csv`: all plotted raw-normalized counts and frequencies, their Raw denominators, and exclusions;
+- `biological_validation_paired_tests.csv`: raw and Holm-adjusted count and frequency p-values;
+- `biological_validation_gate_validation.csv`: gate-identity, population-count, FCS-count, and mask validations;
+- `representative_sample_selection.csv`: eligibility, distance, rank, and endpoint vectors;
+- `run_metadata.json`: input, software, sample, mask, and output summary.
+
+The validation table records both stored FlowJo population counts and FlowKit
+event-level recounts. Small differences can occur for polygon boundaries and
+biexponential transforms; they are retained explicitly rather than silently
+replacing either result. Exact invariants (sample sets, event reconstruction,
+manual-export counts, module/comparator counts, and final-mask identity) abort
+generation if violated.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate tumour Figure 6 and its manual-versus-FlowMOP supplement.
+"""Generate tumour Figure 7 and its manual-versus-FlowMOP supplement.
 
 The source PDFs and the authoritative population counts live in
 ``../flowmop_data/tumour_data/Shared_tumour_FlowMOP.zip``.  PyMuPDF is
@@ -34,8 +34,8 @@ except ImportError:  # PyMuPDF versions before 1.24 exposed only ``fitz``.
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 SOURCE_ARCHIVE = REPO.parent / "flowmop_data/tumour_data/Shared_tumour_FlowMOP.zip"
-FIGURE_SVG = REPO / "figs_data/figure_6.svg"
-FIGURE_PNG = REPO / "figs_data/figure_6.png"
+FIGURE_SVG = REPO / "figs_data/figure_7.svg"
+FIGURE_PNG = REPO / "figs_data/figure_7.png"
 SUPP_SVG = REPO / "figs_data/Supp_fig_8.svg"
 SUPP_PNG = REPO / "figs_data/Supp_fig_8.png"
 VALUES_CSV = HERE / "tumour_endpoint_values.csv"
@@ -55,7 +55,6 @@ ENDPOINT_LABELS = {
     "live_cd45_count": "Live CD45+ cells",
     "t_cell_frequency_pct_total": "T-cell frequency\n(% original total)",
     "b_cell_frequency_pct_total": "B-cell frequency\n(% original total)",
-    "t_b_ratio": "T:B-cell ratio",
 }
 
 # Crop rectangles are in FlowJo PDF points (origin at top left after rendering).
@@ -199,7 +198,6 @@ def calculate_values(counts: dict[str, SampleCounts]) -> list[dict[str, object]]
                 "live_cd45_count": float(c.live[method]),
                 "t_cell_frequency_pct_total": 100.0 * c.t_cells[method] / c.raw_total,
                 "b_cell_frequency_pct_total": 100.0 * c.b_cells[method] / c.raw_total,
-                "t_b_ratio": c.t_cells[method] / c.b_cells[method],
             }
             if method == "Raw":
                 for endpoint, value in values.items():
@@ -472,7 +470,7 @@ def clean_svg_whitespace(path: Path) -> None:
     path.write_text("\n".join(line.rstrip() for line in lines) + "\n", encoding="utf-8")
 
 
-def make_figure_6(
+def make_figure_7(
     subset_pdf: bytes,
     counts: dict[str, SampleCounts],
     rows: list[dict[str, object]],
@@ -954,9 +952,6 @@ def validate_expected_tests(tests: list[dict[str, object]]) -> None:
         ("b_cell_frequency_pct_total", "Manual vs Raw"): 0.02497001334909625,
         ("b_cell_frequency_pct_total", "FlowMOP vs Raw"): 0.020416317359503784,
         ("b_cell_frequency_pct_total", "Manual vs FlowMOP"): 0.8552235077516148,
-        ("t_b_ratio", "Manual vs Raw"): 0.7153138768719286,
-        ("t_b_ratio", "FlowMOP vs Raw"): 0.906148056655327,
-        ("t_b_ratio", "Manual vs FlowMOP"): 0.6357144095973232,
     }
     observed = {(str(row["endpoint"]), str(row["comparison"])): float(row["p_value"]) for row in tests}
     for key, expected_value in expected.items():
@@ -981,7 +976,7 @@ def main() -> None:
     validate_expected_tests(tests)
     write_csv(VALUES_CSV, rows)
     write_csv(TESTS_CSV, tests)
-    make_figure_6(subset_pdf, counts, rows, tests)
+    make_figure_7(subset_pdf, counts, rows, tests)
     make_supplement(manual_pdf, qc_pdf)
 
     for path in (FIGURE_SVG, FIGURE_PNG, SUPP_SVG, SUPP_PNG, VALUES_CSV, TESTS_CSV):

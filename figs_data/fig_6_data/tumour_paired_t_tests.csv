@@ -8,6 +8,3 @@ t_cell_frequency_pct_total,T-cell frequency (% original total),Manual vs FlowMOP
 b_cell_frequency_pct_total,B-cell frequency (% original total),Manual vs Raw,Manual,Raw,3,-6.209215545114813,0.024970013349096258,none
 b_cell_frequency_pct_total,B-cell frequency (% original total),FlowMOP vs Raw,FlowMOP,Raw,3,-6.890978635800339,0.020416317359503784,none
 b_cell_frequency_pct_total,B-cell frequency (% original total),Manual vs FlowMOP,Manual,FlowMOP,3,0.2069249607687711,0.855223507751613,none
-t_b_ratio,T:B-cell ratio,Manual vs Raw,Manual,Raw,3,-0.4199856525526397,0.7153138768719286,none
-t_b_ratio,T:B-cell ratio,FlowMOP vs Raw,FlowMOP,Raw,3,0.13331512203179963,0.9061480566553272,none
-t_b_ratio,T:B-cell ratio,Manual vs FlowMOP,Manual,FlowMOP,3,-0.5531887210315867,0.6357144095973233,none

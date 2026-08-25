@@ -499,9 +499,220 @@ implementations rather than an empirical distributed-computing speedup.
 scalability''; Results, ``Computational scalability''; Table 1;
 Discussion, ``Synthetic Sample Time Gating.''
 
-\subsection{Combined Comment 3 --- Gating Mechanism, Smoothing, and
+\subsection{Combined Comment 3 --- Downstream Biological Validation,
+Dataset Breadth, and the Cost of
+Errors}\label{combined-comment-3--downstream-biological-validation-dataset-breadth-and-the-cost-of-errors}
+
+\textbf{Raised by:} Associate Editor; Reviewer 1, Comments 3 and 4;
+Reviewer 2, general assessment and Comment 10.
+
+\subsubsection{Associate Editor --- Downstream Biological
+Impact}\label{associate-editor--downstream-biological-impact}
+
+\begin{quote}
+Alternatively --- or in addition --- the authors could evaluate the
+downstream biological impact of each gating strategy. By substituting
+FlowMop, FlowCut, and PeacoQC gates for the time and debris gating steps
+while retaining the human gating strategy for all other steps, one could
+directly assess whether differences in automated gating performance have
+any meaningful effect on the biological conclusions drawn from the data.
+Ultimately, the relevant question for end users is not whether an
+algorithm removes a few percent more or fewer debris events, but whether
+doing so materially affects downstream analysis.
+\end{quote}
+
+\subsubsection{Reviewer 1, Comment 3 --- Biological Dataset
+Breadth}\label{reviewer-1-comment-3--biological-dataset-breadth}
+
+\begin{quote}
+Methodological Robustness: Utilizing a single expert per tissue type
+limits the statistical power of the ranking methodology. It prevents the
+reader from seeing the intra-tissue consensus---how consistently
+multiple experts on the same tissue agree on the rank-order of methods
+used on a specific sample. What it currently highlights is how a single
+tissue expert has a unique perspective of the correct gating for a given
+tissue and inter-operator gating variability; not algorithmic gating
+superiority. Other improvements could be adding different processing
+conditions (e.g. fixation) or more variation in tissue used (e.g.
+include human PBMC or other species\textquotesingle{} tissues).
+\end{quote}
+
+\subsubsection{Reviewer 1, Comment 4 --- Discussion of Error ``Costs''
+and Sensitivity
+Trade-offs}\label{reviewer-1-comment-4--discussion-of-error-costs-and-sensitivity-trade-offs}
+
+\begin{quote}
+The manuscript notes that PeacoQC exhibits higher sensitivity but lower
+specificity compared to FlowMOP. This trade-off is central to clinical
+discovery and warrants a deeper discussion.
+
+Discussion Point: The authors should explicitly address the biological
+``cost'' of these errors. For instance, is it more detrimental to the
+study\textquotesingle s integrity to leave in a small transient artifact
+or to accidentally remove a rare, clinically significant biological
+population?
+\end{quote}
+
+\subsubsection{Reviewer 2 --- Difficult Biological Samples and Tumour
+Validation}\label{reviewer-2--difficult-biological-samples-and-tumour-validation}
+
+\begin{quote}
+The authors developed An Automated Flow Cytometry Time, Debris, and
+Doublet Removal Tool. This can be a useful tool for cytometry. However,
+the dataset used in the paper are relatively ``easy'' cases. I recommend
+the authors to challenge the FlowMOP with more difficult but common
+samples like digested tumor sample. Performance against human expert is
+needed.
+\end{quote}
+
+\subsubsection{Reviewer 2, Comment 10}\label{reviewer-2-comment-10}
+
+\begin{quote}
+The study did not validate the FlowMOP on tumor datasets, which is a
+common sample type for flow cytometry but difficult to perform debris
+removal. I highly suggest the authors to include a tumor dataset, even
+if the performance is not optimal, the readers can know whether the
+method can be applied in their sample or not.
+\end{quote}
+
+\subsubsection{Response}\label{response-2}
+
+We elected to conduct further biological validation, and therefore added
+an experiment with 36 matched human PBMC samples and three human
+tumour-liver samples. These analyses quantify both population recovery
+and biological composition.
+
+We agree with Reviewer 1 that the original single-expert-per-tissue
+design cannot establish within-tissue expert consensus or support claims
+of algorithmic superiority. We therefore present it as an
+expert-preference evaluation, retain the complete analysis in the
+Supplementary Information, and report its principal comparative findings
+in the main Results, as detailed in Combined Comment 6. To broaden the
+biological validation, we added the PBMC and tumour datasets described
+here; we did not add a separate fixation or cross-species experiment.
+
+For the PBMC analysis, we compared the time-gating methods while holding
+the downstream expert-defined singlet, debris, Live CD45+, and lineage
+gates fixed. We also evaluated the debris and doublet modules separately
+against matched expert inputs in which only the relevant cleaning step
+differed, and compared the complete Time + Debris + Doublet workflow
+with the expert-combined workflow.
+
+B cells were defined as Live CD45+ CD3−CD19+ events, T cells as Live
+CD45+ CD3+CD19− events, and NKT cells as Live CD45+ CD19−CD3+CD56+
+events. We report both counts and frequencies normalized to their
+corresponding matched Raw values (Raw = 1). Before normalization, Live
+CD45+ frequency was calculated relative to Live cells and B-, T-, and
+NKT-cell frequencies relative to Live CD45+ cells. One sample was
+excluded from NKT analyses because no NKT cells were detected (n = 35);
+all other analyses used n = 36. Two-sided paired tests were
+Holm-adjusted separately within endpoint and outcome metric.
+
+The complete numerical results and statistical comparisons are reported
+in the revised Results and Supplementary Data. In summary, the
+time-gating methods retained different numbers of cells: FlowMOP and
+FlowCut retained more than Expert Manual, whereas PeacoQC retained
+fewer, but none of the evaluated downstream population frequencies
+differed among methods (Figure 5B--C). In the separate debris
+comparison, FlowMOP retained fewer cells and produced a slightly lower
+Live CD45+ frequency than Expert Manual, while B-, T-, and NKT-cell
+frequencies did not differ. In the doublet comparison, FlowMOP again
+retained slightly fewer cells and produced a slightly lower Live CD45+
+frequency and a slightly higher T-cell frequency, while B- and NKT-cell
+frequencies did not differ. After the complete Time + Debris + Doublet
+workflow, FlowMOP and Expert Manual did not differ in aggregate
+population counts or in B-, T-, or NKT-cell frequencies; FlowMOP
+produced a modestly lower Live CD45+ frequency (Figure 6D--E). Manual
+and FlowMOP preprocessing did not differ for any of the three evaluated
+tumour endpoints (Figure 7).
+
+The biological data alone cannot establish whether the lower retention
+by Expert Manual and PeacoQC reflects more sensitive artifact removal or
+whether the higher retention by FlowMOP and FlowCut reflects more
+specific preservation of valid events. The Discussion therefore
+interprets these findings alongside the source-labelled synthetic
+results. FlowMOP\textquotesingle s strong combined
+sensitivity-specificity profile and PeacoQC\textquotesingle s
+comparatively lower specificity support the latter interpretation for
+FlowMOP and suggest a tendency towards over-removal by PeacoQC. The
+higher retention by FlowMOP is also consistent with the comparatively
+blunt, block-based nature of manual time gating, which can remove valid
+events together with an affected interval.
+
+The trade-off between sensitivity and specificity reflects competing
+biological risks rather than a purely statistical optimization. A more
+permissive gate may protect genuine or rare populations while allowing
+artifacts to remain; a more stringent gate may remove artifacts more
+completely while also deleting valid biological events. No balance is
+universally correct because the consequences of each error depend on the
+intended downstream analysis. We therefore report both sensitivity and
+specificity and interpret them alongside their effects on population
+recovery and composition. Importantly, FlowMOP had the strongest overall
+combined sensitivity-specificity profile in the source-labelled
+synthetic time-gating benchmarks: its gains were not achieved simply by
+exchanging one error type for the other.
+
+These biological analyses better illustrate FlowMOP\textquotesingle s
+capabilities and reinforce the findings demonstrated in the synthetic
+datasets. Figure S8 additionally contrasts sequential manual gating with
+FlowMOP\textquotesingle s parallel exclusion logic.
+
+\subsubsection{Changes made}\label{changes-made-2}
+
+\begin{itemize}
+\item
+  We added a 36-sample PBMC biological validation with matched-Raw
+  counts and matched-Raw frequencies for Live CD45+, B, T, and NKT
+  cells; frequencies were first calculated within their specified
+  biological parent. Figure 5 reports time-cleaning representatives (A),
+  count statistics (B), and frequency statistics (C); Figure 6 reports
+  debris, doublet, and combined-cleaning representatives (A--C), count
+  statistics (D), and frequency statistics (E).
+\item
+  We added a tumour validation comprising three tumour samples, with
+  paired Raw, Manual, and FlowMOP comparisons of Live CD45+ cell count,
+  B-cell frequency, and T-cell frequency. Figure 7 displays the matched
+  gating plots and downstream comparisons.
+\item
+  We added a representative schematic showing sequential manual gates
+  versus FlowMOP\textquotesingle s parallel exclusions and
+  union/intersection logic (Figure S8).
+\item
+  We acknowledged that the single-expert-per-tissue rankings cannot
+  estimate within-tissue consensus, retained the complete ranking
+  analysis in the Supplementary Information, and added its principal
+  comparative findings to the main Results. We broadened the validation
+  with human PBMC and tumour datasets but did not add a separate
+  fixation or cross-species experiment.
+\item
+  We added a direct discussion of competing error costs, including the
+  debris-poor PBMC example:
+
+  \begin{quote}
+  ``The trade-off between sensitivity and specificity reflects competing
+  biological risks rather than a purely statistical optimization. A more
+  permissive gate may protect genuine or rare populations while allowing
+  artifacts to remain; a more stringent gate may remove artifacts more
+  completely while also deleting valid biological events. No balance is
+  universally correct because the consequences of each error depend on
+  the intended downstream analysis. In this context,
+  FlowMOP\textquotesingle s synthetic time-gating results are notable
+  because its performance gains were not achieved simply by exchanging
+  one error type for the other. FlowMOP had the strongest overall
+  combined sensitivity-specificity profile across the tested
+  conditions.''
+  \end{quote}
+\end{itemize}
+
+\textbf{Location:} Methods, ``Biological-validation analysis'' and
+``Tumour biological-validation analysis''; Results, ``Biological
+validation'' and ``Tumour biological validation''; Discussion,
+``Biological validation'' and ``Other remarks''; Figures 5--7; Figure
+S8.
+
+\subsection{Combined Comment 4 --- Gating Mechanism, Smoothing, and
 Parameter
-Fairness}\label{combined-comment-3--gating-mechanism-smoothing-and-parameter-fairness}
+Fairness}\label{combined-comment-4--gating-mechanism-smoothing-and-parameter-fairness}
 
 \textbf{Raised by:} Associate Editor; Reviewer 1, Comment 5; Reviewer 2,
 Comment 20.
@@ -549,7 +760,7 @@ abherrations are detected''. What are the ``multiple types of
 abherrations''? please clarify.
 \end{quote}
 
-\subsubsection{Response}\label{response-2}
+\subsubsection{Response}\label{response-3}
 
 We now seek to address the mechanisms underlying
 FlowMOP\textquotesingle s superior performance under the primary fixed
@@ -630,7 +841,7 @@ filtering. A bin can be detected through either smoothing pass; the
 manuscript no longer relies on the imprecise phrase ``multiple types of
 aberrations.''
 
-\subsubsection{Changes made}\label{changes-made-2}
+\subsubsection{Changes made}\label{changes-made-3}
 
 \begin{itemize}
 \item
@@ -688,9 +899,9 @@ Results, ``Time Gating'' and ``Synthetic Time Gating Benchmark''; Figure
 2; Figure S4; Supplementary Table S4; Discussion, ``Synthetic Sample
 Time Gating.''
 
-\subsection{Combined Comment 4 --- Parameter Voting and the
+\subsection{Combined Comment 5 --- Parameter Voting and the
 Ten-Parameter
-Threshold}\label{combined-comment-4--parameter-voting-and-the-ten-parameter-threshold}
+Threshold}\label{combined-comment-5--parameter-voting-and-the-ten-parameter-threshold}
 
 \textbf{Raised by:} Reviewer 2, Comments 18 and 21.
 
@@ -712,7 +923,7 @@ a little a bit concern that events with aberrant signal in one
 fluorescence are not detected, even in a big panel.
 \end{quote}
 
-\subsubsection{Response}\label{response-3}
+\subsubsection{Response}\label{response-4}
 
 The revised manuscript identifies the ten-parameter cutoff as an
 empirical operational threshold rather than a mathematically derived
@@ -729,7 +940,7 @@ fluorescence channel may be retained in a high-dimensional panel. We did
 not add a separate voting-ablation analysis and have avoided presenting
 the rule as universally optimal.
 
-\subsubsection{Changes made}\label{changes-made-3}
+\subsubsection{Changes made}\label{changes-made-4}
 
 \begin{itemize}
 \item
@@ -749,9 +960,9 @@ the rule as universally optimal.
 
 \textbf{Location:} Results, ``Time Gating.''
 
-\subsection{Combined Comment 5 --- Expert Rankings, Terminology,
+\subsection{Combined Comment 6 --- Expert Rankings, Terminology,
 Visualisation, and Bayesian
-Modelling}\label{combined-comment-5--expert-rankings-terminology-visualisation-and-bayesian-modelling}
+Modelling}\label{combined-comment-6--expert-rankings-terminology-visualisation-and-bayesian-modelling}
 
 \textbf{Raised by:} Associate Editor; Reviewer 1, Comment 3; Reviewer 2,
 Comment 16.
@@ -847,24 +1058,45 @@ described in the beginning of this subsection, which makes it difficult
 to follow.
 \end{quote}
 
-\subsubsection{Response}\label{response-4}
+\subsubsection{Response}\label{response-5}
 
-Forced rankings measure relative preference and cannot determine whether
-a gate is absolutely acceptable for analysis. We therefore replaced
-``benchmarking'' with ``expert comparison'' or ``expert evaluation,''
-removed the contorted ``not least preferred'' interpretation, and now
-state directly where FlowMOP ranked below the human gates. The ranking
-results are presented as exploratory evidence of expert preference
-rather than objective ground-truth evidence of gating quality or
-algorithmic superiority.
+Forced rankings measure relative preference rather than objective
+event-level accuracy. We therefore replaced ``benchmarking'' with
+``expert comparison'' or ``expert evaluation,'' removed the contorted
+``not least preferred'' interpretation, and now state directly how
+FlowMOP ranked relative to the human and automated gates.
 
-The design used a single relevant expert to rank each tissue type and
-therefore cannot estimate within-tissue consensus across multiple
-raters. We did not retrospectively collect a new absolute-quality scale
-because that would require re-running the expert assessment under a
-newly defined protocol. The revised manuscript states this limitation
-and interprets the rankings alongside the synthetic technical-control
-results that contain event-level ground truth.
+The evaluation produced distinct results across the three cleaning
+modules. For time gating, FlowMOP had the best mean rank among the
+automated methods and was preferred to FlowCut (BF = 5.39, P = 84.3\%)
+and PeacoQC (BF = 12.10, P = 92.4\%). Human gates generally ranked
+higher for debris and doublet removal, although FlowMOP was competitive
+in several tissue-specific comparisons: it ranked first for debris
+removal in mouse blood, third for debris removal in human liver and
+mouse skin, and second for doublet removal in human liver (Figs. S5-S7).
+We now report these principal findings and statistics in the main
+Results; the complete rankings and statistical comparisons remain in the
+Supplementary Results and Tables S1B-E.
+
+The revised Discussion considers these results alongside the other
+validation approaches. The preference for FlowMOP over the automated
+time-gating comparators agrees with its combined sensitivity-specificity
+performance in the synthetic benchmarks. The more variable debris and
+doublet rankings are discussed in relation to their dependence on
+sample-specific scatter distributions. Taken together, the results
+indicate that FlowMOP-generated gates can be comparable in acceptability
+to human gating across many use cases.
+
+The evaluation was designed as a relative-ranking exercise, with each
+dataset assessed by an expert familiar with that sample type. We did not
+retrospectively replace this with an absolute-quality scale because
+doing so would require repeating the assessment under a different
+protocol. Instead, we retain the ranking analysis and report its
+outcomes directly, alongside the source-labelled synthetic controls and
+the new PBMC and tumour analyses. The reviewer\textquotesingle s request
+for broader biological datasets, including human PBMCs, and the
+Associate Editor\textquotesingle s request for downstream biological
+endpoints are addressed together in Combined Comment 3.
 
 The visual summaries now include an Average Score column within each
 ranking grid rather than a separate panel, and the row axis is labelled
@@ -881,7 +1113,7 @@ only. The subsection is presented as the statistical analysis of the
 expert-ranking data rather than as a method for generating non-synthetic
 samples.
 
-\subsubsection{Changes made}\label{changes-made-4}
+\subsubsection{Changes made}\label{changes-made-5}
 
 \begin{itemize}
 \item
@@ -894,7 +1126,8 @@ samples.
   gating adequacy.''
   \end{quote}
 \item
-  We revised the Results terminology and interpretation as follows:
+  We revised the Supplementary Results terminology and interpretation as
+  follows:
 
   \begin{quote}
   ``FlowMOP's outputs in these samples were compared with
@@ -903,170 +1136,53 @@ samples.
   interpreted as an absolute measure of gating adequacy.''
   \end{quote}
 \item
-  We added the following limitations:
-
-  \begin{quote}
-  ``One relevant expert ranked each tissue type, only four experts
-  contributed gates, and the ordering does not distinguish a marginal
-  preference from a judgement that a gate is unsuitable for analysis.
-  Gate style could also reveal which outputs were algorithmic. We
-  therefore interpret the ranking results as exploratory relative
-  preferences, not as absolute quality scores or proof of algorithmic
-  superiority or inferiority.''
-  \end{quote}
-\item
   We retained the Plackett--Luce analysis and clarified that it models
   ordinal preference rankings rather than absolute gating quality.
 \item
-  We regenerated Figures 5--7 as editable SVGs, changed the row-axis
+  We moved the response concerning dataset breadth and downstream
+  biological validation to Combined Comment 3 and cross-reference it
+  here rather than treating the expert rankings as biological
+  validation.
+\item
+  We retained the full expert-ranking analysis in the Supplementary
+  Information and added its principal comparative findings and
+  statistics to the main Results, with their implications discussed
+  alongside the synthetic and biological-validation findings.
+\item
+  We regenerated Supplementary Figures S5--S7, changed the row-axis
   title to ``Gate Provided By,'' displayed rank 1 as best, and replaced
   the separate summary panel with an Average Score column in each grid.
 \item
-  We revised the Figure 5 caption as follows:
+  We revised the Figure S5 caption as follows:
 
   \begin{quote}
-  ``Figure 5. Expert preference rankings for time gates provided by four
-  human experts, FlowMOP (black border), FlowCut, and PeacoQC across
-  nine datasets. Rows indicate the gate provider, and the final column
-  shows the mean rank across datasets. Rank 1 indicates greatest
+  ``Figure S5. Expert preference rankings for time gates provided by
+  four human experts, FlowMOP (black border), FlowCut, and PeacoQC
+  across nine datasets. Rows indicate the gate provider, and the final
+  column shows the mean rank across datasets. Rank 1 indicates greatest
   preference; therefore, a lower average score indicates greater
   preference. Abbreviations: DRG, dorsal root ganglion; CNS, central
   nervous system.''
   \end{quote}
 \item
-  We clarified the scoring direction in the Results as follows:
+  We clarified the scoring direction in the Supplementary Results and
+  figure captions as follows:
 
   \begin{quote}
   ``Rank 1 indicates the greatest preference.''
   \end{quote}
 \end{itemize}
 
-\textbf{Location:} Methods, ``Statistical Analysis of Expert Preference
-Rankings''; Results, ``Expert Preference Evaluation'' and Figures 5--7;
-Discussion, ``Biological Datasets: Expert Preference Evaluation.''
+\textbf{Location:} Results, ``Expert preference evaluation'';
+Discussion; Conclusion; Supplementary Information, ``Supplementary
+expert preference evaluation,'' including ``Supplementary methods'' and
+``Supplementary results''; Supplementary Figures S5--S7; Supplementary
+Tables S1B-E.
 
-\subsection{Combined Comment 6 --- Downstream Biological Impact and the
-Cost of
-Errors}\label{combined-comment-6--downstream-biological-impact-and-the-cost-of-errors}
+\subsection{Combined Comment 7 --- Dataset Scale and
+Complexity}\label{combined-comment-7--dataset-scale-and-complexity}
 
-\textbf{Raised by:} Associate Editor; Reviewer 1, Comment 4.
-
-\subsubsection{Associate Editor --- Expert Preference Rankings and
-Statistical
-Interpretation}\label{associate-editor--expert-preference-rankings-and-statistical-interpretation-1}
-
-\begin{quote}
-Alternatively --- or in addition --- the authors could evaluate the
-downstream biological impact of each gating strategy. By substituting
-FlowMop, FlowCut, and PeacoQC gates for the time and debris gating steps
-while retaining the human gating strategy for all other steps, one could
-directly assess whether differences in automated gating performance have
-any meaningful effect on the biological conclusions drawn from the data.
-Ultimately, the relevant question for end users is not whether an
-algorithm removes a few percent more or fewer debris events, but whether
-doing so materially affects downstream analysis.
-\end{quote}
-
-\subsubsection{Reviewer 1, Comment 4 --- Discussion of Error ``Costs''
-and Sensitivity
-Trade-offs}\label{reviewer-1-comment-4--discussion-of-error-costs-and-sensitivity-trade-offs}
-
-\begin{quote}
-The manuscript notes that PeacoQC exhibits higher sensitivity but lower
-specificity compared to FlowMOP. This trade-off is central to clinical
-discovery and warrants a deeper discussion.
-
-Discussion Point: The authors should explicitly address the biological
-``cost'' of these errors. For instance, is it more detrimental to the
-study\textquotesingle s integrity to leave in a small transient artifact
-or to accidentally remove a rare, clinically significant biological
-population?
-\end{quote}
-
-\subsubsection{Response}\label{response-5}
-
-Neither higher removal nor closer agreement with a single human gate is
-inherently preferable. Under-cleaning can retain acquisition artifacts
-that create, inflate, or obscure apparent biological populations.
-Conversely, over-cleaning can remove rare or transient biological
-events. The revised Discussion therefore interprets sensitivity and
-specificity as complementary measures with competing error costs rather
-than treating one direction of error as universally preferable.
-Sensitivity is the proportion of retained events from the target source,
-whereas specificity is the proportion of removed events from non-target
-sources.
-
-PLACEHOLDER
-
-We added an initial downstream biological-concordance analysis using
-three tumour and three non-tumour human liver samples. We compared the
-complete FlowMOP time, debris, and doublet intersection with the matched
-final manual gate and used an operational Zombie UV-A threshold as an
-orthogonal readout. To distinguish biological selectivity from general
-permissiveness, the primary endpoint was the Zombie-high/Zombie-low
-removal-rate ratio. The matched FlowMOP/manual comparison was tested
-using an exact two-sided Wilcoxon signed-rank test on the
-log-transformed paired ratios.
-
-PLACEHOLDER
-
-FlowMOP showed greater selectivity in four of six samples, with a median
-paired FlowMOP/manual fold-change of 1.68 (range 0.82-2.70), but the
-paired difference was not statistically significant (p = 0.156). We
-interpret this as no detected systematic difference in this small sample
-set, not as proof of equivalence. A secondary decomposition showed that
-time gating was approximately Zombie-neutral, debris removal was
-heterogeneous, and the doublet mask was the principal source of
-Zombie-high enrichment. A further biological validation against a
-prespecified population or functional endpoint remains a PLACEHOLDER and
-will be added before submission.
-
-\subsubsection{Changes made}\label{changes-made-5}
-
-\begin{itemize}
-\item
-  We added the following discussion of error costs:
-
-  \begin{quote}
-  ``The biological cost of preprocessing errors is difficult to measure
-  directly, and neither under-cleaning nor over-cleaning is preferable.
-  Under-cleaning may allow acquisition-time artifacts with abnormal
-  staining patterns to confound downstream results, including by
-  creating, inflating, or obscuring apparent rare populations.
-  Conversely, over-cleaning could remove rare or transient biological
-  populations.''
-  \end{quote}
-\item
-  We added a paired tumour-liver biological-concordance analysis and
-  report the complete per-sample results in Supplementary Tables S3A-B.
-\item
-  We used a permissiveness-adjusted primary endpoint and a matched
-  statistical test:
-
-  \begin{quote}
-  ``FlowMOP had greater permissiveness-adjusted Zombie-high removal
-  selectivity than manual gating in four of six samples. The median
-  paired FlowMOP/manual selectivity fold-change was 1.68 (range
-  0.82-2.70), but the difference was not statistically significant
-  (exact two-sided Wilcoxon signed-rank test on log ratios, p =
-  0.156).''
-  \end{quote}
-\item
-  A second downstream biological validation remains a PLACEHOLDER in
-  this response and is not presented as completed manuscript content.
-\end{itemize}
-
-\textbf{Location:} Methods, ``Tumour-liver acquisition-instability and
-biological-concordance analysis''; Results, ``Tumour-liver acquisition
-instability and downstream biological concordance''; Discussion,
-``Biological Datasets: Expert Preference Evaluation''; Supplementary
-Tables S3A-B.
-
-\subsection{Combined Comment 7 --- Dataset Scale, Complexity, and Tumor
-Validation}\label{combined-comment-7--dataset-scale-complexity-and-tumor-validation}
-
-\textbf{Raised by:} Associate Editor; Reviewer 2, general assessment and
-Comment 10.
+\textbf{Raised by:} Associate Editor.
 
 \subsubsection{Associate Editor --- Smaller
 Point}\label{associate-editor--smaller-point}
@@ -1085,30 +1201,6 @@ from the manuscript how the tools described here depend on data
 complexity per se.
 \end{quote}
 
-\subsubsection{Reviewer 2 --- General
-Assessment}\label{reviewer-2--general-assessment}
-
-\begin{quote}
-The authors developed An Automated Flow Cytometry Time, Debris, and
-Doublet Removal Tool. This can be a useful tool for cytometry. However,
-the dataset used in the paper are relatively ``easy'' cases. I recommend
-the authors to challenge the FlowMOP with more difficult but common
-samples like digested tumor sample. Performance against human expert is
-needed. Also, the manuscript is not well structured. Careful edition by
-experienced researcher is needed to increase the readability of the
-manuscript.
-\end{quote}
-
-\subsubsection{Reviewer 2, Comment 10}\label{reviewer-2-comment-10}
-
-\begin{quote}
-The study did not validate the FlowMOP on tumor datasets, which is a
-common sample type for flow cytometry but difficult to perform debris
-removal. I highly suggest the authors to include a tumor dataset, even
-if the performance is not optimal, the readers can know whether the
-method can be applied in their sample or not.
-\end{quote}
-
 \subsubsection{Response}\label{response-6}
 
 The revised Introduction distinguishes study scale from the intrinsic
@@ -1117,26 +1209,6 @@ to increasing numbers of files, events, and measured parameters and
 explains that this scale makes repeated manual preprocessing
 time-consuming and often impractical. It no longer implies that analysis
 software itself necessarily makes a debris or time gate more complex.
-
-We added an analysis of three tumour and three non-tumour human liver
-samples as a difficult validation setting. For the tumour files, we
-first evaluated acquisition-time instability by comparing the intervals
-detected by FlowMOP with manual gating, FlowCut, and PeacoQC and by
-examining fluorescence-only divergence. FlowMOP captured the principal
-high-divergence acquisition intervals identified by the other approaches
-and also identified additional intervals with positive-population
-fluorescence shifts; residual comparator-only intervals generally showed
-weaker fluorescence divergence.
-
-We then evaluated the complete time, debris, and doublet workflow using
-Zombie UV-A as an orthogonal biological readout. FlowMOP and manual
-gating were not detectably different in the primary paired selectivity
-comparison (exact two-sided p = 0.156). This result does not establish
-formal parity, but it provides no evidence of systematic inferiority in
-this six-sample analysis. We retain an explicit limitation that larger
-and more necrotic tumour cohorts are needed because these samples lack
-event-level technical ground truth and cannot represent the full
-diversity of tumour-digest artifacts.
 
 \subsubsection{Changes made}\label{changes-made-6}
 
@@ -1153,27 +1225,9 @@ diversity of tumour-digest artifacts.
   operators. Reproducible automated preprocessing is therefore valuable
   for large studies.''
   \end{quote}
-\item
-  We added a tumour-liver validation comprising three tumour and three
-  non-tumour samples.
-\item
-  We added fluorescence-only acquisition-instability analysis for the
-  tumour files and a paired manual-versus-FlowMOP downstream Zombie
-  analysis for all six liver samples.
-\item
-  We revised the remaining limitation as follows:
-
-  \begin{quote}
-  ``Future extensions can evaluate configurable or sample-specific
-  multivariate approaches in tumour digests with greater necrosis,
-  aggregation, and scatter heterogeneity.''
-  \end{quote}
 \end{itemize}
 
-\textbf{Location:} Methods and Results, ``Tumour-liver acquisition
-instability and biological concordance''; Discussion, ``Synthetic Sample
-Debris and Doublet Gating'' and ``Biological Datasets: Expert Preference
-Evaluation''; Supplementary Tables S3A-B.
+\textbf{Location:} Introduction.
 
 \subsection{Combined Comment 8 --- Acquisition Settings and Newer
 Scatter
@@ -1201,15 +1255,21 @@ data? It would be nice to discuss this in the Discussion.
 
 \subsubsection{Response}\label{response-7}
 
-The acquisition voltage/gain settings remain a PLACEHOLDER.
-
-The present validation does not cover all configuration choices
-introduced by instruments that offer multiple scatter measurements.
-FlowMOP currently expects the user to identify the scatter channels used
-by the workflow; it has not been validated systematically across 405-nm,
-488-nm, and polar scatter configurations. Adaptation to these
-instruments therefore remains a future validation and channel-selection
-task.
+The acquisition voltage/gain settings used in this study remain a
+PLACEHOLDER. We considered evaluating FlowMOP across a range of
+settings, but these are highly dependent on the instrument, detector,
+panel, sample type, and experimental conditions; a voltage series on one
+cytometer would therefore not provide generalisable thresholds for other
+settings. We therefore did not add this experiment and instead added a
+combined acquisition/scatter limitation. FlowMOP requires appropriate
+acquisition voltage/gain settings; if relevant signals are poorly
+resolved or saturated, the lost information cannot be recovered and
+reliable cleaning cannot be guaranteed. FlowMOP currently expects users
+to identify the scatter channels used by the workflow; it has not been
+validated systematically across 405-nm, 488-nm, and polar 488-nm FSC/SSC
+configurations on instruments with multiple scatter measurements. Future
+versions could assess multiple scatter-channel pairs and select or
+combine the pair with the clearest debris/doublet separation.
 
 \subsubsection{Changes made}\label{changes-made-7}
 
@@ -1217,14 +1277,22 @@ task.
 \item
   The acquisition voltage/gain information remains a PLACEHOLDER.
 \item
-  We added the following scope statement:
+  We did not add a voltage/gain-series experiment because the tested
+  settings would be specific to the instrument, detector, panel, sample
+  type, and experimental conditions rather than broadly generalisable.
+  Instead, we added the following combined acquisition/scatter
+  limitation:
 
   \begin{quote}
-  ``Instruments providing multiple scatter measurements, including
-  405-nm, 488-nm, and polar 488-nm FSC/SSC configurations, were not
-  evaluated here. Future versions could assess multiple scatter-channel
-  pairs and select or combine the pair with the clearest debris/doublet
-  separation.''
+  ``FlowMOP requires appropriate acquisition voltage/gain settings; if
+  relevant signals are poorly resolved or saturated, the lost
+  information cannot be recovered and reliable cleaning cannot be
+  guaranteed. FlowMOP currently expects users to identify the scatter
+  channels used by the workflow; it has not been validated
+  systematically across 405-nm, 488-nm, and polar 488-nm FSC/SSC
+  configurations on instruments with multiple scatter measurements.
+  Future versions could assess multiple scatter-channel pairs and select
+  or combine the pair with the clearest debris/doublet separation.''
   \end{quote}
 \end{itemize}
 
@@ -1316,15 +1384,12 @@ normality of these files is therefore the reason an event-labelled
 benchmark is needed, not evidence that the modeled problem is
 unimportant.
 
-The biological validation further supports the experimental relevance of
-this design: the tumour-liver files contained mid-acquisition intervals
-with coordinated multichannel fluorescence shifts, including subtle
-intervals detected by FlowMOP in addition to the principal disturbances
-shared with manual gating or comparator methods. PLACEHOLDER: the
-additional biological validation will be inserted here once complete.
-Together, the synthetic and biological analyses motivate a benchmark
-that includes both readily visible sustained artifacts and visually
-subtle transient microblockages.
+The downstream biological-validation analyses are presented together in
+Combined Comment 3. That evidence provides an independent biological
+context for the technical benchmark; it is cross-referenced here rather
+than repeated. Together, the synthetic and biological analyses motivate
+an evaluation that includes both readily visible sustained artifacts and
+visually subtle transient microblockages.
 
 We also defined temporal artifacts, simplified the terminology, and
 added Figure S1. We clarified that the primary synthetic samples model
@@ -1339,12 +1404,15 @@ FlowCut\textquotesingle s removal behavior shifted (Figure S4).
 
 \begin{itemize}
 \item
-  In the Abstract, we added the following definition:
+  In the Abstract, we incorporated the definition into the
+  methodological summary:
 
   \begin{quote}
-  ``Temporal artifacts are acquisition-time-dependent deviations in
-  event quality or fluorescence signal caused by blockages, bubbles,
-  flow instability, or instrument instability.''
+  ``Methodologically, FlowMOP identifies temporal
+  artifacts---acquisition-dependent deviations in event quality or
+  fluorescence signal---via parameter-wise peak checks, bin-level
+  fluorescence summaries across acquisition time, and robust outlier
+  rejection.''
   \end{quote}
 \item
   In the Methods, we added the following clarification:
@@ -1412,13 +1480,9 @@ FlowCut\textquotesingle s removal behavior shifted (Figure S4).
   why apparent normality by eye is not sufficient ground truth.''
   \end{quote}
 \item
-  We linked this rationale to the biological validation:
-
-  \begin{quote}
-  ``The tumour-liver validation further supports the experimental
-  relevance of this design by demonstrating mid-acquisition intervals
-  with coordinated multichannel fluorescence shifts.''
-  \end{quote}
+  We cross-reference the consolidated downstream biological-validation
+  response in Combined Comment 3 rather than repeating its analyses
+  here.
 \item
   We added Figure S1 with the following caption:
 
@@ -1430,71 +1494,12 @@ FlowCut\textquotesingle s removal behavior shifted (Figure S4).
 
 \textbf{Location:} Abstract; Introduction; Methods, ``Generation of
 Synthetic Time Samples'' and ``Time-only acquisition-rate mechanism
-benchmark''; Results, ``Synthetic Time Gating Benchmark'' and
-``Tumour-liver acquisition instability and downstream biological
-concordance''; Discussion, ``Synthetic Sample Time Gating''; Figures S1
-and S4.
+benchmark''; Results, ``Synthetic Time Gating Benchmark''; Discussion,
+``Synthetic Sample Time Gating''; Figures S1 and S4. The
+biological-validation changes are detailed in Combined Comment 3.
 
-\subsection{Combined Comment 10 --- Abstract and Introduction
-Structure}\label{combined-comment-10--abstract-and-introduction-structure}
-
-\textbf{Raised by:} Reviewer 2, Comments 2 and 9.
-
-\subsubsection{Reviewer 2, Comment 2}\label{reviewer-2-comment-2}
-
-\begin{quote}
-The structure of abstract is kind of odd. The first paragraph should
-focus on background instead of providing a conclusion.
-\end{quote}
-
-\subsubsection{Reviewer 2, Comment 9}\label{reviewer-2-comment-9}
-
-\begin{quote}
-The introduction is missing an end paragraph for summary.
-\end{quote}
-
-\subsubsection{Response}\label{response-9}
-
-The Abstract has been restructured to begin with the preprocessing
-problem and its biological and computational context before introducing
-FlowMOP, the validation design, and the principal findings. We also
-added a concluding Introduction paragraph that summarizes
-FlowMOP\textquotesingle s intended role and previews the time-gating
-comparison, debris and doublet validation, expert evaluation, and
-computational benchmark.
-
-\subsubsection{Changes made}\label{changes-made-9}
-
-\begin{itemize}
-\item
-  We reordered the Abstract so that it begins with the study context:
-
-  \begin{quote}
-  ``Flow cytometry now generates high-parameter datasets whose scale and
-  variability challenge manual preprocessing, leading to subjectivity
-  and poor reproducibility. Temporal artifacts are
-  acquisition-time-dependent deviations in event quality or fluorescence
-  signal caused by blockages, bubbles, flow instability, or instrument
-  instability. This study introduces FlowMOP, a Python-native framework
-  that automates three major preprocessing steps---time-gating, debris
-  removal, and doublet exclusion.''
-  \end{quote}
-\item
-  We added the following study summary to the end of the Introduction:
-
-  \begin{quote}
-  ``Here, we introduce FlowMOP, an automated preprocessing tool for
-  time-gating, debris removal, and doublet exclusion. We compare
-  time-gating performance with PeacoQC and FlowCut, evaluate debris and
-  doublet removal using synthetic ground-truth datasets and expert
-  comparison, and benchmark computational scalability.''
-  \end{quote}
-\end{itemize}
-
-\textbf{Location:} Abstract; final paragraph of the Introduction.
-
-\subsection{Combined Comment 11 --- Debris Methodology and
-Validation}\label{combined-comment-11--debris-methodology-and-validation}
+\subsection{Combined Comment 10 --- Debris Methodology and
+Validation}\label{combined-comment-10--debris-methodology-and-validation}
 
 \textbf{Raised by:} Reviewer 1, Comment 2; Reviewer 2, Comments 15, 22,
 and 24.
@@ -1550,7 +1555,7 @@ I would like to see the debris remove rate calculated against the human
 expert.
 \end{quote}
 
-\subsubsection{Response}\label{response-10}
+\subsubsection{Response}\label{response-9}
 
 The revised Methods describes the debris-removal procedure more
 precisely. FlowMOP ultimately applies a one-dimensional FSC-A threshold,
@@ -1586,11 +1591,24 @@ their availability and interpretation are instrument- and
 acquisition-dependent. Incorporating SSC-A or pulse width responsibly
 would require a wide configurable parameter range or sample-specific
 multivariate decision rules validated for the intended dataset, panel,
-instrument, and cell populations. The revised Discussion therefore
+instrument, and cell populations. Metadata-based margin removal is
+complementary rather than a substitute for debris classification: it can
+identify events at acquisition limits, but it does not identify all
+low-FSC debris or large aggregates. FlowMOP currently includes only an
+FSC-A maximum-value precleaning check and does not implement a
+generalized margin-event filter. The revised Discussion therefore
 defines the current scope as conservative low-FSC debris removal and
 presents SSC-A, pulse-width measurements, margin-event metadata, and
 sample-specific multivariate models as future extensions rather than
 universal default filters.
+
+In debris-poor sample 6A, we discovered that the FSC-A peak-based
+procedure was liable to misclassify a lower-FSC biological population
+composed predominantly of Live CD45+ T cells as debris. This illustrated
+a limitation of the procedure: when a sample lacks a debris population,
+the module may remove biologically relevant events and its output should
+be inspected. The complete downstream results are reported in the
+revised Results, Figure 6, and Combined Comment 3.
 
 The synthetic preparation is now described explicitly. Approximately
 equal event numbers were sampled from the high-debris and low-debris
@@ -1606,7 +1624,15 @@ statistical comparisons. Because the input event count differs between
 samples, percentage-based retention and enrichment are more directly
 comparable than raw removed-event counts.
 
-\subsubsection{Changes made}\label{changes-made-10}
+FlowMOP determines its debris gate independently for each sample,
+whereas manual debris gating is commonly performed groupwise by applying
+one gate across related samples. We therefore also asked the experts to
+perform both groupwise and individual-sample gating. No difference was
+detected between these strategies for any expert (Fig. 3D, unadjusted
+paired t-tests, p \textgreater{} 0.05), indicating that the comparison
+with FlowMOP was not driven by this difference in gating strategy.
+
+\subsubsection{Changes made}\label{changes-made-9}
 
 \begin{itemize}
 \item
@@ -1653,6 +1679,16 @@ comparable than raw removed-event counts.
   across tissues, panels, instruments, and acquisition settings.''
   \end{quote}
 \item
+  We clarified that generalized metadata-based margin removal is not
+  currently implemented beyond the FSC-A maximum-value precleaning check
+  and is a potential complementary extension rather than a complete
+  debris classifier.
+\item
+  We added the debris-poor PBMC result as a direct limitation of the
+  current FSC-A peak assumption and contrast it with successful removal
+  in the source-labelled benchmark when genuine separable debris is
+  present.
+\item
   We reported the existing expert comparison as follows:
 
   \begin{quote}
@@ -1661,32 +1697,21 @@ comparable than raw removed-event counts.
   (Bonferroni-adjusted paired t-test, p = 0.04) (Fig. 3C).''
   \end{quote}
 \item
-  We identified potential extensions for complex debris phenotypes
-  without claiming that they are part of the current implementation:
-
-  \begin{quote}
-  ``Future extensions can evaluate configurable or sample-specific
-  multivariate approaches in tumour digests with greater necrosis,
-  aggregation, and scatter heterogeneity.''
-  \end{quote}
-\item
-  We added the following limitation:
-
-  \begin{quote}
-  ``Future extensions can evaluate configurable or sample-specific
-  multivariate approaches in tumour digests with greater necrosis,
-  aggregation, and scatter heterogeneity.''
-  \end{quote}
+  We clarified that FlowMOP estimates debris gates independently for
+  each sample and reported the existing
+  groupwise-versus-individual-sample control, for which no difference
+  was detected for any expert (Fig. 3D).
 \end{itemize}
 
 \textbf{Location:} Methods, ``Synthetic Debris Sample Preparation and
-Generation''; Results, ``Debris Gating'' and ``Synthetic Debris Gating
-Benchmark''; Discussion, ``Synthetic Sample Debris and Doublet Gating'';
-Figure 3.
+Generation'' and ``Biological-validation analysis''; Results, ``Debris
+Gating,'' ``Synthetic Debris Gating Benchmark,'' and ``Biological
+validation''; Discussion, ``Synthetic Sample Debris and Doublet Gating''
+and ``Biological validation''; Figures 3 and 6.
 
-\subsection{Combined Comment 12 --- Aggregates, Doublets, Saturation,
+\subsection{Combined Comment 11 --- Aggregates, Doublets, Saturation,
 and
-Validation}\label{combined-comment-12--aggregates-doublets-saturation-and-validation}
+Validation}\label{combined-comment-11--aggregates-doublets-saturation-and-validation}
 
 \textbf{Raised by:} Reviewer 2, Comments 5, 25, and 26.
 
@@ -1720,7 +1745,7 @@ which are missed in the performance evaluation. I would like to see the
 doublet remove rate calculated against the human expert.
 \end{quote}
 
-\subsubsection{Response}\label{response-11}
+\subsubsection{Response}\label{response-10}
 
 FlowMOP\textquotesingle s doublet module targets events whose
 FSC-A/FSC-H and, where available, SSC-A/SSC-H pulse ratios distinguish
@@ -1729,15 +1754,12 @@ when those events produce separable ratio structure, as observed for
 triplet-like events in the technical controls, but it cannot identify
 every aggregate or clump from these ratios alone.
 
-Informative pulse ratios require the relevant scatter measurements to
-remain within the instrument\textquotesingle s measurement range. If
-cells are saturated or collapsed at an FSC boundary, the lost
-pulse-shape information cannot be reconstructed downstream. The revised
-Results now state this assumption and identify saturated or
-edge-collapsed scatter and incorrectly configured acquisition parameters
-as conditions requiring acquisition review, manual intervention, or
-alternative pulse-shape features. We did not add a new
-saturation-handling algorithm.
+The general requirement for appropriate acquisition settings is
+addressed in Combined Comment 8. For the doublet module specifically,
+FSC-A/FSC-H and SSC-A/SSC-H ratios must remain informative. Saturated or
+edge-collapsed scatter measurements may therefore require acquisition
+review, manual intervention, or alternative pulse-shape features. We did
+not add a new saturation-handling algorithm.
 
 The reviewer is also correct that CTV-CFSE double-positive events
 represent only heterologous labelled doublets. CTV-CTV and CFSE-CFSE
@@ -1753,23 +1775,21 @@ human experts. We now describe this endpoint and its same-label
 limitation explicitly rather than implying complete doublet ground
 truth.
 
-\subsubsection{Changes made}\label{changes-made-11}
+FlowMOP also estimates its doublet gates independently for each sample
+rather than applying a shared gate across a group. The experts therefore
+performed both groupwise and individual-sample doublet gating. These
+strategies did not differ for three of the four experts; Expert 3
+removed fewer doublets with individual-sample gating (Fig. 4C, paired
+t-test, p = 0.009). We now explain this methodological distinction and
+its practical implications in the Results and Discussion.
+
+\subsubsection{Changes made}\label{changes-made-10}
 
 \begin{itemize}
 \item
-  We added the following measurement-range limitation:
-
-  \begin{quote}
-  ``FlowMOP\textquotesingle s doublet module assumes that FSC-A/FSC-H
-  and SSC-A/SSC-H ratios remain informative and that acquisition
-  voltages and scatter parameters have been set appropriately. If
-  relevant scatter channels are saturated, edge-collapsed, or
-  incorrectly configured at acquisition, the lost pulse-shape
-  information cannot be recovered by FlowMOP or by other downstream
-  preprocessing algorithms; such samples require acquisition review,
-  manual intervention, or alternative pulse-shape features where
-  available.''
-  \end{quote}
+  We cross-reference the general acquisition-setting limitation in
+  Combined Comment 8 and retain only the doublet-specific requirement
+  that the relevant scatter ratios remain informative.
 \item
   We clarified the limits of the CTV/CFSE validation as follows:
 
@@ -1788,6 +1808,10 @@ truth.
   \textgreater{} 0.05).''
   \end{quote}
 \item
+  We clarified that FlowMOP estimates doublet gates independently for
+  each sample and reported the existing comparison of groupwise and
+  individual-sample expert gating (Fig. 4C).
+\item
   We retained the observation that FlowMOP removed a triplet-like
   population in the technical-control samples and restricted that
   finding to those samples.
@@ -1797,8 +1821,8 @@ truth.
 Gating Benchmark''; Discussion, ``Synthetic Sample Debris and Doublet
 Gating'' and ``Other remarks''; Figure 4.
 
-\subsection{Combined Comment 13 --- CTV/CFSE Preparation
-Protocol}\label{combined-comment-13--ctvcfse-preparation-protocol}
+\subsection{Combined Comment 12 --- CTV/CFSE Preparation
+Protocol}\label{combined-comment-12--ctvcfse-preparation-protocol}
 
 \textbf{Raised by:} Reviewer 2, Comment 27.
 
@@ -1811,18 +1835,59 @@ nice if the authors can provide detailed protocol as supplementary
 files.
 \end{quote}
 
-\subsubsection{Response}\label{response-12}
+\subsubsection{Response}\label{response-11}
 
-PLACEHOLDER
+We agree that the original description did not provide enough
+information to reproduce the CTV/CFSE preparation, particularly the wash
+and quenching steps. We have replaced the abbreviated description with a
+detailed protocol specifying the digestion conditions, filtration and
+RBC lysis, cell numbers, centrifugation and wash steps, dye stocks and
+volumes, labelling and quenching conditions, 1:1 recombination of the
+labelled populations, viability staining, and acquisition platform.
 
-\subsubsection{Changes made}\label{changes-made-12}
+\subsubsection{Changes made}\label{changes-made-11}
 
-PLACEHOLDER
+The revised Methods now state:
 
-\textbf{Location:} PLACEHOLDER
+\begin{quote}
+``To generate samples with high proportions of doublets, C57BL/6 mouse
+spleens were injected with 1 mL digestion buffer comprising RPMI
+supplemented with 50 µg/mL collagenase P (Roche) and 10 µg/mL DNase I
+(Roche). Spleens were incubated for 20 minutes at room temperature (RT)
+in a further 1 mL of digestion buffer, mechanically dissociated, and
+incubated for a further 20 minutes at RT. Samples were passed through a
+70-µm cell strainer with 10 mL FACS wash (PBS containing 2\%
+heat-inactivated fetal bovine serum {[}FBS{]}), centrifuged (5 minutes,
+500 × \emph{g}, RT), and the supernatant discarded. Cell pellets were
+resuspended in 3 mL RBC lysis buffer and incubated for 3 minutes at RT,
+after which cells were washed twice with FACS wash and recovered by
+centrifugation.
 
-\subsection{Combined Comment 14 --- Missing and Duplicated Methods
-Information}\label{combined-comment-14--missing-and-duplicated-methods-information}
+For dye labelling, 5 × 10\^{}6 cells were transferred to each fresh
+15-mL tube and stained with either CellTrace Violet (CTV; Invitrogen) or
+carboxyfluorescein succinimidyl ester (CFSE; eBioscience). Cells were
+centrifuged (5 minutes, 500 × \emph{g}, 4°C), the supernatant was
+removed, and pellets were resuspended in 1 mL complete IMDM (cIMDM;
+Gibco IMDM supplemented with 10\% heat-inactivated FBS, 100 U/mL
+penicillin, 100 µg/mL streptomycin, 2 mM L-glutamine, and 55 µM
+2-mercaptoethanol). Two microlitres of 5 mM CTV or 10 mM CFSE were added
+to the side of the corresponding tube; samples were rapidly inverted and
+mixed, then incubated for 10 minutes at 37°C. Labelling was quenched by
+adding 5 mL ice-cold cIMDM and incubating for a further 5 minutes at RT.
+Cells were centrifuged and resuspended in cIMDM, after which 2 × 10\^{}6
+CTV-labelled cells and 2 × 10\^{}6 CFSE-labelled cells were combined in
+a single sample and incubated for 30 minutes at 37°C and 5\% CO2.
+Samples were centrifuged, the supernatant was removed, and cells were
+stained for 20 minutes at RT with Fixable Viability Dye eFluor 780
+(Invitrogen; 1:1,000 in PBS). Cells were washed with PBS, centrifuged,
+resuspended in FACS wash, and acquired on a BD LSRII flow cytometer.''
+\end{quote}
+
+\textbf{Location:} Methods, ``Synthetic Doublet Sample Preparation and
+Generation''.
+
+\subsection{Combined Comment 13 --- Missing and Duplicated Methods
+Information}\label{combined-comment-13--missing-and-duplicated-methods-information}
 
 \textbf{Raised by:} Reviewer 2, Comments 11 and 12.
 
@@ -1842,28 +1907,41 @@ antibodies in the staining cocktail. However, they did not list which
 antibodies.
 \end{quote}
 
-\subsubsection{Response}\label{response-13}
+\subsubsection{Response}\label{response-12}
 
-The duplicated cytometer sentence has been removed.
+The duplicated cytometer sentence has been removed. The benchmarking
+uses real, existing datasets acquired with biology-specific antibody
+panels. Consequently, the antigen--fluorochrome combinations differ
+among datasets and are not variables under evaluation; they are not
+material to the preprocessing questions raised here. We have clarified
+this scope in the Methods rather than presenting a single fluorochrome
+list that would not describe the distinct panels used across the
+benchmark datasets.
 
-\textbf{PBMC antibody identities and fluorochromes:} PLACEHOLDER
-
-\subsubsection{Changes made}\label{changes-made-13}
+\subsubsection{Changes made}\label{changes-made-12}
 
 \begin{itemize}
 \item
   We removed the duplicated sentence, ``Samples were acquired on a Cytek
   Northern Lights 3-laser (V/B/R) spectral flow cytometer.''
 \item
-  The complete PBMC antibody panel remains a PLACEHOLDER.
+  We clarified why a single fluorochrome list is not applicable across
+  the benchmark datasets:
+
+  \begin{quote}
+  ``The benchmarking uses real, existing datasets acquired with
+  biology-specific antibody panels. Consequently, the
+  antigen--fluorochrome combinations differ among datasets and are not
+  variables under evaluation; they are not material to the preprocessing
+  questions addressed here.''
+  \end{quote}
 \end{itemize}
 
 \textbf{Location:} Methods, ``Preparation of Human PBMC Samples for
-Synthetic Time Benchmarking Samples''; complete PBMC antibody panel:
-PLACEHOLDER.
+Synthetic Time Benchmarking Samples.''
 
-\subsection{Combined Comment 15 --- Precleaning Event Removal and
-Threshold}\label{combined-comment-15--precleaning-event-removal-and-threshold}
+\subsection{Combined Comment 14 --- Precleaning Event Removal and
+Threshold}\label{combined-comment-14--precleaning-event-removal-and-threshold}
 
 \textbf{Raised by:} Reviewer 2, Comment 17.
 
@@ -1875,7 +1953,7 @@ removed in these used datasets? This information can be provided as
 supplementary table/figure to justify the set of threshold (5\%).
 \end{quote}
 
-\subsubsection{Response}\label{response-14}
+\subsubsection{Response}\label{response-13}
 
 The current implementation uses a 1\% threshold, not 5\%; the
 inconsistent earlier value has been corrected. FlowMOP checks the number
@@ -1894,7 +1972,7 @@ non-trivial accumulation of events at the acquisition maximum while
 avoiding removal triggered by isolated maximum-valued events. The
 revised Results state this operational rationale.
 
-\subsubsection{Changes made}\label{changes-made-14}
+\subsubsection{Changes made}\label{changes-made-13}
 
 \begin{itemize}
 \item
@@ -1922,8 +2000,8 @@ revised Results state this operational rationale.
 
 \textbf{Location:} Results, ``Precleaning.''
 
-\subsection{Combined Comment 16 --- Figure 1 Axes and
-Annotations}\label{combined-comment-16--figure-1-axes-and-annotations}
+\subsection{Combined Comment 15 --- Figure 1 Axes and
+Annotations}\label{combined-comment-15--figure-1-axes-and-annotations}
 
 \textbf{Raised by:} Reviewer 2, Comments 19 and 23.
 
@@ -1942,7 +2020,7 @@ The Figure 1B also misses many axis titles. The Figure 1C misses y-axis
 title.
 \end{quote}
 
-\subsubsection{Response}\label{response-15}
+\subsubsection{Response}\label{response-14}
 
 Figure 1 remains a conceptual schematic, and its axes are not treated as
 quantitative measurements. The revised legend explains the two smoothing
@@ -1950,7 +2028,7 @@ resolutions in Figure 1A, identifies the debris and doublet-ratio
 quantities in Figures 1B and 1C, and states that the schematic
 fluorescence-intensity and signal-strength axes use arbitrary units.
 
-\subsubsection{Changes made}\label{changes-made-15}
+\subsubsection{Changes made}\label{changes-made-14}
 
 \begin{itemize}
 \item
@@ -1974,6 +2052,80 @@ fluorescence-intensity and signal-strength axes use arbitrary units.
 
 \textbf{Location:} Figure 1 legend.
 
+\subsection{Combined Comment 16 --- Abstract, Introduction, and Overall
+Manuscript
+Structure}\label{combined-comment-16--abstract-introduction-and-overall-manuscript-structure}
+
+\textbf{Raised by:} Reviewer 2, general assessment and Comments 2 and 9.
+
+\subsubsection{Reviewer 2 --- General Assessment (Manuscript
+Structure)}\label{reviewer-2--general-assessment-manuscript-structure}
+
+\begin{quote}
+Also, the manuscript is not well structured. Careful edition by
+experienced researcher is needed to increase the readability of the
+manuscript.
+\end{quote}
+
+\subsubsection{Reviewer 2, Comment 2}\label{reviewer-2-comment-2}
+
+\begin{quote}
+The structure of abstract is kind of odd. The first paragraph should
+focus on background instead of providing a conclusion.
+\end{quote}
+
+\subsubsection{Reviewer 2, Comment 9}\label{reviewer-2-comment-9}
+
+\begin{quote}
+The introduction is missing an end paragraph for summary.
+\end{quote}
+
+\subsubsection{Response}\label{response-15}
+
+The manuscript has been considerably restructured and rewritten. The
+Abstract now begins with the general preprocessing problem and
+introduces FlowMOP directly. Temporal artifacts are then defined within
+the methodological summary before the validation design and principal
+findings are presented. We also added a concluding Introduction
+paragraph that summarizes FlowMOP\textquotesingle s intended role and
+previews the time-gating comparison, debris and doublet validation,
+expert evaluation, and computational benchmark. Considering that the
+paper has been considerably restructured, we hope that the new format
+and writing address the reviewer\textquotesingle s concerns.
+
+\subsubsection{Changes made}\label{changes-made-15}
+
+\begin{itemize}
+\item
+  We reordered the Abstract so that it begins with the study context:
+
+  \begin{quote}
+  ``Flow cytometry now generates high-parameter datasets whose scale and
+  variability challenge manual preprocessing, leading to subjectivity
+  and poor reproducibility. Here, we introduce FlowMOP, a Python-native
+  framework that automates three major preprocessing
+  steps---time-gating, debris removal, and doublet exclusion.''
+  \end{quote}
+\item
+  We added the following study summary to the end of the Introduction:
+
+  \begin{quote}
+  ``Here, we introduce FlowMOP, an automated preprocessing tool for
+  time-gating, debris removal, and doublet exclusion. We compare
+  time-gating performance with PeacoQC and FlowCut, evaluate debris and
+  doublet removal using synthetic ground-truth datasets and expert
+  comparison, and benchmark computational scalability.''
+  \end{quote}
+\item
+  We reorganized and edited the manuscript so that the motivation,
+  algorithmic design, technical benchmarks, biological validation,
+  expert evaluation, and limitations are presented in a clearer
+  progression.
+\end{itemize}
+
+\textbf{Location:} Abstract; final paragraph of the Introduction;
+structure and writing throughout the manuscript.
+
 \subsection{Associate Editor\textquotesingle s Closing
 Request}\label{associate-editors-closing-request}
 
@@ -1982,12 +2134,11 @@ Finally, I ask that the authors also provide thorough and complete
 responses to all comments raised by the other reviewers.
 \end{quote}
 
-\textbf{Response:} Every comment from Reviewers 1 and 2 is reproduced in
+\textbf{Response:} Every comment from Reviewers 1 and 2 is covered in
 this response, and the coverage index below identifies the consolidated
-response containing each comment. Completed revisions are described and
-quoted where available; author-supplied methodological details and the
-ongoing biological-validation analysis remain clearly marked as
-placeholders.
+response containing each point. Completed revisions are described and
+quoted where available; any remaining author-supplied methodological
+details are clearly marked as placeholders.
 
 \textbf{Location:} Not applicable.
 
@@ -2014,10 +2165,10 @@ Assessment \\
 Algorithmic motivation and theoretical justification --- existing
 alternatives and design rationale & Combined Comment 1 \\
 Algorithmic motivation and theoretical justification --- smoothing
-mechanism & Combined Comment 3 \\
+mechanism & Combined Comment 4 \\
 Algorithmic versus implementation advantages & Combined Comment 2 \\
-Expert preference rankings and statistical interpretation & Combined
-Comments 5 and 6 \\
+Expert preference rankings, downstream biological impact, and
+statistical interpretation & Combined Comments 3 and 6 \\
 Smaller point --- dataset scale and complexity & Combined Comment 7 \\
 Smaller point --- Bimix/Trimix and experimental relevance & Combined
 Comment 9 \\
@@ -2044,12 +2195,12 @@ Response location
 \endlastfoot
 Comment 1 --- Technical infrastructure and performance claims & Combined
 Comment 2 \\
-Comment 2 --- Debris gating methodology & Combined Comment 11 \\
-Comment 3 --- Refinement of human subjective rankings & Combined Comment
-5 \\
+Comment 2 --- Debris gating methodology & Combined Comment 10 \\
+Comment 3 --- Refinement of human subjective rankings and dataset
+breadth & Combined Comments 3 and 6 \\
 Comment 4 --- Error costs and sensitivity trade-offs & Combined Comment
-6 \\
-Comment 5 --- Parametric sensitivity analysis & Combined Comment 3 \\
+3 \\
+Comment 5 --- Parametric sensitivity analysis & Combined Comment 4 \\
 \end{longtable}
 }
 
@@ -2069,34 +2220,34 @@ Response location
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-General assessment & Combined Comment 7 \\
+General assessment & Combined Comments 3 and 16 \\
 Comment 1 & Combined Comment 1 \\
-Comment 2 & Combined Comment 10 \\
+Comment 2 & Combined Comment 16 \\
 Comment 3 & Combined Comment 9 \\
 Comment 4 & Combined Comment 9 \\
-Comment 5 & Combined Comment 12 \\
+Comment 5 & Combined Comment 11 \\
 Comment 6 & Combined Comment 1 \\
 Comment 7 & Combined Comment 2 \\
 Comment 8 & Combined Comment 1 \\
-Comment 9 & Combined Comment 10 \\
-Comment 10 & Combined Comment 7 \\
-Comment 11 & Combined Comment 14 \\
-Comment 12 & Combined Comment 14 \\
+Comment 9 & Combined Comment 16 \\
+Comment 10 & Combined Comment 3 \\
+Comment 11 & Combined Comment 13 \\
+Comment 12 & Combined Comment 13 \\
 Comment 13 & Combined Comment 8 \\
 Comment 14 & Combined Comment 9 \\
-Comment 15 & Combined Comment 11 \\
-Comment 16 & Combined Comment 5 \\
-Comment 17 & Combined Comment 15 \\
-Comment 18 & Combined Comment 4 \\
-Comment 19 & Combined Comment 16 \\
-Comment 20 & Combined Comment 3 \\
-Comment 21 & Combined Comment 4 \\
-Comment 22 & Combined Comment 11 \\
-Comment 23 & Combined Comment 16 \\
-Comment 24 & Combined Comment 11 \\
-Comment 25 & Combined Comment 12 \\
-Comment 26 & Combined Comment 12 \\
-Comment 27 & Combined Comment 13 \\
+Comment 15 & Combined Comment 10 \\
+Comment 16 & Combined Comment 6 \\
+Comment 17 & Combined Comment 14 \\
+Comment 18 & Combined Comment 5 \\
+Comment 19 & Combined Comment 15 \\
+Comment 20 & Combined Comment 4 \\
+Comment 21 & Combined Comment 5 \\
+Comment 22 & Combined Comment 10 \\
+Comment 23 & Combined Comment 15 \\
+Comment 24 & Combined Comment 10 \\
+Comment 25 & Combined Comment 11 \\
+Comment 26 & Combined Comment 11 \\
+Comment 27 & Combined Comment 12 \\
 Comment 28 & Combined Comment 8 \\
 \end{longtable}
 }

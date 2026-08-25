@@ -386,17 +386,21 @@ The revised Introduction distinguishes study scale from the intrinsic complexity
 
 ### Response
 
-The acquisition voltage/gain settings used in this study remain a PLACEHOLDER. We considered evaluating FlowMOP across a range of settings, but these are highly dependent on the instrument, detector, panel, sample type, and experimental conditions; a voltage series on one cytometer would therefore not provide generalisable thresholds for other settings. We therefore did not add this experiment and instead added a combined acquisition/scatter limitation. FlowMOP requires appropriate acquisition voltage/gain settings; if relevant signals are poorly resolved or saturated, the lost information cannot be recovered and reliable cleaning cannot be guaranteed. FlowMOP currently expects users to identify the scatter channels used by the workflow; it has not been validated systematically across 405-nm, 488-nm, and polar 488-nm FSC/SSC configurations on instruments with multiple scatter measurements. Future versions could assess multiple scatter-channel pairs and select or combine the pair with the clearest debris/doublet separation.
+The benchmarking relied on real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, acquisition voltage/gain settings differed among datasets and were not controlled variables in this study. As with the antigen–fluorochrome combinations, these settings are therefore not material to the preprocessing comparisons reported here, and a single voltage/gain specification would not describe the datasets used. We have clarified this scope in the Methods.
+
+Acquisition settings nevertheless determine whether the scatter signals needed by the debris and doublet modules are adequately resolved. FlowMOP requires appropriate acquisition voltage/gain settings; if relevant signals are poorly resolved or saturated, the lost information cannot be recovered and reliable cleaning cannot be guaranteed. FlowMOP currently expects users to identify the scatter channels used by the workflow; it has not been validated systematically across 405-nm, 488-nm, and polar 488-nm FSC/SSC configurations on instruments with multiple scatter measurements. Future versions could assess multiple scatter-channel pairs and select or combine the pair with the clearest debris/doublet separation.
 
 ### Changes made
 
-- The acquisition voltage/gain information remains a PLACEHOLDER.
+- We clarified the dataset-specific acquisition settings in the Methods:
 
-- We did not add a voltage/gain-series experiment because the tested settings would be specific to the instrument, detector, panel, sample type, and experimental conditions rather than broadly generalisable. Instead, we added the following combined acquisition/scatter limitation:
+  > “The benchmarking uses real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations and acquisition voltage/gain settings differ among datasets and were not variables under evaluation; they are therefore not material to the preprocessing comparisons addressed here.”
+
+- We retained the following combined acquisition/scatter limitation:
 
   > “FlowMOP requires appropriate acquisition voltage/gain settings; if relevant signals are poorly resolved or saturated, the lost information cannot be recovered and reliable cleaning cannot be guaranteed. FlowMOP currently expects users to identify the scatter channels used by the workflow; it has not been validated systematically across 405-nm, 488-nm, and polar 488-nm FSC/SSC configurations on instruments with multiple scatter measurements. Future versions could assess multiple scatter-channel pairs and select or combine the pair with the clearest debris/doublet separation.”
 
-**Location:** Discussion, “Other remarks”; acquisition voltage/gain information: PLACEHOLDER.
+**Location:** Methods, “Preparation of Human PBMC Samples for Synthetic Time Benchmarking Samples”; Discussion, “Other remarks.”
 
 ## Combined Comment 9 — Temporal Artifacts and Synthetic Time-Sample Design
 
@@ -424,7 +428,7 @@ The revised text explains the practical relevance of the Bimix and Trimix design
 
 Because the affected intervals can be short and their events interspersed with otherwise plausible events, they are difficult to recognize reliably by eye and impractical to exclude using a series of manual gates. We use “microblockage” for this subtle, self-resolving acquisition failure mode that a time-quality-control method should be able to detect. Estimating its prevalence across experiments would require a separate study.
 
-The Bimix and Trimix samples model the observable fluorescence consequence in this operational definition rather than reproducing or proving a physical obstruction. This distinction is important. The synthetic samples can appear acceptable by eye, but their retained source labels reveal short intervals containing events from an intentionally perturbed fluorescence source. Under the benchmark definition, those events should be excluded even when visual inspection alone would not identify a defensible manual gate. The apparent visual normality of these files is therefore the reason an event-labelled benchmark is needed, not evidence that the modeled problem is unimportant.
+The Bimix and Trimix samples model the observable fluorescence consequence in this operational definition rather than reproducing or proving a physical obstruction. This distinction is important. The synthetic samples can appear acceptable by eye, but their retained source labels reveal short intervals containing events from an intentionally perturbed fluorescence source. Under the benchmark definition, those events should be excluded even when visual inspection alone would not identify a defensible manual gate. The apparent visual normality of these files is therefore the reason an event-labelled benchmark is needed.
 
 The downstream biological-validation analyses are presented together in Combined Comment 3. That evidence provides an independent biological context for the technical benchmark; it is cross-referenced here rather than repeated. Together, the synthetic and biological analyses motivate an evaluation that includes both readily visible sustained artifacts and visually subtle transient microblockages.
 
@@ -496,7 +500,7 @@ In debris-poor sample 6A, we discovered that the FSC-A peak-based procedure was 
 
 The synthetic preparation is now described explicitly. Approximately equal event numbers were sampled from the high-debris and low-debris sources and concatenated into matched mixtures while retaining source labels. These source labels provide the objective basis for the reported post-cleaning proportions.
 
-The requested human comparison is already represented by the percentage-based analysis in Figure 3. FlowMOP's enrichment of the labelled low-debris component is compared directly with four expert gates, with mean percentages, variability, and paired statistical comparisons. Because the input event count differs between samples, percentage-based retention and enrichment are more directly comparable than raw removed-event counts.
+The requested human comparison is represented by the percentage-based analysis in Figure 3. FlowMOP's enrichment of the labelled low-debris component is compared directly with four expert gates, with mean percentages, variability, and paired statistical comparisons. Because the input event count differs between samples, percentage-based retention and enrichment are more directly comparable than raw removed-event counts.
 
 FlowMOP determines its debris gate independently for each sample, whereas manual debris gating is commonly performed groupwise by applying one gate across related samples. We therefore also asked the experts to perform both groupwise and individual-sample gating. No difference was detected between these strategies for any expert (Fig. 3D, unadjusted paired t-tests, p > 0.05), indicating that the comparison with FlowMOP was not driven by this difference in gating strategy.
 
@@ -612,7 +616,7 @@ The revised Methods now state:
 
 ### Response
 
-The duplicated cytometer sentence has been removed. The benchmarking uses real, existing datasets acquired with biology-specific antibody panels. Consequently, the antigen–fluorochrome combinations differ among datasets and are not variables under evaluation; they are not material to the preprocessing questions raised here. We have clarified this scope in the Methods rather than presenting a single fluorochrome list that would not describe the distinct panels used across the benchmark datasets.
+The duplicated cytometer sentence has been removed. The benchmarking uses real, existing datasets acquired with experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations differ among datasets and are not variables under evaluation; they are not material to the preprocessing comparisons raised here. We have clarified this scope in the Methods rather than presenting a single fluorochrome list that would not describe the distinct panels used across the benchmark datasets.
 
 ### Changes made
 
@@ -620,7 +624,7 @@ The duplicated cytometer sentence has been removed. The benchmarking uses real, 
 
 - We clarified why a single fluorochrome list is not applicable across the benchmark datasets:
 
-  > “The benchmarking uses real, existing datasets acquired with biology-specific antibody panels. Consequently, the antigen–fluorochrome combinations differ among datasets and are not variables under evaluation; they are not material to the preprocessing questions addressed here.”
+  > “The benchmarking uses real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations and acquisition voltage/gain settings differ among datasets and were not variables under evaluation; they are therefore not material to the preprocessing comparisons addressed here.”
 
 **Location:** Methods, “Preparation of Human PBMC Samples for Synthetic Time Benchmarking Samples.”
 
@@ -715,10 +719,6 @@ The manuscript has been considerably restructured and rewritten. The Abstract no
 ## Associate Editor's Closing Request
 
 > Finally, I ask that the authors also provide thorough and complete responses to all comments raised by the other reviewers.
-
-**Response:** Every comment from Reviewers 1 and 2 is covered in this response, and the coverage index below identifies the consolidated response containing each point. Completed revisions are described and quoted where available; any remaining author-supplied methodological details are clearly marked as placeholders.
-
-**Location:** Not applicable.
 
 ## Comment Coverage Index
 

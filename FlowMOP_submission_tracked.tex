@@ -42,6 +42,7 @@
 \rotfloatpagestyle{plain}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{\baselineskip}
+\raggedbottom
 
 \begin{center}
 {\LARGE\bfseries FlowMOP: An Automated Flow Cytometry Time, Debris, and
@@ -657,7 +658,7 @@ events.}
 
 \begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{figs_data/figure_2.png}
+\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio,trim=6pt 157pt 4pt 7pt,clip]{figs_data/figure_2.pdf}
 \begingroup
 \renewcommand{\thefigure}{2}
 \caption{A) Representative flow cytometry plots showing CD3 fluorescence against time. The original synthetically generated sample is shown in column 1, with the resulting output following FlowMOP, PeacoQC, and FlowCut processing shown in the subsequent columns. The first row depicts a representative `segmentation'-based synthetic file. The second row shows a representative two-sample mixture with a 5000-event bin size. Frequency percentages shown are the percentage of cells left post-cleaning relative to the original synthetic sample (rounded to the nearest percentage point). B) {\color{revisionblue}Violin plots showing sensitivity and specificity, grouped by sample type (Segment, Bimix, and Trimix) and cleaning method (FlowMOP, PeacoQC, and FlowCut). Internal dashed lines indicate quartiles. The first and second rows represent mixing-bin sizes of 5000 events (n = 90: Segment, 33; Bimix, 33; Trimix, 24) and 2000 events (n = 83: Segment, 32; Bimix, 28; Trimix, 23), respectively. Brackets show significant Bonferroni-adjusted paired t-tests.}}
@@ -832,7 +833,7 @@ Benchmark}\label{synthetic-debris-gating-benchmark}
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image3.png}
 \begingroup
 \renewcommand{\thefigure}{3}
-\caption{A) Representative flow cytometry plots showing FSC-A/SSC-A debris plots. The first plot represents a representative combined high + low debris sample, the second and third represent the high debris portion and the low debris portion of that sample respectively. The percentages below denote the proportion of the combined sample represented by the annotated plot. B) FSC-A/SSC-A flow plots of the Fig. 3A's representative sample post-processing. Again, the first column shows the combined high + low debris sample, the second and third show the high debris and low debris samples separately respectively. The percentages in the first column denote the proportion of the sample remaining relative to the original combined sample. Percentages in the high debris and low debris columns denote the post-filtering proportion that each comprises (rounded to the nearest percentage). C) Bar plot representing mean proportion percentage ± SD of low debris sample remaining post-processing for FlowMOP and four human experts. FlowMOP has significantly higher low debris sample proportion than Expert 4 (Bonferroni adjusted paired t-test, p = 0.04). D) Bar plots showing mean low debris sample proportion percentage ± SD following human expert gating using either a group or per-sample based strategy (Blue bars denote group-wise results, green sample-wise). No difference was found between the two methods (un-adjusted paired t-test, p \textgreater{} 0.05).}
+\caption{{\color{revisionblue}A) Representative flow cytometry plots showing FSC-A/SSC-A debris plots. The first plot represents a representative combined high + low debris sample, the second and third represent the high debris portion and the low debris portion of that sample respectively. The percentages below denote the proportion of the combined sample represented by the annotated plot. B) FSC-A/SSC-A flow plots of the Fig. 3A's representative sample post-processing. Again, the first column shows the combined high + low debris sample, the second and third show the high debris and low debris samples separately respectively. The percentages in the first column denote the proportion of the sample remaining relative to the original combined sample. Percentages in the high debris and low debris columns denote the post-filtering proportion that each comprises (rounded to the nearest percentage). C) Bar plot representing mean proportion percentage ± SD of low debris sample remaining post-processing for FlowMOP and four human experts. FlowMOP has significantly higher low debris sample proportion than Expert 4 (Bonferroni adjusted paired t-test, p = 0.04). D) Mean low-debris sample proportion ± SD after human-expert debris gating using either a shared groupwise gate or gates drawn independently for each sample (blue, groupwise; green, individual-sample). No difference was found between the two approaches (unadjusted paired t-test, p \textgreater{} 0.05).}}
 \endgroup
 \end{figure}
 
@@ -875,7 +876,7 @@ was compared with the proportions remaining after human-expert gating
 \includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{FlowMOP_submission_media/image4.png}
 \begingroup
 \renewcommand{\thefigure}{4}
-\caption{A) Representative flow cytometry plots of synthetic doublet samples and gating. The first row shows all samples by CTV against CFSE, the second FSC-A/FSC-H, and the last by SSC-H/SSC-A. The columns show representative CTV-only stained, CFSE-only stained, mixed CTV-CFSE, human expert doublet-removed, and FlowMOP doublet removed samples. B) Bar graph showing the mean percentage ± SD of CTV-CFSE double positive events removed (relative to the original sample) following FlowMOP or human expert processing. C) Bar graphs showing mean frequency ± SD of remaining CTV-CFSE double positive events following human expert processing, comparing group and per-sample based gating strategies (Blue bars denote group-wise results, green sample-wise). Only Expert 3 had significantly different results (unadjusted paired t-test, p = 0.009, all others p \textgreater{} 0.05).}
+\caption{{\color{revisionblue}A) Representative flow cytometry plots of synthetic doublet samples and gating. The first row shows all samples by CTV against CFSE, the second FSC-A/FSC-H, and the last by SSC-H/SSC-A. The columns show representative CTV-only stained, CFSE-only stained, mixed CTV-CFSE, human expert doublet-removed, and FlowMOP doublet removed samples. B) Bar graph showing the mean percentage ± SD of CTV-CFSE double positive events removed (relative to the original sample) following FlowMOP or human expert processing. C) Mean frequency ± SD of remaining CTV-CFSE double-positive events after human-expert doublet gating using either a shared groupwise gate or gates drawn independently for each sample (blue, groupwise; green, individual-sample). Only Expert 3 differed between the two approaches (unadjusted paired t-test, p = 0.009; all others p \textgreater{} 0.05).}}
 \endgroup
 \end{figure}
 
@@ -957,20 +958,38 @@ lineage frequencies, with a modest difference in Live CD45+ frequency.}
 
 \begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{figs_data/figure_5.pdf}
+\includegraphics[width=\linewidth,height=0.68\textheight,keepaspectratio,trim=0pt 1394pt 0pt 0pt,clip]{figs_data/figure_5.pdf}
 \begingroup
 \renewcommand{\thefigure}{5}
 \caption{{\color{revisionblue}Biological validation of time cleaning relative to matched ungated inputs. A) Representative time and downstream biological gates for Raw, Expert Manual, FlowMOP, PeacoQC, and FlowCut. B) Counts and C) frequencies for Live CD45+, B, T, and NKT cells, each normalized within sample to its corresponding matched Raw value (Raw = 1). Before normalization, Live CD45+ frequency was calculated relative to Live cells and B-, T-, and NKT-cell frequencies relative to Live CD45+ cells. Points represent matched samples, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Raw comparisons are omitted from the brackets; every count comparison with Raw was significant, while frequency comparisons with Raw are provided in the Supplementary Data. Displayed brackets show significant method-versus-method two-sided paired \emph{t}-tests after Holm adjustment, with adjusted values labelled ``p'' for brevity. One sample was excluded from NKT analyses because no NKT cells were detected (n = 35); all other analyses use n = 36.}}
 \endgroup
 \end{figure}
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth,height=0.38\textheight,keepaspectratio,trim=0pt 704pt 0pt 1630pt,clip]{figs_data/figure_5.pdf}
+\vspace{0.8em}
+\includegraphics[width=\linewidth,height=0.38\textheight,keepaspectratio,trim=0pt 0pt 0pt 2320pt,clip]{figs_data/figure_5.pdf}
+\caption*{\textbf{Figure 5 (continued)}}
+\end{figure}
 
 \begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{figs_data/figure_6.pdf}
+\includegraphics[width=\linewidth,height=0.46\textheight,keepaspectratio,trim=15pt 3324pt 30pt 20pt,clip]{figs_data/figure_6.pdf}
+\vspace{0.8em}
+\includegraphics[width=\linewidth,height=0.35\textheight,keepaspectratio,trim=15pt 2374pt 30pt 1235pt,clip]{figs_data/figure_6.pdf}
 \begingroup
 \renewcommand{\thefigure}{6}
 \caption{{\color{revisionblue}Biological validation of debris, doublet, and combined cleanup relative to matched ungated inputs. A) Debris comparison for Ungated input, Expert Manual, and FlowMOP. B) Doublet comparison. C) Combined Time + Debris + Doublet comparison. Each representative row shows the cleaning decision projection and the corresponding Live CD45+, shared CD19 × CD3 B/T, and NKT gates; doublet rows show both FSC-H × FSC-W and SSC-H × SSC-W projections. D) Counts and E) frequencies for Live CD45+, B, T, and NKT cells, each normalized within sample to its corresponding matched Raw value (Raw = 1), in the Debris, Doublet, and Combined comparisons. Before normalization, Live CD45+ frequency was calculated relative to Live cells and B-, T-, and NKT-cell frequencies relative to Live CD45+ cells. Points represent matched samples, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Raw comparisons are omitted from the brackets; every count comparison with Raw was significant, while frequency comparisons with Raw are provided in the Supplementary Data. Displayed brackets show significant method-versus-method two-sided paired \emph{t}-tests after Holm adjustment, with adjusted values labelled ``p'' for brevity. One sample was excluded from NKT analyses because no NKT cells were detected (n = 35); all other analyses use n = 36.}}
 \endgroup
+\end{figure}
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth,height=0.36\textheight,keepaspectratio,trim=0pt 1364pt 0pt 2160pt,clip]{figs_data/figure_6.pdf}
+\vspace{0.8em}
+\includegraphics[width=\linewidth,height=0.27\textheight,keepaspectratio,trim=0pt 644pt 0pt 3100pt,clip]{figs_data/figure_6.pdf}
+\vspace{0.8em}
+\includegraphics[width=\linewidth,height=0.24\textheight,keepaspectratio,trim=0pt 0pt 0pt 3820pt,clip]{figs_data/figure_6.pdf}
+\caption*{\textbf{Figure 6 (continued)}}
 \end{figure}
 
 \subsection{\texorpdfstring{{\color{revisionblue}Tumour biological
@@ -1177,11 +1196,12 @@ used in manual analysis, where a shared gate is applied across related
 samples. Estimating each gate independently allows FlowMOP to adapt to
 sample-specific distributions without assuming that scatter
 characteristics are identical across a group. In the synthetic controls,
-expert results did not differ between groupwise and individual-sample
-debris gating, and differed for doublet gating for only one expert. This
-indicates that the overall comparison between FlowMOP and expert gating
-was not primarily determined by the choice of groupwise or
-individual-sample gates.}
+expert results did not differ between shared groupwise and
+individual-sample debris gates (Fig. 3D), and differed for doublet
+gating for only one expert (Fig. 4C). This indicates that the overall
+comparison between FlowMOP and expert gating was not primarily
+determined by whether gates were shared across the group or estimated
+separately for each sample.}
 
 {\color{revisionblue}The synthetic debris benchmark measures depletion
 of the source-labelled high-debris component from matched mixtures of

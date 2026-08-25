@@ -99,10 +99,83 @@ local function caption_details(block, kind)
   return label, caption_tex
 end
 
+local function cropped_include(source, trim, height)
+  return table.concat({
+    "\\includegraphics[width=\\linewidth,height=" .. height .. "\\textheight,keepaspectratio,",
+    "trim=" .. trim .. ",clip]{" .. source .. "}"
+  })
+end
+
+local function split_figure_block(source, caption, label)
+  local _, caption_tex = caption_details(caption, "Figure")
+  local parts
+
+  if label == "5" then
+    parts = {
+      {
+        images = {
+          cropped_include(source, "0pt 1394pt 0pt 0pt", "0.68")
+        },
+        caption = "full"
+      },
+      {
+        images = {
+          cropped_include(source, "0pt 704pt 0pt 1630pt", "0.38"),
+          cropped_include(source, "0pt 0pt 0pt 2320pt", "0.38")
+        },
+        caption = "continued"
+      }
+    }
+  elseif label == "6" then
+    parts = {
+      {
+        images = {
+          cropped_include(source, "15pt 3324pt 30pt 20pt", "0.46"),
+          cropped_include(source, "15pt 2374pt 30pt 1235pt", "0.35")
+        },
+        caption = "full"
+      },
+      {
+        images = {
+          cropped_include(source, "0pt 1364pt 0pt 2160pt", "0.36"),
+          cropped_include(source, "0pt 644pt 0pt 3100pt", "0.27"),
+          cropped_include(source, "0pt 0pt 0pt 3820pt", "0.24")
+        },
+        caption = "continued"
+      }
+    }
+  else
+    return nil
+  end
+
+  local latex = pandoc.List()
+  for _, part in ipairs(parts) do
+    latex:insert("\\begin{figure}[p]")
+    latex:insert("\\centering")
+    for image_index, include_tex in ipairs(part.images) do
+      if image_index > 1 then
+        latex:insert("\\vspace{0.8em}")
+      end
+      latex:insert(include_tex)
+    end
+    if part.caption == "full" then
+      latex:insert("\\begingroup")
+      latex:insert("\\renewcommand{\\thefigure}{" .. label .. "}")
+      latex:insert("\\caption{" .. caption_tex .. "}")
+      latex:insert("\\endgroup")
+    else
+      latex:insert("\\caption*{\\textbf{Figure " .. label .. " (continued)}}")
+    end
+    latex:insert("\\end{figure}")
+  end
+
+  return pandoc.RawBlock("latex", table.concat(latex, "\n"))
+end
+
 local function figure_block(image, caption)
   local source = image.src:gsub("\\", "/")
-  if source:match("figs_data/figure_[567]%.svg$") then
-    -- Figures 5--7 contain vector text, axes, and statistical panels with
+  if source:match("figs_data/figure_[2567]%.svg$") then
+    -- Figures 2 and 5--7 contain vector text, axes, and statistical panels with
     -- raster data only for the flow-density layers. The manuscript build
     -- converts these SVG sources to PDF so LaTeX preserves that structure.
     source = source:gsub("%.svg$", ".pdf")
@@ -110,6 +183,22 @@ local function figure_block(image, caption)
     source = source:gsub("%.svg$", ".png")
   end
   local label, caption_tex = caption_details(caption, "Figure")
+  if label == "2" then
+    local latex = table.concat({
+      "\\begin{figure}[p]",
+      "\\centering",
+      cropped_include(source, "6pt 157pt 4pt 7pt", "0.82"),
+      "\\begingroup",
+      "\\renewcommand{\\thefigure}{2}",
+      "\\caption{" .. caption_tex .. "}",
+      "\\endgroup",
+      "\\end{figure}"
+    }, "\n")
+    return pandoc.RawBlock("latex", latex)
+  end
+  if label == "5" or label == "6" then
+    return split_figure_block(source, caption, label)
+  end
   local latex = table.concat({
     "\\begin{figure}[p]",
     "\\centering",

@@ -17,7 +17,7 @@ pandoc_path() {
 
 build_vector_figures() {
   local figure_number
-  for figure_number in 5 6 7; do
+  for figure_number in 2 5 6 7; do
     "${cairosvg_bin}" \
       "${script_dir}/figs_data/figure_${figure_number}.svg" \
       --output "${script_dir}/figs_data/figure_${figure_number}.pdf"

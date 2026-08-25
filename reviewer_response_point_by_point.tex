@@ -1255,33 +1255,43 @@ data? It would be nice to discuss this in the Discussion.
 
 \subsubsection{Response}\label{response-7}
 
-The acquisition voltage/gain settings used in this study remain a
-PLACEHOLDER. We considered evaluating FlowMOP across a range of
-settings, but these are highly dependent on the instrument, detector,
-panel, sample type, and experimental conditions; a voltage series on one
-cytometer would therefore not provide generalisable thresholds for other
-settings. We therefore did not add this experiment and instead added a
-combined acquisition/scatter limitation. FlowMOP requires appropriate
-acquisition voltage/gain settings; if relevant signals are poorly
-resolved or saturated, the lost information cannot be recovered and
-reliable cleaning cannot be guaranteed. FlowMOP currently expects users
-to identify the scatter channels used by the workflow; it has not been
-validated systematically across 405-nm, 488-nm, and polar 488-nm FSC/SSC
-configurations on instruments with multiple scatter measurements. Future
-versions could assess multiple scatter-channel pairs and select or
-combine the pair with the clearest debris/doublet separation.
+The benchmarking relied on real, existing datasets, each acquired using
+experiment-specific, biology-driven antibody panels and instrument
+settings. Consequently, acquisition voltage/gain settings differed among
+datasets and were not controlled variables in this study. As with the
+antigen--fluorochrome combinations, these settings are therefore not
+material to the preprocessing comparisons reported here, and a single
+voltage/gain specification would not describe the datasets used. We have
+clarified this scope in the Methods.
+
+Acquisition settings nevertheless determine whether the scatter signals
+needed by the debris and doublet modules are adequately resolved.
+FlowMOP requires appropriate acquisition voltage/gain settings; if
+relevant signals are poorly resolved or saturated, the lost information
+cannot be recovered and reliable cleaning cannot be guaranteed. FlowMOP
+currently expects users to identify the scatter channels used by the
+workflow; it has not been validated systematically across 405-nm,
+488-nm, and polar 488-nm FSC/SSC configurations on instruments with
+multiple scatter measurements. Future versions could assess multiple
+scatter-channel pairs and select or combine the pair with the clearest
+debris/doublet separation.
 
 \subsubsection{Changes made}\label{changes-made-7}
 
 \begin{itemize}
 \item
-  The acquisition voltage/gain information remains a PLACEHOLDER.
+  We clarified the dataset-specific acquisition settings in the Methods:
+
+  \begin{quote}
+  ``The benchmarking uses real, existing datasets, each acquired using
+  experiment-specific, biology-driven antibody panels and instrument
+  settings. Consequently, the antigen--fluorochrome combinations and
+  acquisition voltage/gain settings differ among datasets and were not
+  variables under evaluation; they are therefore not material to the
+  preprocessing comparisons addressed here.''
+  \end{quote}
 \item
-  We did not add a voltage/gain-series experiment because the tested
-  settings would be specific to the instrument, detector, panel, sample
-  type, and experimental conditions rather than broadly generalisable.
-  Instead, we added the following combined acquisition/scatter
-  limitation:
+  We retained the following combined acquisition/scatter limitation:
 
   \begin{quote}
   ``FlowMOP requires appropriate acquisition voltage/gain settings; if
@@ -1296,8 +1306,8 @@ combine the pair with the clearest debris/doublet separation.
   \end{quote}
 \end{itemize}
 
-\textbf{Location:} Discussion, ``Other remarks''; acquisition
-voltage/gain information: PLACEHOLDER.
+\textbf{Location:} Methods, ``Preparation of Human PBMC Samples for
+Synthetic Time Benchmarking Samples''; Discussion, ``Other remarks.''
 
 \subsection{Combined Comment 9 --- Temporal Artifacts and Synthetic
 Time-Sample
@@ -1381,8 +1391,7 @@ intentionally perturbed fluorescence source. Under the benchmark
 definition, those events should be excluded even when visual inspection
 alone would not identify a defensible manual gate. The apparent visual
 normality of these files is therefore the reason an event-labelled
-benchmark is needed, not evidence that the modeled problem is
-unimportant.
+benchmark is needed.
 
 The downstream biological-validation analyses are presented together in
 Combined Comment 3. That evidence provides an independent biological
@@ -1616,13 +1625,13 @@ sources and concatenated into matched mixtures while retaining source
 labels. These source labels provide the objective basis for the reported
 post-cleaning proportions.
 
-The requested human comparison is already represented by the
-percentage-based analysis in Figure 3. FlowMOP\textquotesingle s
-enrichment of the labelled low-debris component is compared directly
-with four expert gates, with mean percentages, variability, and paired
-statistical comparisons. Because the input event count differs between
-samples, percentage-based retention and enrichment are more directly
-comparable than raw removed-event counts.
+The requested human comparison is represented by the percentage-based
+analysis in Figure 3. FlowMOP\textquotesingle s enrichment of the
+labelled low-debris component is compared directly with four expert
+gates, with mean percentages, variability, and paired statistical
+comparisons. Because the input event count differs between samples,
+percentage-based retention and enrichment are more directly comparable
+than raw removed-event counts.
 
 FlowMOP determines its debris gate independently for each sample,
 whereas manual debris gating is commonly performed groupwise by applying
@@ -1910,13 +1919,13 @@ antibodies.
 \subsubsection{Response}\label{response-12}
 
 The duplicated cytometer sentence has been removed. The benchmarking
-uses real, existing datasets acquired with biology-specific antibody
-panels. Consequently, the antigen--fluorochrome combinations differ
-among datasets and are not variables under evaluation; they are not
-material to the preprocessing questions raised here. We have clarified
-this scope in the Methods rather than presenting a single fluorochrome
-list that would not describe the distinct panels used across the
-benchmark datasets.
+uses real, existing datasets acquired with experiment-specific,
+biology-driven antibody panels and instrument settings. Consequently,
+the antigen--fluorochrome combinations differ among datasets and are not
+variables under evaluation; they are not material to the preprocessing
+comparisons raised here. We have clarified this scope in the Methods
+rather than presenting a single fluorochrome list that would not
+describe the distinct panels used across the benchmark datasets.
 
 \subsubsection{Changes made}\label{changes-made-12}
 
@@ -1929,11 +1938,12 @@ benchmark datasets.
   the benchmark datasets:
 
   \begin{quote}
-  ``The benchmarking uses real, existing datasets acquired with
-  biology-specific antibody panels. Consequently, the
-  antigen--fluorochrome combinations differ among datasets and are not
-  variables under evaluation; they are not material to the preprocessing
-  questions addressed here.''
+  ``The benchmarking uses real, existing datasets, each acquired using
+  experiment-specific, biology-driven antibody panels and instrument
+  settings. Consequently, the antigen--fluorochrome combinations and
+  acquisition voltage/gain settings differ among datasets and were not
+  variables under evaluation; they are therefore not material to the
+  preprocessing comparisons addressed here.''
   \end{quote}
 \end{itemize}
 
@@ -2133,14 +2143,6 @@ Request}\label{associate-editors-closing-request}
 Finally, I ask that the authors also provide thorough and complete
 responses to all comments raised by the other reviewers.
 \end{quote}
-
-\textbf{Response:} Every comment from Reviewers 1 and 2 is covered in
-this response, and the coverage index below identifies the consolidated
-response containing each point. Completed revisions are described and
-quoted where available; any remaining author-supplied methodological
-details are clearly marked as placeholders.
-
-\textbf{Location:} Not applicable.
 
 \subsection{Comment Coverage Index}\label{comment-coverage-index}
 

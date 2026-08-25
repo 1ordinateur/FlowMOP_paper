@@ -101,7 +101,14 @@ end
 
 local function figure_block(image, caption)
   local source = image.src:gsub("\\", "/")
-  source = source:gsub("%.svg$", ".png")
+  if source:match("figs_data/figure_[567]%.svg$") then
+    -- Figures 5--7 contain vector text, axes, and statistical panels with
+    -- raster data only for the flow-density layers. The manuscript build
+    -- converts these SVG sources to PDF so LaTeX preserves that structure.
+    source = source:gsub("%.svg$", ".pdf")
+  else
+    source = source:gsub("%.svg$", ".png")
+  end
   local label, caption_tex = caption_details(caption, "Figure")
   local latex = table.concat({
     "\\begin{figure}[p]",

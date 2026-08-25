@@ -4,6 +4,7 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 pandoc_bin="${PANDOC_BIN:-pandoc}"
 tectonic_bin="${TECTONIC_BIN:-tectonic}"
+cairosvg_bin="${CAIROSVG_BIN:-cairosvg}"
 
 pandoc_path() {
   local path="$1"
@@ -12,6 +13,15 @@ pandoc_path() {
   else
     printf '%s\n' "${path}"
   fi
+}
+
+build_vector_figures() {
+  local figure_number
+  for figure_number in 5 6 7; do
+    "${cairosvg_bin}" \
+      "${script_dir}/figs_data/figure_${figure_number}.svg" \
+      --output "${script_dir}/figs_data/figure_${figure_number}.pdf"
+  done
 }
 
 build_manuscript() {
@@ -57,6 +67,8 @@ build_manuscript() {
     --outdir "${script_dir}" \
     "${script_dir}/${output_stem}.tex"
 }
+
+build_vector_figures
 
 build_manuscript \
   "FlowMOP_submission.md" \

@@ -16,12 +16,39 @@ pandoc_path() {
 }
 
 build_vector_figures() {
+  MPLCONFIGDIR="${TMPDIR:-/tmp}/flowmop-matplotlib" \
+    python3 "${script_dir}/figs_data/harmonize_figures_2_3.py"
+
   local figure_number
-  for figure_number in 2 5 6 7; do
+  for figure_number in 2 3 5 6 7; do
     "${cairosvg_bin}" \
       "${script_dir}/figs_data/figure_${figure_number}.svg" \
       --output "${script_dir}/figs_data/figure_${figure_number}.pdf"
   done
+  local figure_panel
+  for figure_panel in \
+    figure_2_panel_a \
+    figure_2_panel_b \
+    figure_3_panel_a \
+    figure_3_panel_b \
+    figure_3_panel_cd; do
+    "${cairosvg_bin}" \
+      "${script_dir}/figs_data/${figure_panel}.svg" \
+      --output "${script_dir}/figs_data/${figure_panel}.pdf"
+  done
+  python3 "${script_dir}/figs_data/fig_4_data/harmonize_figure_4.py"
+  "${cairosvg_bin}" \
+    "${script_dir}/figs_data/figure_4_harmonized.svg" \
+    --output "${script_dir}/figs_data/figure_4_harmonized.pdf"
+  "${cairosvg_bin}" \
+    "${script_dir}/figs_data/figure_4_panel_a.svg" \
+    --output "${script_dir}/figs_data/figure_4_panel_a.pdf"
+  "${cairosvg_bin}" \
+    "${script_dir}/figs_data/figure_4_panel_bc.svg" \
+    --output "${script_dir}/figs_data/figure_4_panel_bc.pdf"
+  "${cairosvg_bin}" \
+    "${script_dir}/figs_data/Supp_fig_8.svg" \
+    --output "${script_dir}/figs_data/Supp_fig_8.pdf"
 }
 
 build_manuscript() {

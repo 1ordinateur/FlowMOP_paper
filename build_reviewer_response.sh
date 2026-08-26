@@ -4,6 +4,8 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 pandoc_bin="${PANDOC_BIN:-pandoc}"
 tectonic_bin="${TECTONIC_BIN:-tectonic}"
+input_stem="${1:-reviewer_response_point_by_point}"
+output_stem="${2:-${input_stem}}"
 
 pandoc_path() {
   local path="$1"
@@ -17,8 +19,8 @@ pandoc_path() {
 pandoc_root="$(pandoc_path "${script_dir}")"
 pandoc_header="$(pandoc_path "${script_dir}/latex/reviewer-response-header.tex")"
 pandoc_filter="$(pandoc_path "${script_dir}/latex/reviewer-response-format.lua")"
-pandoc_input="$(pandoc_path "${script_dir}/reviewer_response_point_by_point.md")"
-pandoc_output="$(pandoc_path "${script_dir}/reviewer_response_point_by_point.tex")"
+pandoc_input="$(pandoc_path "${script_dir}/${input_stem}.md")"
+pandoc_output="$(pandoc_path "${script_dir}/${output_stem}.tex")"
 
 "${pandoc_bin}" \
   --from=gfm \
@@ -39,4 +41,4 @@ pandoc_output="$(pandoc_path "${script_dir}/reviewer_response_point_by_point.tex
 "${tectonic_bin}" \
   --chatter minimal \
   --outdir "${script_dir}" \
-  "${script_dir}/reviewer_response_point_by_point.tex"
+  "${script_dir}/${output_stem}.tex"

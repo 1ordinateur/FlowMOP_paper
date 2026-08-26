@@ -2,6 +2,32 @@
 -- proportional widths. Pandoc otherwise emits natural-width columns, which
 -- do not wrap long reviewer comments or coverage-index labels.
 
+local function tracked_inline(el)
+  if el.format ~= "html" then
+    return nil
+  end
+  if el.text:match('^<span%s+style="color:#0066cc">$') then
+    return pandoc.RawInline("latex", "{\\color{revisionblue}")
+  end
+  if el.text:match('^<span%s+style="color:#c00000">$') then
+    return pandoc.RawInline("latex", "{\\color{revisionred}")
+  end
+  if el.text == "</span>" then
+    return pandoc.RawInline("latex", "}")
+  end
+  if el.text == "<s>" then
+    return pandoc.RawInline("latex", "\\sout{")
+  end
+  if el.text == "</s>" then
+    return pandoc.RawInline("latex", "}")
+  end
+  return nil
+end
+
+function RawInline(el)
+  return tracked_inline(el)
+end
+
 function Table(table_block)
   local column_count = #table_block.colspecs
   if column_count == 0 then

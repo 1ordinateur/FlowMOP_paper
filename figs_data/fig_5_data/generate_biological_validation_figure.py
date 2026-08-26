@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Generate PBMC biological-validation Figure 5 and its audit tables.
+"""Generate PBMC biological-validation Figures 5 and 6 and their audit tables.
 
-The analysis treats the 36 FCS files as distinct matched biological samples.
+The analysis uses one prespecified technical repeat from each of eight
+independent sample groups.
 Nadia's gates are imported from the FlowJo workspace with FlowKit. Comparator
 and manually cleaned FCS files are mapped back to the row-complete FlowMOP FCS
 files using exact, unique, monotonic event matching.
@@ -40,7 +41,7 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 DEFAULT_SOURCE = REPO.parent / "flowmop_data/nadia_biological_validation"
 
-WORKSPACE_NAME = "FLOWMOP_CLEANUP_COMPARISON_15-Aug-2026.wsp"
+WORKSPACE_NAME = "FLOWMOP_CLEANUP_COMPARISON_15-Aug-2026_v2.wsp"
 RAW_REL = Path("clean_data_03062026_NR_mad5_metadata_preserved")
 METHODS_B = ("Raw", "Nadia Manual", "FlowMOP", "PeacoQC", "FlowCut")
 METHOD_COLOURS = {
@@ -56,7 +57,14 @@ FLOWJO_PSEUDOCOLOR = mpl.colors.LinearSegmentedColormap.from_list(
     ("#000066", "#00FFFF", "#00FF00", "#FFFF00", "#FF0000"),
 )
 SUPPLIED_PDF_SAMPLES = frozenset({"11A", "19A", "22A"})
+ANALYSIS_SAMPLES = ("1B", "5B", "10A", "11B", "16A", "19A", "20A", "22A")
+TIME_REPRESENTATIVE = "19A"
+DEBRIS_REPRESENTATIVE = "19A"
+EXPECTED_INPUT_FILES = 36
+EXPECTED_ANALYSIS_SAMPLES = 8
+EXPECTED_NKT_SAMPLES = 8
 ENDPOINTS = ("live_cd45", "b_cells", "t_cells", "nkt_cells")
+DISPLAY_ENDPOINTS = ("b_cells", "t_cells", "nkt_cells")
 METRICS = ("count", "frequency")
 POPULATION_LABELS = {
     "live_cd45": "Live CD45+",
@@ -67,9 +75,9 @@ POPULATION_LABELS = {
 ENDPOINT_LABELS = {endpoint: f"{label} count" for endpoint, label in POPULATION_LABELS.items()}
 FREQUENCY_PARENTS = {
     "live_cd45": "live_cells",
-    "b_cells": "live_cd45",
-    "t_cells": "live_cd45",
-    "nkt_cells": "live_cd45",
+    "b_cells": "live_cells",
+    "t_cells": "live_cells",
+    "nkt_cells": "live_cells",
 }
 
 MANUAL_BASE = ("Time gate", "Single Cells", "Single Cells", "Cells")
@@ -77,8 +85,8 @@ NONTIME_BASE = ("Single Cells", "Single Cells", "Cells")
 BIO_PATHS = {
     "live_cells": ("Live cells",),
     "live_cd45": ("Live cells", "CD45+"),
-    "q1_b": ("Live cells", "Q1: CD3- , CD19+"),
-    "q3_t": ("Live cells", "Q3: CD3+ , CD19-"),
+    "q1_b": ("Live cells", "CD45+", "Q1: CD3- , CD19+"),
+    "q3_t": ("Live cells", "CD45+", "Q3: CD3+ , CD19-"),
     "cd19_negative": ("Live cells", "CD45+", "CD19-"),
     "nkt_cells": ("Live cells", "CD45+", "CD19-", "NKT cells"),
 }
@@ -88,10 +96,10 @@ VALIDATED_GATE_PATHS = {
     "debris": ("Single Cells", "Single Cells", "Cells"),
     "live": ("Single Cells", "Single Cells", "Cells", "Live cells"),
     "cd45": ("Single Cells", "Single Cells", "Cells", "Live cells", "CD45+"),
-    "q1_b": ("Single Cells", "Single Cells", "Cells", "Live cells", "Q1: CD3- , CD19+"),
-    "q2": ("Single Cells", "Single Cells", "Cells", "Live cells", "Q2: CD3+ , CD19+"),
-    "q3_t": ("Single Cells", "Single Cells", "Cells", "Live cells", "Q3: CD3+ , CD19-"),
-    "q4": ("Single Cells", "Single Cells", "Cells", "Live cells", "Q4: CD3- , CD19-"),
+    "q1_b": ("Single Cells", "Single Cells", "Cells", "Live cells", "CD45+", "Q1: CD3- , CD19+"),
+    "q2": ("Single Cells", "Single Cells", "Cells", "Live cells", "CD45+", "Q2: CD3+ , CD19+"),
+    "q3_t": ("Single Cells", "Single Cells", "Cells", "Live cells", "CD45+", "Q3: CD3+ , CD19-"),
+    "q4": ("Single Cells", "Single Cells", "Cells", "Live cells", "CD45+", "Q4: CD3- , CD19-"),
     "cd19_negative": ("Single Cells", "Single Cells", "Cells", "Live cells", "CD45+", "CD19-"),
     "nkt_cells": (
         "Single Cells", "Single Cells", "Cells", "Live cells", "CD45+", "CD19-", "NKT cells"
@@ -201,14 +209,27 @@ def inventory_inputs(source: Path) -> tuple[list[str], dict[str, dict[str, Path]
         files[kind] = mapping
 
     raw_ids = set(files["raw"])
-    if len(raw_ids) != 36:
-        raise AssertionError(f"Expected exactly 36 raw samples, found {len(raw_ids)}")
+    if len(raw_ids) != EXPECTED_INPUT_FILES:
+        raise AssertionError(
+            f"Expected exactly {EXPECTED_INPUT_FILES} raw input files, found {len(raw_ids)}"
+        )
     for kind, mapping in files.items():
         if set(mapping) != raw_ids:
             missing = sorted(raw_ids - set(mapping), key=natural_sample_key)
             extra = sorted(set(mapping) - raw_ids, key=natural_sample_key)
             raise AssertionError(f"{kind}: IDs differ from raw set; missing={missing}, extra={extra}")
-    return sorted(raw_ids, key=natural_sample_key), files
+    analysis_ids = set(ANALYSIS_SAMPLES)
+    if not analysis_ids.issubset(raw_ids):
+        missing = sorted(analysis_ids - raw_ids, key=natural_sample_key)
+        raise AssertionError(f"Missing selected biological-validation repeats: {missing}")
+    if len(analysis_ids) != EXPECTED_ANALYSIS_SAMPLES:
+        raise AssertionError(
+            f"Expected exactly {EXPECTED_ANALYSIS_SAMPLES} selected sample groups, "
+            f"found {len(analysis_ids)}"
+        )
+    # Retain the complete file inventory for representative rendering and
+    # validation. Only ANALYSIS_SAMPLES enter the inferential analysis below.
+    return sorted(analysis_ids, key=natural_sample_key), files
 
 
 def workspace_records(
@@ -395,6 +416,17 @@ def processed_column(df: pd.DataFrame, channel: str) -> str:
     return matches[0]
 
 
+def geometric_gate_membership(gate: object, processed: pd.DataFrame) -> np.ndarray:
+    """Apply stored gate coordinates without inheriting the workspace parent mask."""
+    frame = pd.DataFrame(
+        {
+            dim.id: processed[processed_column(processed, dim.id)].to_numpy()
+            for dim in gate.dimensions
+        }
+    )
+    return np.asarray(gate.apply(frame), dtype=bool)
+
+
 def write_rows(path: Path, rows: Sequence[dict[str, object]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if not rows:
@@ -445,20 +477,25 @@ def add_bracket(
 
 def clean_svg(path: Path) -> None:
     lines = path.read_text(encoding="utf-8").splitlines()
-    path.write_text("\n".join(line.rstrip() for line in lines) + "\n", encoding="utf-8")
+    # Matplotlib can occasionally leave NUL padding between an embedded PNG
+    # payload and the following SVG attribute. NUL is invalid XML and causes
+    # CairoSVG to reject an otherwise complete figure.
+    path.write_text(
+        "\n".join(line.replace("\x00", "").rstrip() for line in lines) + "\n",
+        encoding="utf-8",
+    )
 
 
 def expected_workspace_endpoint_counts(
     sample: str, records: dict[str, dict[str, ET.Element]]
 ) -> dict[tuple[str, str], int]:
-    """Return only directly stored endpoint counts.
-
-    B and T are intersections of CD45+ with Nadia's Q1 and Q3 gates, so FlowJo
-    does not store those revised endpoint counts as standalone populations.
-    """
+    """Return endpoint counts stored directly in the revised FlowJo hierarchy."""
     result: dict[tuple[str, str], int] = {}
-    for endpoint in ("live_cd45", "nkt_cells"):
-        bio_path = BIO_PATHS[endpoint]
+    # Only Live CD45+ retains a one-to-one stored-workspace endpoint. The
+    # lineage endpoints below deliberately reuse gate coordinates without the
+    # CD45+ parent and therefore cannot be compared with stored hierarchy counts.
+    endpoint_paths = {"live_cd45": BIO_PATHS["live_cd45"]}
+    for endpoint, bio_path in endpoint_paths.items():
         result[("Nadia Manual", endpoint)] = population_count(
             records["flowmop"][sample], MANUAL_BASE + bio_path
         )
@@ -664,10 +701,30 @@ def extract_sample_masks(
         label: gate_membership(ws, sid, path[-1], ("root",) + path[:-1])
         for label, path in BIO_PATHS.items()
     }
-    # Nadia's shared quadrants are children of Live cells rather than CD45+.
-    # The revised biological definitions explicitly intersect them with CD45+.
-    biology["b_cells"] = biology["live_cd45"] & biology["q1_b"]
-    biology["t_cells"] = biology["live_cd45"] & biology["q3_t"]
+    # CD45+ is retained as a standalone reference endpoint. The lineage gates
+    # reuse the expert coordinates but are evaluated within Live cells without
+    # inheriting the CD45+ parent, so preprocessing effects are not hidden by a
+    # downstream CD45+ intersection.
+    q1_gate = ws.get_gate(
+        sid, "Q1: CD3- , CD19+", gate_path=("root", "Live cells", "CD45+")
+    )
+    q3_gate = ws.get_gate(
+        sid, "Q3: CD3+ , CD19-", gate_path=("root", "Live cells", "CD45+")
+    )
+    cd19_negative_gate = ws.get_gate(
+        sid, "CD19-", gate_path=("root", "Live cells", "CD45+")
+    )
+    nkt_gate = ws.get_gate(
+        sid, "NKT cells", gate_path=("root", "Live cells", "CD45+", "CD19-")
+    )
+    biology["b_cells"] = biology["live_cells"] & geometric_gate_membership(q1_gate, processed)
+    biology["t_cells"] = biology["live_cells"] & geometric_gate_membership(q3_gate, processed)
+    biology["live_cd19_negative"] = (
+        biology["live_cells"] & geometric_gate_membership(cd19_negative_gate, processed)
+    )
+    biology["nkt_cells"] = (
+        biology["live_cd19_negative"] & geometric_gate_membership(nkt_gate, processed)
+    )
 
     validation.append(
         {
@@ -769,6 +826,53 @@ def calculate_counts(masks: SampleMasks) -> list[dict[str, object]]:
                 rows.append(
                     endpoint_row("D", comparison, method, cleaning, endpoint, raw_count)
                 )
+    return rows
+
+
+def calculate_cleaning_retention(masks: SampleMasks) -> list[dict[str, object]]:
+    """Return event-level retention before applying any biological endpoint gate."""
+    rows: list[dict[str, object]] = []
+    groups = {
+        "time": {
+            "Raw": masks.manual_non_time,
+            "Nadia Manual": masks.manual_time & masks.manual_non_time,
+            "FlowMOP": masks.flowmop_time & masks.manual_non_time,
+            "PeacoQC": masks.peacoqc_time & masks.manual_non_time,
+            "FlowCut": masks.flowcut_time & masks.manual_non_time,
+        },
+        "debris": {
+            "Raw": masks.manual_time & masks.manual_doublet,
+            "Nadia Manual": masks.manual_time & masks.manual_doublet & masks.manual_debris,
+            "FlowMOP": masks.manual_time & masks.manual_doublet & masks.flowmop_debris,
+        },
+        "doublet": {
+            "Raw": masks.manual_time & masks.manual_debris,
+            "Nadia Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
+            "FlowMOP": masks.manual_time & masks.manual_debris & masks.flowmop_doublet,
+        },
+        "all steps": {
+            "Raw": np.ones(len(masks.raw.events), dtype=bool),
+            "Nadia Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
+            "FlowMOP": masks.flowmop_time & masks.flowmop_debris & masks.flowmop_doublet,
+        },
+    }
+    for comparison, methods in groups.items():
+        raw_count = int(methods["Raw"].sum())
+        if raw_count <= 0:
+            raise AssertionError(f"{masks.sample}: empty matched Raw mask for {comparison}")
+        for method, retained in methods.items():
+            count = int(retained.sum())
+            rows.append(
+                {
+                    "sample": masks.sample,
+                    "comparison": comparison,
+                    "method": method,
+                    "retained_event_count": count,
+                    "matched_raw_event_count": raw_count,
+                    "raw_normalized_event_retention": 1.0 if method == "Raw" else count / raw_count,
+                    "removed_event_fraction": 0.0 if method == "Raw" else 1.0 - count / raw_count,
+                }
+            )
     return rows
 
 
@@ -1006,8 +1110,9 @@ def select_representative(
         debris_direction_match.append(eligible and np.isfinite(flowmop) and flowmop < manual)
     debris_candidate_distance = np.where(np.asarray(debris_direction_match), distance, np.nan)
     if not np.any(np.isfinite(debris_candidate_distance)):
-        raise AssertionError("No eligible sample reproduces FlowMOP < Nadia for debris-controlled Live CD45+")
-    debris_representative_index = int(np.nanargmin(debris_candidate_distance))
+        debris_representative_index = representative_index
+    else:
+        debris_representative_index = int(np.nanargmin(debris_candidate_distance))
     debris_representative = samples[debris_representative_index]
     eligible_distances = sorted(float(x) for x in distance[np.isfinite(distance)])
     rows: list[dict[str, object]] = []
@@ -1065,6 +1170,7 @@ def style_flow_axis(
     colour: str = "#222222",
     *,
     show_axis_arrow: bool = False,
+    axis_label_fontsize: float = 18,
 ) -> None:
     """Match Figure 6's square, framelike representative-flow panels."""
     x_label = ax.get_xlabel()
@@ -1101,11 +1207,12 @@ def style_flow_axis(
             ax.add_artist(arrow)
         ax.text(
             0.205, -0.19, x_label, transform=ax.transAxes,
-            ha="center", va="top", fontsize=18, fontweight="bold", clip_on=False,
+            ha="center", va="top", fontsize=axis_label_fontsize,
+            fontweight="bold", clip_on=False,
         )
         ax.text(
             -0.16, 0.175, y_label, transform=ax.transAxes,
-            ha="center", va="center", rotation=90, fontsize=18,
+            ha="center", va="center", rotation=90, fontsize=axis_label_fontsize,
             fontweight="bold", clip_on=False,
         )
     ax.grid(False)
@@ -1276,7 +1383,7 @@ def plot_panel_b_axis(
     bracket_height = 0.03 * span
     for level, (x1, x2, p_value) in enumerate(significant):
         add_bracket(ax, x1, x2, bracket_start + level * bracket_gap,
-                    bracket_height, bracket_p_text(p_value), fontsize=15)
+                    bracket_height, bracket_p_text(p_value), fontsize=18)
     upper = (
         bracket_start + (len(significant) - 1) * bracket_gap + 0.13 * span
         if significant else ymax + 0.15 * span
@@ -1289,7 +1396,7 @@ def plot_panel_b_axis(
         tick_label.set_ha("right")
         tick_label.set_fontsize(20)
     ax.set_title(
-        f"{POPULATION_LABELS[endpoint]} {metric}\n(n = {len(common)})",
+        f"{POPULATION_LABELS[endpoint]} {metric}",
         fontweight="bold", pad=12,
     )
     ax.spines[["top", "right"]].set_visible(False)
@@ -1303,10 +1410,14 @@ def plot_panel_d_axis(
     ratio_rows: Sequence[dict[str, object]],
     tests: Sequence[dict[str, object]],
 ) -> None:
+    """Plot Debris, Doublet, and Combined outcomes with all pairwise brackets."""
     comparisons = ("debris", "doublet", "all steps")
-    x_groups = ((0.0, 0.7, 1.4), (2.7, 3.4, 4.1), (5.4, 6.1, 6.8))
+    x_groups = (
+        (0.0, 0.7, 1.4),
+        (2.7, 3.4, 4.1),
+        (5.4, 6.1, 6.8),
+    )
     all_values: list[float] = []
-    ns: list[int] = []
     test_lookup = {
         (str(row["comparison"]), str(row["method"]), str(row["reference"])): float(row["p_value_holm"])
         for row in tests
@@ -1322,7 +1433,6 @@ def plot_panel_d_axis(
         )
         if raw_ids != manual_ids or raw_ids != flowmop_ids:
             raise AssertionError(f"Panel D pairing differs for {endpoint}, {comparison}")
-        ns.append(len(raw))
         matrix = np.column_stack((raw, manual, flowmop))
         all_values.extend(matrix.ravel().tolist())
         for row in matrix:
@@ -1341,19 +1451,25 @@ def plot_panel_d_axis(
     bracket_height = 0.035 * span
     max_levels = 0
     for comparison, xs in zip(comparisons, x_groups):
-        local = ((xs[1], xs[2], test_lookup[(comparison, "FlowMOP", "Nadia Manual")]),)
+        local = (
+            (xs[0], xs[1], test_lookup[(comparison, "Nadia Manual", "Raw")]),
+            (xs[1], xs[2], test_lookup[(comparison, "FlowMOP", "Nadia Manual")]),
+            (xs[0], xs[2], test_lookup[(comparison, "FlowMOP", "Raw")]),
+        )
         significant = [(x1, x2, p) for x1, x2, p in local if p < 0.05]
         max_levels = max(max_levels, len(significant))
         for level, (x1, x2, p_value) in enumerate(significant):
             add_bracket(ax, x1, x2, bracket_start + level * bracket_gap,
-                        bracket_height, bracket_p_text(p_value), fontsize=15)
+                        bracket_height, bracket_p_text(p_value), fontsize=18)
     ax.axhline(1, color="#666666", lw=0.8, ls="--")
     upper = (
         bracket_start + (max_levels - 1) * bracket_gap + 0.16 * span
         if max_levels else ymax + 0.16 * span
     )
     ax.set_ylim(ymin - 0.08 * span, upper)
-    ax.set_xlim(-0.55, 7.1)
+    # Leave extra room before the first Raw–Manual bracket so its enlarged
+    # p-value label is not clipped at the left edge of the subplot.
+    ax.set_xlim(-0.95, 7.15)
     ticks = [x for group in x_groups for x in group]
     labels = ["Raw", "Expert Manual", "FlowMOP"] * 3
     ax.set_xticks(ticks, labels)
@@ -1364,8 +1480,79 @@ def plot_panel_d_axis(
     for centre, label in zip((0.7, 3.4, 6.1), ("Debris", "Doublet", "Combined")):
         ax.text(centre, -0.39, label, transform=ax.get_xaxis_transform(), ha="center", va="top",
                 fontsize=20, fontweight="bold")
-    n_text = str(ns[0]) if len(set(ns)) == 1 else "/".join(map(str, ns))
-    ax.set_title(f"{POPULATION_LABELS[endpoint]} {metric}\n(n = {n_text})", fontweight="bold")
+    ax.set_title(f"{POPULATION_LABELS[endpoint]} {metric}", fontweight="bold")
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.grid(axis="y", color="#EEEEEE", lw=0.55)
+
+
+def plot_combined_axis(
+    ax: plt.Axes,
+    endpoint: str,
+    metric: str,
+    ratio_rows: Sequence[dict[str, object]],
+    tests: Sequence[dict[str, object]],
+) -> None:
+    """Plot the matched Raw, expert, and FlowMOP combined-cleaning outcomes."""
+    methods = ("Raw", "Nadia Manual", "FlowMOP")
+    arrays: list[np.ndarray] = []
+    identifiers: list[list[str]] = []
+    for method in methods:
+        values, sample_ids = endpoint_ratio_array(
+            ratio_rows, "D", endpoint, metric, "all steps", method
+        )
+        arrays.append(values)
+        identifiers.append(sample_ids)
+    if not all(ids == identifiers[0] for ids in identifiers):
+        raise AssertionError(f"Combined-cleaning pairing differs for {endpoint}")
+
+    matrix = np.column_stack(arrays)
+    x = np.arange(3, dtype=float)
+    for row in matrix:
+        ax.plot(x, row, color=GREY, lw=1.1, alpha=0.55, zorder=1)
+    for j, (method, values) in enumerate(zip(methods, arrays)):
+        ax.scatter(
+            x[j] + np.linspace(-0.025, 0.025, len(values)), values, s=22,
+            c=METHOD_COLOURS[method], edgecolors="white", linewidths=0.25,
+            alpha=0.85, zorder=2,
+        )
+        mean = float(np.mean(values))
+        sd = float(np.std(values, ddof=1))
+        ax.errorbar(x[j], mean, yerr=sd, fmt="none", ecolor="#111111", lw=1.7,
+                    capsize=4, zorder=3)
+        ax.scatter(x[j], mean, marker="D", s=58, c=METHOD_COLOURS[method],
+                   edgecolors="#111111", linewidths=0.6, zorder=4)
+
+    p_value = next(
+        float(row["p_value_holm"])
+        for row in tests
+        if row["panel"] == "D"
+        and row["comparison"] == "all steps"
+        and row["endpoint"] == endpoint
+        and row["metric"] == metric
+        and row["reference"] == "Nadia Manual"
+        and row["method"] == "FlowMOP"
+    )
+    ymin = min(0.92, float(np.min(matrix)))
+    ymax = max(1.08, float(np.max(matrix)))
+    span = max(0.08, ymax - ymin)
+    if p_value < 0.05:
+        add_bracket(ax, 1, 2, ymax + 0.10 * span, 0.035 * span,
+                    bracket_p_text(p_value), fontsize=18)
+        upper = ymax + 0.30 * span
+    else:
+        upper = ymax + 0.16 * span
+    ax.axhline(1, color="#666666", lw=0.8, ls="--")
+    ax.set_ylim(ymin - 0.08 * span, upper)
+    ax.set_xlim(-0.35, 2.35)
+    ax.set_xticks(x, ("Raw", "Expert Manual", "FlowMOP"))
+    for tick_label in ax.get_xticklabels():
+        tick_label.set_rotation(35)
+        tick_label.set_ha("right")
+        tick_label.set_fontsize(20)
+    ax.set_title(
+        f"{POPULATION_LABELS[endpoint]} {metric}",
+        fontweight="bold", pad=12,
+    )
     ax.spines[["top", "right"]].set_visible(False)
     ax.grid(axis="y", color="#EEEEEE", lw=0.55)
 
@@ -1409,12 +1596,14 @@ def biological_plot_spec(
         labels = ("CD45", "SSC-A")
     elif kind == "bt":
         x_channel, y_channel = "cFluor R685-A", "cFluor BYG710-A"
-        upstream = masks.biology["live_cd45"]
-        gate = ws.get_gate(sid, "Q1: CD3- , CD19+", gate_path=("root", "Live cells"))
+        upstream = masks.biology["live_cells"]
+        gate = ws.get_gate(
+            sid, "Q1: CD3- , CD19+", gate_path=("root", "Live cells", "CD45+")
+        )
         labels = ("CD3", "CD19")
     elif kind == "nkt":
         x_channel, y_channel = "cFluor R685-A", "cFluor BYG750-A"
-        upstream = masks.biology["cd19_negative"]
+        upstream = masks.biology["live_cd19_negative"]
         gate = ws.get_gate(
             sid, "NKT cells", gate_path=("root", "Live cells", "CD45+", "CD19-")
         )
@@ -1446,6 +1635,7 @@ def draw_biological_plot(
     seed: int,
     limits: tuple[float, float, float, float],
     show_axis_arrow: bool = False,
+    axis_label_fontsize: float = 18,
 ) -> None:
     """Draw retained events only, using axes fixed by the matched raw input."""
     x, y, upstream, gate, x_label, y_label = biological_plot_spec(
@@ -1463,11 +1653,15 @@ def draw_biological_plot(
     apply_limits(ax, limits)
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
-    style_flow_axis(ax, title, show_axis_arrow=show_axis_arrow)
-    denominator = int(np.sum(cleaning & masks.biology["live_cd45"]))
+    style_flow_axis(
+        ax, title, show_axis_arrow=show_axis_arrow,
+        axis_label_fontsize=axis_label_fontsize,
+    )
+    denominator = int(np.sum(cleaning & masks.biology["live_cells"]))
     if kind == "live":
         upstream_count = int(np.sum(cleaning & masks.biology["live_cells"]))
-        percentage = 100 * denominator / upstream_count if upstream_count else math.nan
+        live_cd45_count = int(np.sum(cleaning & masks.biology["live_cd45"]))
+        percentage = 100 * live_cd45_count / upstream_count if upstream_count else math.nan
         label = f"Live CD45+\n{percentage:.2f}%"
     elif kind == "bt":
         b_pct = 100 * int(np.sum(cleaning & masks.biology["b_cells"])) / denominator if denominator else math.nan
@@ -1508,9 +1702,14 @@ def make_figure(
     time_output_png: Path,
     cleanup_output_svg: Path,
     cleanup_output_png: Path,
-    representative: str,
-    masks: SampleMasks,
-    ws: fk.Workspace,
+    supplement_output_svg: Path,
+    supplement_output_png: Path,
+    time_representative: str,
+    time_masks: SampleMasks,
+    time_ws: fk.Workspace,
+    cleanup_representative: str,
+    cleanup_masks: SampleMasks,
+    cleanup_ws: fk.Workspace,
     debris_representative: str,
     debris_masks: SampleMasks,
     debris_ws: fk.Workspace,
@@ -1518,7 +1717,9 @@ def make_figure(
     tests: Sequence[dict[str, object]],
 ) -> None:
     configure_style()
-    sid = f"{representative}.fcs"
+    sid = f"{time_representative}.fcs"
+    masks = time_masks
+    ws = time_ws
     processed = ws.get_gate_events(sid, source=None).drop(columns=["sample_id"])
     debris_sid = f"{debris_representative}.fcs"
     debris_processed = debris_ws.get_gate_events(debris_sid, source=None).drop(columns=["sample_id"])
@@ -1562,7 +1763,12 @@ def make_figure(
         ax.set_xlabel("Time")
         ax.set_ylabel("CD123")
         display_method = "Expert Manual" if method == "Nadia Manual" else method
-        style_flow_axis(ax, display_method, show_axis_arrow=(j == 0))
+        style_flow_axis(
+            ax,
+            display_method,
+            show_axis_arrow=(j == 0),
+            axis_label_fontsize=18,
+        )
     for row_index, kind in enumerate(("live", "bt", "nkt"), start=1):
         x, y, upstream, _gate, _x_label, _y_label = biological_plot_spec(
             ws, sid, processed, masks, kind
@@ -1576,21 +1782,37 @@ def make_figure(
                 ax, ws, sid, processed, masks, time_cleaning[method], kind, "",
                 seed=600 + row_index * 20 + j, limits=row_limits,
                 show_axis_arrow=(j == 0),
+                axis_label_fontsize=18,
             )
 
-    # Panels B and C: paired count and frequency endpoints after time gating.
-    grid_b = outer[1].subgridspec(2, 4, hspace=0.48, wspace=0.28)
-    for row_index, metric in enumerate(METRICS):
-        for j, endpoint in enumerate(ENDPOINTS):
+    # Panels B and C: paired frequency and count endpoints after time gating.
+    grid_b = outer[1].subgridspec(2, 3, hspace=0.48, wspace=0.28)
+    for row_index, metric in enumerate(("frequency", "count")):
+        for j, endpoint in enumerate(DISPLAY_ENDPOINTS):
             ax = fig.add_subplot(grid_b[row_index, j])
             panel_b_axes.append(ax)
             plot_panel_b_axis(ax, endpoint, metric, ratio_rows, tests)
             if j == 0:
                 ax.set_ylabel(
-                    "Count / matched Raw count" if metric == "count"
-                    else "Frequency / matched Raw frequency",
+                    "Count / Raw Count" if metric == "count"
+                    else "Freq / Raw Freq (%)",
                     fontsize=23, fontweight="bold", labelpad=16,
                 )
+            position = ax.get_position()
+            compressed_height = position.height * 0.72
+            compressed_y = (
+                position.y0
+                if row_index == 0
+                else position.y1 - compressed_height
+            )
+            ax.set_position(
+                [
+                    position.x0,
+                    compressed_y,
+                    position.width,
+                    compressed_height,
+                ]
+            )
 
     for label, axes in fixed_axis_groups.items():
         reference_limits = (*axes[0].get_xlim(), *axes[0].get_ylim())
@@ -1603,11 +1825,11 @@ def make_figure(
 
     fig.canvas.draw()
     first_column = [panel_a_axes[i] for i in (0, 5, 10, 15)]
-    for axis, label in zip(first_column, ("Time", "Live CD45+", "CD19 × CD3 B/T", "NKT")):
+    for axis, label in zip(first_column, ("Time", "Live CD45+ reference", "CD19 × CD3 B/T", "NKT")):
         position = axis.get_position()
         fig.text(position.x0 - 0.048, position.y0 + position.height / 2, label,
-                 ha="center", va="center", rotation=90, fontsize=15, fontweight="bold")
-    for letter, axes in zip("ABC", (panel_a_axes, panel_b_axes[:4], panel_b_axes[4:])):
+                 ha="center", va="center", rotation=90, fontsize=24, fontweight="bold")
+    for letter, axes in zip("ABC", (panel_a_axes, panel_b_axes[:3], panel_b_axes[3:])):
         title_y = min(0.995, max(axis.get_position().y1 for axis in axes) + 0.030)
         fig.text(0.012, title_y, f"{letter})", fontsize=23, fontweight="bold", va="top")
     fig.savefig(time_output_svg)
@@ -1615,14 +1837,20 @@ def make_figure(
     fig.savefig(time_output_png, dpi=300)
     plt.close(fig)
 
-    # Figure 6: debris, doublet, combined representatives, and statistics.
-    fig = plt.figure(figsize=(24, 62), facecolor="white", constrained_layout=False)
+    # Figure 6 uses the cohort representative; Supplementary Figure S8 uses a
+    # separate debris example that visibly exercises the debris-removal gate.
+    sid = f"{cleanup_representative}.fcs"
+    masks = cleanup_masks
+    ws = cleanup_ws
+    processed = ws.get_gate_events(sid, source=None).drop(columns=["sample_id"])
+
+    # Supplementary Figure S8: representative debris and doublet gates only.
+    fig = plt.figure(figsize=(24, 30), facecolor="white", constrained_layout=False)
     outer = fig.add_gridspec(
-        4, 1, height_ratios=(16.0, 12.0, 12.0, 18.0), hspace=0.21,
-        left=0.075, right=0.99, top=0.995, bottom=0.035,
+        2, 1, height_ratios=(16.0, 12.0), hspace=0.18,
+        left=0.075, right=0.99, top=0.99, bottom=0.04,
     )
     panel_c_axes: list[plt.Axes] = []
-    panel_d_axes: list[plt.Axes] = []
     panel_c_row_labels: list[tuple[plt.Axes, str]] = []
     fixed_axis_groups = {}
     fsc = processed[processed_column(processed, "FSC-A")].to_numpy()
@@ -1693,7 +1921,7 @@ def make_figure(
             fixed_axis_groups.setdefault(f"C|debris|{kind}", []).append(target_ax)
             draw_biological_plot(
                 target_ax, debris_ws, debris_sid, debris_processed, debris_masks, cleaning, kind,
-                {"live": "Live CD45+", "bt": "CD19 × CD3 quadrants", "nkt": "NKT gate"}[kind]
+                {"live": "Live CD45+ reference", "bt": "CD19 × CD3 quadrants", "nkt": "NKT gate"}[kind]
                 if row_index == 1 else "",
                 seed=1000 + row_index * 10 + column,
                 limits=debris_limits[kind],
@@ -1761,7 +1989,7 @@ def make_figure(
             fixed_axis_groups.setdefault(f"C|doublet|{kind}", []).append(target_ax)
             draw_biological_plot(
                 target_ax, ws, sid, processed, masks, cleaning_masks["Doublet"][method], kind,
-                {"live": "Live CD45+", "bt": "CD19 × CD3 quadrants", "nkt": "NKT gate"}[kind]
+                {"live": "Live CD45+ reference", "bt": "CD19 × CD3 quadrants", "nkt": "NKT gate"}[kind]
                 if row_index == 1 else "",
                 seed=1100 + row_index * 10 + column,
                 limits=doublet_bio_limits[kind],
@@ -1769,78 +1997,6 @@ def make_figure(
             )
 
     doublet_block_axes = panel_c_axes[doublet_start:].copy()
-    overall_start = len(panel_c_axes)
-    overall_grid = outer[2].subgridspec(
-        4, 4, height_ratios=(0.27, 1, 1, 1), hspace=0.12, wspace=0.12
-    )
-    overall_header = fig.add_subplot(overall_grid[0, :])
-    overall_header.axis("off")
-    overall_header_title = overall_header.text(
-        0.5, 0.72, "Time + Debris + Doublet", fontsize=23, fontweight="bold",
-        ha="center", va="center", transform=overall_header.transAxes,
-    )
-    panel_c_axes.append(overall_header)
-    all_scatter_limits = robust_limits(fsc, ssc, cleaning_masks["All steps"]["Raw"])
-    all_bio_limits: dict[str, tuple[float, float, float, float]] = {}
-    for kind in ("live", "bt", "nkt"):
-        bx, by, upstream, _gate, _xl, _yl = biological_plot_spec(ws, sid, processed, masks, kind)
-        all_bio_limits[kind] = robust_limits(
-            bx, by, cleaning_masks["All steps"]["Raw"] & upstream
-        )
-    debris_gate = ws.get_gate(sid, "Cells", gate_path=("root", "Single Cells", "Single Cells"))
-    for row_index, method in enumerate(("Raw", "Nadia Manual", "FlowMOP"), start=1):
-        cleaning = cleaning_masks["All steps"][method]
-        ax = fig.add_subplot(overall_grid[row_index, 0])
-        panel_c_axes.append(ax)
-        fixed_axis_groups.setdefault("C|all steps|decision", []).append(ax)
-        row_label = "Ungated input" if method == "Raw" else (
-            "Expert Manual" if method == "Nadia Manual" else method
-        )
-        panel_c_row_labels.append((ax, row_label))
-        all_indices = deterministic_subset(cleaning, 100000, seed=1200 + row_index)
-        scatter_pseudocolor(ax, fsc, ssc, all_indices)
-        if method == "Nadia Manual":
-            ax.add_patch(Polygon(np.asarray(debris_gate.vertices), closed=True, fill=False,
-                                 ec="#111111", lw=1.2))
-        apply_limits(ax, all_scatter_limits)
-        ax.set_xlabel("FSC-A")
-        ax.set_ylabel("SSC-A")
-        retained_pct = 100 * int(cleaning.sum()) / len(cleaning)
-        ax.text(0.97, 0.97, f"Retained\n{retained_pct:.1f}%", transform=ax.transAxes,
-                ha="right", va="top", fontsize=13.5, fontweight="bold",
-                bbox=dict(boxstyle="square,pad=0.18", fc="white", ec="none", alpha=0.72), zorder=8)
-        style_flow_axis(
-            ax, "FSC-A × SSC-A" if row_index == 1 else "",
-            show_axis_arrow=(row_index == 3),
-        )
-        for column, kind in enumerate(("live", "bt", "nkt"), start=1):
-            target_ax = fig.add_subplot(overall_grid[row_index, column])
-            panel_c_axes.append(target_ax)
-            fixed_axis_groups.setdefault(f"C|all steps|{kind}", []).append(target_ax)
-            draw_biological_plot(
-                target_ax, ws, sid, processed, masks, cleaning, kind,
-                {"live": "Live CD45+", "bt": "CD19 × CD3 quadrants", "nkt": "NKT gate"}[kind]
-                if row_index == 1 else "",
-                seed=1200 + row_index * 10 + column,
-                limits=all_bio_limits[kind],
-                show_axis_arrow=(row_index == 3),
-            )
-
-    overall_block_axes = panel_c_axes[overall_start:].copy()
-
-    # Panels D and E: paired count and frequency comparisons for each cleanup block.
-    grid_d = outer[3].subgridspec(2, 4, hspace=0.64, wspace=0.28)
-    for row_index, metric in enumerate(METRICS):
-        for j, endpoint in enumerate(ENDPOINTS):
-            ax = fig.add_subplot(grid_d[row_index, j])
-            panel_d_axes.append(ax)
-            plot_panel_d_axis(ax, endpoint, metric, ratio_rows, tests)
-            if j == 0:
-                ax.set_ylabel(
-                    "Count / matched Raw count" if metric == "count"
-                    else "Frequency / matched Raw frequency",
-                    fontsize=23, fontweight="bold", labelpad=16,
-                )
 
     for label, axes in fixed_axis_groups.items():
         reference_limits = (*axes[0].get_xlim(), *axes[0].get_ylim())
@@ -1860,21 +2016,170 @@ def make_figure(
             color="#222222",
         )
     renderer = fig.canvas.get_renderer()
-    header_titles = (debris_header_title, doublet_header_title, overall_header_title)
-    for letter, title_artist in zip("ABC", header_titles):
+    header_titles = (debris_header_title, doublet_header_title)
+    for letter, title_artist in zip("AB", header_titles):
         title_bbox = title_artist.get_window_extent(renderer).transformed(fig.transFigure.inverted())
         title_y = (title_bbox.y0 + title_bbox.y1) / 2
         fig.text(
             0.012, title_y, f"{letter})", fontsize=23, fontweight="bold",
             va="center", ha="left",
         )
-    for letter, axes in zip("DE", (panel_d_axes[:4], panel_d_axes[4:])):
-        title_bbox = axes[0].title.get_window_extent(renderer).transformed(fig.transFigure.inverted())
-        title_y = (title_bbox.y0 + title_bbox.y1) / 2
-        fig.text(
-            0.012, title_y, f"{letter})", fontsize=23, fontweight="bold",
-            va="center", ha="left",
+    fig.savefig(supplement_output_svg)
+    clean_svg(supplement_output_svg)
+    fig.savefig(supplement_output_png, dpi=300)
+    plt.close(fig)
+
+    # Main Figure 6: the complete automated pathway and its downstream outcomes.
+    fig = plt.figure(figsize=(24, 38), facecolor="white", constrained_layout=False)
+    outer = fig.add_gridspec(
+        2, 1, height_ratios=(13.0, 21.0), hspace=0.17,
+        left=0.075, right=0.99, top=0.98, bottom=0.055,
+    )
+    combined_axes: list[plt.Axes] = []
+    combined_row_labels: list[tuple[plt.Axes, str]] = []
+    combined_fixed_axes: dict[str, list[plt.Axes]] = {}
+    combined_grid = outer[0].subgridspec(3, 6, hspace=0.04, wspace=0.28)
+    combined_time_x = processed[processed_column(processed, "Time")].to_numpy()
+    combined_time_y = processed[processed_column(processed, "APC-Fire 810-A")].to_numpy()
+    combined_time_limits = robust_limits(
+        combined_time_x, combined_time_y, cleaning_masks["All steps"]["Raw"]
+    )
+    combined_scatter_limits = robust_limits(fsc, ssc, cleaning_masks["All steps"]["Raw"])
+    combined_doublet_x = processed[processed_column(processed, "FSC-H")].to_numpy()
+    combined_doublet_y = processed[processed_column(processed, "FSC-W")].to_numpy()
+    combined_doublet_limits = robust_limits(
+        combined_doublet_x, combined_doublet_y, cleaning_masks["All steps"]["Raw"]
+    )
+    combined_bio_limits: dict[str, tuple[float, float, float, float]] = {}
+    for kind in ("live", "bt", "nkt"):
+        bx, by, upstream, _gate, _xl, _yl = biological_plot_spec(
+            ws, sid, processed, masks, kind
         )
+        combined_bio_limits[kind] = robust_limits(
+            bx, by, cleaning_masks["All steps"]["Raw"] & upstream
+        )
+    debris_gate = ws.get_gate(sid, "Cells", gate_path=("root", "Single Cells", "Single Cells"))
+    time_gate = ws.get_gate(sid, "Time gate", gate_path=("root",))
+    doublet_gate = ws.get_gate(sid, "Single Cells", gate_path=("root",))
+    for row_index, method in enumerate(("Raw", "Nadia Manual", "FlowMOP")):
+        cleaning = cleaning_masks["All steps"][method]
+        ax = fig.add_subplot(combined_grid[row_index, 0])
+        combined_axes.append(ax)
+        combined_fixed_axes.setdefault("time", []).append(ax)
+        row_label = "Ungated input" if method == "Raw" else (
+            "Expert Manual" if method == "Nadia Manual" else method
+        )
+        combined_row_labels.append((ax, row_label))
+        indices = deterministic_subset(cleaning, 100000, seed=1500 + row_index)
+        scatter_pseudocolor(ax, combined_time_x, combined_time_y, indices)
+        if method == "Nadia Manual":
+            overlay_rectangle(ax, time_gate, "Time", "APC-Fire 810-A", colour="#111111")
+        apply_limits(ax, combined_time_limits)
+        ax.set_xlabel("Time")
+        ax.set_ylabel("CD123")
+        retained_pct = 100 * int(cleaning.sum()) / len(cleaning)
+        ax.text(0.97, 0.97, f"Retained\n{retained_pct:.1f}%", transform=ax.transAxes,
+                ha="right", va="top", fontsize=13.5, fontweight="bold",
+                bbox=dict(boxstyle="square,pad=0.18", fc="white", ec="none", alpha=0.72),
+                zorder=8)
+        style_flow_axis(
+            ax, "Time" if row_index == 0 else "",
+            show_axis_arrow=(row_index == 2), axis_label_fontsize=18,
+        )
+
+        debris_ax = fig.add_subplot(combined_grid[row_index, 1])
+        combined_axes.append(debris_ax)
+        combined_fixed_axes.setdefault("debris", []).append(debris_ax)
+        scatter_pseudocolor(debris_ax, fsc, ssc, indices)
+        if method == "Nadia Manual":
+            debris_ax.add_patch(Polygon(np.asarray(debris_gate.vertices), closed=True, fill=False,
+                                        ec="#111111", lw=1.2))
+        apply_limits(debris_ax, combined_scatter_limits)
+        debris_ax.set_xlabel("FSC-A")
+        debris_ax.set_ylabel("SSC-A")
+        style_flow_axis(
+            debris_ax, "Debris" if row_index == 0 else "",
+            show_axis_arrow=(row_index == 2), axis_label_fontsize=18,
+        )
+
+        doublet_ax = fig.add_subplot(combined_grid[row_index, 2])
+        combined_axes.append(doublet_ax)
+        combined_fixed_axes.setdefault("doublet", []).append(doublet_ax)
+        scatter_pseudocolor(doublet_ax, combined_doublet_x, combined_doublet_y, indices)
+        if method == "Nadia Manual":
+            overlay_rectangle(
+                doublet_ax, doublet_gate, "FSC-H", "FSC-W", colour="#111111"
+            )
+        apply_limits(doublet_ax, combined_doublet_limits)
+        doublet_ax.set_xlabel("FSC-H")
+        doublet_ax.set_ylabel("FSC-W")
+        style_flow_axis(
+            doublet_ax, "Doublet" if row_index == 0 else "",
+            show_axis_arrow=(row_index == 2), axis_label_fontsize=18,
+        )
+
+        for column, kind in enumerate(("live", "bt", "nkt"), start=3):
+            target_ax = fig.add_subplot(combined_grid[row_index, column])
+            combined_axes.append(target_ax)
+            combined_fixed_axes.setdefault(kind, []).append(target_ax)
+            draw_biological_plot(
+                target_ax, ws, sid, processed, masks, cleaning, kind,
+                {"live": "Live CD45+ reference", "bt": "CD19 × CD3 quadrants", "nkt": "NKT gate"}[kind]
+                if row_index == 0 else "",
+                seed=1520 + row_index * 10 + column,
+                limits=combined_bio_limits[kind],
+                show_axis_arrow=(row_index == 2),
+                axis_label_fontsize=18,
+            )
+
+    stats_axes: list[plt.Axes] = []
+    stats_grid = outer[1].subgridspec(2, 4, hspace=0.62, wspace=0.24)
+    for row_index, metric in enumerate(("frequency", "count")):
+        for j, endpoint in enumerate(ENDPOINTS):
+            ax = fig.add_subplot(stats_grid[row_index, j])
+            stats_axes.append(ax)
+            plot_panel_d_axis(ax, endpoint, metric, ratio_rows, tests)
+            if j == 0:
+                ax.set_ylabel(
+                    "Count / Raw Count" if metric == "count"
+                    else "Freq / Raw Freq (%)",
+                    fontsize=23, fontweight="bold", labelpad=16,
+                )
+            position = ax.get_position()
+            compressed_height = position.height * 0.72
+            compressed_y = (
+                position.y0
+                if row_index == 0
+                else position.y1 - compressed_height
+            )
+            ax.set_position(
+                [
+                    position.x0,
+                    compressed_y,
+                    position.width,
+                    compressed_height,
+                ]
+            )
+
+    for label, axes in combined_fixed_axes.items():
+        reference_limits = (*axes[0].get_xlim(), *axes[0].get_ylim())
+        for axis in axes[1:]:
+            observed_limits = (*axis.get_xlim(), *axis.get_ylim())
+            if not np.allclose(observed_limits, reference_limits, rtol=0, atol=1e-12):
+                raise AssertionError(
+                    f"Combined representative axes differ within {label}: "
+                    f"{reference_limits} vs {observed_limits}"
+                )
+
+    fig.canvas.draw()
+    for axis, label in combined_row_labels:
+        position = axis.get_position()
+        fig.text(position.x0 - 0.045, position.y0 + position.height / 2, label,
+                 ha="center", va="center", rotation=90, fontsize=28,
+                 fontweight="bold", color="#222222")
+    for letter, axes in zip("ABC", (combined_axes, stats_axes[:4], stats_axes[4:])):
+        title_y = min(0.995, max(axis.get_position().y1 for axis in axes) + 0.030)
+        fig.text(0.012, title_y, f"{letter})", fontsize=23, fontweight="bold", va="top")
     fig.savefig(cleanup_output_svg)
     clean_svg(cleanup_output_svg)
     fig.savefig(cleanup_output_png, dpi=300)
@@ -1883,25 +2188,10 @@ def make_figure(
 
 def validate_nkt_exclusion(ratio_rows: Sequence[dict[str, object]]) -> None:
     excluded = [row for row in ratio_rows if not bool(row["included"])]
-    invalid = [
-        row for row in excluded
-        if not (
-            row["sample"] == "15A"
-            and row["endpoint"] == "nkt_cells"
-        )
-    ]
-    if invalid:
-        raise AssertionError(f"Unexpected exclusions: {invalid[:5]}")
-    if not excluded:
-        raise AssertionError("Expected the prespecified sample 15A NKT exclusion")
-    if any(
-        bool(row["included"])
-        for row in ratio_rows
-        if row["sample"] == "15A" and row["endpoint"] == "nkt_cells"
-    ):
-        raise AssertionError("Sample 15A remained included in an NKT summary")
+    if excluded:
+        raise AssertionError(f"Unexpected endpoint exclusions: {excluded[:5]}")
     for panel in ("B", "D"):
-        for endpoint in ("live_cd45", "b_cells", "t_cells"):
+        for endpoint in ENDPOINTS:
             n = len(
                 {
                     str(row["sample"])
@@ -1909,18 +2199,10 @@ def validate_nkt_exclusion(ratio_rows: Sequence[dict[str, object]]) -> None:
                     if row["panel"] == panel and row["endpoint"] == endpoint and bool(row["included"])
                 }
             )
-            if n != 36:
-                raise AssertionError(f"Panel {panel} {endpoint}: expected n=36, observed n={n}")
-    for panel in ("B", "D"):
-        n_nkt = len(
-            {
-                str(row["sample"])
-                for row in ratio_rows
-                if row["panel"] == panel and row["endpoint"] == "nkt_cells" and bool(row["included"])
-            }
-        )
-        if n_nkt != 35:
-            raise AssertionError(f"Panel {panel} NKT: expected n=35, observed n={n_nkt}")
+            if n != EXPECTED_ANALYSIS_SAMPLES:
+                raise AssertionError(
+                    f"Panel {panel} {endpoint}: expected n={EXPECTED_ANALYSIS_SAMPLES}, observed n={n}"
+                )
 
 
 def validate_normalization(
@@ -1988,8 +2270,11 @@ def main() -> None:
     samples, files = inventory_inputs(source)
     tree, records, numeric_ids = workspace_records(workspace)
     for branch in records:
-        if set(records[branch]) != set(samples):
-            raise AssertionError(f"Workspace {branch} branch does not contain the exact 36 matched samples")
+        if not set(samples).issubset(records[branch]):
+            missing = sorted(set(samples) - set(records[branch]), key=natural_sample_key)
+            raise AssertionError(
+                f"Workspace {branch} branch is missing independent samples: {missing}"
+            )
 
     coordinate_rows = validate_gate_coordinates(samples, records)
     validation_rows: list[dict[str, object]] = [
@@ -1997,15 +2282,17 @@ def main() -> None:
         for row in coordinate_rows
     ]
     count_rows: list[dict[str, object]] = []
+    cleaning_retention_rows: list[dict[str, object]] = []
 
     with tempfile.TemporaryDirectory(prefix="flowmop_fig5_") as temp_name:
         temp_dir = Path(temp_name)
         for index, sample in enumerate(samples, start=1):
-            print(f"[{index:02d}/36] analysing {sample}", flush=True)
+            print(f"[{index:02d}/{len(samples):02d}] analysing {sample}", flush=True)
             masks, sample_validation = extract_sample_masks(
                 sample, files, tree.getroot(), numeric_ids[sample], records, temp_dir
             )
             sample_counts = calculate_counts(masks)
+            cleaning_retention_rows.extend(calculate_cleaning_retention(masks))
             references = expected_workspace_endpoint_counts(sample, records)
             for row in sample_counts:
                 reference_key: tuple[str, str] | None = None
@@ -2039,23 +2326,62 @@ def main() -> None:
             if not math.isclose(float(first["p_value_holm"]), float(second["p_value_holm"]), rel_tol=0, abs_tol=1e-15):
                 raise AssertionError("Paired-test recalculation changed a Holm-adjusted p-value")
 
-        representative, debris_representative, selection_rows = select_representative(
+        cleanup_representative, _debris_candidate, selection_rows = select_representative(
             samples, count_rows, ratio_rows
         )
+        time_representative = TIME_REPRESENTATIVE
+        debris_representative = DEBRIS_REPRESENTATIVE
+        if debris_representative not in files["raw"]:
+            raise AssertionError(f"Missing debris representative {debris_representative}")
+        for row in selection_rows:
+            row["selected_debris"] = row["sample"] == debris_representative
+            row["debris_selection_rule"] = (
+                "prespecified illustrative debris input"
+            )
+            if row["sample"] == time_representative:
+                row["selection"] = "figure_5_representative"
+                row["included_in_inferential_analysis"] = True
+                row["reason"] = (
+                    "prespecified included technical repeat"
+                )
         print(
-            f"Representative samples: general={representative}, debris={debris_representative}",
+            f"Representative samples: time={time_representative}, "
+            f"cleanup={cleanup_representative}, debris={debris_representative}",
             flush=True,
         )
-        rep_masks, rep_validation = extract_sample_masks(
-            representative, files, tree.getroot(), numeric_ids[representative], records, temp_dir
+        time_rep_masks, time_rep_validation = extract_sample_masks(
+            time_representative, files, tree.getroot(), numeric_ids[time_representative],
+            records, temp_dir,
         )
         validation_rows.extend(
-            {**row, "validation_repeat": "representative_render"} for row in rep_validation
+            {**row, "validation_repeat": "time_representative_render"}
+            for row in time_rep_validation
         )
-        rep_wsp = temp_dir / f"{representative}_render.wsp"
-        isolated_workspace(tree.getroot(), representative, numeric_ids[representative], rep_wsp)
-        rep_ws = fk.Workspace(str(rep_wsp), fcs_samples=[str(files["raw"][representative])])
-        rep_ws.analyze_samples(use_mp=False)
+        time_rep_wsp = temp_dir / f"{time_representative}_time_render.wsp"
+        isolated_workspace(
+            tree.getroot(), time_representative, numeric_ids[time_representative], time_rep_wsp
+        )
+        time_rep_ws = fk.Workspace(
+            str(time_rep_wsp), fcs_samples=[str(files["raw"][time_representative])]
+        )
+        time_rep_ws.analyze_samples(use_mp=False)
+        cleanup_rep_masks, cleanup_rep_validation = extract_sample_masks(
+            cleanup_representative, files, tree.getroot(), numeric_ids[cleanup_representative],
+            records, temp_dir,
+        )
+        validation_rows.extend(
+            {**row, "validation_repeat": "cleanup_representative_render"}
+            for row in cleanup_rep_validation
+        )
+        cleanup_rep_wsp = temp_dir / f"{cleanup_representative}_cleanup_render.wsp"
+        isolated_workspace(
+            tree.getroot(), cleanup_representative, numeric_ids[cleanup_representative],
+            cleanup_rep_wsp,
+        )
+        cleanup_rep_ws = fk.Workspace(
+            str(cleanup_rep_wsp), fcs_samples=[str(files["raw"][cleanup_representative])]
+        )
+        cleanup_rep_ws.analyze_samples(use_mp=False)
         debris_rep_masks, debris_rep_validation = extract_sample_masks(
             debris_representative, files, tree.getroot(), numeric_ids[debris_representative],
             records, temp_dir,
@@ -2079,9 +2405,14 @@ def main() -> None:
             output_dir / "figure_5.png",
             output_dir / "figure_6.svg",
             output_dir / "figure_6.png",
-            representative,
-            rep_masks,
-            rep_ws,
+            output_dir / "Supp_fig_8.svg",
+            output_dir / "Supp_fig_8.png",
+            time_representative,
+            time_rep_masks,
+            time_rep_ws,
+            cleanup_representative,
+            cleanup_rep_masks,
+            cleanup_rep_ws,
             debris_representative,
             debris_rep_masks,
             debris_rep_ws,
@@ -2092,6 +2423,7 @@ def main() -> None:
     write_rows(data_dir / "biological_validation_endpoint_counts.csv", count_rows)
     write_rows(data_dir / "biological_validation_raw_normalized_ratios.csv", ratio_rows)
     write_rows(data_dir / "biological_validation_paired_tests.csv", tests)
+    write_rows(data_dir / "biological_validation_cleaning_retention.csv", cleaning_retention_rows)
     write_rows(data_dir / "biological_validation_gate_validation.csv", validation_rows)
     write_rows(data_dir / "representative_sample_selection.csv", selection_rows)
     run_metadata = {
@@ -2099,7 +2431,12 @@ def main() -> None:
         "workspace": WORKSPACE_NAME,
         "sample_count": len(samples),
         "samples": samples,
-        "representative_sample": representative,
+        "sample_selection": (
+            "one prespecified complete repeat from each of eight independent PBMC sample "
+            "groups: 1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A"
+        ),
+        "time_representative_sample": time_representative,
+        "cleanup_representative_sample": cleanup_representative,
         "debris_representative_sample": debris_representative,
         "flowkit_version": fk.__version__,
         "explicit_final_mask": "passed_time & passed_debris & passed_doublet",
@@ -2109,9 +2446,9 @@ def main() -> None:
         ),
         "frequency_definitions": {
             "live_cd45": "percentage of Live cells before matched-Raw normalization",
-            "b_cells": "percentage of Live CD45+ cells before matched-Raw normalization",
-            "t_cells": "percentage of Live CD45+ cells before matched-Raw normalization",
-            "nkt_cells": "percentage of Live CD45+ cells before matched-Raw normalization",
+            "b_cells": "percentage of Live cells before matched-Raw normalization",
+            "t_cells": "percentage of Live cells before matched-Raw normalization",
+            "nkt_cells": "percentage of Live cells before matched-Raw normalization",
         },
         "statistical_metrics": ["raw-normalized count", "raw-normalized frequency"],
         "matched_ungated_inputs": {
@@ -2120,11 +2457,13 @@ def main() -> None:
             "doublet": "Nadia time + debris masks, without a doublet mask",
             "all steps": "no time, debris, or doublet preprocessing mask",
         },
-        "nkt_exclusion": "sample 15A excluded from every NKT summary and statistical test",
+        "nkt_exclusion": "none",
         "time_figure_svg": str(output_dir / "figure_5.svg"),
         "time_figure_png": str(output_dir / "figure_5.png"),
         "cleanup_figure_svg": str(output_dir / "figure_6.svg"),
         "cleanup_figure_png": str(output_dir / "figure_6.png"),
+        "module_supplement_svg": str(output_dir / "Supp_fig_8.svg"),
+        "module_supplement_png": str(output_dir / "Supp_fig_8.png"),
     }
     (data_dir / "run_metadata.json").write_text(json.dumps(run_metadata, indent=2) + "\n", encoding="utf-8")
     print(f"Wrote {output_dir / 'figure_5.svg'}")

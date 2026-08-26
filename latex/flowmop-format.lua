@@ -1,5 +1,5 @@
 -- Pandoc formatting filter for the FlowMOP revised and tracked manuscripts.
--- It preserves the existing blue HTML revision spans, pairs manuscript
+-- It preserves the existing HTML revision spans, pairs manuscript
 -- captions with their images, and improves table layout without altering the
 -- Markdown source documents.
 
@@ -16,7 +16,19 @@ local function revision_inline(el)
     return pandoc.RawInline("latex", "{\\color{revisionblue}")
   end
 
+  if el.text:match('^<span%s+style="color:#c00000">$') then
+    return pandoc.RawInline("latex", "{\\color{revisionred}")
+  end
+
   if el.text == "</span>" then
+    return pandoc.RawInline("latex", "}")
+  end
+
+  if el.text == "<s>" then
+    return pandoc.RawInline("latex", "\\sout{")
+  end
+
+  if el.text == "</s>" then
     return pandoc.RawInline("latex", "}")
   end
 
@@ -106,40 +118,145 @@ local function cropped_include(source, trim, height)
   })
 end
 
-local function split_figure_block(source, caption, label)
+local function cropped_include_width(source, trim, width)
+  return table.concat({
+    "\\includegraphics[width=" .. width .. "\\linewidth,",
+    "trim=" .. trim .. ",clip]{" .. source .. "}"
+  })
+end
+
+local function split_figure_block(source, caption, label, interstitial_tex)
   local _, caption_tex = caption_details(caption, "Figure")
   local parts
 
-  if label == "5" then
+  if label == "2" then
+    local panel_a = source:gsub("figure_2%.pdf$", "figure_2_panel_a.pdf")
+    local panel_b = source:gsub("figure_2%.pdf$", "figure_2_panel_b.pdf")
+    parts = {
+      {
+        images = {
+          cropped_include_width(panel_a, "0pt 0pt 0pt 0pt", "0.82"),
+          cropped_include_width(panel_b, "0pt 0pt 0pt 0pt", "0.68")
+        },
+        image_spacing = "0.2em",
+        caption = "full",
+        nonfloat = true,
+        start_clearpage = true,
+        clearpage = false
+      }
+    }
+  elseif label == "3" then
+    local panel_a = source:gsub("figure_3%.pdf$", "figure_3_panel_a.pdf")
+    local panel_b = source:gsub("figure_3%.pdf$", "figure_3_panel_b.pdf")
+    local panel_cd = source:gsub("figure_3%.pdf$", "figure_3_panel_cd.pdf")
+    parts = {
+      {
+        images = {
+          cropped_include_width(panel_a, "0pt 0pt 0pt 0pt", "0.65"),
+          cropped_include_width(panel_b, "0pt 0pt 0pt 0pt", "0.65"),
+          cropped_include_width(panel_cd, "0pt 0pt 0pt 0pt", "0.78")
+        },
+        image_spacing = "-0.8em",
+        pre_vspace = "-2em",
+        caption_vspace = "-0.7em",
+        caption = "full",
+        nonfloat = true,
+        start_clearpage = false,
+        clearpage = false
+      }
+    }
+  elseif label == "4" then
+    local panel_a = source:gsub("figure_4_harmonized%.pdf$", "figure_4_panel_a.pdf")
+    local panel_bc = source:gsub("figure_4_harmonized%.pdf$", "figure_4_panel_bc.pdf")
+    parts = {
+      {
+        images = {
+          "\\makebox[\\linewidth][l]{\\hspace*{0.07\\linewidth}" ..
+            cropped_include_width(panel_a, "0pt 0pt 0pt 0pt", "0.86") .. "}\\par",
+          "\\makebox[\\linewidth][l]{\\hspace*{0.07\\linewidth}" ..
+            cropped_include_width(panel_bc, "0pt 0pt 0pt 0pt", "0.78") .. "}"
+        },
+        image_spacing = "0.25em",
+        caption = "full",
+        nonfloat = true,
+        start_clearpage = true,
+        clearpage = false
+      }
+    }
+  elseif label == "5" then
     parts = {
       {
         images = {
           cropped_include(source, "0pt 1394pt 0pt 0pt", "0.68")
         },
-        caption = "full"
+        caption = "full",
+        nonfloat = true,
+        start_clearpage = false,
+        clearpage = false
       },
       {
         images = {
           cropped_include(source, "0pt 704pt 0pt 1630pt", "0.38"),
-          cropped_include(source, "0pt 0pt 0pt 2320pt", "0.38")
+          cropped_include(source, "0pt 120pt 0pt 2320pt", "0.38")
         },
-        caption = "continued"
+        caption = "continued",
+        nonfloat = true,
+        start_clearpage = true,
+        clearpage = false
       }
     }
   elseif label == "6" then
     parts = {
       {
         images = {
-          cropped_include(source, "15pt 3324pt 30pt 20pt", "0.46"),
-          cropped_include(source, "15pt 2374pt 30pt 1235pt", "0.35")
+          cropped_include(source, "0pt 1700pt 0pt 0pt", "0.62")
+        },
+        caption = "full",
+        nonfloat = true,
+        start_clearpage = true,
+        clearpage = false
+      },
+      {
+        images = {
+          cropped_include(source, "0pt 810pt 0pt 1030pt", "0.42"),
+          cropped_include(source, "0pt 0pt 0pt 1935pt", "0.35")
+        },
+        caption = "continued",
+        nonfloat = true,
+        start_clearpage = true,
+        clearpage = false
+      }
+    }
+  elseif label == "7" then
+    parts = {
+      {
+        images = {
+          -- Figure 7 is a tall composite. Showing it as one image makes the
+          -- page-height limit shrink every panel to roughly half the text
+          -- width. Crop away the gaps between A, B, and C and stack the three
+          -- slices at nearly the full line width so they remain on one page.
+          cropped_include_width(source, "0pt 1296pt 0pt 0pt", "0.80"),
+          cropped_include_width(source, "0pt 420pt 0pt 648pt", "0.80"),
+          cropped_include_width(source, "0pt 0pt 0pt 1530pt", "0.80")
+        },
+        image_spacing = "0.2em",
+        caption = "full",
+        nonfloat = true,
+        start_clearpage = true,
+        clearpage = false
+      }
+    }
+  elseif label == "S8" then
+    parts = {
+      {
+        images = {
+          cropped_include(source, "0pt 930pt 0pt 0pt", "0.68")
         },
         caption = "full"
       },
       {
         images = {
-          cropped_include(source, "0pt 1364pt 0pt 2160pt", "0.36"),
-          cropped_include(source, "0pt 644pt 0pt 3100pt", "0.27"),
-          cropped_include(source, "0pt 0pt 0pt 3820pt", "0.24")
+          cropped_include(source, "0pt 0pt 0pt 1240pt", "0.58")
         },
         caption = "continued"
       }
@@ -150,32 +267,69 @@ local function split_figure_block(source, caption, label)
 
   local latex = pandoc.List()
   for _, part in ipairs(parts) do
-    latex:insert("\\begin{figure}[p]")
-    latex:insert("\\centering")
+    if part.start_clearpage then
+      latex:insert("\\clearpage")
+    end
+    if part.pre_vspace then
+      latex:insert("\\vspace{" .. part.pre_vspace .. "}")
+    end
+    if part.nonfloat then
+      latex:insert("\\begin{center}")
+    else
+      latex:insert("\\begin{figure}[" .. (part.placement or "p") .. "]")
+      latex:insert("\\centering")
+    end
     for image_index, include_tex in ipairs(part.images) do
       if image_index > 1 then
-        latex:insert("\\vspace{0.8em}")
+        latex:insert("\\vspace{" .. (part.image_spacing or "0.8em") .. "}")
       end
       latex:insert(include_tex)
+    end
+    if part.nonfloat then
+      latex:insert("\\end{center}")
+    end
+    if part.caption_vspace then
+      latex:insert("\\vspace{" .. part.caption_vspace .. "}")
     end
     if part.caption == "full" then
       latex:insert("\\begingroup")
       latex:insert("\\renewcommand{\\thefigure}{" .. label .. "}")
-      latex:insert("\\caption{" .. caption_tex .. "}")
+      if part.nonfloat then
+        latex:insert("\\captionof{figure}{" .. caption_tex .. "}")
+      else
+        latex:insert("\\caption{" .. caption_tex .. "}")
+      end
       latex:insert("\\endgroup")
-    else
-      latex:insert("\\caption*{\\textbf{Figure " .. label .. " (continued)}}")
+    elseif part.caption == "continued" then
+      latex:insert("\\begingroup")
+      latex:insert("\\renewcommand{\\thefigure}{" .. label .. "}")
+      if part.nonfloat then
+        latex:insert("\\captionof*{figure}{\\textbf{Figure " .. label .. " (continued)}}")
+      else
+        latex:insert("\\caption*{\\textbf{Figure " .. label .. " (continued)}}")
+      end
+      latex:insert("\\endgroup")
     end
-    latex:insert("\\end{figure}")
+    if not part.nonfloat then
+      latex:insert("\\end{figure}")
+    end
+    if interstitial_tex and part.caption == "full" then
+      latex:insert(interstitial_tex)
+    end
+    if part.clearpage ~= false then
+      latex:insert("\\clearpage")
+    end
   end
 
   return pandoc.RawBlock("latex", table.concat(latex, "\n"))
 end
 
-local function figure_block(image, caption)
+local function figure_block(image, caption, interstitial_tex)
   local source = image.src:gsub("\\", "/")
-  if source:match("figs_data/figure_[2567]%.svg$") then
-    -- Figures 2 and 5--7 contain vector text, axes, and statistical panels with
+  if source:match("figs_data/figure_[23567]%.svg$")
+    or source:match("figs_data/figure_4_harmonized%.svg$")
+    or source:match("figs_data/Supp_fig_8%.svg$") then
+    -- Figures 2--3 and 5--7 contain vector text, axes, and statistical panels with
     -- raster data only for the flow-density layers. The manuscript build
     -- converts these SVG sources to PDF so LaTeX preserves that structure.
     source = source:gsub("%.svg$", ".pdf")
@@ -183,21 +337,8 @@ local function figure_block(image, caption)
     source = source:gsub("%.svg$", ".png")
   end
   local label, caption_tex = caption_details(caption, "Figure")
-  if label == "2" then
-    local latex = table.concat({
-      "\\begin{figure}[p]",
-      "\\centering",
-      cropped_include(source, "6pt 157pt 4pt 7pt", "0.82"),
-      "\\begingroup",
-      "\\renewcommand{\\thefigure}{2}",
-      "\\caption{" .. caption_tex .. "}",
-      "\\endgroup",
-      "\\end{figure}"
-    }, "\n")
-    return pandoc.RawBlock("latex", latex)
-  end
-  if label == "5" or label == "6" then
-    return split_figure_block(source, caption, label)
+  if label == "2" or label == "3" or label == "4" or label == "5" or label == "6" or label == "7" or label == "S8" then
+    return split_figure_block(source, caption, label, interstitial_tex)
   end
   local latex = table.concat({
     "\\begin{figure}[p]",
@@ -376,6 +517,13 @@ function Pandoc(doc)
       block.level = source_level - 1
     end
 
+    -- Keep the debris-benchmark heading with Figure 3.  The figure itself is
+    -- non-floating, so starting the section here prevents the heading from
+    -- being orphaned at the foot of the preceding table page.
+    if heading == "Synthetic Debris Gating Benchmark" then
+      output:insert(pandoc.RawBlock("latex", "\\clearpage"))
+    end
+
     if source_level == 2 then
       output:insert(pandoc.RawBlock("latex", "\\FloatBarrier"))
       if heading == "Supplementary data" or heading == "References" then
@@ -416,6 +564,23 @@ function Pandoc(doc)
     if image and is_figure_caption(doc.blocks[i + 1]) then
       output:insert(figure_block(image, doc.blocks[i + 1]))
       i = i + 2
+      goto continue
+    end
+
+    -- Keep the biological-validation prose in the intended reading order
+    -- around the split Figure 6: Figure 5 is completed, its debris-results
+    -- paragraph follows, then Figure 6A is shown with the doublet/combined
+    -- results beneath it before Figure 6B--C continue on the next page.
+    if is_para(block)
+      and image_from_para(doc.blocks[i + 1])
+      and is_figure_caption(doc.blocks[i + 2])
+      and select(1, caption_details(doc.blocks[i + 2], "Figure")) == "6" then
+      output:insert(figure_block(
+        image_from_para(doc.blocks[i + 1]),
+        doc.blocks[i + 2],
+        latex_for_block(block)
+      ))
+      i = i + 3
       goto continue
     end
 

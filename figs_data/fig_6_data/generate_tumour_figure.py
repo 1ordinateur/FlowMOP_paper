@@ -12,6 +12,7 @@ Required packages: matplotlib, numpy, Pillow, PyMuPDF, scipy.
 from __future__ import annotations
 
 import csv
+import base64
 import math
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
@@ -36,8 +37,10 @@ REPO = HERE.parents[1]
 SOURCE_ARCHIVE = REPO.parent / "flowmop_data/tumour_data/Shared_tumour_FlowMOP.zip"
 FIGURE_SVG = REPO / "figs_data/figure_7.svg"
 FIGURE_PNG = REPO / "figs_data/figure_7.png"
-SUPP_SVG = REPO / "figs_data/Supp_fig_8.svg"
-SUPP_PNG = REPO / "figs_data/Supp_fig_8.png"
+PANELS_SVG = HERE / "tumour_validation_panels.svg"
+PANELS_PNG = HERE / "tumour_validation_panels.png"
+WORKFLOW_SVG = HERE / "tumour_preprocessing_workflow.svg"
+WORKFLOW_PNG = HERE / "tumour_preprocessing_workflow.png"
 VALUES_CSV = HERE / "tumour_endpoint_values.csv"
 TESTS_CSV = HERE / "tumour_paired_t_tests.csv"
 
@@ -53,8 +56,8 @@ METHOD_COLOURS = {"Raw": "#6f6f6f", "Manual": "#D88700", "FlowMOP": "#0072B2"}
 
 ENDPOINT_LABELS = {
     "live_cd45_count": "Live CD45+ cells",
-    "t_cell_frequency_pct_total": "T-cell frequency\n(% original total)",
-    "b_cell_frequency_pct_total": "B-cell frequency\n(% original total)",
+    "t_cell_frequency_pct_total": "T-cell frequency",
+    "b_cell_frequency_pct_total": "B-cell frequency",
 }
 
 # Crop rectangles are in FlowJo PDF points (origin at top left after rendering).
@@ -443,7 +446,7 @@ def add_bracket(ax: plt.Axes, x1: float, x2: float, y: float, height: float, lab
         label,
         ha="center",
         va="bottom",
-        fontsize=13,
+        fontsize=16,
         fontweight="bold",
     )
 
@@ -487,8 +490,8 @@ def make_figure_7(
         3,
         left=0.15,
         right=0.91,
-        bottom=0.37,
-        top=0.92,
+        bottom=0.40,
+        top=0.95,
         wspace=0.02,
         hspace=0.025,
     )
@@ -519,7 +522,7 @@ def make_figure_7(
     grid_right = max(ax.get_position().x1 for ax in gating_axes)
     grid_bottom = min(ax.get_position().y0 for ax in gating_axes)
     grid_top = max(ax.get_position().y1 for ax in gating_axes)
-    fig.text(0.018, 0.965, "A)", fontsize=23, fontweight="bold", va="top")
+    fig.text(0.018, 0.965, "B)", fontsize=23, fontweight="bold", va="top")
     for ax, method in zip(gating_axes[:3], METHODS):
         pos = ax.get_position()
         fig.text(
@@ -543,51 +546,9 @@ def make_figure_7(
             ha="center",
             va="center",
         )
-    axis_origin_x = grid_left - 0.030
-    axis_origin_y = grid_bottom - 0.020
-    axis_arrow_length = 0.065
-    vertical_arrow = FancyArrowPatch(
-        (axis_origin_x, axis_origin_y),
-        (axis_origin_x, axis_origin_y + axis_arrow_length),
-        transform=fig.transFigure,
-        arrowstyle="-|>",
-        mutation_scale=16,
-        linewidth=1.8,
-        color="#111111",
-        zorder=10,
-    )
-    fig.add_artist(vertical_arrow)
-    fig.text(
-        axis_origin_x - 0.014,
-        axis_origin_y + axis_arrow_length / 2,
-        "CD3",
-        fontsize=18,
-        fontweight="bold",
-        ha="center",
-        va="center",
-        rotation=90,
-    )
-
-    horizontal_arrow = FancyArrowPatch(
-        (axis_origin_x, axis_origin_y),
-        (axis_origin_x + axis_arrow_length, axis_origin_y),
-        transform=fig.transFigure,
-        arrowstyle="-|>",
-        mutation_scale=16,
-        linewidth=1.8,
-        color="#111111",
-        zorder=10,
-    )
-    fig.add_artist(horizontal_arrow)
-    fig.text(
-        axis_origin_x + axis_arrow_length / 2,
-        axis_origin_y - 0.012,
-        "CD19",
-        fontsize=18,
-        fontweight="bold",
-        ha="center",
-        va="top",
-    )
+    # Anchor the shared key to the bottom-left plot and use the same arrow
+    # geometry, stroke, arrowheads, and typography as panel A.
+    add_arrowed_plot_axes(gating_axes[-3], "CD19", "CD3", fontsize=20)
 
     stats_grid = fig.add_gridspec(
         1,
@@ -659,15 +620,15 @@ def make_figure_7(
         ax.axhline(100, color="#777777", lw=1.2, ls="--", zorder=0)
         ax.set_title(ENDPOINT_LABELS[endpoint], fontsize=17, fontweight="bold", pad=13)
         ax.set_xticks(x, METHODS)
-        ax.tick_params(axis="x", labelsize=15, width=1.5)
-        ax.tick_params(axis="y", labelsize=13, width=1.3)
+        ax.tick_params(axis="x", labelsize=17, width=1.5)
+        ax.tick_params(axis="y", labelsize=17, width=1.3)
         for tick_label in ax.get_xticklabels():
             tick_label.set_fontweight("bold")
         ax.set_ylabel(
-            "Relative to matched Raw (%)" if panel_index == 0 else "",
-            fontsize=16,
+            "Freq / Raw Freq (%)" if panel_index == 0 else "",
+            fontsize=24,
             fontweight="bold",
-            labelpad=28 if panel_index == 0 else 0,
+            labelpad=32 if panel_index == 0 else 0,
         )
         ax.spines[["top", "right"]].set_visible(False)
         ax.grid(axis="y", color="#e7e7e7", lw=0.7)
@@ -704,11 +665,11 @@ def make_figure_7(
             ax.set_ylim(data_min, data_max + max(8.0, span * 0.10))
 
     stats_top = max(ax.get_position().y1 for ax in fig.axes[-3:])
-    fig.text(0.018, stats_top + 0.055, "B)", fontsize=23, fontweight="bold", va="top")
+    fig.text(0.018, stats_top + 0.055, "C)", fontsize=23, fontweight="bold", va="top")
 
-    fig.savefig(FIGURE_SVG)
-    clean_svg_whitespace(FIGURE_SVG)
-    fig.savefig(FIGURE_PNG, dpi=300)
+    fig.savefig(PANELS_SVG)
+    clean_svg_whitespace(PANELS_SVG)
+    fig.savefig(PANELS_PNG, dpi=300)
     plt.close(fig)
 
 
@@ -748,10 +709,75 @@ def add_image_axis(
         spine.set_visible(True)
         spine.set_color("#bbbbbb")
         spine.set_linewidth(0.8)
+    ax.add_patch(
+        Rectangle(
+            (0, 0), 1, 1,
+            transform=ax.transAxes,
+            fill=False,
+            edgecolor="#999999",
+            linewidth=0.8,
+            zorder=5,
+        )
+    )
     return ax
 
 
-def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
+def add_arrowed_plot_axes(
+    ax: plt.Axes,
+    x_label: str,
+    y_label: str,
+    *,
+    fontsize: float = 20,
+) -> None:
+    """Add the same balanced arrow-axis geometry used in Figure 6."""
+    arrow_origin = (-0.07, -0.10)
+    for end in ((0.48, -0.10), (-0.07, 0.45)):
+        arrow = FancyArrowPatch(
+            arrow_origin,
+            end,
+            transform=ax.transAxes,
+            arrowstyle="-|>",
+            mutation_scale=13,
+            linewidth=1.4,
+            color="#111111",
+            clip_on=False,
+            zorder=10,
+        )
+        ax.add_artist(arrow)
+    ax.text(
+        0.205, -0.19, x_label,
+        transform=ax.transAxes,
+        ha="center", va="top",
+        fontsize=fontsize, fontweight="bold",
+        clip_on=False,
+    )
+    ax.text(
+        -0.16, 0.175, y_label,
+        transform=ax.transAxes,
+        ha="center", va="center", rotation=90,
+        fontsize=fontsize, fontweight="bold",
+        clip_on=False,
+    )
+
+
+def crop_relative(
+    image: Image.Image,
+    bounds: tuple[float, float, float, float],
+) -> Image.Image:
+    """Crop using fractional bounds, primarily to remove embedded PDF axes."""
+    left, top, right, bottom = bounds
+    width, height = image.size
+    return image.crop(
+        (
+            round(left * width),
+            round(top * height),
+            round(right * width),
+            round(bottom * height),
+        )
+    )
+
+
+def make_workflow_panel(manual_pdf: bytes, qc_pdf: bytes) -> None:
     scale = 4.0
     manual_page = render_page(manual_pdf, 0, scale)
     qc_page = render_page(qc_pdf, 0, scale)
@@ -773,172 +799,121 @@ def make_supplement(manual_pdf: bytes, qc_pdf: bytes) -> None:
     manual_images = [crop_points(manual_page, rect, scale) for rect in manual_rects]
     flowmop_images = [crop_points(qc_page, rect, scale) for rect in flowmop_rects]
 
-    # The first manual crop contains a small FlowJo method tag above the plot.
-    # The figure already identifies each workflow with the large row labels.
+    # The first manual crop contains a small FlowJo method tag above the plot;
+    # the simplified panel identifies each row directly.
     ImageDraw.Draw(manual_images[0]).rectangle(
         (0, 0, manual_images[0].width, round(25 * scale)),
         fill="white",
     )
 
-    flowmop_square_size = round(90 * scale)
+    # Retain the plot frames and data while removing the FlowJo/FlowMOP tick
+    # labels and embedded channel labels. Clean vector arrow axes are added
+    # below the FlowMOP row, matching Figure 6.
+    manual_frame_bounds = (
+        (0.089, 0.108, 0.926, 0.780),
+        (0.086, 0.064, 0.924, 0.818),
+        (0.097, 0.057, 0.936, 0.830),
+    )
+    flowmop_frame_bounds = (
+        (0.134, 0.043, 0.875, 0.837),
+        (0.119, 0.033, 0.856, 0.830),
+        (0.131, 0.033, 0.875, 0.830),
+    )
+    manual_images = [
+        crop_relative(image, bounds)
+        for image, bounds in zip(manual_images, manual_frame_bounds)
+    ]
+    flowmop_images = [
+        crop_relative(image, bounds)
+        for image, bounds in zip(flowmop_images, flowmop_frame_bounds)
+    ]
+
+    # Use the same square presentation for both rows so the representative
+    # preprocessing plots occupy the same visual footprint as the plots in
+    # panel B.
+    workflow_square_size = round(110 * scale)
+    manual_images = [
+        image.resize(
+            (workflow_square_size, workflow_square_size),
+            Image.Resampling.LANCZOS,
+        )
+        for image in manual_images
+    ]
     flowmop_images = [
         image.resize(
-            (flowmop_square_size, flowmop_square_size),
+            (workflow_square_size, workflow_square_size),
             Image.Resampling.LANCZOS,
         )
         for image in flowmop_images
     ]
 
-    fig = plt.figure(figsize=(18, 9.5), facecolor="white")
-    fig.text(
-        0.02,
-        0.96,
-        f"Representative tumour {DISPLAY_SAMPLE_LABELS[SAMPLES[0]]}",
-        fontsize=17,
-        fontweight="bold",
-    )
+    fig = plt.figure(figsize=(18, 9), facecolor="white")
+    fig.text(0.012, 0.98, "A)", fontsize=23, fontweight="bold", va="top")
 
-    manual_x_positions = (0.16, 0.42, 0.68)
-    manual_width = 0.18
-    manual_y, manual_h = 0.57, 0.31
-    flow_x_positions = (0.17, 0.43, 0.69)
-    flow_width = 0.15
-    flow_h = flow_width * 18 / 9.5
-    flow_y = 0.13
-    manual_titles = ("Time gate", "Cells / debris gate", "Single-cell gate")
-    flow_titles = ("Time exclusion", "Debris exclusion", "Doublet exclusion")
+    x_positions = (0.175, 0.425, 0.675)
+    plot_width = 0.21
+    plot_height = 0.40
+    manual_y = 0.54
+    flowmop_y = 0.12
+    column_titles = ("Time", "Debris", "Doublet")
 
-    manual_axes = [
-        add_image_axis(fig, (x, manual_y, manual_width, manual_h), image, title)
-        for x, image, title in zip(manual_x_positions, manual_images, manual_titles)
-    ]
-    flow_axes = [
-        add_image_axis(fig, (x, flow_y, flow_width, flow_h), image, "")
-        for x, image in zip(flow_x_positions, flowmop_images)
-    ]
-    flow_top = flow_y + flow_h
-    split_y = flow_top + 0.03
-    for x, title in zip(flow_x_positions, flow_titles):
+    for x, title in zip(x_positions, column_titles):
         fig.text(
-            x + flow_width / 2,
-            split_y + 0.035,
-            title,
-            ha="center",
-            va="center",
-            fontsize=13,
-            fontweight="bold",
+            x + plot_width / 2, 0.965, title,
+            ha="center", va="center", fontsize=19, fontweight="bold",
         )
 
-    fig.text(0.025, 0.75, "Manual", fontsize=16, fontweight="bold", color=METHOD_COLOURS["Manual"])
-    fig.text(0.025, 0.29, "FlowMOP", fontsize=16, fontweight="bold", color=METHOD_COLOURS["FlowMOP"])
-    fig.text(0.025, 0.70, "Sequential", fontsize=12, color="#444444")
-    fig.text(0.025, 0.24, "Parallel", fontsize=12, color="#444444")
-
-    # Manual gates are applied successively, left to right.
-    for left_ax, right_ax in zip(manual_axes[:-1], manual_axes[1:]):
-        left = left_ax.get_position()
-        right = right_ax.get_position()
-        figure_arrow(fig, (left.x1 + 0.01, left.y0 + left.height / 2), (right.x0 - 0.01, right.y0 + right.height / 2))
-
-    result_box_x = 0.925
-    result_box_left = 0.875
-    last_manual = manual_axes[-1].get_position()
-    manual_result_y = last_manual.y0 + last_manual.height / 2
-    fig.text(
-        result_box_x,
-        manual_result_y,
-        "Manual retained\npopulation",
-        ha="center",
-        va="center",
-        fontsize=12,
-        bbox=dict(boxstyle="round,pad=0.45", fc="#FFF3D9", ec=METHOD_COLOURS["Manual"], lw=1.5),
-    )
-    figure_arrow(
-        fig,
-        (last_manual.x1 + 0.01, manual_result_y),
-        (result_box_left, manual_result_y),
-    )
-
-    # FlowMOP supplies the same Raw input to three independent branches. The
-    # upper rail mirrors the lower convergence rail: curved arrows peel away
-    # from one shared Raw-event line, while the lower curves merge retained
-    # events into their intersection.
-    fig.text(
-        0.085,
-        split_y,
-        "Raw events",
-        ha="center",
-        va="center",
-        fontsize=12,
-        bbox=dict(boxstyle="round,pad=0.45", fc="#f3f3f3", ec="#666666", lw=1.4),
-    )
-    input_rail_start = 0.14
-    branch_offset = 0.035
-    last_flow_pos = flow_axes[-1].get_position()
-    input_rail_end = last_flow_pos.x0 + last_flow_pos.width / 2 - branch_offset
-    fig.add_artist(
-        mpl.lines.Line2D(
-            [input_rail_start, input_rail_end],
-            [split_y, split_y],
-            transform=fig.transFigure,
-            color="#444444",
-            lw=1.5,
-        )
-    )
-    figure_arrow(fig, (0.12, split_y), (input_rail_start, split_y))
-    for ax in flow_axes:
-        pos = ax.get_position()
-        branch_x = pos.x0 + pos.width / 2
-        figure_arrow(
-            fig,
-            (branch_x - branch_offset, split_y),
-            # Put the arrowhead visibly inside the plotting frame rather than
-            # leaving it hovering immediately above the upper border.
-            (branch_x, pos.y1 - 0.012),
-            # Leave the shared rail horizontally, then turn through 90 degrees
-            # so the arrowhead enters the plot vertically from above.
-            connectionstyle="angle3,angleA=0,angleB=90",
-        )
-
-    # The three independent branches converge at a bracket representing the
-    # intersection of events retained by every FlowMOP gate.
-    merge_y = 0.06
-    branch_centres = [
-        ax.get_position().x0 + ax.get_position().width / 2
-        for ax in flow_axes
+    for x, image in zip(x_positions, manual_images):
+        add_image_axis(fig, (x, manual_y, plot_width, plot_height), image, "")
+    flowmop_axes = [
+        add_image_axis(fig, (x, flowmop_y, plot_width, plot_height), image, "")
+        for x, image in zip(x_positions, flowmop_images)
     ]
-    join_offset = 0.035
-    for ax, branch_x in zip(flow_axes, branch_centres):
-        pos = ax.get_position()
-        figure_arrow(
-            fig,
-            (branch_x, pos.y0 - 0.004),
-            (branch_x + join_offset, merge_y),
-            connectionstyle="arc3,rad=0.35",
-            arrowstyle="-",
-        )
-    # Draw the final arrow after the branch connectors so its baseline remains
-    # visually continuous through each merge point.
-    figure_arrow(
-        fig,
-        (branch_centres[0] + join_offset, merge_y),
-        (result_box_left, merge_y),
-    )
+
+    for ax, x_label, y_label in zip(
+        flowmop_axes,
+        ("Time", "FSC-A", "FSC-A"),
+        ("SSC-A", "SSC-A", "FSC-H"),
+    ):
+        add_arrowed_plot_axes(ax, x_label, y_label, fontsize=20)
 
     fig.text(
-        result_box_x,
-        merge_y,
-        "Intersection of\nretained events",
-        ha="center",
-        va="center",
-        fontsize=12,
-        bbox=dict(boxstyle="round,pad=0.5", fc="#DCEEF8", ec=METHOD_COLOURS["FlowMOP"], lw=1.5),
+        0.095, manual_y + plot_height / 2, "Manual",
+        fontsize=22, fontweight="bold", rotation=90, ha="center", va="center",
+    )
+    fig.text(
+        0.095, flowmop_y + plot_height / 2, "FlowMOP",
+        fontsize=22, fontweight="bold", rotation=90, ha="center", va="center",
     )
 
-    fig.savefig(SUPP_SVG)
-    clean_svg_whitespace(SUPP_SVG)
-    fig.savefig(SUPP_PNG, dpi=300)
+    fig.savefig(WORKFLOW_SVG)
+    clean_svg_whitespace(WORKFLOW_SVG)
+    fig.savefig(WORKFLOW_PNG, dpi=300)
     plt.close(fig)
+
+
+def compose_figure_7() -> None:
+    """Stack the preprocessing plots above the tumour plots and statistics."""
+    workflow = base64.b64encode(WORKFLOW_SVG.read_bytes()).decode("ascii")
+    panels = base64.b64encode(PANELS_SVG.read_bytes()).decode("ascii")
+    width = 1296
+    workflow_height = 648
+    panels_height = 1296
+    total_height = workflow_height + panels_height
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+ width="18in" height="27in" viewBox="0 0 {width} {total_height}">
+ <image x="0" y="0" width="{width}" height="{workflow_height}"
+  href="data:image/svg+xml;base64,{workflow}"/>
+ <image x="0" y="{workflow_height}" width="{width}" height="{panels_height}"
+  href="data:image/svg+xml;base64,{panels}"/>
+</svg>\n'''
+    FIGURE_SVG.write_text(svg, encoding="utf-8")
+    try:
+        import cairosvg
+    except ImportError as exc:
+        raise RuntimeError("cairosvg is required to rasterise the composed Figure 7") from exc
+    cairosvg.svg2png(bytestring=svg.encode("utf-8"), write_to=str(FIGURE_PNG),
+                     output_width=2700, output_height=4050)
 
 
 def validate_expected_tests(tests: list[dict[str, object]]) -> None:
@@ -977,9 +952,13 @@ def main() -> None:
     write_csv(VALUES_CSV, rows)
     write_csv(TESTS_CSV, tests)
     make_figure_7(subset_pdf, counts, rows, tests)
-    make_supplement(manual_pdf, qc_pdf)
+    make_workflow_panel(manual_pdf, qc_pdf)
+    compose_figure_7()
 
-    for path in (FIGURE_SVG, FIGURE_PNG, SUPP_SVG, SUPP_PNG, VALUES_CSV, TESTS_CSV):
+    for path in (
+        FIGURE_SVG, FIGURE_PNG, PANELS_SVG, PANELS_PNG,
+        WORKFLOW_SVG, WORKFLOW_PNG, VALUES_CSV, TESTS_CSV,
+    ):
         print(path.relative_to(REPO))
 
 

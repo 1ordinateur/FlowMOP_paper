@@ -319,7 +319,7 @@
    </Groups>
    <SampleList>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_samplewise.fcs"  sampleID="23" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/debris_1_E3_samplewise.fcs"  sampleID="23" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -365,7 +365,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_1_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_1_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="21445" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -467,7 +467,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_1_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="0"  sortPriority="10"  count="21445"  sampleID="23" >
+       <SampleNode name="debris_1_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="0"  sortPriority="10"  count="21445"  sampleID="23" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  heatMapStatParameter="FJComp-APC-A"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -527,7 +527,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/Fig3_NR_gated/doublets_2_NR_samplewise.fcs"  sampleID="25" />
+       <DataSet uri="file:/external_data/Fig3_E3_gated/doublets_2_E3_samplewise.fcs"  sampleID="25" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -561,7 +561,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_2_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_2_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="498862" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -638,7 +638,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_2_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="498862"  sampleID="25" >
+       <SampleNode name="doublets_2_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="498862"  sampleID="25" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  heatMapStatParameter="FJComp-APC-Cy7-A"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="SSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-H"  label=""  auto="auto" />
@@ -1187,7 +1187,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/250429%20Tony%20doublets/CC+%20US_CFSE%20+%20US_007.fcs"  sampleID="26" />
+       <DataSet uri="file:/external_data/doublet_validation/CC+%20US_CFSE%20+%20US_007.fcs"  sampleID="26" />
        <transforms:spilloverMatrix spectral="0"  weightOptAlgorithmType="OLS"  prefix="Comp-"  name="Acquisition-defined"  editable="0"  color="#c0c0c0"  version="FlowJo-10.10.0"  status="FINALIZED"  transforms:id="977c71ae-e037-4f2c-b9f8-672f20cfb359"  suffix="" >
          <data-type:parameters>
            <data-type:parameter data-type:name="BV421-A"  userProvidedCompInfix="Comp-BV421-A" />
@@ -1270,7 +1270,7 @@
          <Keyword name="CREATOR"  value="BD FACSDiva Software Version 8.0.1" />
          <Keyword name="TUBE NAME"  value="CFSE + US" />
          <Keyword name="$SRC"  value="CC+ US" />
-         <Keyword name="EXPERIMENT NAME"  value="250429 Tony doublets" />
+         <Keyword name="EXPERIMENT NAME"  value="doublet validation" />
          <Keyword name="GUID"  value="cb7de018-2705-4744-b7c6-6ae8a1ced72f" />
          <Keyword name="$DATE"  value="29-APR-2025" />
          <Keyword name="$BTIM"  value="19:25:06" />
@@ -1284,7 +1284,7 @@
          <Keyword name="$OP"  value="AnneB" />
          <Keyword name="FSC ASF"  value="0.63" />
          <Keyword name="AUTOBS"  value="TRUE" />
-         <Keyword name="$INST"  value="Bruestle" />
+         <Keyword name="$INST"  value="Research facility" />
          <Keyword name="LASER1NAME"  value="Blue" />
          <Keyword name="LASER1DELAY"  value="0.00" />
          <Keyword name="LASER1ASF"  value="0.63" />
@@ -1971,7 +1971,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/250429%20Tony%20doublets/CC+%20US_CTV%20+%20US_008.fcs"  sampleID="27" />
+       <DataSet uri="file:/external_data/doublet_validation/CC+%20US_CTV%20+%20US_008.fcs"  sampleID="27" />
        <transforms:spilloverMatrix spectral="0"  weightOptAlgorithmType="OLS"  prefix="Comp-"  name="Acquisition-defined"  editable="0"  color="#c0c0c0"  version="FlowJo-10.10.0"  status="FINALIZED"  transforms:id="977c71ae-e037-4f2c-b9f8-672f20cfb359"  suffix="" >
          <data-type:parameters>
            <data-type:parameter data-type:name="BV421-A"  userProvidedCompInfix="Comp-BV421-A" />
@@ -2054,7 +2054,7 @@
          <Keyword name="CREATOR"  value="BD FACSDiva Software Version 8.0.1" />
          <Keyword name="TUBE NAME"  value="CTV + US" />
          <Keyword name="$SRC"  value="CC+ US" />
-         <Keyword name="EXPERIMENT NAME"  value="250429 Tony doublets" />
+         <Keyword name="EXPERIMENT NAME"  value="doublet validation" />
          <Keyword name="GUID"  value="0336880d-e2e0-42d8-b643-f305d38c9bfe" />
          <Keyword name="$DATE"  value="29-APR-2025" />
          <Keyword name="$BTIM"  value="19:26:58" />
@@ -2068,7 +2068,7 @@
          <Keyword name="$OP"  value="AnneB" />
          <Keyword name="FSC ASF"  value="0.63" />
          <Keyword name="AUTOBS"  value="TRUE" />
-         <Keyword name="$INST"  value="Bruestle" />
+         <Keyword name="$INST"  value="Research facility" />
          <Keyword name="LASER1NAME"  value="Blue" />
          <Keyword name="LASER1DELAY"  value="0.00" />
          <Keyword name="LASER1ASF"  value="0.63" />
@@ -2391,7 +2391,7 @@
          <Keyword name="flowmop_max_bins"  value="600" />
          <Keyword name="flowmop_min_cells"  value="1000" />
          <Keyword name="flowmop_original_file_g"  value="data" />
-         <Keyword name="eu59"  value="data_flowmop" />
+         <Keyword name="PROJECT_CODE"  value="data_flowmop" />
          <Keyword name="cleaned_compiled_fig_3_dataset"  value="doublets_2.fcs" />
          <Keyword name="flowmop_processed"  value="true" />
          <Keyword name="flowmop_processing_date"  value="2025-07-07T11:30:58.320371" />

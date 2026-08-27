@@ -1,13 +1,12 @@
 #!/bin/bash
 
 #PBS -N flowmop_fig2_smoothing_full
-#PBS -P eu59
 #PBS -q expresssr
 #PBS -l walltime=01:00:00
 #PBS -l ncpus=48
 #PBS -l mem=190GB
 #PBS -l jobfs=190GB
-#PBS -l storage=gdata/eu59+scratch/eu59+gdata/dk92
+#PBS -l storage=gdata/PROJECT_CODE+scratch/PROJECT_CODE+gdata/dk92
 #PBS -j oe
 #PBS -m abe
 #PBS -l wd

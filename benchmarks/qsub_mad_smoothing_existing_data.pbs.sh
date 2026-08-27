@@ -1,13 +1,12 @@
 #!/bin/bash
 
 #PBS -N flowmop_mad_smoothing
-#PBS -P eu59
 #PBS -q expresssr
 #PBS -l walltime=10:00:00
 #PBS -l ncpus=24
 #PBS -l mem=100GB
 #PBS -l jobfs=40GB
-#PBS -l storage=scratch/eu59+gdata/eu59+gdata/dk92
+#PBS -l storage=scratch/PROJECT_CODE+gdata/PROJECT_CODE+gdata/dk92
 #PBS -j oe
 #PBS -m abe
 #PBS -l wd
@@ -65,7 +64,7 @@ fi
 if [[ -z "${DATASET_DIR}" ]]; then
     echo "Error: DATASET_DIR is required." >&2
     echo "Submit with, for example:" >&2
-    echo "  qsub -v DATASET_DIR=/g/data/eu59/data_flowmop/synthetic_combos_largecut,DATASET_BIN_SIZE=5000 ${BASH_SOURCE[0]}" >&2
+    echo "  qsub -v DATASET_DIR=/g/data/PROJECT_CODE/data_flowmop/synthetic_combos_largecut,DATASET_BIN_SIZE=5000 ${BASH_SOURCE[0]}" >&2
     exit 1
 fi
 

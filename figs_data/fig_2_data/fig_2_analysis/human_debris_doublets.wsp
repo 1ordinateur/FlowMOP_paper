@@ -423,7 +423,7 @@
    </Groups>
    <SampleList>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_3_Debris_SC_groupwise.fcs"  sampleID="44" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/debris_3_Debris_E2_groupwise.fcs"  sampleID="44" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -469,7 +469,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_3_Debris_SC_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_3_Debris_E4_groupwise.fcs" />
          <Keyword name="$TOT"  value="39215" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -585,7 +585,7 @@
          <Keyword name="$P13S"  value="" />
          <Keyword name="$P14S"  value="" />
        </Keywords>
-       <SampleNode name="debris_3_Debris_SC_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="39215"  sampleID="44" >
+       <SampleNode name="debris_3_Debris_E4_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="39215"  sampleID="44" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -644,7 +644,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_3_Debris_SC_samplewise.fcs"  sampleID="45" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/debris_3_Debris_E2_samplewise.fcs"  sampleID="45" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -690,7 +690,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_3_Debris_SC_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_3_Debris_E4_samplewise.fcs" />
          <Keyword name="$TOT"  value="39348" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -806,7 +806,7 @@
          <Keyword name="$P13S"  value="" />
          <Keyword name="$P14S"  value="" />
        </Keywords>
-       <SampleNode name="debris_3_Debris_SC_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="39348"  sampleID="45" >
+       <SampleNode name="debris_3_Debris_E4_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="39348"  sampleID="45" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -865,7 +865,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_1_Debris_SC_groupwise.fcs"  sampleID="46" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/debris_1_Debris_E2_groupwise.fcs"  sampleID="46" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -911,7 +911,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_1_Debris_SC_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_1_Debris_E4_groupwise.fcs" />
          <Keyword name="$TOT"  value="37070" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -1027,7 +1027,7 @@
          <Keyword name="$P13S"  value="" />
          <Keyword name="$P14S"  value="" />
        </Keywords>
-       <SampleNode name="debris_1_Debris_SC_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="37070"  sampleID="46" >
+       <SampleNode name="debris_1_Debris_E4_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="37070"  sampleID="46" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -1086,7 +1086,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_1_Debris_SC_samplewise.fcs"  sampleID="47" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/debris_1_Debris_E2_samplewise.fcs"  sampleID="47" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -1132,7 +1132,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_1_Debris_SC_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_1_Debris_E4_samplewise.fcs" />
          <Keyword name="$TOT"  value="37198" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -1248,7 +1248,7 @@
          <Keyword name="$P13S"  value="" />
          <Keyword name="$P14S"  value="" />
        </Keywords>
-       <SampleNode name="debris_1_Debris_SC_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="37198"  sampleID="47" >
+       <SampleNode name="debris_1_Debris_E4_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="37198"  sampleID="47" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -1307,7 +1307,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_2_Debris_SC_groupwise.fcs"  sampleID="48" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/debris_2_Debris_E2_groupwise.fcs"  sampleID="48" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -1353,7 +1353,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_2_Debris_SC_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_2_Debris_E4_groupwise.fcs" />
          <Keyword name="$TOT"  value="44387" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -1469,7 +1469,7 @@
          <Keyword name="$P13S"  value="" />
          <Keyword name="$P14S"  value="" />
        </Keywords>
-       <SampleNode name="debris_2_Debris_SC_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="44387"  sampleID="48" >
+       <SampleNode name="debris_2_Debris_E4_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="44387"  sampleID="48" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -1528,7 +1528,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_2_Singlets_SC_groupwise.fcs"  sampleID="49" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/doublets_2_Singlets_E2_groupwise.fcs"  sampleID="49" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -1562,7 +1562,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_2_Singlets_SC_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_2_Singlets_E4_groupwise.fcs" />
          <Keyword name="$TOT"  value="503658" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -1649,7 +1649,7 @@
          <Keyword name="$P6S"  value="" />
          <Keyword name="$P10S"  value="" />
        </Keywords>
-       <SampleNode name="doublets_2_Singlets_SC_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="503658"  sampleID="49" >
+       <SampleNode name="doublets_2_Singlets_E4_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="503658"  sampleID="49" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -1826,7 +1826,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_2_Singlets_SC_samplewise.fcs"  sampleID="50" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/doublets_2_Singlets_E2_samplewise.fcs"  sampleID="50" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -1860,7 +1860,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_2_Singlets_SC_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_2_Singlets_E4_samplewise.fcs" />
          <Keyword name="$TOT"  value="506525" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -1947,7 +1947,7 @@
          <Keyword name="$P6S"  value="" />
          <Keyword name="$P10S"  value="" />
        </Keywords>
-       <SampleNode name="doublets_2_Singlets_SC_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="506525"  sampleID="50" >
+       <SampleNode name="doublets_2_Singlets_E4_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="506525"  sampleID="50" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -2124,7 +2124,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_3_Singlets_SC_groupwise.fcs"  sampleID="51" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/doublets_3_Singlets_E2_groupwise.fcs"  sampleID="51" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -2158,7 +2158,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_3_Singlets_SC_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_3_Singlets_E4_groupwise.fcs" />
          <Keyword name="$TOT"  value="228049" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -2245,7 +2245,7 @@
          <Keyword name="$P6S"  value="" />
          <Keyword name="$P10S"  value="" />
        </Keywords>
-       <SampleNode name="doublets_3_Singlets_SC_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="228049"  sampleID="51" >
+       <SampleNode name="doublets_3_Singlets_E4_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="228049"  sampleID="51" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -2422,7 +2422,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_3_Singlets_SC_samplewise.fcs"  sampleID="52" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/doublets_3_Singlets_E2_samplewise.fcs"  sampleID="52" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -2456,7 +2456,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_3_Singlets_SC_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_3_Singlets_E4_samplewise.fcs" />
          <Keyword name="$TOT"  value="229236" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -2543,7 +2543,7 @@
          <Keyword name="$P6S"  value="" />
          <Keyword name="$P10S"  value="" />
        </Keywords>
-       <SampleNode name="doublets_3_Singlets_SC_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="229236"  sampleID="52" >
+       <SampleNode name="doublets_3_Singlets_E4_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="229236"  sampleID="52" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -2720,7 +2720,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_4_Singlets_SC_groupwise.fcs"  sampleID="53" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/doublets_4_Singlets_E2_groupwise.fcs"  sampleID="53" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -2754,7 +2754,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_4_Singlets_SC_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_4_Singlets_E4_groupwise.fcs" />
          <Keyword name="$TOT"  value="466693" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -2841,7 +2841,7 @@
          <Keyword name="$P6S"  value="" />
          <Keyword name="$P10S"  value="" />
        </Keywords>
-       <SampleNode name="doublets_4_Singlets_SC_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="466693"  sampleID="53" >
+       <SampleNode name="doublets_4_Singlets_E4_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="466693"  sampleID="53" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -3018,7 +3018,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_4_RJ_groupwise.fcs"  sampleID="10" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/doublets_4_E4_groupwise.fcs"  sampleID="10" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -3316,7 +3316,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_4_Singlets_SC_samplewise.fcs"  sampleID="54" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/doublets_4_Singlets_E2_samplewise.fcs"  sampleID="54" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -3350,7 +3350,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_4_Singlets_SC_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_4_Singlets_E4_samplewise.fcs" />
          <Keyword name="$TOT"  value="469318" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -3437,7 +3437,7 @@
          <Keyword name="$P6S"  value="" />
          <Keyword name="$P10S"  value="" />
        </Keywords>
-       <SampleNode name="doublets_4_Singlets_SC_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="469318"  sampleID="54" >
+       <SampleNode name="doublets_4_Singlets_E4_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="469318"  sampleID="54" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -3614,7 +3614,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_4_RJ_samplewise.fcs"  sampleID="11" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/doublets_4_E4_samplewise.fcs"  sampleID="11" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -3912,7 +3912,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_1_Singlets_SC_groupwise.fcs"  sampleID="55" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/doublets_1_Singlets_E2_groupwise.fcs"  sampleID="55" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -3946,7 +3946,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_1_Singlets_SC_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_1_Singlets_E4_groupwise.fcs" />
          <Keyword name="$TOT"  value="848034" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -4033,7 +4033,7 @@
          <Keyword name="$P6S"  value="" />
          <Keyword name="$P10S"  value="" />
        </Keywords>
-       <SampleNode name="doublets_1_Singlets_SC_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="848034"  sampleID="55" >
+       <SampleNode name="doublets_1_Singlets_E4_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="848034"  sampleID="55" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -4210,7 +4210,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_1_RJ_groupwise.fcs"  sampleID="12" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/doublets_1_E4_groupwise.fcs"  sampleID="12" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -4508,7 +4508,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_1_Singlets_SC_samplewise.fcs"  sampleID="56" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/doublets_1_Singlets_E2_samplewise.fcs"  sampleID="56" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -4542,7 +4542,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_1_Singlets_SC_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_1_Singlets_E4_samplewise.fcs" />
          <Keyword name="$TOT"  value="858917" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -4629,7 +4629,7 @@
          <Keyword name="$P6S"  value="" />
          <Keyword name="$P10S"  value="" />
        </Keywords>
-       <SampleNode name="doublets_1_Singlets_SC_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="858917"  sampleID="56" >
+       <SampleNode name="doublets_1_Singlets_E4_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="858917"  sampleID="56" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -4806,7 +4806,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_1_RJ_samplewise.fcs"  sampleID="13" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/doublets_1_E4_samplewise.fcs"  sampleID="13" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5104,7 +5104,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_2_RJ_groupwise.fcs"  sampleID="14" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/doublets_2_E4_groupwise.fcs"  sampleID="14" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5402,7 +5402,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_2_FMW_groupwise.fcs"  sampleID="15" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/debris_2_E1_groupwise.fcs"  sampleID="15" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5448,7 +5448,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_2_FMW_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_2_E1_groupwise.fcs" />
          <Keyword name="$TOT"  value="28500" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -5564,7 +5564,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_2_FMW_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="28500"  sampleID="15" >
+       <SampleNode name="debris_2_E1_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="28500"  sampleID="15" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -5623,7 +5623,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_2_FMW_samplewise.fcs"  sampleID="16" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/debris_2_E1_samplewise.fcs"  sampleID="16" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5669,7 +5669,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_2_FMW_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_2_E1_samplewise.fcs" />
          <Keyword name="$TOT"  value="28751" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -5785,7 +5785,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_2_FMW_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="28751"  sampleID="16" >
+       <SampleNode name="debris_2_E1_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="28751"  sampleID="16" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -5844,7 +5844,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_3_FMW_groupwise.fcs"  sampleID="17" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/debris_3_E1_groupwise.fcs"  sampleID="17" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5890,7 +5890,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_3_FMW_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_3_E1_groupwise.fcs" />
          <Keyword name="$TOT"  value="25097" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -6006,7 +6006,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_3_FMW_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="25097"  sampleID="17" >
+       <SampleNode name="debris_3_E1_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="25097"  sampleID="17" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -6065,7 +6065,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_3_FMW_samplewise.fcs"  sampleID="18" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/debris_3_E1_samplewise.fcs"  sampleID="18" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6111,7 +6111,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_3_FMW_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_3_E1_samplewise.fcs" />
          <Keyword name="$TOT"  value="25538" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -6227,7 +6227,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_3_FMW_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="25538"  sampleID="18" >
+       <SampleNode name="debris_3_E1_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="25538"  sampleID="18" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -6286,7 +6286,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_1_FMW_groupwise.fcs"  sampleID="19" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/debris_1_E1_groupwise.fcs"  sampleID="19" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6332,7 +6332,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_1_FMW_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_1_E1_groupwise.fcs" />
          <Keyword name="$TOT"  value="24340" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -6448,7 +6448,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_1_FMW_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="24340"  sampleID="19" >
+       <SampleNode name="debris_1_E1_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="24340"  sampleID="19" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -6507,7 +6507,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_2_RJ_groupwise.fcs"  sampleID="1" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/debris_2_E4_groupwise.fcs"  sampleID="1" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6729,7 +6729,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_2_RJ_samplewise.fcs"  sampleID="2" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/debris_2_E4_samplewise.fcs"  sampleID="2" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6950,7 +6950,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_3_RJ_groupwise.fcs"  sampleID="3" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/debris_3_E4_groupwise.fcs"  sampleID="3" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -7171,7 +7171,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_3_RJ_samplewise.fcs"  sampleID="4" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/debris_3_E4_samplewise.fcs"  sampleID="4" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -7392,7 +7392,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_1_RJ_groupwise.fcs"  sampleID="5" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/debris_1_E4_groupwise.fcs"  sampleID="5" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -7613,7 +7613,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_1_RJ_samplewise.fcs"  sampleID="6" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/debris_1_E4_samplewise.fcs"  sampleID="6" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -7834,7 +7834,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_2_RJ_samplewise.fcs"  sampleID="7" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/doublets_2_E4_samplewise.fcs"  sampleID="7" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8132,7 +8132,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_3_RJ_groupwise.fcs"  sampleID="8" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/doublets_3_E4_groupwise.fcs"  sampleID="8" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8430,7 +8430,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_3_RJ_samplewise.fcs"  sampleID="9" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert4/Figure3/doublets_3_E4_samplewise.fcs"  sampleID="9" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8728,7 +8728,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_1_FMW_samplewise.fcs"  sampleID="20" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/debris_1_E1_samplewise.fcs"  sampleID="20" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8774,7 +8774,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_1_FMW_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_1_E1_samplewise.fcs" />
          <Keyword name="$TOT"  value="24340" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -8890,7 +8890,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_1_FMW_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="24340"  sampleID="20" >
+       <SampleNode name="debris_1_E1_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="24340"  sampleID="20" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -8949,7 +8949,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_1_FMW_samplewise.fcs"  sampleID="21" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/doublets_1_E1_samplewise.fcs"  sampleID="21" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8983,7 +8983,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_1_FMW_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_1_E1_samplewise.fcs" />
          <Keyword name="$TOT"  value="819868" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -9070,7 +9070,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_1_FMW_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="819868"  sampleID="21" >
+       <SampleNode name="doublets_1_E1_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="819868"  sampleID="21" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -9247,7 +9247,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_2_FMW_groupwise.fcs"  sampleID="22" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/doublets_2_E1_groupwise.fcs"  sampleID="22" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -9281,7 +9281,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_2_FMW_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_2_E1_groupwise.fcs" />
          <Keyword name="$TOT"  value="489676" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -9368,7 +9368,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_2_FMW_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="489676"  sampleID="22" >
+       <SampleNode name="doublets_2_E1_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="489676"  sampleID="22" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -9545,7 +9545,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_2_FMW_samplewise.fcs"  sampleID="23" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/doublets_2_E1_samplewise.fcs"  sampleID="23" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -9579,7 +9579,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_2_FMW_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_2_E1_samplewise.fcs" />
          <Keyword name="$TOT"  value="488087" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -9666,7 +9666,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_2_FMW_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="488087"  sampleID="23" >
+       <SampleNode name="doublets_2_E1_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="488087"  sampleID="23" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -9843,7 +9843,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_3_FMW_groupwise.fcs"  sampleID="24" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/doublets_3_E1_groupwise.fcs"  sampleID="24" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -9877,7 +9877,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_3_FMW_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_3_E1_groupwise.fcs" />
          <Keyword name="$TOT"  value="222378" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -9964,7 +9964,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_3_FMW_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="222378"  sampleID="24" >
+       <SampleNode name="doublets_3_E1_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="222378"  sampleID="24" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -10141,7 +10141,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_3_FMW_samplewise.fcs"  sampleID="25" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/doublets_3_E1_samplewise.fcs"  sampleID="25" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -10175,7 +10175,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_3_FMW_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_3_E1_samplewise.fcs" />
          <Keyword name="$TOT"  value="221725" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -10262,7 +10262,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_3_FMW_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="221725"  sampleID="25" >
+       <SampleNode name="doublets_3_E1_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="221725"  sampleID="25" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -10439,7 +10439,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublet_4_FMW_groupwise.fcs"  sampleID="26" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/doublet_4_E1_groupwise.fcs"  sampleID="26" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -10473,7 +10473,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublet_4_FMW_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublet_4_E1_groupwise.fcs" />
          <Keyword name="$TOT"  value="453844" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -10560,7 +10560,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublet_4_FMW_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="453844"  sampleID="26" >
+       <SampleNode name="doublet_4_E1_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="453844"  sampleID="26" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -10737,7 +10737,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublet_4_FMW_samplewise.fcs"  sampleID="27" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/doublet_4_E1_samplewise.fcs"  sampleID="27" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -10771,7 +10771,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublet_4_FMW_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublet_4_E1_samplewise.fcs" />
          <Keyword name="$TOT"  value="453844" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -10858,7 +10858,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublet_4_FMW_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="453844"  sampleID="27" >
+       <SampleNode name="doublet_4_E1_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="453844"  sampleID="27" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -11035,7 +11035,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_1_FMW_groupwise.fcs"  sampleID="28" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert1/Figure3/doublets_1_E1_groupwise.fcs"  sampleID="28" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11069,7 +11069,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_1_FMW_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_1_E1_groupwise.fcs" />
          <Keyword name="$TOT"  value="829981" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -11156,7 +11156,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_1_FMW_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="829981"  sampleID="28" >
+       <SampleNode name="doublets_1_E1_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="829981"  sampleID="28" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -11333,7 +11333,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_2_NR_groupwise.fcs"  sampleID="29" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/debris_2_E3_groupwise.fcs"  sampleID="29" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11379,7 +11379,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_2_NR_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_2_E3_groupwise.fcs" />
          <Keyword name="$TOT"  value="25677" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -11481,7 +11481,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_2_NR_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="25677"  sampleID="29" >
+       <SampleNode name="debris_2_E3_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="25677"  sampleID="29" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -11540,7 +11540,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_2_NR_samplewise.fcs"  sampleID="30" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/debris_2_E3_samplewise.fcs"  sampleID="30" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11586,7 +11586,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_2_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_2_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="25215" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -11688,7 +11688,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_2_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="25215"  sampleID="30" >
+       <SampleNode name="debris_2_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="25215"  sampleID="30" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -11747,7 +11747,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_3_NR_groupwise.fcs"  sampleID="31" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/debris_3_E3_groupwise.fcs"  sampleID="31" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11793,7 +11793,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_3_NR_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_3_E3_groupwise.fcs" />
          <Keyword name="$TOT"  value="22318" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -11895,7 +11895,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_3_NR_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="22318"  sampleID="31" >
+       <SampleNode name="debris_3_E3_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="22318"  sampleID="31" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -11954,7 +11954,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_3_NR_samplewise.fcs"  sampleID="32" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/debris_3_E3_samplewise.fcs"  sampleID="32" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12000,7 +12000,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_3_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_3_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="22035" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -12102,7 +12102,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_3_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="22035"  sampleID="32" >
+       <SampleNode name="debris_3_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="22035"  sampleID="32" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -12161,7 +12161,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_groupwise.fcs"  sampleID="33" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/debris_1_E3_groupwise.fcs"  sampleID="33" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12207,7 +12207,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_1_NR_groupwise.fcs" />
+         <Keyword name="$FIL"  value="debris_1_E3_groupwise.fcs" />
          <Keyword name="$TOT"  value="21518" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -12309,7 +12309,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_1_NR_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="21518"  sampleID="33" >
+       <SampleNode name="debris_1_E3_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="21518"  sampleID="33" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -12368,7 +12368,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_samplewise.fcs"  sampleID="34" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/debris_1_E3_samplewise.fcs"  sampleID="34" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12414,7 +12414,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_1_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_1_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="21445" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -12516,7 +12516,7 @@
          <Keyword name="$P14S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="debris_1_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="21445"  sampleID="34" >
+       <SampleNode name="debris_1_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="21445"  sampleID="34" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -12575,7 +12575,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_2_NR_samplewise.fcs"  sampleID="35" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/doublets_2_E3_samplewise.fcs"  sampleID="35" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12609,7 +12609,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_2_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_2_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="498862" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -12686,7 +12686,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_2_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="498862"  sampleID="35" >
+       <SampleNode name="doublets_2_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="498862"  sampleID="35" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -12863,7 +12863,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_3_NR_groupwise.fcs"  sampleID="36" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/doublets_3_E3_groupwise.fcs"  sampleID="36" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12897,7 +12897,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_3_NR_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_3_E3_groupwise.fcs" />
          <Keyword name="$TOT"  value="224593" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -12974,7 +12974,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_3_NR_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="224593"  sampleID="36" >
+       <SampleNode name="doublets_3_E3_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="224593"  sampleID="36" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -13151,7 +13151,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_3_NR_samplewise.fcs"  sampleID="37" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/doublets_3_E3_samplewise.fcs"  sampleID="37" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -13185,7 +13185,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_3_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_3_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="222145" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -13262,7 +13262,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_3_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="222145"  sampleID="37" >
+       <SampleNode name="doublets_3_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="222145"  sampleID="37" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  heatMapStatParameter="FJComp-APC-Cy7-A"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FJComp-BV421-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="FJComp-FITC-A"  label=""  auto="auto" />
@@ -13440,7 +13440,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_4_NR_groupwise.fcs"  sampleID="38" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/doublets_4_E3_groupwise.fcs"  sampleID="38" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -13474,7 +13474,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublet_4_NR_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublet_4_E3_groupwise.fcs" />
          <Keyword name="$TOT"  value="458016" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -13551,7 +13551,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublet_4_NR_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="458016"  sampleID="38" >
+       <SampleNode name="doublet_4_E3_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="458016"  sampleID="38" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -13728,7 +13728,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_4_NR_samplewise.fcs"  sampleID="39" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/doublets_4_E3_samplewise.fcs"  sampleID="39" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -13762,7 +13762,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_4_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_4_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="454448" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -13839,7 +13839,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_4_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="454448"  sampleID="39" >
+       <SampleNode name="doublets_4_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="454448"  sampleID="39" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -14016,7 +14016,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_1_NR_groupwise.fcs"  sampleID="40" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/doublets_1_E3_groupwise.fcs"  sampleID="40" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -14050,7 +14050,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublet_1_NR_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublet_1_E3_groupwise.fcs" />
          <Keyword name="$TOT"  value="836711" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -14127,7 +14127,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublet_1_NR_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="836711"  sampleID="40" >
+       <SampleNode name="doublet_1_E3_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="836711"  sampleID="40" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -14304,7 +14304,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_1_NR_samplewise.fcs"  sampleID="41" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/doublets_1_E3_samplewise.fcs"  sampleID="41" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -14338,7 +14338,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_1_NR_samplewise.fcs" />
+         <Keyword name="$FIL"  value="doublets_1_E3_samplewise.fcs" />
          <Keyword name="$TOT"  value="839157" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -14415,7 +14415,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_1_NR_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="839157"  sampleID="41" >
+       <SampleNode name="doublets_1_E3_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="839157"  sampleID="41" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />
@@ -14592,7 +14592,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_2_NR_groupwise.fcs"  sampleID="42" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Figure3/doublets_2_E3_groupwise.fcs"  sampleID="42" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -14626,7 +14626,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="doublets_2_NR_groupwise.fcs" />
+         <Keyword name="$FIL"  value="doublets_2_E3_groupwise.fcs" />
          <Keyword name="$TOT"  value="496619" />
          <Keyword name="$PAR"  value="10" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -14703,7 +14703,7 @@
          <Keyword name="$P10S"  value="" />
          <Keyword name="FILENAME"  value="" />
        </Keywords>
-       <SampleNode name="doublets_2_NR_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="496619"  sampleID="42" >
+       <SampleNode name="doublets_2_E3_groupwise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="496619"  sampleID="42" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  heatMapStatParameter="FJComp-APC-Cy7-A"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FJComp-BV421-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="FJComp-FITC-A"  label=""  auto="auto" />
@@ -14881,7 +14881,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_2_Debris_SC_samplewise.fcs"  sampleID="43" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert2/Figure3/debris_2_Debris_E2_samplewise.fcs"  sampleID="43" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -14927,7 +14927,7 @@
          </transforms:linear>
        </Transformations>
        <Keywords>
-         <Keyword name="$FIL"  value="debris_2_Debris_SC_samplewise.fcs" />
+         <Keyword name="$FIL"  value="debris_2_Debris_E4_samplewise.fcs" />
          <Keyword name="$TOT"  value="43079" />
          <Keyword name="$PAR"  value="14" />
          <Keyword name="$BYTEORD"  value="4,3,2,1" />
@@ -15043,7 +15043,7 @@
          <Keyword name="$P13S"  value="" />
          <Keyword name="$P14S"  value="" />
        </Keywords>
-       <SampleNode name="debris_2_Debris_SC_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="43079"  sampleID="43" >
+       <SampleNode name="debris_2_Debris_E4_samplewise.fcs"  annotation=""  owningGroup=""  expanded="1"  sortPriority="10"  count="43079"  sampleID="43" >
          <Graph smoothing="0"  backColor="#ffffff"  foreColor="#000000"  type="Pseudocolor"  fast="1" >
            <Axis dimension="x"  name="FSC-A"  label=""  auto="auto" />
            <Axis dimension="y"  name="SSC-A"  label=""  auto="auto" />

@@ -1,13 +1,12 @@
 #!/bin/bash
 
 #PBS -N flowmop_fig2_default
-#PBS -P eu59
 #PBS -q normal
 #PBS -l walltime=12:00:00
 #PBS -l ncpus=1
 #PBS -l mem=16GB
 #PBS -l jobfs=4GB
-#PBS -l storage=gdata/eu59+scratch/eu59+gdata/dk92
+#PBS -l storage=gdata/PROJECT_CODE+scratch/PROJECT_CODE+gdata/dk92
 #PBS -j oe
 #PBS -m abe
 #PBS -l wd

@@ -15,6 +15,7 @@ import argparse
 import glob
 import random
 import subprocess
+from pathlib import Path
 from typing import List, Tuple, Dict
 from itertools import combinations
 import numpy as np
@@ -189,7 +190,7 @@ def main():
     parser.add_argument('--time-channel', type=str, default='Time',
                         help='Name of the time channel in FCS files (default: Time).')
     parser.add_argument('--script-path', type=str,
-                        default='/g/data/eu59/FlowMOP/flowmop_paper/algo_validation/time_gate_executables/concatenate_fcs_cli.py',
+                        default=str(Path(__file__).resolve().with_name('concatenate_fcs_cli.py')),
                         help='Path to concatenate_fcs_cli.py script.')
     parser.add_argument('--seed', type=int, default=None,
                         help='Random seed for reproducible results.')

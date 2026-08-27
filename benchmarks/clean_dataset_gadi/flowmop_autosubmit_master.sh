@@ -315,7 +315,7 @@ export PBS_STORAGE="$PBS_STORAGE"
 export MAX_JOB_ITERATIONS=$MAX_JOB_ITERATIONS
 
 # FlowMOP Script Path
-export FLOWMOP_SCRIPT="/g/data/eu59/FlowMOP/src/flowmop_exec.py"
+export FLOWMOP_SCRIPT="${FLOWMOP_SCRIPT:-/g/data/PROJECT_CODE/FlowMOP/src/flowmop_exec.py}"
 EOF
 
 # Initialize job counter

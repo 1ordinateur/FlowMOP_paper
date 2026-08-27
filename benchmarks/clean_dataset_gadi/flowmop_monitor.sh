@@ -8,7 +8,7 @@ set -e
 
 if [[ $# -ne 1 ]]; then
     echo "Usage: $0 <work_directory>"
-    echo "Example: $0 /scratch/eu59/flowmop_work"
+    echo "Example: $0 /scratch/PROJECT_CODE/flowmop_work"
     exit 1
 fi
 

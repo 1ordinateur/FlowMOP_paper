@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-RUN_ROOT="${1:-/g/data/eu59/flowmop_fig2_corrected_20260808}"
+RUN_ROOT="${1:-/g/data/PROJECT_CODE/flowmop_fig2_corrected_20260808}"
 REPO_ROOT="${RUN_ROOT}/repo"
 FLOWMOP_ROOT="${REPO_ROOT}/FlowMOP"
 PYTHON_PACKAGE_DIR="${RUN_ROOT}/python_packages"

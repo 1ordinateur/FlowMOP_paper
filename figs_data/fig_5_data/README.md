@@ -2,7 +2,7 @@
 
 This directory contains the reproducible event-level analysis for main Figures 5 and 6.
 The inferential analysis uses one PBMC sample from each of eight independent
-donors: 1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A.
+donors: Sample 1, Sample 2, Sample 3, Sample 4, Sample 5, Sample 6, Sample 7, and Sample 8.
 Each selected repeat contains FSC-A and SSC-A and complete debris, doublet,
 comparator, and manual data.
 
@@ -51,7 +51,7 @@ expert coordinates without inheriting the CD45+ parent. The matched ungated inpu
 
 Every endpoint count is divided by its matched ungated-input count, with Raw
 equal to exactly 1. Live CD45+, B, T, and NKT frequencies are expressed
-relative to Live cells before Raw normalization. Figure 5B (frequencies) and Figure 5C
+relative to Live cells before Raw normalization. Figure Sample 2 (frequencies) and Figure 5C
 (counts) test all ten pairwise contrasts among Raw, Expert Manual,
 FlowMOP, PeacoQC, and FlowCut, with Holm adjustment separately within each
 endpoint and metric. The same three contrasts are tested separately for the
@@ -61,8 +61,8 @@ denominators must be valid and nonzero.
 
 Representative samples must have complete endpoint data and at least 5,000
 live CD45+ reference events under every displayed workflow. Figure 5A uses
-sample 19A, Figure 6 uses the selected representative from the eight-sample
-inferential cohort, and Supplementary Figure S8 uses sample 19A for its debris
+sample Sample 6, Figure 6 uses the selected representative from the eight-sample
+inferential cohort, and Supplementary Figure S8 uses sample Sample 6 for its debris
 block.
 Its doublet block uses the Figure 6 cohort representative.
 Representative plots show retained events only and use
@@ -76,7 +76,7 @@ normalization, all four frequencies are calculated relative to Live cells.
 
 Figure 5A is a 4 × 5 grid of Time, Live CD45+, shared CD19 × CD3 B/T quadrants,
 and NKT representatives, including a completely Raw column followed by the
-four time workflows; Figure 5B contains the matched time-cleaning frequencies
+four time workflows; Figure Sample 2 contains the matched time-cleaning frequencies
 and Figure 5C contains the matched time-cleaning counts for B, T, and NKT cells.
 Main Figure 6A contains the combined Time + Debris + Doublet representative,
 including Time, debris, doublet, Live CD45+, B/T, and NKT columns. Figure 6B

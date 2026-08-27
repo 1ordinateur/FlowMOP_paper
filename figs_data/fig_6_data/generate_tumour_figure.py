@@ -44,13 +44,7 @@ WORKFLOW_PNG = HERE / "tumour_preprocessing_workflow.png"
 VALUES_CSV = HERE / "tumour_endpoint_values.csv"
 TESTS_CSV = HERE / "tumour_paired_t_tests.csv"
 
-SAMPLES = ("LB202", "LB236", "LB262")
-SAMPLE_FILES = {sample: f"trim_{sample}_T.fcs" for sample in SAMPLES}
-DISPLAY_SAMPLE_LABELS = {
-    "LB202": "Sample 1",
-    "LB236": "Sample 2",
-    "LB262": "Sample 3",
-}
+SAMPLES = ("Sample 1", "Sample 2", "Sample 3")
 METHODS = ("Raw", "Manual", "FlowMOP")
 METHOD_COLOURS = {"Raw": "#6f6f6f", "Manual": "#D88700", "FlowMOP": "#0072B2"}
 
@@ -140,8 +134,24 @@ def read_workspace_counts(workspace_bytes: bytes) -> dict[str, SampleCounts]:
     root = ET.fromstring(workspace_bytes)
     result: dict[str, SampleCounts] = {}
 
+    source_files = sorted(
+        {
+            node.attrib["name"]
+            for node in root.iter()
+            if local_name(node.tag) == "SampleNode"
+            and node.attrib.get("name", "").startswith("trim_")
+            and node.attrib.get("name", "").endswith("_T.fcs")
+        }
+    )
+    if len(source_files) != len(SAMPLES):
+        raise ValueError(
+            f"Expected {len(SAMPLES)} tumour samples in the workspace; "
+            f"found {len(source_files)}"
+        )
+    sample_files = dict(zip(SAMPLES, source_files))
+
     for sample in SAMPLES:
-        sample_node = find_sample_node(root, SAMPLE_FILES[sample])
+        sample_node = find_sample_node(root, sample_files[sample])
         raw_total = population_count(sample_node)
 
         raw_live = direct_population(sample_node, "live CD45+ cells")
@@ -539,7 +549,7 @@ def make_figure_7(
         fig.text(
             grid_left - 0.090,
             row_centre,
-            DISPLAY_SAMPLE_LABELS[sample],
+            sample,
             fontsize=19,
             fontweight="bold",
             rotation=90,

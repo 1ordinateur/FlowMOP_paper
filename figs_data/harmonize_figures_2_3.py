@@ -374,9 +374,9 @@ def parse_figure3_data() -> tuple[dict[str, np.ndarray], dict[str, dict[str, np.
     human = human[~human.iloc[:, 0].isin(("Mean", "SD"))].copy()
     human["sample"] = human.iloc[:, 0].str.extract(r"debris_(\d+)").astype(int)
     identifiers = {
-        "Expert 1": "FMW",
-        "Expert 2": "Debris_SC",
-        "Expert 3": "NR",
+        "Expert 1": "E1",
+        "Expert 2": "Debris_E2",
+        "Expert 3": "E3",
         "Expert 4": "null_debris",
     }
     strategies: dict[str, dict[str, np.ndarray]] = {}
@@ -711,7 +711,7 @@ def main() -> int:
             (40, 35, 32, 125),
             (65, 164, 157, 50),
         ),
-        axis=((55, 176), "FSC-A", "SSC-A", 48, 10.5, 1.2),
+        axis=((55, 176), "FE2-A", "SE2-A", 48, 10.5, 1.2),
         text_y_shifts={"100% of sample": 1000, "50% of sample": 1000},
         labels=(
             (136, 205, "100% of sample", 11.5),
@@ -730,7 +730,7 @@ def main() -> int:
             (65, 354, 148, 31),
             (65, 385, 25, 25),
         ),
-        axis=((55, 362), "FSC-A", "SSC-A", 48, 10.5, 1.2),
+        axis=((55, 362), "FE2-A", "SE2-A", 48, 10.5, 1.2),
         text_y_shifts={
             "38% retained": 1000,
             "29% of 38%": 1000,

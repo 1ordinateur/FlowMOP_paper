@@ -1,2 +1,0 @@
-"sample","raw_events","fluorescence_channels","flowcut_retained","flowcut_removed","peacoqc_retained","peacoqc_removed","R","flowCore","flowCut","PeacoQC","truncate_max_range"
-"trim_LB262_T.fcs",301872,"BUV395-A;Zombie UV-A;BV510-A;PE-Dazzle594-A",264000,37872,301872,0,"4.5.3","2.22.1","1.20.0","1.20.0",FALSE

@@ -1,13 +1,12 @@
 #!/bin/bash
 
 #PBS -N flowmop_timewarp_mad5
-#PBS -P eu59
 #PBS -q expresssr
 #PBS -l walltime=01:00:00
 #PBS -l ncpus=104
 #PBS -l mem=500GB
 #PBS -l jobfs=400GB
-#PBS -l storage=gdata/eu59+gdata/dk92+scratch/eu59
+#PBS -l storage=gdata/PROJECT_CODE+gdata/dk92+scratch/PROJECT_CODE
 #PBS -j oe
 #PBS -m abe
 #PBS -l wd

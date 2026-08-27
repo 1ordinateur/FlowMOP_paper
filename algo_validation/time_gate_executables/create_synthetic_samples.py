@@ -239,8 +239,8 @@ def main():
     
     # Define files and their proportions
     files_dict = {
-        '/g/data/eu59/data_FlowMOP/algo_validation/250317_debris_for_Tony/No_spin_Rep3_lysis_014.fcs': 0.5,
-        '/g/data/eu59/data_FlowMOP/algo_validation/250317_debris_for_Tony/No_spin_Rep3_nolysis_012.fcs': 0.5,
+        '/path/to/debris_validation/No_spin_Rep3_lysis_014.fcs': 0.5,
+        '/path/to/debris_validation/No_spin_Rep3_nolysis_012.fcs': 0.5,
     }
     
     # Set parameters
@@ -262,4 +262,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()

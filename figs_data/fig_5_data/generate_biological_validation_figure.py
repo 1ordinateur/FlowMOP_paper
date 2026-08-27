@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Generate PBMC biological-validation Figures 5 and 6 and their audit tables.
 
-The analysis uses one prespecified technical repeat from each of eight
-independent sample groups.
+The analysis uses eight prespecified PBMC samples.
 Expert-defined gates are imported from the FlowJo workspace with FlowKit. Comparator
 and manually cleaned FCS files are mapped back to the row-complete FlowMOP FCS
 files using exact, unique, monotonic event matching.
@@ -44,7 +43,7 @@ DATA_ROOT = Path(os.environ.get("FLOWMOP_DATA_ROOT", REPO.parent / "flowmop_data
 DEFAULT_SOURCE = DATA_ROOT / "pbmc_biological_validation"
 
 WORKSPACE_NAME = "FLOWMOP_CLEANUP_COMPARISON_15-Aug-2026_v2.wsp"
-RAW_REL = Path("clean_data_03062026_NR_mad5_metadata_preserved")
+RAW_REL = Path("clean_data_biological_validation")
 METHODS_B = ("Raw", "Expert Manual", "FlowMOP", "PeacoQC", "FlowCut")
 METHOD_COLOURS = {
     "Raw": "#5A5A5A",
@@ -58,10 +57,10 @@ FLOWJO_PSEUDOCOLOR = mpl.colors.LinearSegmentedColormap.from_list(
     "flowjo_pseudocolor",
     ("#000066", "#00FFFF", "#00FF00", "#FFFF00", "#FF0000"),
 )
-SUPPLIED_PDF_SAMPLES = frozenset({"11A", "19A", "22A"})
-ANALYSIS_SAMPLES = ("1B", "5B", "10A", "11B", "16A", "19A", "20A", "22A")
-TIME_REPRESENTATIVE = "19A"
-DEBRIS_REPRESENTATIVE = "19A"
+SUPPLIED_PDF_SAMPLES = frozenset({"Supplementary sample", "Sample 6", "Sample 8"})
+ANALYSIS_SAMPLES = ("Sample 1", "Sample 2", "Sample 3", "Sample 4", "Sample 5", "Sample 6", "Sample 7", "Sample 8")
+TIME_REPRESENTATIVE = "Sample 6"
+DEBRIS_REPRESENTATIVE = "Sample 6"
 EXPECTED_INPUT_FILES = 36
 EXPECTED_ANALYSIS_SAMPLES = 8
 EXPECTED_NKT_SAMPLES = 8
@@ -2433,7 +2432,7 @@ def main() -> None:
         "samples": samples,
         "sample_selection": (
             "one prespecified complete PBMC sample from each of eight independent donors: "
-            "1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A"
+            "Sample 1, Sample 2, Sample 3, Sample 4, Sample 5, Sample 6, Sample 7, and Sample 8"
         ),
         "time_representative_sample": time_representative,
         "cleanup_representative_sample": cleanup_representative,

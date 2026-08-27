@@ -1,7 +1,0 @@
-sample,tissue,time_high_low_removal_ratio,debris_high_low_removal_ratio,doublet_high_low_removal_ratio,combined_high_low_removal_ratio
-LB180,Non-tumour,1.075,1.455,4.893,1.853
-LB192,Non-tumour,1.036,,5.636,3.034
-LB200,Non-tumour,1.269,0.015,9.130,2.059
-LB202,Tumour,0.950,0.103,60.847,1.480
-LB236,Tumour,0.972,0.145,246.295,0.650
-LB262,Tumour,1.035,1.335,4.767,1.539

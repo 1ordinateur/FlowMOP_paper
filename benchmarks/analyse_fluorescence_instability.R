@@ -9,7 +9,7 @@ suppressPackageStartupMessages({
 args <- commandArgs(trailingOnly = TRUE)
 if (!length(args) %in% c(3, 4)) {
   stop(paste(
-    "Usage: analyse_felix_fluorescence_instability.R",
+    "Usage: analyse_fluorescence_instability.R",
     "INPUT_DIR FLOWMOP_DIR OUTPUT_DIR [BIN_SIZE]"
   ))
 }

@@ -2,7 +2,7 @@ Plan:
 
 Move Figs. 5,6,7 into supps
 
-Run FlowCut and PeacoQC also on Nadia's
+Run FlowCut and PeacoQC also on the PBMC inputs
 For comment where we do not do benchmarking, 'we refer to comment XYZ for benchmarking'
 Paired t-test
 Move this to comment 2
@@ -28,7 +28,7 @@ about the writing'
 Abstract revision; The cleaning of temporal artifacts, meaning acquisition dependent deviations...,
 are an illustrative example where such issues are particularly pertinent.
 
-Create figures with biological data (Tumour + Nadia's) for new figures
+Create figures with biological data (tumour + PBMC inputs) for new figures
 
 Tumour: Figure 6
 

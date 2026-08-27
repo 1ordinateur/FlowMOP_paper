@@ -13,7 +13,7 @@ Install `flowkit`, `flowio`, `numpy`, `pandas`, `matplotlib`, `scipy`, and
 
 ```bash
 python figs_data/fig_5_data/generate_biological_validation_figure.py \
-  --source-dir /mnt/d/github_remotes/flowmop_data/nadia_biological_validation
+  --source-dir /mnt/d/github_remotes/flowmop_data/pbmc_biological_validation
 ```
 
 On systems where Python is exposed as `python3`, substitute `python3` in the
@@ -22,7 +22,7 @@ figure and table outputs.
 
 ## Analysis
 
-The generator imports Nadia's FlowJo 10 gates with FlowKit. Because the
+The generator imports expert-defined FlowJo 10 gates with FlowKit. Because the
 workspace contains three branches with duplicate display names, it creates a
 temporary, one-sample FlowMOP workspace for each biological sample before
 extracting event-level memberships. Gate geometry is hashed after removing
@@ -39,20 +39,20 @@ must have one exact, unique match and the complete mapping must be strictly
 monotonic.
 
 The biological endpoints are a standalone Live CD45+ reference, B cells
-defined by Nadia's Q1 (CD3−/CD19+) coordinates within Live cells, T cells
-defined by Nadia's Q3 (CD3+/CD19−) coordinates within Live cells, and NKT
+defined using the expert-defined Q1 (CD3−/CD19+) coordinates within Live cells,
+T cells defined using the expert-defined Q3 (CD3+/CD19−) coordinates within Live cells, and NKT
 cells defined as Live CD19− CD3+ CD56+ events. The lineage endpoints reuse the
 expert coordinates without inheriting the CD45+ parent. The matched ungated inputs are:
 
-- time: Nadia singlet and debris masks, with no time mask;
-- debris: Nadia time and doublet masks, with no debris mask;
-- doublet: Nadia time and debris masks, with no doublet mask;
+- time: Expert singlet and debris masks, with no time mask;
+- debris: Expert time and doublet masks, with no debris mask;
+- doublet: Expert time and debris masks, with no doublet mask;
 - all steps: no time, debris, or doublet preprocessing mask.
 
 Every endpoint count is divided by its matched ungated-input count, with Raw
 equal to exactly 1. Live CD45+, B, T, and NKT frequencies are expressed
 relative to Live cells before Raw normalization. Figure 5B (frequencies) and Figure 5C
-(counts) test all ten pairwise contrasts among Raw, Nadia Manual,
+(counts) test all ten pairwise contrasts among Raw, Expert Manual,
 FlowMOP, PeacoQC, and FlowCut, with Holm adjustment separately within each
 endpoint and metric. The same three contrasts are tested separately for the
 debris, doublet, and combined comparisons, with Holm adjustment within each
@@ -86,7 +86,7 @@ Expert Manual, and FlowMOP. Brackets and adjusted p values are drawn only for
 significant pairwise comparisons. Supplementary Figure S8 contains only the
 module-specific Debris and Doublet representatives. The rows
 are Ungated input, Expert Manual, and FlowMOP.
-Doublet rows use Nadia's
+Doublet rows use the expert-defined
 FSC-H × FSC-W and SSC-H × SSC-W axes and rectangles; the FlowMOP-retained
 events are projected onto those same axes. Every row also shows Live CD45+,
 the shared B/T quadrant plot, and NKT after its corresponding mask. Axes are

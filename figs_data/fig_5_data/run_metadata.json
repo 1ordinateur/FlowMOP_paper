@@ -1,5 +1,5 @@
 {
-  "source_dir": "/mnt/d/github_remotes/flowmop_data/nadia_biological_validation",
+  "source_dir": "/mnt/d/github_remotes/flowmop_data/pbmc_biological_validation",
   "workspace": "FLOWMOP_CLEANUP_COMPARISON_15-Aug-2026_v2.wsp",
   "sample_count": 8,
   "samples": [
@@ -30,9 +30,9 @@
     "raw-normalized frequency"
   ],
   "matched_ungated_inputs": {
-    "time": "Nadia singlet + debris masks, without a time mask",
-    "debris": "Nadia time + doublet masks, without a debris mask",
-    "doublet": "Nadia time + debris masks, without a doublet mask",
+    "time": "Expert singlet + debris masks, without a time mask",
+    "debris": "Expert time + doublet masks, without a debris mask",
+    "doublet": "Expert time + debris masks, without a doublet mask",
     "all steps": "no time, debris, or doublet preprocessing mask"
   },
   "nkt_exclusion": "none",

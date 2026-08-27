@@ -3,7 +3,7 @@
 
 The analysis uses one prespecified technical repeat from each of eight
 independent sample groups.
-Nadia's gates are imported from the FlowJo workspace with FlowKit. Comparator
+Expert-defined gates are imported from the FlowJo workspace with FlowKit. Comparator
 and manually cleaned FCS files are mapped back to the row-complete FlowMOP FCS
 files using exact, unique, monotonic event matching.
 
@@ -39,14 +39,14 @@ from scipy.stats import ttest_1samp, ttest_rel
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
-DEFAULT_SOURCE = REPO.parent / "flowmop_data/nadia_biological_validation"
+DEFAULT_SOURCE = REPO.parent / "flowmop_data/pbmc_biological_validation"
 
 WORKSPACE_NAME = "FLOWMOP_CLEANUP_COMPARISON_15-Aug-2026_v2.wsp"
 RAW_REL = Path("clean_data_03062026_NR_mad5_metadata_preserved")
-METHODS_B = ("Raw", "Nadia Manual", "FlowMOP", "PeacoQC", "FlowCut")
+METHODS_B = ("Raw", "Expert Manual", "FlowMOP", "PeacoQC", "FlowCut")
 METHOD_COLOURS = {
     "Raw": "#5A5A5A",
-    "Nadia Manual": "#D88700",
+    "Expert Manual": "#D88700",
     "FlowMOP": "#0072B2",
     "PeacoQC": "#009E73",
     "FlowCut": "#CC79A7",
@@ -496,7 +496,7 @@ def expected_workspace_endpoint_counts(
     # CD45+ parent and therefore cannot be compared with stored hierarchy counts.
     endpoint_paths = {"live_cd45": BIO_PATHS["live_cd45"]}
     for endpoint, bio_path in endpoint_paths.items():
-        result[("Nadia Manual", endpoint)] = population_count(
+        result[("Expert Manual", endpoint)] = population_count(
             records["flowmop"][sample], MANUAL_BASE + bio_path
         )
         result[("FlowCut", endpoint)] = population_count(
@@ -792,7 +792,7 @@ def calculate_counts(masks: SampleMasks) -> list[dict[str, object]]:
     explicit_final = masks.flowmop_time & masks.flowmop_debris & masks.flowmop_doublet
     time_masks = {
         "Raw": masks.manual_non_time,
-        "Nadia Manual": masks.manual_time & masks.manual_non_time,
+        "Expert Manual": masks.manual_time & masks.manual_non_time,
         "FlowMOP": masks.flowmop_time & masks.manual_non_time,
         "PeacoQC": masks.peacoqc_time & masks.manual_non_time,
         "FlowCut": masks.flowcut_time & masks.manual_non_time,
@@ -805,17 +805,17 @@ def calculate_counts(masks: SampleMasks) -> list[dict[str, object]]:
     controlled = {
         "debris": {
             "Raw": masks.manual_time & masks.manual_doublet,
-            "Nadia Manual": masks.manual_time & masks.manual_doublet & masks.manual_debris,
+            "Expert Manual": masks.manual_time & masks.manual_doublet & masks.manual_debris,
             "FlowMOP": masks.manual_time & masks.manual_doublet & masks.flowmop_debris,
         },
         "doublet": {
             "Raw": masks.manual_time & masks.manual_debris,
-            "Nadia Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
+            "Expert Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
             "FlowMOP": masks.manual_time & masks.manual_debris & masks.flowmop_doublet,
         },
         "all steps": {
             "Raw": np.ones(len(masks.raw.events), dtype=bool),
-            "Nadia Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
+            "Expert Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
             "FlowMOP": explicit_final,
         },
     }
@@ -835,24 +835,24 @@ def calculate_cleaning_retention(masks: SampleMasks) -> list[dict[str, object]]:
     groups = {
         "time": {
             "Raw": masks.manual_non_time,
-            "Nadia Manual": masks.manual_time & masks.manual_non_time,
+            "Expert Manual": masks.manual_time & masks.manual_non_time,
             "FlowMOP": masks.flowmop_time & masks.manual_non_time,
             "PeacoQC": masks.peacoqc_time & masks.manual_non_time,
             "FlowCut": masks.flowcut_time & masks.manual_non_time,
         },
         "debris": {
             "Raw": masks.manual_time & masks.manual_doublet,
-            "Nadia Manual": masks.manual_time & masks.manual_doublet & masks.manual_debris,
+            "Expert Manual": masks.manual_time & masks.manual_doublet & masks.manual_debris,
             "FlowMOP": masks.manual_time & masks.manual_doublet & masks.flowmop_debris,
         },
         "doublet": {
             "Raw": masks.manual_time & masks.manual_debris,
-            "Nadia Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
+            "Expert Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
             "FlowMOP": masks.manual_time & masks.manual_debris & masks.flowmop_doublet,
         },
         "all steps": {
             "Raw": np.ones(len(masks.raw.events), dtype=bool),
-            "Nadia Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
+            "Expert Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
             "FlowMOP": masks.flowmop_time & masks.flowmop_debris & masks.flowmop_doublet,
         },
     }
@@ -1010,9 +1010,9 @@ def calculate_tests(ratio_rows: Sequence[dict[str, object]]) -> list[dict[str, o
             for comparison in ("debris", "doublet", "all steps"):
                 adjustment = "Holm across three tests within endpoint, metric, and gate group"
                 family = [
-                    test_row("D", endpoint, metric, comparison, "Nadia Manual", "Raw", adjustment),
+                    test_row("D", endpoint, metric, comparison, "Expert Manual", "Raw", adjustment),
                     test_row("D", endpoint, metric, comparison, "FlowMOP", "Raw", adjustment),
-                    test_row("D", endpoint, metric, comparison, "FlowMOP", "Nadia Manual", adjustment),
+                    test_row("D", endpoint, metric, comparison, "FlowMOP", "Expert Manual", adjustment),
                 ]
                 adjusted = holm_adjust([float(row["p_value_raw"]) for row in family])
                 for row, p_adjusted in zip(family, adjusted):
@@ -1035,10 +1035,10 @@ def select_representative(
     # biological-composition outcomes rather than changing the representative.
     for metric in ("count",):
         for endpoint in ENDPOINTS:
-            for method in ("Nadia Manual", "FlowMOP", "PeacoQC", "FlowCut"):
+            for method in ("Expert Manual", "FlowMOP", "PeacoQC", "FlowCut"):
                 vector_keys.append(("B", endpoint, metric, "time", method))
             for comparison in ("debris", "doublet", "all steps"):
-                for method in ("Nadia Manual", "FlowMOP"):
+                for method in ("Expert Manual", "FlowMOP"):
                     vector_keys.append(("D", endpoint, metric, comparison, method))
 
     matrix = np.full((len(samples), len(vector_keys)), np.nan, dtype=float)
@@ -1098,7 +1098,7 @@ def select_representative(
             for row in ratio_rows
             if row["sample"] == sample and row["panel"] == "D"
             and row["endpoint"] == "live_cd45" and row["comparison"] == "debris"
-            and row["method"] == "Nadia Manual"
+            and row["method"] == "Expert Manual"
         )
         flowmop = next(
             float(row["raw_normalized_ratio"])
@@ -1138,7 +1138,7 @@ def select_representative(
                 ),
                 "debris_selection_rule": (
                     "minimum full-vector robust-standardized RMS distance among eligible samples "
-                    "with FlowMOP debris-controlled Live CD45+ retention below Nadia Manual"
+                    "with FlowMOP debris-controlled Live CD45+ retention below Expert Manual"
                 ),
                 "vector_labels_json": json.dumps(labels, separators=(",", ":")),
                 "endpoint_vector_json": json.dumps(matrix[i].tolist(), separators=(",", ":")),
@@ -1149,7 +1149,7 @@ def select_representative(
 
 def method_mask_for_time(masks: SampleMasks, method: str) -> np.ndarray:
     return {
-        "Nadia Manual": masks.manual_time,
+        "Expert Manual": masks.manual_time,
         "FlowMOP": masks.flowmop_time,
         "PeacoQC": masks.peacoqc_time,
         "FlowCut": masks.flowcut_time,
@@ -1426,7 +1426,7 @@ def plot_panel_d_axis(
     for comparison, xs in zip(comparisons, x_groups):
         raw, raw_ids = endpoint_ratio_array(ratio_rows, "D", endpoint, metric, comparison, "Raw")
         manual, manual_ids = endpoint_ratio_array(
-            ratio_rows, "D", endpoint, metric, comparison, "Nadia Manual"
+            ratio_rows, "D", endpoint, metric, comparison, "Expert Manual"
         )
         flowmop, flowmop_ids = endpoint_ratio_array(
             ratio_rows, "D", endpoint, metric, comparison, "FlowMOP"
@@ -1437,7 +1437,7 @@ def plot_panel_d_axis(
         all_values.extend(matrix.ravel().tolist())
         for row in matrix:
             ax.plot(xs, row, color=GREY, lw=1.0, alpha=0.55, zorder=1)
-        for x, vals, method in zip(xs, (raw, manual, flowmop), ("Raw", "Nadia Manual", "FlowMOP")):
+        for x, vals, method in zip(xs, (raw, manual, flowmop), ("Raw", "Expert Manual", "FlowMOP")):
             ax.scatter(x + np.linspace(-0.025, 0.025, len(vals)), vals, s=17, c=METHOD_COLOURS[method],
                        edgecolors="white", linewidths=0.25, alpha=0.82, zorder=2)
             mean = float(np.mean(vals)); sd = float(np.std(vals, ddof=1))
@@ -1452,8 +1452,8 @@ def plot_panel_d_axis(
     max_levels = 0
     for comparison, xs in zip(comparisons, x_groups):
         local = (
-            (xs[0], xs[1], test_lookup[(comparison, "Nadia Manual", "Raw")]),
-            (xs[1], xs[2], test_lookup[(comparison, "FlowMOP", "Nadia Manual")]),
+            (xs[0], xs[1], test_lookup[(comparison, "Expert Manual", "Raw")]),
+            (xs[1], xs[2], test_lookup[(comparison, "FlowMOP", "Expert Manual")]),
             (xs[0], xs[2], test_lookup[(comparison, "FlowMOP", "Raw")]),
         )
         significant = [(x1, x2, p) for x1, x2, p in local if p < 0.05]
@@ -1493,7 +1493,7 @@ def plot_combined_axis(
     tests: Sequence[dict[str, object]],
 ) -> None:
     """Plot the matched Raw, expert, and FlowMOP combined-cleaning outcomes."""
-    methods = ("Raw", "Nadia Manual", "FlowMOP")
+    methods = ("Raw", "Expert Manual", "FlowMOP")
     arrays: list[np.ndarray] = []
     identifiers: list[list[str]] = []
     for method in methods:
@@ -1529,7 +1529,7 @@ def plot_combined_axis(
         and row["comparison"] == "all steps"
         and row["endpoint"] == endpoint
         and row["metric"] == metric
-        and row["reference"] == "Nadia Manual"
+        and row["reference"] == "Expert Manual"
         and row["method"] == "FlowMOP"
     )
     ymin = min(0.92, float(np.min(matrix)))
@@ -1561,17 +1561,17 @@ def controlled_cleaning_masks(masks: SampleMasks) -> dict[str, dict[str, np.ndar
     return {
         "Debris": {
             "Raw": masks.manual_time & masks.manual_doublet,
-            "Nadia Manual": masks.manual_time & masks.manual_doublet & masks.manual_debris,
+            "Expert Manual": masks.manual_time & masks.manual_doublet & masks.manual_debris,
             "FlowMOP": masks.manual_time & masks.manual_doublet & masks.flowmop_debris,
         },
         "Doublet": {
             "Raw": masks.manual_time & masks.manual_debris,
-            "Nadia Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
+            "Expert Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
             "FlowMOP": masks.manual_time & masks.manual_debris & masks.flowmop_doublet,
         },
         "All steps": {
             "Raw": np.ones(len(masks.raw.events), dtype=bool),
-            "Nadia Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
+            "Expert Manual": masks.manual_time & masks.manual_debris & masks.manual_doublet,
             "FlowMOP": masks.flowmop_time & masks.flowmop_debris & masks.flowmop_doublet,
         },
     }
@@ -1733,7 +1733,7 @@ def make_figure(
     panel_b_axes: list[plt.Axes] = []
     fixed_axis_groups: dict[str, list[plt.Axes]] = {}
 
-    # Panel A: four controlled time workflows with Nadia's fixed downstream gates.
+    # Panel A: four controlled time workflows with fixed expert downstream gates.
     grid_a = outer[0].subgridspec(4, 5, hspace=0.30, wspace=0.12)
     time_x = processed[processed_column(processed, "Time")].to_numpy()
     time_y = processed[processed_column(processed, "APC-Fire 810-A")].to_numpy()
@@ -1751,7 +1751,7 @@ def make_figure(
         cleaning = time_cleaning[method]
         indices = deterministic_subset(cleaning, 100000, seed=501 + j)
         scatter_pseudocolor(ax, time_x, time_y, indices)
-        if method == "Nadia Manual":
+        if method == "Expert Manual":
             time_gate = ws.get_gate(sid, "Time gate", gate_path=("root",))
             overlay_rectangle(ax, time_gate, "Time", "APC-Fire 810-A", colour="#111111")
         apply_limits(ax, time_limits)
@@ -1762,7 +1762,7 @@ def make_figure(
                 bbox=dict(boxstyle="square,pad=0.18", fc="white", ec="none", alpha=0.72), zorder=8)
         ax.set_xlabel("Time")
         ax.set_ylabel("CD123")
-        display_method = "Expert Manual" if method == "Nadia Manual" else method
+        display_method = method
         style_flow_axis(
             ax,
             display_method,
@@ -1888,18 +1888,16 @@ def make_figure(
     flowmop_threshold = exact_fsc_threshold(
         channel_values(debris_masks.raw, "FSC-A"), debris_masks.flowmop_debris
     )
-    for row_index, method in enumerate(("Raw", "Nadia Manual", "FlowMOP"), start=1):
+    for row_index, method in enumerate(("Raw", "Expert Manual", "FlowMOP"), start=1):
         cleaning = debris_cleaning_masks["Debris"][method]
         ax = fig.add_subplot(debris_grid[row_index, 0])
         panel_c_axes.append(ax)
         fixed_axis_groups.setdefault("C|debris|decision", []).append(ax)
-        row_label = "Ungated input" if method == "Raw" else (
-            "Expert Manual" if method == "Nadia Manual" else method
-        )
+        row_label = "Ungated input" if method == "Raw" else method
         panel_c_row_labels.append((ax, row_label))
         indices = deterministic_subset(cleaning, 100000, seed=980 + row_index)
         scatter_pseudocolor(ax, debris_fsc, debris_ssc, indices)
-        if method == "Nadia Manual":
+        if method == "Expert Manual":
             ax.add_patch(Polygon(np.asarray(debris_gate.vertices), closed=True, fill=False,
                                  ec="#111111", lw=1.4))
         if method == "FlowMOP" and flowmop_threshold is not None:
@@ -1954,16 +1952,14 @@ def make_figure(
     for kind in ("live", "bt", "nkt"):
         bx, by, upstream, _gate, _xl, _yl = biological_plot_spec(ws, sid, processed, masks, kind)
         doublet_bio_limits[kind] = robust_limits(bx, by, doublet_pregate & upstream)
-    for row_index, method in enumerate(("Raw", "Nadia Manual", "FlowMOP"), start=1):
+    for row_index, method in enumerate(("Raw", "Expert Manual", "FlowMOP"), start=1):
         cleaning = cleaning_masks["Doublet"][method]
         for panel_index, (x_channel, y_channel, gate_path, title) in enumerate(doublet_specs):
             ax = fig.add_subplot(doublet_grid[row_index, panel_index])
             panel_c_axes.append(ax)
             fixed_axis_groups.setdefault(f"C|doublet|{x_channel}|{y_channel}", []).append(ax)
             if panel_index == 0:
-                row_label = "Ungated input" if method == "Raw" else (
-                    "Expert Manual" if method == "Nadia Manual" else method
-                )
+                row_label = "Ungated input" if method == "Raw" else method
                 panel_c_row_labels.append((ax, row_label))
             x = processed[processed_column(processed, x_channel)].to_numpy()
             y = processed[processed_column(processed, y_channel)].to_numpy()
@@ -1972,7 +1968,7 @@ def make_figure(
             # These rectangles are the expert's manual doublet gates. Do not
             # draw them on the ungated or FlowMOP projections, where those
             # gates were not applied.
-            if method == "Nadia Manual":
+            if method == "Expert Manual":
                 gate = ws.get_gate(sid, "Single Cells", gate_path=gate_path)
                 overlay_rectangle(ax, gate, x_channel, y_channel, "#111111")
             apply_limits(ax, doublet_axis_limits[(x_channel, y_channel)])
@@ -2065,18 +2061,16 @@ def make_figure(
     debris_gate = ws.get_gate(sid, "Cells", gate_path=("root", "Single Cells", "Single Cells"))
     time_gate = ws.get_gate(sid, "Time gate", gate_path=("root",))
     doublet_gate = ws.get_gate(sid, "Single Cells", gate_path=("root",))
-    for row_index, method in enumerate(("Raw", "Nadia Manual", "FlowMOP")):
+    for row_index, method in enumerate(("Raw", "Expert Manual", "FlowMOP")):
         cleaning = cleaning_masks["All steps"][method]
         ax = fig.add_subplot(combined_grid[row_index, 0])
         combined_axes.append(ax)
         combined_fixed_axes.setdefault("time", []).append(ax)
-        row_label = "Ungated input" if method == "Raw" else (
-            "Expert Manual" if method == "Nadia Manual" else method
-        )
+        row_label = "Ungated input" if method == "Raw" else method
         combined_row_labels.append((ax, row_label))
         indices = deterministic_subset(cleaning, 100000, seed=1500 + row_index)
         scatter_pseudocolor(ax, combined_time_x, combined_time_y, indices)
-        if method == "Nadia Manual":
+        if method == "Expert Manual":
             overlay_rectangle(ax, time_gate, "Time", "APC-Fire 810-A", colour="#111111")
         apply_limits(ax, combined_time_limits)
         ax.set_xlabel("Time")
@@ -2095,7 +2089,7 @@ def make_figure(
         combined_axes.append(debris_ax)
         combined_fixed_axes.setdefault("debris", []).append(debris_ax)
         scatter_pseudocolor(debris_ax, fsc, ssc, indices)
-        if method == "Nadia Manual":
+        if method == "Expert Manual":
             debris_ax.add_patch(Polygon(np.asarray(debris_gate.vertices), closed=True, fill=False,
                                         ec="#111111", lw=1.2))
         apply_limits(debris_ax, combined_scatter_limits)
@@ -2110,7 +2104,7 @@ def make_figure(
         combined_axes.append(doublet_ax)
         combined_fixed_axes.setdefault("doublet", []).append(doublet_ax)
         scatter_pseudocolor(doublet_ax, combined_doublet_x, combined_doublet_y, indices)
-        if method == "Nadia Manual":
+        if method == "Expert Manual":
             overlay_rectangle(
                 doublet_ax, doublet_gate, "FSC-H", "FSC-W", colour="#111111"
             )
@@ -2300,7 +2294,7 @@ def main() -> None:
             references = expected_workspace_endpoint_counts(sample, records)
             for row in sample_counts:
                 reference_key: tuple[str, str] | None = None
-                if row["panel"] == "B" and row["method"] in {"Nadia Manual", "FlowCut", "PeacoQC"}:
+                if row["panel"] == "B" and row["method"] in {"Expert Manual", "FlowCut", "PeacoQC"}:
                     reference_key = (str(row["method"]), str(row["endpoint"]))
                 elif (
                     row["panel"] == "D"
@@ -2456,9 +2450,9 @@ def main() -> None:
         },
         "statistical_metrics": ["raw-normalized count", "raw-normalized frequency"],
         "matched_ungated_inputs": {
-            "time": "Nadia singlet + debris masks, without a time mask",
-            "debris": "Nadia time + doublet masks, without a debris mask",
-            "doublet": "Nadia time + debris masks, without a doublet mask",
+            "time": "Expert singlet + debris masks, without a time mask",
+            "debris": "Expert time + doublet masks, without a debris mask",
+            "doublet": "Expert time + debris masks, without a doublet mask",
             "all steps": "no time, debris, or doublet preprocessing mask",
         },
         "nkt_exclusion": "none",

@@ -3,6 +3,8 @@
 -- captions with their images, and improves table layout without altering the
 -- Markdown source documents.
 
+local tracked_document = false
+
 local function stringify(block)
   return pandoc.utils.stringify(block)
 end
@@ -358,6 +360,19 @@ local function is_table_title(block)
 end
 
 local function table_start(column_count, label)
+  local revision_colour = ""
+  if tracked_document and (label == "S3" or label == "S5A" or label == "S5B") then
+    revision_colour = "\\color{revisionblue}"
+  end
+  local landscape_font = "\\scriptsize"
+  local landscape_tabcolsep = "3pt"
+  local landscape_arraystretch = "1.12"
+  if label == "S5A" or label == "S5B" then
+    landscape_font = "\\fontsize{7.5pt}{8.5pt}\\selectfont"
+    landscape_tabcolsep = "2pt"
+    landscape_arraystretch = "1.02"
+  end
+
   -- The benchmark table is short enough to fit cleanly in portrait once its
   -- columns are allowed to wrap. Start it on a fresh page so its title, note,
   -- and body cannot become detached.
@@ -367,7 +382,8 @@ local function table_start(column_count, label)
       "\\begingroup",
       "\\scriptsize",
       "\\setlength{\\tabcolsep}{2pt}",
-      "\\renewcommand{\\arraystretch}{1.10}"
+      "\\renewcommand{\\arraystretch}{1.10}",
+      revision_colour
     }, "\n"))
   end
 
@@ -376,9 +392,10 @@ local function table_start(column_count, label)
       "\\clearpage",
       "\\begin{landscape}",
       "\\begingroup",
-      "\\scriptsize",
-      "\\setlength{\\tabcolsep}{3pt}",
-      "\\renewcommand{\\arraystretch}{1.12}"
+      landscape_font,
+      "\\setlength{\\tabcolsep}{" .. landscape_tabcolsep .. "}",
+      "\\renewcommand{\\arraystretch}{" .. landscape_arraystretch .. "}",
+      revision_colour
     }, "\n"))
   end
 
@@ -386,7 +403,8 @@ local function table_start(column_count, label)
     "\\begingroup",
     "\\small",
     "\\setlength{\\tabcolsep}{4pt}",
-    "\\renewcommand{\\arraystretch}{1.14}"
+    "\\renewcommand{\\arraystretch}{1.14}",
+    revision_colour
   }, "\n"))
 end
 
@@ -446,6 +464,7 @@ local function add_table(output, table_block, caption_block, note_block, continu
 end
 
 function Pandoc(doc)
+  tracked_document = doc.meta.tracked ~= nil
   local output = pandoc.List()
   local in_references = false
   local body_start = 1

@@ -41,6 +41,7 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -299,6 +300,7 @@ compute scenario vs. more traditional local compute resources.
 
 Example Performance Benchmarking Table:
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1920}}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1920}}
@@ -327,6 +329,7 @@ FlowCut (R)
 & Peak RAM (MB) & & & \\
 ...etc. & & & & \\
 \end{longtable}
+}
 \end{quote}
 
 \subsubsection{Associate Editor --- Algorithmic vs. Implementation
@@ -502,9 +505,11 @@ implementations rather than an empirical distributed-computing speedup.
   \end{quote}
 \end{itemize}
 
-\textbf{Location:} Methods, ``Algorithmic design'' and ``Computational
-scalability''; Results, ``Computational scalability''; Table 1;
-Discussion, ``Synthetic Sample Time Gating.''
+\textbf{Location:} Methods, {\color{revisionblue}``Computational
+scalability benchmark''; Results,} ``Algorithmic design'' and
+``Computational scalability'';{\color{revisionred}\sout{Results,
+``Computational scalability'';}} Table 1; Discussion, ``Synthetic Sample
+Time Gating.''
 
 \subsection{Combined Comment 3 --- Downstream Biological Validation,
 Dataset Breadth, and the Cost of
@@ -591,11 +596,11 @@ conduct further biological validation, and} therefore
 {\color{revisionred}\sout{brought the downstream biological-validation
 evidence together here, rather than dispersing it across the responses
 concerning expert preference, tumour
-samples,}}{\color{revisionblue}added an experiment with eight
-independent human PBMC samples and three human tumour-liver samples.
-These analyses quantify both population recovery} and
-{\color{revisionred}\sout{the experimental relevance of the synthetic
-benchmark.}}{\color{revisionblue}biological composition.}
+samples,}}{\color{revisionblue}added eight human PBMC samples and three
+human tumour-liver samples. These analyses quantify PBMC population
+recovery and biological composition} and {\color{revisionred}\sout{the
+experimental relevance of the synthetic
+benchmark.}}{\color{revisionblue}tumour-population recovery.}
 
 We {\color{revisionred}\sout{also clarify}}{\color{revisionblue}agree
 with Reviewer 1} that the original {\color{revisionred}\sout{study was
@@ -643,27 +648,30 @@ conclusions.}}{\color{revisionblue}expert-combined workflow.}
 {\color{revisionred}\sout{The principal}}{\color{revisionblue}Live CD45+
 was reported as a standalone reference endpoint. Applying it as an}
 additional {\color{revisionred}\sout{biological validation uses human
-PBMC data and prespecified downstream population endpoints. This
-analysis evaluates whether cleaning
-preserves}}{\color{revisionblue}parent gate excluded many low-scatter
-events before} the {\color{revisionred}\sout{B-cell-to-T-cell
-ratio}}{\color{revisionblue}lineage endpoints were quantified} and
-{\color{revisionred}\sout{relevant constituent populations, providing a
-direct biological readout rather than another subjective gate-ranking
-exercise. PLACEHOLDER:}}{\color{revisionblue}therefore obscured the
-effects of debris removal. To expose those effects directly, we did not
-include CD45+ as the parent of} the {\color{revisionred}\sout{final PBMC
-cohort description, population definitions, results, statistical
-comparisons,}}{\color{revisionblue}lineage populations. B cells were
-defined as Live CD3−CD19+ events, T cells as Live CD3+CD19− events,} and
-{\color{revisionred}\sout{Figure 5 references will be inserted here
-when}}{\color{revisionblue}NKT cells as Live CD19−CD3+CD56+ events. We
-report counts and frequencies normalized to their corresponding matched
-Raw values (Raw = 1); before normalization, B-, T-, and NKT-cell
-frequencies were calculated relative to Live cells. All analyses used
-the same eight paired inputs. Direct workflow comparisons used two-sided
-paired \emph{t}-tests, while Raw comparisons used one-sample
-\emph{t}-tests against 1 on} the {\color{revisionred}\sout{analysis is
+PBMC data}}{\color{revisionblue}parent gate excluded many low-scatter
+events before the lineage endpoints were quantified} and
+{\color{revisionred}\sout{prespecified downstream population endpoints.
+This analysis evaluates whether cleaning
+preserves}}{\color{revisionblue}therefore obscured} the
+{\color{revisionred}\sout{B-cell-to-T-cell
+ratio}}{\color{revisionblue}effects of debris removal. To expose those
+effects directly, we did not include CD45+ as the parent of the lineage
+populations. B cells were defined as Live CD3−CD19+ events, T cells as
+Live CD3+CD19− events,} and {\color{revisionred}\sout{relevant
+constituent populations, providing a direct biological readout rather
+than another subjective gate-ranking exercise.
+PLACEHOLDER:}}{\color{revisionblue}NKT cells as Live CD19−CD3+CD56+
+events. We report counts and frequencies normalized to their
+corresponding matched Raw values (Raw = 1); before normalization, B-,
+T-, and NKT-cell frequencies were calculated relative to Live cells. All
+analyses used} the
+{\color{revisionred}\sout{final}}{\color{revisionblue}same eight paired}
+PBMC {\color{revisionred}\sout{cohort description, population
+definitions, results, statistical comparisons, and Figure 5 references
+will be inserted here when}}{\color{revisionblue}inputs. Direct workflow
+comparisons used two-sided paired \emph{t}-tests, while Raw comparisons
+used one-sample \emph{t}-tests against 1 on} the
+{\color{revisionred}\sout{analysis is
 complete.}}{\color{revisionblue}Raw-normalized values, equivalent to
 paired comparisons with the matched Raw values; tests were Holm-adjusted
 separately within endpoint and outcome metric.}
@@ -671,19 +679,18 @@ separately within endpoint and outcome metric.}
 {\color{revisionred}\sout{We compared the Raw data with sequential
 manual preprocessing and the}}{\color{revisionblue}The} complete
 {\color{revisionred}\sout{FlowMOP output, in which independently
-calculated time, debris,}}{\color{revisionblue}numerical results} and
-{\color{revisionred}\sout{doublet
+calculated time, debris,}}{\color{revisionblue}Figure 5 numerical
+results} and {\color{revisionred}\sout{doublet
 exclusions}}{\color{revisionblue}statistical comparisons} are
 {\color{revisionred}\sout{combined as a union of excluded events. We
 then quantified four prespecified downstream
-endpoints:}}{\color{revisionblue}reported in} the
-{\color{revisionred}\sout{T:B-cell ratio, Live CD45+ cell count, B-cell
-frequency,}}{\color{revisionblue}revised Results} and
-{\color{revisionred}\sout{T-cell frequency. T
-cells}}{\color{revisionblue}Supplementary Data. For time gating, no
-evaluated B-, T-, or NKT-cell frequency differed significantly among the
-methods (all adjusted p values} were {\color{revisionred}\sout{defined
-as CD3+CD19−}}{\color{revisionblue}0.420 or greater). Relative to Expert
+endpoints:}}{\color{revisionblue}reported in Supplementary Table S5A.
+For time gating, no evaluated B-, T-, or NKT-cell frequency differed
+significantly among} the {\color{revisionred}\sout{T:B-cell ratio, Live
+CD45+ cell count, B-cell frequency, and T-cell frequency. T
+cells}}{\color{revisionblue}methods (all adjusted p values} were
+{\color{revisionred}\sout{defined as
+CD3+CD19−}}{\color{revisionblue}0.420 or greater). Relative to Expert
 Manual, FlowMOP retained 11.1--12.7 percentage points more B, T,} and
 {\color{revisionred}\sout{B}}{\color{revisionblue}NKT} cells
 {\color{revisionred}\sout{as CD3−CD19+. Each endpoint was normalized
@@ -699,8 +706,9 @@ less; Figure 5).}
 {\color{revisionred}\sout{No difference between
 Manual}}{\color{revisionblue}Figure 6 reports debris-only,
 doublet-only,} and {\color{revisionblue}combined preprocessing in three
-subcolumns per population.} FlowMOP {\color{revisionred}\sout{was
-detected for the T:B-cell ratio (p = 0.636), Live CD45+
+subcolumns per population, with all contrasts tabulated in Supplementary
+Table S5B.} FlowMOP {\color{revisionred}\sout{was detected for the
+T:B-cell ratio (p = 0.636), Live CD45+
 cell}}{\color{revisionblue}generally removed fewer events overall than
 Expert Manual during debris cleaning. No debris} count
 {\color{revisionred}\sout{(p = 0.545),
@@ -725,13 +733,13 @@ B-cell frequency} was {\color{revisionred}\sout{not significant (p =
 frequency that differed and} was {\color{revisionred}\sout{significant
 (Manual versus Raw, p = 0.715;}}{\color{revisionblue}lower after}
 FlowMOP {\color{revisionblue}cleaning (0.877} versus
-{\color{revisionred}\sout{Raw,}}{\color{revisionblue}1.022; adjusted} p
-= {\color{revisionred}\sout{0.906; Manual versus FlowMOP, p =
-0.636).}}{\color{revisionblue}0.049).} These results
-{\color{revisionred}\sout{support concordant downstream conclusions in
-these three complex samples. The analysis compares the complete
-preprocessing workflows}}{\color{revisionblue}indicate broad agreement
-between human-} and {\color{revisionred}\sout{their downstream
+{\color{revisionred}\sout{Raw, p = 0.906; Manual versus
+FlowMOP,}}{\color{revisionblue}1.022; adjusted} p =
+{\color{revisionred}\sout{0.636).}}{\color{revisionblue}0.049).} These
+results {\color{revisionred}\sout{support concordant downstream
+conclusions in these three complex samples. The analysis compares the
+complete preprocessing workflows}}{\color{revisionblue}indicate broad
+agreement between human-} and {\color{revisionred}\sout{their downstream
 consequences; it does not provide event-level tumour-debris ground truth
 or isolate debris-classification
 accuracy.}}{\color{revisionblue}FlowMOP-mediated pregating.
@@ -741,19 +749,21 @@ contrasts}}{\color{revisionblue}contains} the
 FlowMOP\textquotesingle s parallel exclusion
 logic.}}{\color{revisionblue}representative debris and doublet gates.}
 
-{\color{revisionred}\sout{These biological analyses complement, but
-do}}{\color{revisionblue}In the tumour samples, Manual and FlowMOP
-preprocessing did} not
-{\color{revisionred}\sout{convert,}}{\color{revisionblue}substantively
-differ across} the {\color{revisionred}\sout{earlier forced expert
-rankings into an objective benchmark. The expert-ranking exercise
-remains an exploratory comparison of relative
-preferences}}{\color{revisionblue}measured populations (Figure 7).
-Together with the synthetic} and {\color{revisionred}\sout{is addressed
-separately in Combined Comment 6.}}{\color{revisionblue}human PBMC
-findings, this suggests that FlowMOP performs comparably to manual
-preprocessing when the effects on relevant biological populations are
-considered.}
+{\color{revisionred}\sout{These biological analyses complement, but do
+not convert,}}{\color{revisionblue}In the tumour analysis,} the
+{\color{revisionred}\sout{earlier forced expert rankings into an
+objective benchmark. The expert-ranking exercise remains an exploratory
+comparison of}}{\color{revisionblue}B- and T-cell endpoints are
+population recovery} relative
+{\color{revisionred}\sout{preferences}}{\color{revisionblue}to Raw, not
+frequency or composition within the cleaned output, because their source
+counts use the original total-event denominator. No statistically
+detectable differences were observed between Manual} and
+{\color{revisionred}\sout{is addressed
+separately}}{\color{revisionblue}FlowMOP for the evaluated recovery
+endpoints} in {\color{revisionred}\sout{Combined Comment
+6.}}{\color{revisionblue}these three samples (Figure 7). Given n = 3,
+these nonsignificant results do not establish equivalence.}
 
 {\color{revisionred}\sout{Neither higher}}{\color{revisionblue}The
 biological data alone cannot establish whether the lower retention by
@@ -803,19 +813,19 @@ preprocessing plots.}
 \begin{itemize}
 \tightlist
 \item
-  We added {\color{revisionred}\sout{a}}{\color{revisionblue}an
-  eight-sample} PBMC {\color{revisionred}\sout{biological-validation
-  section based on prespecified downstream population endpoints; the
-  final analysis}}{\color{revisionblue}biological validation with
-  matched-Raw frequencies and counts for Live CD45+, B, T,} and
-  {\color{revisionblue}NKT cells.} Figure 5
-  {\color{revisionred}\sout{content remain a
+  We added a {\color{revisionblue}biological validation using eight}
+  PBMC {\color{revisionred}\sout{biological-validation section based on
+  prespecified downstream population endpoints; the final
+  analysis}}{\color{revisionblue}samples, with matched-Raw frequencies
+  and counts for Live CD45+, B, T,} and {\color{revisionblue}NKT cells.}
+  Figure 5 {\color{revisionred}\sout{content remain a
   PLACEHOLDER.}}{\color{revisionblue}reports time-cleaning
-  representatives (A), frequencies (B), and counts (C). Figure 6 reports
-  the combined Time + Debris + Doublet representative (A) and the
-  debris-only, doublet-only, and combined frequency (B) and count (C)
-  comparisons. Supplementary Figure S8 contains the debris and doublet
-  representative gates only.}
+  representatives (A), frequencies (B), and counts (C), with all
+  contrasts in Supplementary Table S5A. Figure 6 reports the combined
+  Time + Debris + Doublet representative (A) and the debris-only,
+  doublet-only, and combined frequency (B) and count (C) comparisons,
+  with all contrasts in Supplementary Table S5B. Supplementary Figure S8
+  contains the debris and doublet representative gates only.}
 \end{itemize}
 
 {\color{revisionblue}- We found no direct count difference between
@@ -829,12 +839,18 @@ frequency (adjusted p = 0.037) and combined B-cell frequency (adjusted p
 \item
   We added a tumour validation comprising three tumour samples, with
   paired Raw, Manual, and FlowMOP comparisons
-  of{\color{revisionred}\sout{the T:B-cell ratio,}} Live CD45+ cell
-  count, B-cell frequency, and T-cell frequency. Figure
-  {\color{revisionred}\sout{6}}{\color{revisionblue}7} displays the
-  matched gating plots and {\color{revisionred}\sout{the Live CD45+
-  cell-count, B-cell-frequency, and
+  of{\color{revisionred}\sout{the T:B-cell ratio,}} Live CD45+
+  {\color{revisionred}\sout{cell count, B-cell
+  frequency,}}{\color{revisionblue}cell-count recovery and B-} and
+  T-cell
+  {\color{revisionred}\sout{frequency.}}{\color{revisionblue}population
+  recovery.} Figure {\color{revisionred}\sout{6}}{\color{revisionblue}7}
+  displays the matched gating plots and {\color{revisionred}\sout{the
+  Live CD45+ cell-count, B-cell-frequency, and
   T-cell-frequency}}{\color{revisionblue}downstream} comparisons.
+  {\color{revisionblue}No statistically detectable differences were
+  observed between Manual and FlowMOP for these recovery endpoints, but
+  n = 3 does not support an equivalence claim.}
 \item
   We added{\color{revisionred}\sout{a}} representative
   {\color{revisionred}\sout{schematic showing sequential manual gates
@@ -884,7 +900,9 @@ analysis,'' and} ``Tumour biological-validation analysis''; Results,
 {\color{revisionblue}``Biological validation'' and} ``Tumour biological
 validation''; Discussion, ``Biological validation'' and ``Other
 remarks''; Figures {\color{revisionred}\sout{5 and
-6;}}{\color{revisionblue}5--7;} Figure S8.
+6;}}{\color{revisionblue}5--7;} Figure
+{\color{revisionred}\sout{S8.}}{\color{revisionblue}S8; Supplementary
+Tables S5A and S5B.}
 
 \subsection{Combined Comment 4 --- Gating Mechanism, Smoothing, and
 Parameter
@@ -1072,8 +1090,8 @@ aberrations.''
 \textbf{Location:} Methods, ``Time-only acquisition-rate mechanism
 benchmark'' and ``MAD-smoothing ablation and default selection'';
 Results, ``Time Gating'' and ``Synthetic Time Gating Benchmark''; Figure
-2; Figure S4; Supplementary Table S4; Discussion, ``Synthetic Sample
-Time Gating.''
+2; Figure S4;{\color{revisionred}\sout{Supplementary}} Table S4;
+Discussion, ``Synthetic Sample Time Gating.''
 
 \subsection{Combined Comment 5 --- Parameter Voting and the
 Ten-Parameter
@@ -1411,11 +1429,12 @@ proof of algorithmic superiority or inferiority.''}}
 \end{itemize}
 
 \textbf{Location:} {\color{revisionblue}Results, ``Expert preference
-evaluation''; Discussion; Conclusion;} Supplementary Information,
+evaluation''; Discussion; Conclusion;} Supplementary
+{\color{revisionred}\sout{Information,}}{\color{revisionblue}data,}
 ``Supplementary expert preference evaluation,'' including
 ``Supplementary methods'' and ``Supplementary results''; Supplementary
 Figures {\color{revisionred}\sout{S5--S7.}}{\color{revisionblue}S5--S7;
-Supplementary Tables S1B-E.}
+Tables S1B-E.}
 
 \subsection{Combined Comment 7 --- Dataset Scale and
 Complexity}\label{combined-comment-7--dataset-scale-and-complexity}
@@ -1571,9 +1590,9 @@ the preprocessing comparisons addressed here.''}
   \end{quote}
 \end{itemize}
 
-\textbf{Location:} {\color{revisionblue}Methods, ``Preparation of Human
-PBMC Samples for Synthetic Time Benchmarking Samples'';} Discussion,
-``Other {\color{revisionred}\sout{remarks''; acquisition voltage/gain
+\textbf{Location:} {\color{revisionblue}Methods, ``Synthetic time
+source-sample preparation'';} Discussion, ``Other
+{\color{revisionred}\sout{remarks''; acquisition voltage/gain
 information: PLACEHOLDER.}}{\color{revisionblue}remarks.''}
 
 \subsection{Combined Comment 9 --- Temporal Artifacts and Synthetic
@@ -1791,9 +1810,8 @@ Samples''}}{\color{revisionblue}Segment, Bimix, and Trimix datasets,''}
 and ``Time-only acquisition-rate mechanism benchmark''; Results,
 ``Synthetic Time Gating Benchmark''; Discussion, ``Synthetic Sample Time
 Gating''; Figures S1 and
-{\color{revisionred}\sout{S4.}}{\color{revisionblue}S4; Supplementary
-Table S1A.} The biological-validation changes are detailed in Combined
-Comment 3.
+{\color{revisionred}\sout{S4.}}{\color{revisionblue}S4; Table S1A.} The
+biological-validation changes are detailed in Combined Comment 3.
 
 \subsection{Combined Comment 10 --- Debris Methodology and
 Validation}\label{combined-comment-10--debris-methodology-and-validation}
@@ -1899,12 +1917,12 @@ debris removal and presents SSC-A, pulse-width measurements,
 margin-event metadata, and sample-specific multivariate models as future
 extensions rather than universal default filters.
 
-{\color{revisionred}\sout{Preservation of
-downstream}}{\color{revisionblue}The eight-sample} PBMC
-{\color{revisionred}\sout{population
-structure}}{\color{revisionblue}analysis directly assessed both overall
-event removal} and {\color{revisionblue}downstream population
-preservation after debris cleaning. Across all events, FlowMOP excluded
+{\color{revisionred}\sout{Preservation of}}{\color{revisionblue}Figure 3
+compares FlowMOP with four expert debris gates using the source-labelled
+controls. Figure 6 complements this comparison with total debris-gate
+removal and} downstream {\color{revisionblue}biological preservation in
+eight paired} PBMC {\color{revisionred}\sout{population structure
+and}}{\color{revisionblue}inputs. Across all events, FlowMOP excluded
 3.3--56.7\% of} the {\color{revisionred}\sout{difficult-sample tumour
 analysis}}{\color{revisionblue}matched debris input (mean 18.3\%),
 compared with 6.7--43.8\% for Expert Manual (mean 24.8\%), and therefore
@@ -1918,14 +1936,15 @@ part}}{\color{revisionblue}Figure 6B,C. FlowMOP retained mean counts
 equivalent to 91.4--94.9\%} of {\color{revisionblue}matched Raw across
 the Live CD45+ reference, B, T, and NKT endpoints, compared with
 96.3--98.8\% for Expert Manual; no count endpoint differed directly
-between the methods. No population frequency differed from Expert Manual
-except T-cell frequency, which was lower after FlowMOP cleaning
-(Raw-normalized mean 1.013 versus 1.069; Holm-adjusted p = 0.037).
-Figure 6 reports} the {\color{revisionred}\sout{debris-method
-description.}}{\color{revisionblue}complete downstream statistics, and
-Supplementary Figure S8 shows the representative debris and doublet
-gates. The source-labelled synthetic debris benchmark separately
-provides the objective assessment of targeted debris removal.}
+between} the {\color{revisionred}\sout{debris-method
+description.}}{\color{revisionblue}methods. No population frequency
+differed from Expert Manual except T-cell frequency, which was lower
+after FlowMOP cleaning (Raw-normalized mean 1.013 versus 1.069;
+Holm-adjusted p = 0.037). Figure 6 reports the downstream plots,
+Supplementary Table S5B provides all contrasts, and Supplementary Figure
+S8 shows the representative debris and doublet gates. The
+source-labelled synthetic debris benchmark separately provides the
+objective assessment of targeted debris removal.}
 
 The synthetic preparation is now described explicitly. Approximately
 equal event numbers were sampled from the high-debris and low-debris
@@ -2042,7 +2061,8 @@ and ``Biological validation'';} Discussion, ``Synthetic Sample Debris
 and Doublet
 {\color{revisionred}\sout{Gating'';}}{\color{revisionblue}Gating'' and
 ``Biological validation''; Figures 3 and 6; Supplementary} Figure
-{\color{revisionred}\sout{3.}}{\color{revisionblue}S8.}
+{\color{revisionred}\sout{3.}}{\color{revisionblue}S8; Supplementary
+Table S5B.}
 
 \subsection{Combined Comment 11 --- Aggregates, Doublets, Saturation,
 and
@@ -2120,14 +2140,14 @@ explain this methodological distinction and its practical implications
 in the Results and Discussion.}
 
 {\color{revisionblue}We additionally compared FlowMOP with Expert Manual
-doublet cleaning in the eight-sample PBMC biological validation. FlowMOP
-produced slightly lower mean retained counts across the Live CD45+
-reference, B-, T-, and NKT-cell endpoints, but no doublet count or
-frequency endpoint differed significantly between methods (Figure 6B,C).
-When Time, Debris, and Doublet preprocessing were combined, no count
-endpoint differed; B-cell frequency was the only frequency that differed
-between FlowMOP and Expert Manual (adjusted p = 0.049). Supplementary
-Figure S8 shows the representative doublet gates.}
+doublet cleaning in the eight paired PBMC inputs. FlowMOP produced
+slightly lower mean retained counts across the Live CD45+ reference, B-,
+T-, and NKT-cell endpoints, but no doublet count or frequency endpoint
+differed significantly between methods (Figure 6B,C; Supplementary Table
+S5B). When Time, Debris, and Doublet preprocessing were combined, no
+count endpoint differed; B-cell frequency was the only frequency that
+differed between FlowMOP and Expert Manual (adjusted p = 0.049).
+Supplementary Figure S8 shows the representative doublet gates.}
 
 \subsubsection{Changes made}\label{changes-made-10}
 
@@ -2183,7 +2203,8 @@ and Doublet
 {\color{revisionred}\sout{Gating''}}{\color{revisionblue}Gating,''
 ``Biological validation,''} and ``Other remarks'';
 {\color{revisionblue}Figures 4 and 6; Supplementary} Figure
-{\color{revisionred}\sout{4.}}{\color{revisionblue}S8.}
+{\color{revisionred}\sout{4.}}{\color{revisionblue}S8; Supplementary
+Table S5B.}
 
 \subsection{Combined Comment 12 --- CTV/CFSE Preparation
 Protocol}\label{combined-comment-12--ctvcfse-preparation-protocol}
@@ -2314,8 +2335,10 @@ distinct panels used across the benchmark datasets.
   \end{quote}
 \end{itemize}
 
-\textbf{Location:} Methods, ``Preparation of Human PBMC Samples for
-Synthetic Time Benchmarking Samples.''
+\textbf{Location:} Methods, {\color{revisionred}\sout{``Preparation of
+Human PBMC Samples for Synthetic Time Benchmarking
+Samples.''}}{\color{revisionblue}``Synthetic time source-sample
+preparation.''}
 
 \subsection{Combined Comment 14 --- Precleaning Event Removal and
 Threshold}\label{combined-comment-14--precleaning-event-removal-and-threshold}
@@ -2337,17 +2360,36 @@ inconsistent earlier value has been corrected. FlowMOP checks the number
 of events at the maximum FSC-A value and removes those maximum-valued
 events only when they exceed 1\% of the sample.
 
-The number and percentage of events removed by this specific precleaning
-step are the relevant quantities. A dataset-level summary of those
-values is not yet complete and remains to be added before submission;
-percentage-based retention results from later gating stages are not
-presented as a substitute for this precleaning summary.
+{\color{revisionred}\sout{The number and percentage of events removed
+by}}{\color{revisionblue}We calculated}
+this{\color{revisionred}\sout{specific precleaning}} step
+{\color{revisionred}\sout{are}}{\color{revisionblue}directly from} the
+{\color{revisionred}\sout{relevant quantities. A dataset-level summary
+of those}}{\color{revisionblue}\texttt{passed\_lod} channel, treating}
+values {\color{revisionred}\sout{is}}{\color{revisionblue}below 0.5 as
+removed. The rule did} not
+{\color{revisionred}\sout{yet}}{\color{revisionblue}activate in any of
+the eight PBMC samples. In the three tumour samples, it removed
+3,472--9,206 events, corresponding to 2.39--3.05\% of each input. The}
+complete {\color{revisionblue}sample-level counts} and
+{\color{revisionred}\sout{remains to be added before submission;
+percentage-based retention results from later gating
+stages}}{\color{revisionblue}percentages} are
+{\color{revisionred}\sout{not presented as a substitute for this
+precleaning summary.}}{\color{revisionblue}reported in Supplementary
+Table S3.}
 
-The 1\% cutoff is a pragmatic safeguard rather than a uniquely
-ground-truth-derived boundary. It is low enough to identify files with a
-non-trivial accumulation of events at the acquisition maximum while
-avoiding removal triggered by isolated maximum-valued events. The
-revised Results state this operational rationale.
+The 1\% cutoff is {\color{revisionred}\sout{a pragmatic safeguard rather
+than a uniquely ground-truth-derived boundary. It is low enough to
+identify files with a non-trivial accumulation of events at the
+acquisition maximum while avoiding removal triggered by isolated
+maximum-valued events. The revised Results state
+this}}{\color{revisionblue}an arbitrary} operational
+{\color{revisionred}\sout{rationale.}}{\color{revisionblue}safeguard,
+not an empirically optimized biological threshold. Its activation
+depends on acquisition scaling and voltage/gain settings, and the
+observed activation rates are dataset-specific and should not be
+generalized across instruments.}
 
 \subsubsection{Changes made}\label{changes-made-13}
 
@@ -2363,19 +2405,36 @@ revised Results state this operational rationale.
   it retains all values.''
   \end{quote}
 \item
-  We added the following operational rationale:
+  We added the following operational
+  {\color{revisionred}\sout{rationale:}}{\color{revisionblue}rationale
+  and dataset-specific qualification:}
 
   \begin{quote}
-  ``The 1\% cutoff is a pragmatic safeguard intended to identify
-  non-trivial accumulation at the acquisition maximum without responding
-  to isolated maximum-valued events.''
+  ``The 1\% cutoff is {\color{revisionred}\sout{a pragmatic safeguard
+  intended to identify non-trivial accumulation
+  at}}{\color{revisionblue}an arbitrary operational safeguard, not an
+  empirically optimized biological threshold. In} the
+  {\color{revisionblue}biological-validation inputs, the rule did not
+  activate in any of the eight PBMC samples, whereas it removed
+  3,472--9,206 events, or 2.39--3.05\%, in the three tumour samples
+  (Table S3). Activation depends on} acquisition
+  {\color{revisionred}\sout{maximum without responding to isolated
+  maximum-valued events.''}}{\color{revisionblue}scaling and
+  voltage/gain settings, and these observed activation rates are
+  dataset-specific and should not be generalized across instruments.''}
   \end{quote}
 \item
-  The dataset-level precleaning removal counts and percentages remain to
-  be added before submission.
+  {\color{revisionred}\sout{The dataset-level precleaning removal counts
+  and percentages remain to be}}{\color{revisionblue}We} added
+  {\color{revisionred}\sout{before
+  submission.}}{\color{revisionblue}Supplementary Table S3 with the
+  input events, events removed, percentage removed, and
+  threshold-activation status for every biological-validation input.}
 \end{itemize}
 
-\textbf{Location:} Results, ``Precleaning.''
+\textbf{Location:} Results,
+{\color{revisionred}\sout{``Precleaning.''}}{\color{revisionblue}``Precleaning'';
+Supplementary Table S3.}
 
 \subsection{Combined Comment 15 --- Figure 1 Axes and
 Annotations}\label{combined-comment-15--figure-1-axes-and-annotations}
@@ -2524,6 +2583,7 @@ biological-validation analysis remain clearly marked as placeholders.}}
 
 \subsubsection{Associate Editor}\label{associate-editor}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.6400}}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.3200}}@{}}
@@ -2552,9 +2612,11 @@ Comment 9 \\
 Request for complete responses & Associate Editor\textquotesingle s
 Closing Request \\
 \end{longtable}
+}
 
 \subsubsection{Reviewer 1}\label{reviewer-1}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.6400}}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.3200}}@{}}
@@ -2577,9 +2639,11 @@ Comment 4 --- Error costs and sensitivity trade-offs & Combined Comment
 3 \\
 Comment 5 --- Parametric sensitivity analysis & Combined Comment 4 \\
 \end{longtable}
+}
 
 \subsubsection{Reviewer 2}\label{reviewer-2}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.6400}}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.3200}}@{}}
@@ -2623,6 +2687,7 @@ Comment 26 & Combined Comment 11 \\
 Comment 27 & Combined Comment 12 \\
 Comment 28 & Combined Comment 8 \\
 \end{longtable}
+}
 
 \subsection{Closing Statement}\label{closing-statement}
 

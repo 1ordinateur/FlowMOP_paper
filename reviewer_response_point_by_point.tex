@@ -41,6 +41,7 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -293,6 +294,7 @@ compute scenario vs. more traditional local compute resources.
 
 Example Performance Benchmarking Table:
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1920}}
   >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1920}}
@@ -321,6 +323,7 @@ FlowCut (R)
 & Peak RAM (MB) & & & \\
 ...etc. & & & & \\
 \end{longtable}
+}
 \end{quote}
 
 \subsubsection{Associate Editor --- Algorithmic vs. Implementation
@@ -496,9 +499,9 @@ implementations rather than an empirical distributed-computing speedup.
   \end{quote}
 \end{itemize}
 
-\textbf{Location:} Methods, ``Algorithmic design'' and ``Computational
-scalability''; Results, ``Computational scalability''; Table 1;
-Discussion, ``Synthetic Sample Time Gating.''
+\textbf{Location:} Methods, ``Computational scalability benchmark'';
+Results, ``Algorithmic design'' and ``Computational scalability''; Table
+1; Discussion, ``Synthetic Sample Time Gating.''
 
 \subsection{Combined Comment 3 --- Downstream Biological Validation,
 Dataset Breadth, and the Cost of
@@ -579,9 +582,9 @@ method can be applied in their sample or not.
 \subsubsection{Response}\label{response-2}
 
 We elected to conduct further biological validation, and therefore added
-an experiment with eight independent human PBMC samples and three human
-tumour-liver samples. These analyses quantify both population recovery
-and biological composition.
+eight human PBMC samples and three human tumour-liver samples. These
+analyses quantify PBMC population recovery and biological composition
+and tumour-population recovery.
 
 We agree with Reviewer 1 that the original single-expert-per-tissue
 design cannot establish within-tissue expert consensus or support claims
@@ -608,28 +611,29 @@ Live CD3−CD19+ events, T cells as Live CD3+CD19− events, and NKT cells
 as Live CD19−CD3+CD56+ events. We report counts and frequencies
 normalized to their corresponding matched Raw values (Raw = 1); before
 normalization, B-, T-, and NKT-cell frequencies were calculated relative
-to Live cells. All analyses used the same eight paired inputs. Direct
-workflow comparisons used two-sided paired \emph{t}-tests, while Raw
-comparisons used one-sample \emph{t}-tests against 1 on the
+to Live cells. All analyses used the same eight paired PBMC inputs.
+Direct workflow comparisons used two-sided paired \emph{t}-tests, while
+Raw comparisons used one-sample \emph{t}-tests against 1 on the
 Raw-normalized values, equivalent to paired comparisons with the matched
 Raw values; tests were Holm-adjusted separately within endpoint and
 outcome metric.
 
-The complete numerical results and statistical comparisons are reported
-in the revised Results and Supplementary Data. For time gating, no
-evaluated B-, T-, or NKT-cell frequency differed significantly among the
-methods (all adjusted p values were 0.420 or greater). Relative to
-Expert Manual, FlowMOP retained 11.1--12.7 percentage points more B, T,
-and NKT cells (all adjusted p values were 0.003 or less), FlowCut
-retained 12.3--13.8 points more (all adjusted p values were 0.006 or
-less), and PeacoQC retained 11.7--13.4 points fewer (all adjusted p
-values were 0.035 or less; Figure 5).
+The complete Figure 5 numerical results and statistical comparisons are
+reported in Supplementary Table S5A. For time gating, no evaluated B-,
+T-, or NKT-cell frequency differed significantly among the methods (all
+adjusted p values were 0.420 or greater). Relative to Expert Manual,
+FlowMOP retained 11.1--12.7 percentage points more B, T, and NKT cells
+(all adjusted p values were 0.003 or less), FlowCut retained 12.3--13.8
+points more (all adjusted p values were 0.006 or less), and PeacoQC
+retained 11.7--13.4 points fewer (all adjusted p values were 0.035 or
+less; Figure 5).
 
 Figure 6 reports debris-only, doublet-only, and combined preprocessing
-in three subcolumns per population. FlowMOP generally removed fewer
-events overall than Expert Manual during debris cleaning. No debris
-count endpoint differed between the methods, and no population frequency
-differed except T-cell frequency, which was lower after FlowMOP cleaning
+in three subcolumns per population, with all contrasts tabulated in
+Supplementary Table S5B. FlowMOP generally removed fewer events overall
+than Expert Manual during debris cleaning. No debris count endpoint
+differed between the methods, and no population frequency differed
+except T-cell frequency, which was lower after FlowMOP cleaning
 (Raw-normalized mean 1.013 versus 1.069; adjusted p = 0.037). Doublet
 cleaning produced no significant count or frequency difference between
 FlowMOP and Expert Manual. When Time, Debris, and Doublet preprocessing
@@ -639,11 +643,13 @@ versus 1.022; adjusted p = 0.049). These results indicate broad
 agreement between human- and FlowMOP-mediated pregating. Supplementary
 Figure S8 contains the representative debris and doublet gates.
 
-In the tumour samples, Manual and FlowMOP preprocessing did not
-substantively differ across the measured populations (Figure 7).
-Together with the synthetic and human PBMC findings, this suggests that
-FlowMOP performs comparably to manual preprocessing when the effects on
-relevant biological populations are considered.
+In the tumour analysis, the B- and T-cell endpoints are population
+recovery relative to Raw, not frequency or composition within the
+cleaned output, because their source counts use the original total-event
+denominator. No statistically detectable differences were observed
+between Manual and FlowMOP for the evaluated recovery endpoints in these
+three samples (Figure 7). Given n = 3, these nonsignificant results do
+not establish equivalence.
 
 The biological data alone cannot establish whether the lower retention
 by Expert Manual and PeacoQC reflects more sensitive artifact removal or
@@ -677,13 +683,15 @@ Time, Debris, and Doublet preprocessing plots.
 
 \begin{itemize}
 \item
-  We added an eight-sample PBMC biological validation with matched-Raw
-  frequencies and counts for Live CD45+, B, T, and NKT cells. Figure 5
-  reports time-cleaning representatives (A), frequencies (B), and counts
-  (C). Figure 6 reports the combined Time + Debris + Doublet
-  representative (A) and the debris-only, doublet-only, and combined
-  frequency (B) and count (C) comparisons. Supplementary Figure S8
-  contains the debris and doublet representative gates only.
+  We added a biological validation using eight PBMC samples, with
+  matched-Raw frequencies and counts for Live CD45+, B, T, and NKT
+  cells. Figure 5 reports time-cleaning representatives (A), frequencies
+  (B), and counts (C), with all contrasts in Supplementary Table S5A.
+  Figure 6 reports the combined Time + Debris + Doublet representative
+  (A) and the debris-only, doublet-only, and combined frequency (B) and
+  count (C) comparisons, with all contrasts in Supplementary Table S5B.
+  Supplementary Figure S8 contains the debris and doublet representative
+  gates only.
 \item
   We found no direct count difference between FlowMOP and Expert Manual
   in the debris, doublet, or combined comparisons. No doublet frequency
@@ -692,9 +700,12 @@ Time, Debris, and Doublet preprocessing plots.
   combined B-cell frequency (adjusted p = 0.049).
 \item
   We added a tumour validation comprising three tumour samples, with
-  paired Raw, Manual, and FlowMOP comparisons of Live CD45+ cell count,
-  B-cell frequency, and T-cell frequency. Figure 7 displays the matched
-  gating plots and downstream comparisons.
+  paired Raw, Manual, and FlowMOP comparisons of Live CD45+ cell-count
+  recovery and B- and T-cell population recovery. Figure 7 displays the
+  matched gating plots and downstream comparisons. No statistically
+  detectable differences were observed between Manual and FlowMOP for
+  these recovery endpoints, but n = 3 does not support an equivalence
+  claim.
 \item
   We added representative Manual and FlowMOP Time, Debris, and Doublet
   preprocessing plots (Figure 7A).
@@ -728,7 +739,8 @@ Time, Debris, and Doublet preprocessing plots.
 preparation,'' ``Biological-validation analysis,'' and ``Tumour
 biological-validation analysis''; Results, ``Biological validation'' and
 ``Tumour biological validation''; Discussion, ``Biological validation''
-and ``Other remarks''; Figures 5--7; Figure S8.
+and ``Other remarks''; Figures 5--7; Figure S8; Supplementary Tables S5A
+and S5B.
 
 \subsection{Combined Comment 4 --- Gating Mechanism, Smoothing, and
 Parameter
@@ -916,8 +928,7 @@ aberrations.''
 \textbf{Location:} Methods, ``Time-only acquisition-rate mechanism
 benchmark'' and ``MAD-smoothing ablation and default selection'';
 Results, ``Time Gating'' and ``Synthetic Time Gating Benchmark''; Figure
-2; Figure S4; Supplementary Table S4; Discussion, ``Synthetic Sample
-Time Gating.''
+2; Figure S4; Table S4; Discussion, ``Synthetic Sample Time Gating.''
 
 \subsection{Combined Comment 5 --- Parameter Voting and the
 Ten-Parameter
@@ -1194,10 +1205,9 @@ samples.
 \end{itemize}
 
 \textbf{Location:} Results, ``Expert preference evaluation'';
-Discussion; Conclusion; Supplementary Information, ``Supplementary
-expert preference evaluation,'' including ``Supplementary methods'' and
-``Supplementary results''; Supplementary Figures S5--S7; Supplementary
-Tables S1B-E.
+Discussion; Conclusion; Supplementary data, ``Supplementary expert
+preference evaluation,'' including ``Supplementary methods'' and
+``Supplementary results''; Supplementary Figures S5--S7; Tables S1B-E.
 
 \subsection{Combined Comment 7 --- Dataset Scale and
 Complexity}\label{combined-comment-7--dataset-scale-and-complexity}
@@ -1326,8 +1336,8 @@ debris/doublet separation.
   \end{quote}
 \end{itemize}
 
-\textbf{Location:} Methods, ``Preparation of Human PBMC Samples for
-Synthetic Time Benchmarking Samples''; Discussion, ``Other remarks.''
+\textbf{Location:} Methods, ``Synthetic time source-sample
+preparation''; Discussion, ``Other remarks.''
 
 \subsection{Combined Comment 9 --- Temporal Artifacts and Synthetic
 Time-Sample
@@ -1539,9 +1549,8 @@ FlowCut\textquotesingle s removal behavior shifted (Figure S4).
 source-sample preparation,'' ``Computational construction of Segment,
 Bimix, and Trimix datasets,'' and ``Time-only acquisition-rate mechanism
 benchmark''; Results, ``Synthetic Time Gating Benchmark''; Discussion,
-``Synthetic Sample Time Gating''; Figures S1 and S4; Supplementary Table
-S1A. The biological-validation changes are detailed in Combined Comment
-3.
+``Synthetic Sample Time Gating''; Figures S1 and S4; Table S1A. The
+biological-validation changes are detailed in Combined Comment 3.
 
 \subsection{Combined Comment 10 --- Debris Methodology and
 Validation}\label{combined-comment-10--debris-methodology-and-validation}
@@ -1647,23 +1656,25 @@ presents SSC-A, pulse-width measurements, margin-event metadata, and
 sample-specific multivariate models as future extensions rather than
 universal default filters.
 
-The eight-sample PBMC analysis directly assessed both overall event
-removal and downstream population preservation after debris cleaning.
-Across all events, FlowMOP excluded 3.3--56.7\% of the matched debris
-input (mean 18.3\%), compared with 6.7--43.8\% for Expert Manual (mean
-24.8\%), and therefore removed debris-gated events in every paired
-input. These percentages summarize total debris-gate removal and are
-distinct from the downstream population values plotted in Figure 6B,C.
-FlowMOP retained mean counts equivalent to 91.4--94.9\% of matched Raw
-across the Live CD45+ reference, B, T, and NKT endpoints, compared with
-96.3--98.8\% for Expert Manual; no count endpoint differed directly
-between the methods. No population frequency differed from Expert Manual
-except T-cell frequency, which was lower after FlowMOP cleaning
-(Raw-normalized mean 1.013 versus 1.069; Holm-adjusted p = 0.037).
-Figure 6 reports the complete downstream statistics, and Supplementary
-Figure S8 shows the representative debris and doublet gates. The
-source-labelled synthetic debris benchmark separately provides the
-objective assessment of targeted debris removal.
+Figure 3 compares FlowMOP with four expert debris gates using the
+source-labelled controls. Figure 6 complements this comparison with
+total debris-gate removal and downstream biological preservation in
+eight paired PBMC inputs. Across all events, FlowMOP excluded
+3.3--56.7\% of the matched debris input (mean 18.3\%), compared with
+6.7--43.8\% for Expert Manual (mean 24.8\%), and therefore removed
+debris-gated events in every paired input. These percentages summarize
+total debris-gate removal and are distinct from the downstream
+population values plotted in Figure 6B,C. FlowMOP retained mean counts
+equivalent to 91.4--94.9\% of matched Raw across the Live CD45+
+reference, B, T, and NKT endpoints, compared with 96.3--98.8\% for
+Expert Manual; no count endpoint differed directly between the methods.
+No population frequency differed from Expert Manual except T-cell
+frequency, which was lower after FlowMOP cleaning (Raw-normalized mean
+1.013 versus 1.069; Holm-adjusted p = 0.037). Figure 6 reports the
+downstream plots, Supplementary Table S5B provides all contrasts, and
+Supplementary Figure S8 shows the representative debris and doublet
+gates. The source-labelled synthetic debris benchmark separately
+provides the objective assessment of targeted debris removal.
 
 The synthetic preparation is now described explicitly. Approximately
 equal event numbers were sampled from the high-debris and low-debris
@@ -1768,7 +1779,8 @@ Generation,'' ``Human PBMC biological-validation sample preparation,''
 and ``Biological-validation analysis''; Results, ``Debris Gating,''
 ``Synthetic Debris Gating Benchmark,'' and ``Biological validation'';
 Discussion, ``Synthetic Sample Debris and Doublet Gating'' and
-``Biological validation''; Figures 3 and 6; Supplementary Figure S8.
+``Biological validation''; Figures 3 and 6; Supplementary Figure S8;
+Supplementary Table S5B.
 
 \subsection{Combined Comment 11 --- Aggregates, Doublets, Saturation,
 and
@@ -1845,14 +1857,14 @@ t-test, p = 0.009). We now explain this methodological distinction and
 its practical implications in the Results and Discussion.
 
 We additionally compared FlowMOP with Expert Manual doublet cleaning in
-the eight-sample PBMC biological validation. FlowMOP produced slightly
-lower mean retained counts across the Live CD45+ reference, B-, T-, and
-NKT-cell endpoints, but no doublet count or frequency endpoint differed
-significantly between methods (Figure 6B,C). When Time, Debris, and
-Doublet preprocessing were combined, no count endpoint differed; B-cell
-frequency was the only frequency that differed between FlowMOP and
-Expert Manual (adjusted p = 0.049). Supplementary Figure S8 shows the
-representative doublet gates.
+the eight paired PBMC inputs. FlowMOP produced slightly lower mean
+retained counts across the Live CD45+ reference, B-, T-, and NKT-cell
+endpoints, but no doublet count or frequency endpoint differed
+significantly between methods (Figure 6B,C; Supplementary Table S5B).
+When Time, Debris, and Doublet preprocessing were combined, no count
+endpoint differed; B-cell frequency was the only frequency that differed
+between FlowMOP and Expert Manual (adjusted p = 0.049). Supplementary
+Figure S8 shows the representative doublet gates.
 
 \subsubsection{Changes made}\label{changes-made-10}
 
@@ -1898,7 +1910,7 @@ representative doublet gates.
 ``Doublet Gating,'' ``Synthetic Doublet Gating Benchmark,'' and
 ``Biological validation''; Discussion, ``Synthetic Sample Debris and
 Doublet Gating,'' ``Biological validation,'' and ``Other remarks'';
-Figures 4 and 6; Supplementary Figure S8.
+Figures 4 and 6; Supplementary Figure S8; Supplementary Table S5B.
 
 \subsection{Combined Comment 12 --- CTV/CFSE Preparation
 Protocol}\label{combined-comment-12--ctvcfse-preparation-protocol}
@@ -2017,8 +2029,8 @@ describe the distinct panels used across the benchmark datasets.
   \end{quote}
 \end{itemize}
 
-\textbf{Location:} Methods, ``Preparation of Human PBMC Samples for
-Synthetic Time Benchmarking Samples.''
+\textbf{Location:} Methods, ``Synthetic time source-sample
+preparation.''
 
 \subsection{Combined Comment 14 --- Precleaning Event Removal and
 Threshold}\label{combined-comment-14--precleaning-event-removal-and-threshold}
@@ -2040,17 +2052,17 @@ inconsistent earlier value has been corrected. FlowMOP checks the number
 of events at the maximum FSC-A value and removes those maximum-valued
 events only when they exceed 1\% of the sample.
 
-The number and percentage of events removed by this specific precleaning
-step are the relevant quantities. A dataset-level summary of those
-values is not yet complete and remains to be added before submission;
-percentage-based retention results from later gating stages are not
-presented as a substitute for this precleaning summary.
+We calculated this step directly from the \texttt{passed\_lod} channel,
+treating values below 0.5 as removed. The rule did not activate in any
+of the eight PBMC samples. In the three tumour samples, it removed
+3,472--9,206 events, corresponding to 2.39--3.05\% of each input. The
+complete sample-level counts and percentages are reported in
+Supplementary Table S3.
 
-The 1\% cutoff is a pragmatic safeguard rather than a uniquely
-ground-truth-derived boundary. It is low enough to identify files with a
-non-trivial accumulation of events at the acquisition maximum while
-avoiding removal triggered by isolated maximum-valued events. The
-revised Results state this operational rationale.
+The 1\% cutoff is an arbitrary operational safeguard, not an empirically
+optimized biological threshold. Its activation depends on acquisition
+scaling and voltage/gain settings, and the observed activation rates are
+dataset-specific and should not be generalized across instruments.
 
 \subsubsection{Changes made}\label{changes-made-13}
 
@@ -2066,19 +2078,26 @@ revised Results state this operational rationale.
   it retains all values.''
   \end{quote}
 \item
-  We added the following operational rationale:
+  We added the following operational rationale and dataset-specific
+  qualification:
 
   \begin{quote}
-  ``The 1\% cutoff is a pragmatic safeguard intended to identify
-  non-trivial accumulation at the acquisition maximum without responding
-  to isolated maximum-valued events.''
+  ``The 1\% cutoff is an arbitrary operational safeguard, not an
+  empirically optimized biological threshold. In the
+  biological-validation inputs, the rule did not activate in any of the
+  eight PBMC samples, whereas it removed 3,472--9,206 events, or
+  2.39--3.05\%, in the three tumour samples (Table S3). Activation
+  depends on acquisition scaling and voltage/gain settings, and these
+  observed activation rates are dataset-specific and should not be
+  generalized across instruments.''
   \end{quote}
 \item
-  The dataset-level precleaning removal counts and percentages remain to
-  be added before submission.
+  We added Supplementary Table S3 with the input events, events removed,
+  percentage removed, and threshold-activation status for every
+  biological-validation input.
 \end{itemize}
 
-\textbf{Location:} Results, ``Precleaning.''
+\textbf{Location:} Results, ``Precleaning''; Supplementary Table S3.
 
 \subsection{Combined Comment 15 --- Figure 1 Axes and
 Annotations}\label{combined-comment-15--figure-1-axes-and-annotations}
@@ -2218,6 +2237,7 @@ responses to all comments raised by the other reviewers.
 
 \subsubsection{Associate Editor}\label{associate-editor}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.6400}}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.3200}}@{}}
@@ -2246,9 +2266,11 @@ Comment 9 \\
 Request for complete responses & Associate Editor\textquotesingle s
 Closing Request \\
 \end{longtable}
+}
 
 \subsubsection{Reviewer 1}\label{reviewer-1}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.6400}}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.3200}}@{}}
@@ -2271,9 +2293,11 @@ Comment 4 --- Error costs and sensitivity trade-offs & Combined Comment
 3 \\
 Comment 5 --- Parametric sensitivity analysis & Combined Comment 4 \\
 \end{longtable}
+}
 
 \subsubsection{Reviewer 2}\label{reviewer-2}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.6400}}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.3200}}@{}}
@@ -2317,6 +2341,7 @@ Comment 26 & Combined Comment 11 \\
 Comment 27 & Combined Comment 12 \\
 Comment 28 & Combined Comment 8 \\
 \end{longtable}
+}
 
 \subsection{Closing Statement}\label{closing-statement}
 

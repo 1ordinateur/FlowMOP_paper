@@ -37,7 +37,7 @@ Flow cytometry now generates high-parameter datasets whose scale and variability
 
 <span style="color:#0066cc">Against event-labelled synthetic technical controls, FlowMOP showed a favourable balance of sensitivity and specificity relative to comparator time-gating methods and effectively removed labelled debris- and doublet-enriched populations.</span>
 
-<span style="color:#0066cc">In a matched analysis of eight human PBMC sample groups, FlowMOP time gating preserved significantly more B, T, and NKT cells than expert preprocessing without altering their relative frequencies. Across the complete preprocessing pathway, no direct count difference between FlowMOP and expert cleaning was detected; B-cell frequency was modestly lower after FlowMOP, while the other evaluated frequencies did not differ. In three human tumour-liver samples with substantial debris, FlowMOP and manual preprocessing produced concordant downstream population measurements. Together with its synthetic accuracy and computational performance, these findings support FlowMOP as a fast, reproducible, fully automated preprocessing workflow for flow cytometry. FlowMOP can be accessed at https://github.com/1ordinateur/FlowMOP.</span>
+<span style="color:#0066cc">In a matched analysis of eight human PBMC samples, FlowMOP time gating preserved significantly more B, T, and NKT cells than expert preprocessing without altering their relative frequencies. Across the complete preprocessing pathway, no direct count difference between FlowMOP and expert cleaning was detected; B-cell frequency was modestly lower after FlowMOP, while the other evaluated frequencies did not differ. In three human tumour-liver samples with substantial debris, no statistically detectable differences were observed between Manual and FlowMOP for the evaluated recovery endpoints. Together with its synthetic accuracy and computational performance, these findings support FlowMOP as a fast, reproducible, fully automated preprocessing workflow for flow cytometry. FlowMOP can be accessed at https://github.com/1ordinateur/FlowMOP.</span>
 
 ## Introduction
 
@@ -47,7 +47,7 @@ Manual preprocessing of flow cytometry data, whilst still not standardised, typi
 
 <span style="color:#0066cc">The most conspicuous time artifacts often occur at the beginning or end of acquisition, but flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have also been documented [10].</span> <span style="color:#0066cc">Here, we use “microblockage” operationally to denote a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed.</span> <span style="color:#0066cc">Temporary acquisition problems can be difficult to detect manually [5], and manual identification and removal of transient problems can be time-consuming and subjective [9].</span> <span style="color:#0066cc">Because the affected intervals may be short and interspersed with otherwise plausible events, they can be impractical to exclude reproducibly using multiple manual gates.</span>
 
-<span style="color:#0066cc">Several tools automate cytometry population identification, including the model-based flowClust method [13], the neural-network method GateNet [14], and the bivariate-segmentation framework UNITO [15]; automated gating approaches are reviewed elsewhere [16].</span> <span style="color:#0066cc">FlowMOP is a Python-based, training-free preprocessing workflow that combines automated time-gating, debris removal, and doublet exclusion in a single headless tool.</span> <span style="color:#0066cc">FlowCut and PeacoQC provide the most direct comparison for its time-gating component.</span>
+<span style="color:#0066cc">Several tools automate cytometry population identification, including the model-based flowClust method [13], the neural-network method GateNet [14], and the bivariate-segmentation framework UNITO [15], while FATE uses representation learning to produce generalized flow-cytometry embeddings [12]; automated gating approaches are reviewed elsewhere [16].</span> <span style="color:#0066cc">FlowMOP is a Python-based, training-free preprocessing workflow that combines automated time-gating, debris removal, and doublet exclusion in a single headless tool.</span> <span style="color:#0066cc">FlowCut and PeacoQC provide the most direct comparison for its time-gating component.</span>
 
 The Python implementation specifically facilitates integration with contemporary machine-learning workflows, which predominantly utilize Python-based frameworks.
 
@@ -57,7 +57,7 @@ The Python implementation specifically facilitates integration with contemporary
 
 ## Methods
 
-For further details concerning datasets, see Supplementary Table 1A.
+For further details concerning datasets, see <span style="color:#c00000"><s>Supplementary Table 1A</s></span><span style="color:#0066cc">Table S1A</span>.
 
 ### <span style="color:#0066cc">Synthetic time benchmark</span>
 
@@ -115,7 +115,7 @@ Mouse spleens were mechanically dissociated prior to lysis of red blood cells (R
 
 <span style="color:#0066cc">Three human tumour-liver FCS files (LB202, LB236, and LB262) were analysed in their Raw state and after either manual or FlowMOP preprocessing.</span> <span style="color:#0066cc">Manual preprocessing used sequential time, cells/debris, and single-cell gates.</span> <span style="color:#0066cc">FlowMOP calculated time, debris, and doublet exclusions independently; the union of excluded events was removed, equivalently retaining the intersection of the three passed-event masks.</span> <span style="color:#0066cc">The limit-of-detection mask was not included.</span>
 
-<span style="color:#0066cc">T and B cells were identified from CD3 and CD19 expression.</span> <span style="color:#0066cc">T cells were defined as CD3+CD19− (Q1) and B cells as CD3−CD19+ (Q3).</span> <span style="color:#0066cc">Three prespecified endpoints were calculated: the number of Live CD45+ cells and T- and B-cell frequencies as percentages of the original total event count.</span> <span style="color:#0066cc">Each endpoint was normalized within sample to its matched Raw value (Raw = 100%).</span> <span style="color:#0066cc">Raw, Manual, and FlowMOP values were compared using all three unadjusted, two-sided paired t-tests.</span>
+<span style="color:#0066cc">T and B cells were identified from CD3 and CD19 expression.</span> <span style="color:#0066cc">T cells were defined as CD3+CD19− (Q1) and B cells as CD3−CD19+ (Q3).</span> <span style="color:#0066cc">Three prespecified endpoints were calculated: the number of Live CD45+ cells and the numbers of T and B cells.</span> <span style="color:#0066cc">The T- and B-cell source counts were first expressed as percentages of the original total event count; after normalization within sample to the matched Raw value (Raw = 100%), these endpoints represent population recovery relative to Raw rather than population frequency or composition within the cleaned output.</span> <span style="color:#0066cc">Raw, Manual, and FlowMOP values were compared using all three unadjusted, two-sided paired t-tests.</span>
 
 ### <span style="color:#0066cc">Computational scalability benchmark</span>
 
@@ -125,7 +125,7 @@ Mouse spleens were mechanically dissociated prior to lysis of red blood cells (R
 
 ### Coding Assistance
 
-Parts of the code were generated with the aid of ChatGPT Codex and Claude Code. All code generated by LLMs were manually verified before implementation.
+Parts of the code were generated with the aid of ChatGPT Codex and Claude Code. All code generated by LLMs <span style="color:#c00000"><s>were</s></span><span style="color:#0066cc">was</span> manually verified before implementation.
 
 ## RESULTS
 
@@ -141,7 +141,7 @@ An overview of FlowMOP’s architecture is contained in Fig. 1, detailing approa
 
 #### Precleaning
 
-<span style="color:#0066cc">FlowMOP first checks the input file for events at the limit of detection, defined here as events at the maximum FSC-A value for that sample.</span> <span style="color:#0066cc">If the number of events at this maximum exceeds a threshold (default 1%), FlowMOP removes these maximum-valued events.</span> <span style="color:#0066cc">Otherwise, it retains all values.</span> <span style="color:#0066cc">The 1% cutoff is a pragmatic safeguard intended to identify non-trivial accumulation at the acquisition maximum without responding to isolated maximum-valued events.</span>
+<span style="color:#0066cc">FlowMOP first checks the input file for events at the limit of detection, defined here as events at the maximum FSC-A value for that sample.</span> <span style="color:#0066cc">If the number of events at this maximum exceeds a threshold (default 1%), FlowMOP removes these maximum-valued events; otherwise, it retains all values.</span> <span style="color:#0066cc">The 1% cutoff is an arbitrary operational safeguard, not an empirically optimized biological threshold.</span> <span style="color:#0066cc">In the biological-validation inputs, the rule did not activate in any of the eight PBMC samples, whereas it removed 3,472–9,206 events, or 2.39–3.05%, in the three tumour samples (Table S3).</span> <span style="color:#0066cc">Activation depends on acquisition scaling and voltage/gain settings, and these observed activation rates are dataset-specific and should not be generalized across instruments.</span>
 
 #### Time Gating
 
@@ -186,7 +186,7 @@ Figure 2. A) Representative flow cytometry plots showing CD3 fluorescence agains
 
 <span style="color:#0066cc">Dual-resolution smoothing changed the balance between sensitivity and specificity (Table S4). The no-smoothing control had the highest equal-weight balanced mean (0.7551), but its sensitivity was 1.92 percentage points lower than that of `0.01,0.05`. Among smoothed settings, `0.01,0.05` had the highest balanced mean (0.7511), with specificity 2.70 percentage points lower than the no-smoothing control. We therefore selected `0.01,0.05` as the default and regenerated Figure 2 using this setting.</span>
 
-Representative plots for the 2000 bin Bimix method, and the 2000, and 5000 bin Trimix methods can be found in Supp. 1.
+Representative plots for the 2000 bin Bimix method, and the 2000, and 5000 bin Trimix methods can be found in <span style="color:#c00000"><s>Supp. 1</s></span><span style="color:#0066cc">Supplementary Figure S2</span>.
 
 #### <span style="color:#0066cc">Computational scalability</span>
 
@@ -232,7 +232,7 @@ FlowMOP’s doublet removal performance was also examined through synthetic tech
 
 ![Figure 5](figs_data/figure_5.svg)
 
-<span style="color:#0066cc">Figure 5. Biological validation of time cleaning relative to matched ungated inputs. A) Representative time and downstream biological gates for Raw, Expert Manual, FlowMOP, PeacoQC, and FlowCut. Live CD45+ is shown as a reference endpoint; the B, T, and NKT gates do not inherit the CD45+ gate. B) Frequencies and C) counts for B, T, and NKT cells, each normalized within sample to its corresponding matched Raw value (Raw = 1). Before normalization, B-, T-, and NKT-cell frequencies were calculated relative to Live cells. Points represent eight paired inputs, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Raw-comparison brackets are omitted for clarity; complete comparisons with Raw are provided in the Supplementary Data. Displayed brackets show significant method-versus-method two-sided paired *t*-tests after Holm adjustment, with adjusted values labelled “p” for brevity (n = 8).</span>
+<span style="color:#0066cc">Figure 5. Biological validation of time cleaning relative to matched ungated inputs. A) Representative time and downstream biological gates for Raw, Expert Manual, FlowMOP, PeacoQC, and FlowCut. Live CD45+ is shown as a reference endpoint; the B, T, and NKT gates do not inherit the CD45+ gate. B) Frequencies and C) counts for B, T, and NKT cells, each normalized within sample to its corresponding matched Raw value (Raw = 1). Before normalization, B-, T-, and NKT-cell frequencies were calculated relative to Live cells. Points represent eight paired inputs, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Raw-comparison brackets are omitted for clarity; complete comparisons with Raw are provided in Supplementary Table S5A. Displayed brackets show significant method-versus-method two-sided paired *t*-tests after Holm adjustment, with adjusted values labelled “p” for brevity (n = 8).</span>
 
 <span style="color:#0066cc">Figure 6 evaluates debris-only, doublet-only, and combined Time + Debris + Doublet preprocessing. Representative combined gates are shown in Figure 6A, while the corresponding frequencies and counts are reported in Figure 6B and C, respectively. FlowMOP debris cleaning removed events from every paired input, excluding 3.3–56.7% of the matched debris input (mean 18.3%), compared with 6.7–43.8% for Expert Manual (mean 24.8%). FlowMOP retained mean counts equivalent to 91.4–94.9% of matched Raw across the Live CD45+ reference, B, T, and NKT endpoints, compared with 96.3–98.8% for Expert Manual; however, no count endpoint differed significantly between the methods. No population frequency differed from Expert Manual except T-cell frequency, which was lower after FlowMOP cleaning (Raw-normalized mean 1.013 versus 1.069; adjusted p = 0.037; Fig. 6B).</span>
 
@@ -240,17 +240,17 @@ FlowMOP’s doublet removal performance was also examined through synthetic tech
 
 ![Figure 6](figs_data/figure_6.svg)
 
-<span style="color:#0066cc">Figure 6. Biological validation of debris, doublet, and combined FlowMOP preprocessing relative to ungated inputs. A) Representative original Ungated input, Expert Manual, and FlowMOP outputs after combined Time + Debris + Doublet preprocessing, showing the Time × CD123 time-gating, FSC-A × SSC-A debris-gating, and FSC-H × FSC-W doublet-gating projections, followed by the Live CD45+ reference, shared CD19 × CD3 B/T, and NKT gates. B) Frequencies and C) counts for Live CD45+, B, T, and NKT cells. Within each population, the Debris, Doublet, and Combined subcolumns each show Raw, Expert Manual, and FlowMOP. Debris and Doublet use their matched ungated inputs, while Combined Raw is the original fully ungated input; every value is normalized within sample to that corresponding Raw value (Raw = 1). Live CD45+ is reported as a standalone reference and does not parent the B, T, or NKT endpoints, preventing CD45-based exclusion of low-scatter events from masking debris-cleaning effects. Before normalization, lineage frequencies were calculated relative to Live cells. Points represent eight paired inputs, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Brackets and adjusted p values are displayed only for significant comparisons. Direct workflow comparisons used two-sided paired *t*-tests; Raw comparisons used one-sample *t*-tests against 1 on the Raw-normalized values. Tests were Holm-adjusted within each endpoint, metric, and cleaning group (n = 8).</span>
+<span style="color:#0066cc">Figure 6. Biological validation of debris, doublet, and combined FlowMOP preprocessing relative to ungated inputs. A) Representative original Ungated input, Expert Manual, and FlowMOP outputs after combined Time + Debris + Doublet preprocessing, showing the Time × CD123 time-gating, FSC-A × SSC-A debris-gating, and FSC-H × FSC-W doublet-gating projections, followed by the Live CD45+ reference, shared CD19 × CD3 B/T, and NKT gates. B) Frequencies and C) counts for Live CD45+, B, T, and NKT cells. Within each population, the Debris, Doublet, and Combined subcolumns each show Raw, Expert Manual, and FlowMOP. Debris and Doublet use their matched ungated inputs, while Combined Raw is the original fully ungated input; every value is normalized within sample to that corresponding Raw value (Raw = 1). Live CD45+ is reported as a standalone reference and does not parent the B, T, or NKT endpoints, preventing CD45-based exclusion of low-scatter events from masking debris-cleaning effects. Before normalization, lineage frequencies were calculated relative to Live cells. Points represent eight paired inputs, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Brackets and adjusted p values are displayed only for significant comparisons; complete contrasts are provided in Supplementary Table S5B. Direct workflow comparisons used two-sided paired *t*-tests; Raw comparisons used one-sample *t*-tests against 1 on the Raw-normalized values. Tests were Holm-adjusted within each endpoint, metric, and cleaning group (n = 8).</span>
 
 ### <span style="color:#0066cc">Tumour biological validation</span>
 
-<span style="color:#0066cc">We additionally examined FlowMOP in three high-debris tumour samples (Fig. 7). These samples provided a challenging setting in which the debris and non-debris distributions were not sharply demarcated. FlowMOP nevertheless produced downstream population measurements concordant with manual preprocessing.</span>
+<span style="color:#0066cc">We additionally examined FlowMOP in three high-debris tumour samples (Fig. 7). These samples provided a challenging setting in which the debris and non-debris distributions were not sharply demarcated. No statistically detectable differences were observed between Manual and FlowMOP for the evaluated recovery endpoints in these three samples. Given the limited sample size (n = 3), the absence of statistically detectable differences should not be interpreted as proof of equivalence.</span>
 
 ![Figure 7](figs_data/figure_7.svg)
 
-<span style="color:#0066cc">Figure 7. FlowMOP preprocessing and downstream tumour-population measurements. A) Representative Manual and FlowMOP Time, Debris, and Doublet preprocessing plots for tumour Sample 1. B) CD3-versus-CD19 plots for tumour Samples 1, 2, and 3 in the Raw data and after Manual or FlowMOP preprocessing. T cells are CD3+CD19− (Q1), and B cells are CD3−CD19+ (Q3). C) Live CD45+ cell count, B-cell frequency, and T-cell frequency after normalization within sample to the matched Raw value (Raw = 100%). Small circles show individual samples, lines connect matched samples, and diamonds and error bars show mean ± SD. All three unadjusted, two-sided paired t-tests were performed for each endpoint; brackets and P values are displayed only for significant comparisons (p < 0.05).</span>
+<span style="color:#0066cc">Figure 7. FlowMOP preprocessing and downstream tumour-population recovery. A) Representative Manual and FlowMOP Time, Debris, and Doublet preprocessing plots for tumour Sample 1. B) CD3-versus-CD19 plots for tumour Samples 1, 2, and 3 in the Raw data and after Manual or FlowMOP preprocessing. T cells are CD3+CD19− (Q1), and B cells are CD3−CD19+ (Q3). C) Live CD45+ cell-count recovery and B- and T-cell population recovery after normalization within sample to the matched Raw value (Raw = 100%). Because the B- and T-cell source counts use the original total-event denominator, their Raw-normalized endpoints quantify population recovery rather than frequency or composition within the cleaned output. Small circles show individual samples, lines connect matched samples, and diamonds and error bars show mean ± SD. All three unadjusted, two-sided paired t-tests were performed for each endpoint; brackets and P values are displayed only for significant comparisons (p < 0.05).</span>
 
-<span style="color:#0066cc">The Live CD45+ cell count was 62.9 ± 17.8% of Raw after manual preprocessing and 73.3 ± 7.3% after FlowMOP preprocessing.</span> <span style="color:#0066cc">FlowMOP differed from Raw (p = 0.024), whereas Manual did not (p = 0.069), and Manual and FlowMOP did not differ (p = 0.545).</span> <span style="color:#0066cc">B-cell frequency was 32.5 ± 18.8% of Raw after Manual and 32.2 ± 17.0% after FlowMOP; both differed from Raw (p = 0.025 and p = 0.020, respectively), but not from each other (p = 0.855).</span> <span style="color:#0066cc">T-cell frequency was 23.0 ± 20.4% of Raw after Manual and 22.8 ± 10.6% after FlowMOP; both differed from Raw (p = 0.023 and p = 0.006, respectively), but not from each other (p = 0.985).</span> <span style="color:#0066cc">Thus, although both preprocessing strategies changed absolute population recovery relative to Raw, no difference between Manual and FlowMOP was detected for any of the three prespecified endpoints.</span>
+<span style="color:#0066cc">The Live CD45+ cell-count recovery was 62.9 ± 17.8% of Raw after manual preprocessing and 73.3 ± 7.3% after FlowMOP preprocessing.</span> <span style="color:#0066cc">FlowMOP differed from Raw (p = 0.024), whereas Manual did not (p = 0.069), and Manual and FlowMOP did not differ (p = 0.545).</span> <span style="color:#0066cc">B-cell population recovery was 32.5 ± 18.8% of Raw after Manual and 32.2 ± 17.0% after FlowMOP; both differed from Raw (p = 0.025 and p = 0.020, respectively), but not from each other (p = 0.855).</span> <span style="color:#0066cc">T-cell population recovery was 23.0 ± 20.4% of Raw after Manual and 22.8 ± 10.6% after FlowMOP; both differed from Raw (p = 0.023 and p = 0.006, respectively), but not from each other (p = 0.985).</span> <span style="color:#0066cc">No statistically detectable differences were observed between Manual and FlowMOP for the evaluated recovery endpoints in these three samples. Given n = 3, these nonsignificant results do not establish equivalence.</span>
 
 ### <span style="color:#0066cc">Expert preference evaluation</span>
 
@@ -300,7 +300,7 @@ Similarly, in the doublet removal, the synthetic samples, owing to the rather un
 
 <span style="color:#0066cc">This single combined-workflow exception, together with the absence of direct count differences throughout the debris, doublet, and combined comparisons, indicates broad agreement between human- and FlowMOP-mediated pregating. Taken together with the objective synthetic benchmarks and computational performance measurements, these findings support FlowMOP as an acceptable tool for fully automated sample cleaning with downstream output quality comparable to human preprocessing.</span>
 
-<span style="color:#0066cc">The tumour analysis tested the other end of the debris spectrum in complex, high-debris samples lacking a sharp debris/non-debris boundary (Fig. 7). Manual and FlowMOP preprocessing both reduced Live CD45+ recovery and B- and T-cell frequencies relative to Raw, and they did not differ for any of the three prespecified endpoints. This concordance further supports FlowMOP's ability to adequately preprocess samples, even in complex tumour samples.</span>
+<span style="color:#0066cc">The tumour analysis tested the other end of the debris spectrum in complex, high-debris samples lacking a sharp debris/non-debris boundary (Fig. 7). Manual and FlowMOP preprocessing both reduced Live CD45+ cell-count recovery and B- and T-cell population recovery relative to Raw. No statistically detectable differences were observed between Manual and FlowMOP for the evaluated recovery endpoints in these three samples. However, the small sample size (n = 3) limits precision, and nonsignificance should not be interpreted as proof of equivalence.</span>
 
 <span style="color:#0066cc">Across the nine-dataset expert evaluation, FlowMOP was preferred overall to FlowCut and PeacoQC for time gating. This agrees with the synthetic benchmarks, in which FlowMOP showed the strongest combined sensitivity-specificity profile, and indicates that this advantage was also reflected in expert preferences on biological datasets. Human gates were generally preferred for debris and doublet removal, although FlowMOP ranked competitively in several tissue-specific comparisons, including debris removal in mouse blood, human liver, and mouse skin and doublet removal in human liver. The variation between tissues is consistent with the greater dependence of debris and doublet gates on sample-specific scatter distributions. Taken together, these results indicate that FlowMOP-generated gates can be comparable in acceptability to human gating across many use cases.</span>
 
@@ -320,7 +320,7 @@ Automated Live/Dead classification of events was considered, however not impleme
 
 <span style="color:#0066cc">Within the tested synthetic scenarios, event-level source labels enabled objective evaluation of the targeted artifact classes.</span> <span style="color:#0066cc">FlowMOP had higher sensitivity than FlowCut for Segment anomalies at both bin sizes and higher specificity than both competitors across the 5000-event Segment, Bimix, and Trimix benchmarks.</span> <span style="color:#0066cc">For debris and doublet removal, FlowMOP removed the labelled technical artifact populations effectively in the synthetic ground-truth datasets, including unexpected triplet events.</span>
 
-<span style="color:#0066cc">An expert evaluation across nine human and mouse datasets preferred FlowMOP to PeacoQC and FlowCut for time gating, while its debris and doublet gates were competitive with human gates in several tissue-specific comparisons (Figs. S5-S7), supporting the broader practical suitability of FlowMOP across diverse biological samples. In the source-labelled debris benchmark, FlowMOP removed the targeted technical populations effectively. In PBMC biological validation, FlowMOP removed debris-gated events from every paired input. No debris count endpoint differed directly from Expert Manual, and only T-cell frequency differed between the debris-cleaned outputs. Across the complete Time + Debris + Doublet pathway, no population count differed directly between FlowMOP and Expert Manual; B-cell frequency was modestly lower after FlowMOP, while the other evaluated frequencies did not differ. In the tumour samples, Manual and FlowMOP preprocessing did not substantively differ across the populations measured. Together with the synthetic and human PBMC findings, this suggests that FlowMOP performs comparably to manual preprocessing when the effects on relevant biological populations are considered. The open-source Python implementation supports reproducible preprocessing across cytometry datasets of increasing scale.</span>
+<span style="color:#0066cc">An expert evaluation across nine human and mouse datasets preferred FlowMOP to PeacoQC and FlowCut for time gating, while its debris and doublet gates were competitive with human gates in several tissue-specific comparisons (Figs. S5-S7), supporting the broader practical suitability of FlowMOP across diverse biological samples. In the source-labelled debris benchmark, FlowMOP removed the targeted technical populations effectively. In PBMC biological validation, FlowMOP removed debris-gated events from every paired input. No debris count endpoint differed directly from Expert Manual, and only T-cell frequency differed between the debris-cleaned outputs. Across the complete Time + Debris + Doublet pathway, no population count differed directly between FlowMOP and Expert Manual; B-cell frequency was modestly lower after FlowMOP, while the other evaluated frequencies did not differ. In the three tumour samples, no statistically detectable differences were observed between Manual and FlowMOP for the evaluated recovery endpoints, but the small sample size precludes an equivalence claim. Together with the synthetic and human PBMC findings, these results support further evaluation of FlowMOP as an automated alternative to manual preprocessing. The open-source Python implementation supports reproducible preprocessing across cytometry datasets of increasing scale.</span>
 
 ## Data and Code Availability
 
@@ -433,6 +433,24 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 | 10-30 | Very strong evidence |
 | >30 | Decisive evidence |
 
+<span style="color:#0066cc">**Table S3: Limit-of-detection precleaning in biological-validation inputs**</span>
+
+<span style="color:#0066cc">Events with `passed_lod` values below 0.5 were counted as removed. FlowMOP removes maximum-FSC-A events only when they exceed 1% of the input. This 1% cutoff is an arbitrary operational safeguard, not an empirically optimized biological threshold. Activation depends on acquisition scaling and voltage/gain settings; the observed activation rates are dataset-specific and should not be generalized across instruments.</span>
+
+| Dataset | Sample | Input events | Events removed | Events removed (%) | Threshold activated |
+| --- | ---: | ---: | ---: | ---: | --- |
+| PBMC | 1 | 143,656 | 0 | 0.00 | No |
+| PBMC | 2 | 426,248 | 0 | 0.00 | No |
+| PBMC | 3 | 463,512 | 0 | 0.00 | No |
+| PBMC | 4 | 258,952 | 0 | 0.00 | No |
+| PBMC | 5 | 140,936 | 0 | 0.00 | No |
+| PBMC | 6 | 161,704 | 0 | 0.00 | No |
+| PBMC | 7 | 242,344 | 0 | 0.00 | No |
+| PBMC | 8 | 188,936 | 0 | 0.00 | No |
+| Tumour | 1 | 287,752 | 6,863 | 2.39 | Yes |
+| Tumour | 2 | 145,520 | 3,472 | 2.39 | Yes |
+| Tumour | 3 | 301,872 | 9,206 | 3.05 | Yes |
+
 <span style="color:#0066cc">**Table S4: Full-dataset FlowMOP MAD-smoothing analysis**</span>
 
 | <span style="color:#0066cc">Short, long smoothing factors</span> | <span style="color:#0066cc">Sensitivity</span> | <span style="color:#0066cc">Specificity</span> | <span style="color:#0066cc">Balanced mean</span> |
@@ -458,6 +476,152 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 | <span style="color:#0066cc">`0.40,0.90`</span> | <span style="color:#0066cc">0.7812</span> | <span style="color:#0066cc">0.6140</span> | <span style="color:#0066cc">0.69756</span> |
 
 <span style="color:#0066cc">Values are equally weighted macro-averages across the six Figure 2 benchmark groups (173 primary inputs; six tied-composition inputs excluded). The balanced mean is the arithmetic mean of sensitivity and specificity. Bold indicates the highest value overall and the highest balanced mean among smoothed settings.</span>
+
+<span style="color:#0066cc">**Table S5A: Complete Figure 5 biological-validation contrasts**</span>
+
+<span style="color:#0066cc">Compared means are within-sample Raw-normalized values, paired difference is the method mean minus the reference mean, and all tests use eight paired PBMC inputs. Within each endpoint and metric, Holm adjustment was applied across the family of ten contrasts comprising four method-versus-Raw and six between-method comparisons.</span>
+
+| Endpoint | Contrast | Method mean | Reference mean | Paired difference | n | Unadjusted p | Holm-adjusted p |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| B-cell count | Expert Manual vs Raw | 0.7989 | 1.0000 | -0.2011 | 8 | 1.01084e-05 | 0.000101084 |
+| B-cell count | FlowMOP vs Raw | 0.9105 | 1.0000 | -0.0895 | 8 | 0.000578727 | 0.00342396 |
+| B-cell count | PeacoQC vs Raw | 0.6647 | 1.0000 | -0.3353 | 8 | 8.95644e-05 | 0.000806079 |
+| B-cell count | FlowCut vs Raw | 0.9216 | 1.0000 | -0.0784 | 8 | 0.000310293 | 0.00248235 |
+| B-cell count | FlowMOP vs Expert Manual | 0.9105 | 0.7989 | 0.1116 | 8 | 0.000424908 | 0.00297436 |
+| B-cell count | PeacoQC vs Expert Manual | 0.6647 | 0.7989 | -0.1342 | 8 | 0.00830199 | 0.016604 |
+| B-cell count | FlowCut vs Expert Manual | 0.9216 | 0.7989 | 0.1227 | 8 | 0.00157731 | 0.00473192 |
+| B-cell count | PeacoQC vs FlowMOP | 0.6647 | 0.9105 | -0.2458 | 8 | 0.00057066 | 0.00342396 |
+| B-cell count | FlowCut vs FlowMOP | 0.9216 | 0.9105 | 0.0111 | 8 | 0.512463 | 0.512463 |
+| B-cell count | FlowCut vs PeacoQC | 0.9216 | 0.6647 | 0.2569 | 8 | 0.000725641 | 0.00342396 |
+| T-cell count | Expert Manual vs Raw | 0.7820 | 1.0000 | -0.2180 | 8 | 1.27428e-05 | 0.000127428 |
+| T-cell count | FlowMOP vs Raw | 0.9014 | 1.0000 | -0.0986 | 8 | 8.06339e-05 | 0.000564437 |
+| T-cell count | PeacoQC vs Raw | 0.6650 | 1.0000 | -0.3350 | 8 | 4.26656e-05 | 0.00035785 |
+| T-cell count | FlowCut vs Raw | 0.9162 | 1.0000 | -0.0838 | 8 | 3.97611e-05 | 0.00035785 |
+| T-cell count | FlowMOP vs Expert Manual | 0.9014 | 0.7820 | 0.1194 | 8 | 0.000618263 | 0.00274759 |
+| T-cell count | PeacoQC vs Expert Manual | 0.6650 | 0.7820 | -0.1170 | 8 | 0.0160522 | 0.0321044 |
+| T-cell count | FlowCut vs Expert Manual | 0.9162 | 0.7820 | 0.1342 | 8 | 0.00189642 | 0.00568925 |
+| T-cell count | PeacoQC vs FlowMOP | 0.6650 | 0.9014 | -0.2364 | 8 | 0.000407753 | 0.00244652 |
+| T-cell count | FlowCut vs FlowMOP | 0.9162 | 0.9014 | 0.0148 | 8 | 0.392065 | 0.392065 |
+| T-cell count | FlowCut vs PeacoQC | 0.9162 | 0.6650 | 0.2512 | 8 | 0.000549517 | 0.00274759 |
+| NKT-cell count | Expert Manual vs Raw | 0.7769 | 1.0000 | -0.2231 | 8 | 8.935e-06 | 8.0415e-05 |
+| NKT-cell count | FlowMOP vs Raw | 0.9044 | 1.0000 | -0.0956 | 8 | 7.9531e-05 | 0.000556717 |
+| NKT-cell count | PeacoQC vs Raw | 0.6575 | 1.0000 | -0.3425 | 8 | 3.54144e-05 | 0.000283315 |
+| NKT-cell count | FlowCut vs Raw | 0.9155 | 1.0000 | -0.0845 | 8 | 6.67293e-06 | 6.67293e-05 |
+| NKT-cell count | FlowMOP vs Expert Manual | 0.9044 | 0.7769 | 0.1275 | 8 | 0.00040201 | 0.00207408 |
+| NKT-cell count | PeacoQC vs Expert Manual | 0.6575 | 0.7769 | -0.1194 | 8 | 0.0174953 | 0.0349906 |
+| NKT-cell count | FlowCut vs Expert Manual | 0.9155 | 0.7769 | 0.1386 | 8 | 0.000988993 | 0.00296698 |
+| NKT-cell count | PeacoQC vs FlowMOP | 0.6575 | 0.9044 | -0.2469 | 8 | 0.000388406 | 0.00207408 |
+| NKT-cell count | FlowCut vs FlowMOP | 0.9155 | 0.9044 | 0.0111 | 8 | 0.44691 | 0.44691 |
+| NKT-cell count | FlowCut vs PeacoQC | 0.9155 | 0.6575 | 0.2580 | 8 | 0.000345679 | 0.00207408 |
+| B-cell frequency | Expert Manual vs Raw | 1.0224 | 1.0000 | 0.0224 | 8 | 0.275552 | 1 |
+| B-cell frequency | FlowMOP vs Raw | 1.0091 | 1.0000 | 0.0091 | 8 | 0.267363 | 1 |
+| B-cell frequency | PeacoQC vs Raw | 0.9985 | 1.0000 | -0.0015 | 8 | 0.906223 | 1 |
+| B-cell frequency | FlowCut vs Raw | 1.0057 | 1.0000 | 0.0057 | 8 | 0.23512 | 1 |
+| B-cell frequency | FlowMOP vs Expert Manual | 1.0091 | 1.0224 | -0.0132 | 8 | 0.300706 | 1 |
+| B-cell frequency | PeacoQC vs Expert Manual | 0.9985 | 1.0224 | -0.0239 | 8 | 0.0712586 | 0.712586 |
+| B-cell frequency | FlowCut vs Expert Manual | 1.0057 | 1.0224 | -0.0166 | 8 | 0.290357 | 1 |
+| B-cell frequency | PeacoQC vs FlowMOP | 0.9985 | 1.0091 | -0.0107 | 8 | 0.252488 | 1 |
+| B-cell frequency | FlowCut vs FlowMOP | 1.0057 | 1.0091 | -0.0034 | 8 | 0.36446 | 1 |
+| B-cell frequency | FlowCut vs PeacoQC | 1.0057 | 0.9985 | 0.0073 | 8 | 0.479429 | 1 |
+| T-cell frequency | Expert Manual vs Raw | 0.9991 | 1.0000 | -0.0009 | 8 | 0.52448 | 1 |
+| T-cell frequency | FlowMOP vs Raw | 0.9992 | 1.0000 | -0.0008 | 8 | 0.139846 | 1 |
+| T-cell frequency | PeacoQC vs Raw | 1.0014 | 1.0000 | 0.0014 | 8 | 0.272866 | 1 |
+| T-cell frequency | FlowCut vs Raw | 1.0000 | 1.0000 | -0.0000 | 8 | 0.961085 | 1 |
+| T-cell frequency | FlowMOP vs Expert Manual | 0.9992 | 0.9991 | 0.0001 | 8 | 0.94731 | 1 |
+| T-cell frequency | PeacoQC vs Expert Manual | 1.0014 | 0.9991 | 0.0023 | 8 | 0.17889 | 1 |
+| T-cell frequency | FlowCut vs Expert Manual | 1.0000 | 0.9991 | 0.0008 | 8 | 0.406389 | 1 |
+| T-cell frequency | PeacoQC vs FlowMOP | 1.0014 | 0.9992 | 0.0022 | 8 | 0.127536 | 1 |
+| T-cell frequency | FlowCut vs FlowMOP | 1.0000 | 0.9992 | 0.0008 | 8 | 0.340507 | 1 |
+| T-cell frequency | FlowCut vs PeacoQC | 1.0000 | 1.0014 | -0.0014 | 8 | 0.26918 | 1 |
+| NKT-cell frequency | Expert Manual vs Raw | 0.9927 | 1.0000 | -0.0073 | 8 | 0.114138 | 0.913107 |
+| NKT-cell frequency | FlowMOP vs Raw | 1.0026 | 1.0000 | 0.0026 | 8 | 0.581759 | 1 |
+| NKT-cell frequency | PeacoQC vs Raw | 0.9901 | 1.0000 | -0.0099 | 8 | 0.0593548 | 0.534193 |
+| NKT-cell frequency | FlowCut vs Raw | 0.9994 | 1.0000 | -0.0006 | 8 | 0.890076 | 1 |
+| NKT-cell frequency | FlowMOP vs Expert Manual | 1.0026 | 0.9927 | 0.0100 | 8 | 0.042022 | 0.42022 |
+| NKT-cell frequency | PeacoQC vs Expert Manual | 0.9901 | 0.9927 | -0.0026 | 8 | 0.613799 | 1 |
+| NKT-cell frequency | FlowCut vs Expert Manual | 0.9994 | 0.9927 | 0.0067 | 8 | 0.189947 | 1 |
+| NKT-cell frequency | PeacoQC vs FlowMOP | 0.9901 | 1.0026 | -0.0126 | 8 | 0.120539 | 0.913107 |
+| NKT-cell frequency | FlowCut vs FlowMOP | 0.9994 | 1.0026 | -0.0032 | 8 | 0.50886 | 1 |
+| NKT-cell frequency | FlowCut vs PeacoQC | 0.9994 | 0.9901 | 0.0093 | 8 | 0.246721 | 1 |
+
+<span style="color:#0066cc">**Table S5B: Complete Figure 6 biological-validation contrasts**</span>
+
+<span style="color:#0066cc">Compared means are within-sample Raw-normalized values, paired difference is the method mean minus the reference mean, and all tests use eight paired PBMC inputs. For each endpoint, metric, and preprocessing group (Debris, Doublet, or Combined), Holm adjustment was applied across the family of three contrasts: Expert Manual versus Raw, FlowMOP versus Raw, and FlowMOP versus Expert Manual.</span>
+
+| Endpoint | Preprocessing | Contrast | Method mean | Reference mean | Paired difference | n | Unadjusted p | Holm-adjusted p |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Live CD45+ count | Debris | Expert Manual vs Raw | 0.9626 | 1.0000 | -0.0374 | 8 | 0.000115001 | 0.000345002 |
+| Live CD45+ count | Debris | FlowMOP vs Raw | 0.9392 | 1.0000 | -0.0608 | 8 | 0.320603 | 0.641207 |
+| Live CD45+ count | Debris | FlowMOP vs Expert Manual | 0.9392 | 0.9626 | -0.0233 | 8 | 0.700374 | 0.700374 |
+| Live CD45+ count | Doublet | Expert Manual vs Raw | 0.9637 | 1.0000 | -0.0363 | 8 | 0.00229274 | 0.00458548 |
+| Live CD45+ count | Doublet | FlowMOP vs Raw | 0.9528 | 1.0000 | -0.0472 | 8 | 0.00113456 | 0.00340369 |
+| Live CD45+ count | Doublet | FlowMOP vs Expert Manual | 0.9528 | 0.9637 | -0.0109 | 8 | 0.253584 | 0.253584 |
+| Live CD45+ count | Combined | Expert Manual vs Raw | 0.7207 | 1.0000 | -0.2793 | 8 | 1.3992e-06 | 4.1976e-06 |
+| Live CD45+ count | Combined | FlowMOP vs Raw | 0.8027 | 1.0000 | -0.1973 | 8 | 0.00733259 | 0.0146652 |
+| Live CD45+ count | Combined | FlowMOP vs Expert Manual | 0.8027 | 0.7207 | 0.0819 | 8 | 0.19064 | 0.19064 |
+| B-cell count | Debris | Expert Manual vs Raw | 0.9758 | 1.0000 | -0.0242 | 8 | 0.00500378 | 0.0150113 |
+| B-cell count | Debris | FlowMOP vs Raw | 0.9138 | 1.0000 | -0.0862 | 8 | 0.331417 | 0.662835 |
+| B-cell count | Debris | FlowMOP vs Expert Manual | 0.9138 | 0.9758 | -0.0620 | 8 | 0.464848 | 0.662835 |
+| B-cell count | Doublet | Expert Manual vs Raw | 0.8877 | 1.0000 | -0.1123 | 8 | 0.000210319 | 0.000630958 |
+| B-cell count | Doublet | FlowMOP vs Raw | 0.8563 | 1.0000 | -0.1437 | 8 | 0.00111429 | 0.00222858 |
+| B-cell count | Doublet | FlowMOP vs Expert Manual | 0.8563 | 0.8877 | -0.0314 | 8 | 0.355432 | 0.355432 |
+| B-cell count | Combined | Expert Manual vs Raw | 0.6805 | 1.0000 | -0.3195 | 8 | 4.73804e-07 | 1.42141e-06 |
+| B-cell count | Combined | FlowMOP vs Raw | 0.7059 | 1.0000 | -0.2941 | 8 | 0.00368789 | 0.00737579 |
+| B-cell count | Combined | FlowMOP vs Expert Manual | 0.7059 | 0.6805 | 0.0254 | 8 | 0.711891 | 0.711891 |
+| T-cell count | Debris | Expert Manual vs Raw | 0.9884 | 1.0000 | -0.0116 | 8 | 1.55649e-05 | 4.66948e-05 |
+| T-cell count | Debris | FlowMOP vs Raw | 0.9416 | 1.0000 | -0.0584 | 8 | 0.326363 | 0.652727 |
+| T-cell count | Debris | FlowMOP vs Expert Manual | 0.9416 | 0.9884 | -0.0469 | 8 | 0.427761 | 0.652727 |
+| T-cell count | Doublet | Expert Manual vs Raw | 0.9901 | 1.0000 | -0.0099 | 8 | 2.10914e-05 | 6.32742e-05 |
+| T-cell count | Doublet | FlowMOP vs Raw | 0.9875 | 1.0000 | -0.0125 | 8 | 0.000367589 | 0.000735177 |
+| T-cell count | Doublet | FlowMOP vs Expert Manual | 0.9875 | 0.9901 | -0.0026 | 8 | 0.269271 | 0.269271 |
+| T-cell count | Combined | Expert Manual vs Raw | 0.7647 | 1.0000 | -0.2353 | 8 | 7.85307e-06 | 2.35592e-05 |
+| T-cell count | Combined | FlowMOP vs Raw | 0.8384 | 1.0000 | -0.1616 | 8 | 0.0168702 | 0.0337404 |
+| T-cell count | Combined | FlowMOP vs Expert Manual | 0.8384 | 0.7647 | 0.0737 | 8 | 0.198056 | 0.198056 |
+| NKT-cell count | Debris | Expert Manual vs Raw | 0.9813 | 1.0000 | -0.0187 | 8 | 3.00398e-05 | 9.01195e-05 |
+| NKT-cell count | Debris | FlowMOP vs Raw | 0.9490 | 1.0000 | -0.0510 | 8 | 0.346369 | 0.692738 |
+| NKT-cell count | Debris | FlowMOP vs Expert Manual | 0.9490 | 0.9813 | -0.0323 | 8 | 0.542165 | 0.692738 |
+| NKT-cell count | Doublet | Expert Manual vs Raw | 0.9674 | 1.0000 | -0.0326 | 8 | 0.00241739 | 0.00483477 |
+| NKT-cell count | Doublet | FlowMOP vs Raw | 0.9608 | 1.0000 | -0.0392 | 8 | 0.000878112 | 0.00263434 |
+| NKT-cell count | Doublet | FlowMOP vs Expert Manual | 0.9608 | 0.9674 | -0.0066 | 8 | 0.120571 | 0.120571 |
+| NKT-cell count | Combined | Expert Manual vs Raw | 0.7376 | 1.0000 | -0.2624 | 8 | 1.66499e-06 | 4.99498e-06 |
+| NKT-cell count | Combined | FlowMOP vs Raw | 0.8262 | 1.0000 | -0.1738 | 8 | 0.00800735 | 0.0160147 |
+| NKT-cell count | Combined | FlowMOP vs Expert Manual | 0.8262 | 0.7376 | 0.0886 | 8 | 0.103392 | 0.103392 |
+| Live CD45+ frequency | Debris | Expert Manual vs Raw | 1.0407 | 1.0000 | 0.0407 | 8 | 0.00689351 | 0.0206805 |
+| Live CD45+ frequency | Debris | FlowMOP vs Raw | 1.0088 | 1.0000 | 0.0088 | 8 | 0.158703 | 0.158703 |
+| Live CD45+ frequency | Debris | FlowMOP vs Expert Manual | 1.0088 | 1.0407 | -0.0319 | 8 | 0.0582983 | 0.116597 |
+| Live CD45+ frequency | Doublet | Expert Manual vs Raw | 1.0209 | 1.0000 | 0.0209 | 8 | 0.116412 | 0.315847 |
+| Live CD45+ frequency | Doublet | FlowMOP vs Raw | 1.0070 | 1.0000 | 0.0070 | 8 | 0.105282 | 0.315847 |
+| Live CD45+ frequency | Doublet | FlowMOP vs Expert Manual | 1.0070 | 1.0209 | -0.0138 | 8 | 0.124803 | 0.315847 |
+| Live CD45+ frequency | Combined | Expert Manual vs Raw | 1.0806 | 1.0000 | 0.0806 | 8 | 0.010152 | 0.0304559 |
+| Live CD45+ frequency | Combined | FlowMOP vs Raw | 1.0189 | 1.0000 | 0.0189 | 8 | 0.0743107 | 0.0958105 |
+| Live CD45+ frequency | Combined | FlowMOP vs Expert Manual | 1.0189 | 1.0806 | -0.0617 | 8 | 0.0479052 | 0.0958105 |
+| B-cell frequency | Debris | Expert Manual vs Raw | 1.0554 | 1.0000 | 0.0554 | 8 | 0.00926696 | 0.0278009 |
+| B-cell frequency | Debris | FlowMOP vs Raw | 0.9602 | 1.0000 | -0.0398 | 8 | 0.420492 | 0.420492 |
+| B-cell frequency | Debris | FlowMOP vs Expert Manual | 0.9602 | 1.0554 | -0.0951 | 8 | 0.0525883 | 0.105177 |
+| B-cell frequency | Doublet | Expert Manual vs Raw | 0.9401 | 1.0000 | -0.0599 | 8 | 0.00750483 | 0.0206077 |
+| B-cell frequency | Doublet | FlowMOP vs Raw | 0.9046 | 1.0000 | -0.0954 | 8 | 0.00686925 | 0.0206077 |
+| B-cell frequency | Doublet | FlowMOP vs Expert Manual | 0.9046 | 0.9401 | -0.0355 | 8 | 0.220876 | 0.220876 |
+| B-cell frequency | Combined | Expert Manual vs Raw | 1.0222 | 1.0000 | 0.0222 | 8 | 0.518803 | 0.518803 |
+| B-cell frequency | Combined | FlowMOP vs Raw | 0.8768 | 1.0000 | -0.1232 | 8 | 0.0472085 | 0.0944169 |
+| B-cell frequency | Combined | FlowMOP vs Expert Manual | 0.8768 | 1.0222 | -0.1454 | 8 | 0.0164384 | 0.0493151 |
+| T-cell frequency | Debris | Expert Manual vs Raw | 1.0689 | 1.0000 | 0.0689 | 8 | 0.00121987 | 0.00365962 |
+| T-cell frequency | Debris | FlowMOP vs Raw | 1.0126 | 1.0000 | 0.0126 | 8 | 0.154532 | 0.154532 |
+| T-cell frequency | Debris | FlowMOP vs Expert Manual | 1.0126 | 1.0689 | -0.0563 | 8 | 0.018643 | 0.0372861 |
+| T-cell frequency | Doublet | Expert Manual vs Raw | 1.0494 | 1.0000 | 0.0494 | 8 | 0.0172492 | 0.0344985 |
+| T-cell frequency | Doublet | FlowMOP vs Raw | 1.0443 | 1.0000 | 0.0443 | 8 | 0.00163764 | 0.00491293 |
+| T-cell frequency | Doublet | FlowMOP vs Expert Manual | 1.0443 | 1.0494 | -0.0052 | 8 | 0.72706 | 0.72706 |
+| T-cell frequency | Combined | Expert Manual vs Raw | 1.1478 | 1.0000 | 0.1478 | 8 | 0.00288226 | 0.00780339 |
+| T-cell frequency | Combined | FlowMOP vs Raw | 1.0681 | 1.0000 | 0.0681 | 8 | 0.00260113 | 0.00780339 |
+| T-cell frequency | Combined | FlowMOP vs Expert Manual | 1.0681 | 1.1478 | -0.0797 | 8 | 0.0940645 | 0.0940645 |
+| NKT-cell frequency | Debris | Expert Manual vs Raw | 1.0613 | 1.0000 | 0.0613 | 8 | 0.00375101 | 0.011253 |
+| NKT-cell frequency | Debris | FlowMOP vs Raw | 1.0248 | 1.0000 | 0.0248 | 8 | 0.187445 | 0.374891 |
+| NKT-cell frequency | Debris | FlowMOP vs Expert Manual | 1.0248 | 1.0613 | -0.0366 | 8 | 0.215344 | 0.374891 |
+| NKT-cell frequency | Doublet | Expert Manual vs Raw | 1.0258 | 1.0000 | 0.0258 | 8 | 0.251856 | 0.755567 |
+| NKT-cell frequency | Doublet | FlowMOP vs Raw | 1.0163 | 1.0000 | 0.0163 | 8 | 0.276329 | 0.755567 |
+| NKT-cell frequency | Doublet | FlowMOP vs Expert Manual | 1.0163 | 1.0258 | -0.0096 | 8 | 0.481297 | 0.755567 |
+| NKT-cell frequency | Combined | Expert Manual vs Raw | 1.1088 | 1.0000 | 0.1088 | 8 | 0.0244283 | 0.073285 |
+| NKT-cell frequency | Combined | FlowMOP vs Raw | 1.0571 | 1.0000 | 0.0571 | 8 | 0.0511444 | 0.102289 |
+| NKT-cell frequency | Combined | FlowMOP vs Expert Manual | 1.0571 | 1.1088 | -0.0518 | 8 | 0.31685 | 0.31685 |
 
 
 <span style="color:#0066cc">Figure S3:</span>

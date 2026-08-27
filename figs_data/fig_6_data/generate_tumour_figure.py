@@ -56,8 +56,8 @@ METHOD_COLOURS = {"Raw": "#6f6f6f", "Manual": "#D88700", "FlowMOP": "#0072B2"}
 
 ENDPOINT_LABELS = {
     "live_cd45_count": "Live CD45+ cells",
-    "t_cell_frequency_pct_total": "T-cell frequency",
-    "b_cell_frequency_pct_total": "B-cell frequency",
+    "t_cell_frequency_pct_total": "T-cell recovery",
+    "b_cell_frequency_pct_total": "B-cell recovery",
 }
 
 # Crop rectangles are in FlowJo PDF points (origin at top left after rendering).
@@ -625,7 +625,7 @@ def make_figure_7(
         for tick_label in ax.get_xticklabels():
             tick_label.set_fontweight("bold")
         ax.set_ylabel(
-            "Freq / Raw Freq (%)" if panel_index == 0 else "",
+            "Recovery relative\nto Raw (%)" if panel_index == 0 else "",
             fontsize=24,
             fontweight="bold",
             labelpad=32 if panel_index == 0 else 0,

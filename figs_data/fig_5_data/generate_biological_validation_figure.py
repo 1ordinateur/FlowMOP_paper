@@ -19,6 +19,7 @@ import csv
 import hashlib
 import json
 import math
+import os
 import tempfile
 import warnings
 import xml.etree.ElementTree as ET
@@ -39,7 +40,8 @@ from scipy.stats import ttest_1samp, ttest_rel
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
-DEFAULT_SOURCE = REPO.parent / "flowmop_data/pbmc_biological_validation"
+DATA_ROOT = Path(os.environ.get("FLOWMOP_DATA_ROOT", REPO.parent / "flowmop_data"))
+DEFAULT_SOURCE = DATA_ROOT / "pbmc_biological_validation"
 
 WORKSPACE_NAME = "FLOWMOP_CLEANUP_COMPARISON_15-Aug-2026_v2.wsp"
 RAW_REL = Path("clean_data_03062026_NR_mad5_metadata_preserved")
@@ -2425,7 +2427,7 @@ def main() -> None:
     write_rows(data_dir / "biological_validation_gate_validation.csv", validation_rows)
     write_rows(data_dir / "representative_sample_selection.csv", selection_rows)
     run_metadata = {
-        "source_dir": str(source),
+        "source_dir": "external_data/pbmc_biological_validation",
         "workspace": WORKSPACE_NAME,
         "sample_count": len(samples),
         "samples": samples,
@@ -2456,12 +2458,12 @@ def main() -> None:
             "all steps": "no time, debris, or doublet preprocessing mask",
         },
         "nkt_exclusion": "none",
-        "time_figure_svg": str(output_dir / "figure_5.svg"),
-        "time_figure_png": str(output_dir / "figure_5.png"),
-        "cleanup_figure_svg": str(output_dir / "figure_6.svg"),
-        "cleanup_figure_png": str(output_dir / "figure_6.png"),
-        "module_supplement_svg": str(output_dir / "Supp_fig_8.svg"),
-        "module_supplement_png": str(output_dir / "Supp_fig_8.png"),
+        "time_figure_svg": "figs_data/figure_5.svg",
+        "time_figure_png": "figs_data/figure_5.png",
+        "cleanup_figure_svg": "figs_data/figure_6.svg",
+        "cleanup_figure_png": "figs_data/figure_6.png",
+        "module_supplement_svg": "figs_data/Supp_fig_8.svg",
+        "module_supplement_png": "figs_data/Supp_fig_8.png",
     }
     (data_dir / "run_metadata.json").write_text(json.dumps(run_metadata, indent=2) + "\n", encoding="utf-8")
     print(f"Wrote {output_dir / 'figure_5.svg'}")

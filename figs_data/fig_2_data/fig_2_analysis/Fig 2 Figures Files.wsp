@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <Workspace version="20.0"  modDate="Fri Aug 01 21:56:39 AEST 2025"  clientTimestamp="1754049399784"  flowJoVersion="10.10.0"  drawRowBorders="1"  drawColumnBorders="1"  hideCompNodes="1"  curGroup="All Samples"  groupPaneHeight="80"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:gating="http://www.isac-net.org/std/Gating-ML/v2.0/gating"  xmlns:transforms="http://www.isac-net.org/std/Gating-ML/v2.0/transformations"  xmlns:data-type="http://www.isac-net.org/std/Gating-ML/v2.0/datatypes"  xsi:schemaLocation="http://www.isac-net.org/std/Gating-ML/v2.0/gating http://www.isac-net.org/std/Gating-ML/v2.0/gating/Gating-ML.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/transformations http://www.isac-net.org/std/Gating-ML/v2.0/gating/Transformations.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/datatypes http://www.isac-net.org/std/Gating-ML/v2.0/gating/DataTypes.v2.0.xsd "  nonAutoSaveFileName="file:/C:/Users/Tony/Documents/github_remotes/FlowMOP/figs_data/fig_2_data/fig_2_analysis/Fig%202%20Figures%20Files.wsp" >
+ <Workspace version="20.0"  modDate="Fri Aug 01 21:56:39 AEST 2025"  clientTimestamp="1754049399784"  flowJoVersion="10.10.0"  drawRowBorders="1"  drawColumnBorders="1"  hideCompNodes="1"  curGroup="All Samples"  groupPaneHeight="80"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:gating="http://www.isac-net.org/std/Gating-ML/v2.0/gating"  xmlns:transforms="http://www.isac-net.org/std/Gating-ML/v2.0/transformations"  xmlns:data-type="http://www.isac-net.org/std/Gating-ML/v2.0/datatypes"  xsi:schemaLocation="http://www.isac-net.org/std/Gating-ML/v2.0/gating http://www.isac-net.org/std/Gating-ML/v2.0/gating/Gating-ML.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/transformations http://www.isac-net.org/std/Gating-ML/v2.0/gating/Transformations.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/datatypes http://www.isac-net.org/std/Gating-ML/v2.0/gating/DataTypes.v2.0.xsd "  nonAutoSaveFileName="file:/repository/figs_data/fig_2_data/fig_2_analysis/Fig%202%20Figures%20Files.wsp" >
    <WindowPosition x="-8"  y="-8"  width="1936"  height="1096"  displayed="1"  panelState="" />
    <TextTraits font="SansSerif"  size="11"  name=""  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
    <Columns>
@@ -319,7 +319,7 @@
    </Groups>
    <SampleList>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_samplewise.fcs"  sampleID="23" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_samplewise.fcs"  sampleID="23" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -527,7 +527,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/S:/jcsmr/Bruestle-EndersLab/Tony/Fig3_NR_gated/doublets_2_NR_samplewise.fcs"  sampleID="25" />
+       <DataSet uri="file:/external_data/Fig3_NR_gated/doublets_2_NR_samplewise.fcs"  sampleID="25" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -752,7 +752,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_flowcut/C3C05_2575_segment_flowcut.fcs"  sampleID="15" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_flowcut/C3C05_2575_segment_flowcut.fcs"  sampleID="15" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4898443"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -1187,7 +1187,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/S:/jcsmr/Bruestle-EndersLab/Tony/250429%20Tony%20doublets/CC+%20US_CFSE%20+%20US_007.fcs"  sampleID="26" />
+       <DataSet uri="file:/external_data/250429%20Tony%20doublets/CC+%20US_CFSE%20+%20US_007.fcs"  sampleID="26" />
        <transforms:spilloverMatrix spectral="0"  weightOptAlgorithmType="OLS"  prefix="Comp-"  name="Acquisition-defined"  editable="0"  color="#c0c0c0"  version="FlowJo-10.10.0"  status="FINALIZED"  transforms:id="977c71ae-e037-4f2c-b9f8-672f20cfb359"  suffix="" >
          <data-type:parameters>
            <data-type:parameter data-type:name="BV421-A"  userProvidedCompInfix="Comp-BV421-A" />
@@ -1528,7 +1528,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05_2575_segment_peacoqc.fcs"  sampleID="16" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05_2575_segment_peacoqc.fcs"  sampleID="16" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4898443"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -1971,7 +1971,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/S:/jcsmr/Bruestle-EndersLab/Tony/250429%20Tony%20doublets/CC+%20US_CTV%20+%20US_008.fcs"  sampleID="27" />
+       <DataSet uri="file:/external_data/250429%20Tony%20doublets/CC+%20US_CTV%20+%20US_008.fcs"  sampleID="27" />
        <transforms:spilloverMatrix spectral="0"  weightOptAlgorithmType="OLS"  prefix="Comp-"  name="Acquisition-defined"  editable="0"  color="#c0c0c0"  version="FlowJo-10.10.0"  status="FINALIZED"  transforms:id="977c71ae-e037-4f2c-b9f8-672f20cfb359"  suffix="" >
          <data-type:parameters>
            <data-type:parameter data-type:name="BV421-A"  userProvidedCompInfix="Comp-BV421-A" />
@@ -2312,7 +2312,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_eval_data/cleaned_compiled_fig_3_dataset_flowmopped/flowmop_doublets_2.fcs"  sampleID="28" />
+       <DataSet uri="file:/external_data/flowmop/human_eval_data/cleaned_compiled_fig_3_dataset_flowmopped/flowmop_doublets_2.fcs"  sampleID="28" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -2724,7 +2724,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_flowcut/B05B3_7030_bimix_flowcut.fcs"  sampleID="18" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_flowcut/B05B3_7030_bimix_flowcut.fcs"  sampleID="18" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="1043488"  gain="1" >
            <data-type:parameter data-type:name="slan" />
@@ -3159,7 +3159,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B3_7030_bimix_peacoqc.fcs"  sampleID="19" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B3_7030_bimix_peacoqc.fcs"  sampleID="19" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="1043488"  gain="1" >
            <data-type:parameter data-type:name="slan" />
@@ -3603,7 +3603,7 @@
      </Sample>
    </SampleList>
    <TableEditor title="FlowJo Tables: Fig 2 Figures Files.wsp"  current="Table" >
-     <Table name="Table"  outputFile="file:/C:/Users/Tony/OneDrive/Documents/Table"  color="#00ffffff"  isBatch="0"  quickclose="0"  destination="toDisplay"  outputFormat="fj.document.type.table"  autoColumnName="" >
+     <Table name="Table"  outputFile="file:/output/Table"  color="#00ffffff"  isBatch="0"  quickclose="0"  destination="toDisplay"  outputFormat="fj.document.type.table"  autoColumnName="" >
        <PrintLayout flipPattern0="0"  rows="1"  columns="1"  padding="36"  header=""  footer=""  headerActive="0"  footerActive="0"  scalingMode="fj.print.scale.none"  scaling="1"  orientation="1"  width="595.2744"  height="841.8888"  imageableX="72"  imageableY="72"  imageableWidth="451.2744"  imageableHeight="697.8888" />
        <PageSection sectionName="header" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;&amp;NBSP&amp;NBSP&amp;NBSP&amp;NBSP&lt;IMG SRC=&quot;file:/C:/Program%20Files/FlowJo%2010.10.0/images/fj_icon.png&quot;&gt;&lt;/IMG&gt;&lt;br/&gt;FlowJo, LLC&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;top&quot;&gt;Page &lt;PageNumber/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
        <PageSection sectionName="footer" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot;  valign=&quot;bottom&quot;&gt;&lt;LongDate/&gt;&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;bottom&quot;&gt;&lt;Version/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
@@ -3611,7 +3611,7 @@
      </Table>
    </TableEditor>
    <LayoutEditor title="FlowJo Layouts: Fig 2 Figures Files.wsp"  current="Layout"  showGrid="0"  showPageBreaks="0"  showGuides="0"  showDebugOutput="0" >
-     <Layout name="Layout"  outputFile="file:/C:/Users/Tony/OneDrive/Documents/Layout"  color="#00ffffff"  isBatch="0"  showGrid="0"  showRulers="1"  showDebugOutput="0"  showGuides="0"  showPageBreaks="1"  scale="1" >
+     <Layout name="Layout"  outputFile="file:/output/Layout"  color="#00ffffff"  isBatch="0"  showGrid="0"  showRulers="1"  showDebugOutput="0"  showGuides="0"  showPageBreaks="1"  scale="1" >
        <PrintLayout flipPattern0="0"  rows="1"  columns="1"  padding="36"  header=""  footer=""  headerActive="0"  footerActive="0"  scalingMode="fj.print.scale.none"  scaling="1"  orientation="1"  width="595.2744"  height="841.8888"  imageableX="72"  imageableY="72"  imageableWidth="451.2744"  imageableHeight="697.8888" />
        <PageSection sectionName="header" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;&amp;NBSP&amp;NBSP&amp;NBSP&amp;NBSP&lt;IMG SRC=&quot;file:/C:/Program%20Files/FlowJo%2010.10.0/images/fj_icon.png&quot;&gt;&lt;/IMG&gt;&lt;br/&gt;FlowJo, LLC&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;top&quot;&gt;Page &lt;PageNumber/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
        <PageSection sectionName="footer" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot;  valign=&quot;bottom&quot;&gt;&lt;LongDate/&gt;&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;bottom&quot;&gt;&lt;Version/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>

@@ -132,8 +132,8 @@ def single_file_example():
     """Example of concatenating a single set of files."""
     # Replace these with actual paths to your FCS files
     files_dict = {
-        "Y:/g/data/eu59/data_FlowMOP/algo_validation/240618_trial10_data_unmixed/stain_a/A1_rep1.fcs": 0.7,
-        "Y:/g/data/eu59/data_FlowMOP/algo_validation/240618_trial10_data_unmixed/stain_a/A3_rep1.fcs": 0.3,
+        "/path/to/stain_a/A1_rep1.fcs": 0.7,
+        "/path/to/stain_a/A3_rep1.fcs": 0.3,
     }
     
     # Create output directory
@@ -297,4 +297,3 @@ if __name__ == "__main__":
     # To run the original single file example (which has hardcoded paths):
     # print("\nRunning single_file_example (uses hardcoded paths)...")
     # single_file_example()
-

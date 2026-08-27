@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <Workspace version="20.0"  modDate="Mon Jul 07 14:28:28 AEST 2025"  clientTimestamp="1751862508491"  flowJoVersion="10.10.0"  drawRowBorders="1"  drawColumnBorders="1"  hideCompNodes="1"  curGroup="5000_cut"  groupPaneHeight="80"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:gating="http://www.isac-net.org/std/Gating-ML/v2.0/gating"  xmlns:transforms="http://www.isac-net.org/std/Gating-ML/v2.0/transformations"  xmlns:data-type="http://www.isac-net.org/std/Gating-ML/v2.0/datatypes"  xsi:schemaLocation="http://www.isac-net.org/std/Gating-ML/v2.0/gating http://www.isac-net.org/std/Gating-ML/v2.0/gating/Gating-ML.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/transformations http://www.isac-net.org/std/Gating-ML/v2.0/gating/Transformations.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/datatypes http://www.isac-net.org/std/Gating-ML/v2.0/gating/DataTypes.v2.0.xsd "  nonAutoSaveFileName="file:/C:/Users/Tony/Documents/github_remotes/FlowMOP/figs/fig_2_data/fig_2_analysis/peacoqc_timegates.wsp" >
+ <Workspace version="20.0"  modDate="Mon Jul 07 14:28:28 AEST 2025"  clientTimestamp="1751862508491"  flowJoVersion="10.10.0"  drawRowBorders="1"  drawColumnBorders="1"  hideCompNodes="1"  curGroup="5000_cut"  groupPaneHeight="80"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:gating="http://www.isac-net.org/std/Gating-ML/v2.0/gating"  xmlns:transforms="http://www.isac-net.org/std/Gating-ML/v2.0/transformations"  xmlns:data-type="http://www.isac-net.org/std/Gating-ML/v2.0/datatypes"  xsi:schemaLocation="http://www.isac-net.org/std/Gating-ML/v2.0/gating http://www.isac-net.org/std/Gating-ML/v2.0/gating/Gating-ML.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/transformations http://www.isac-net.org/std/Gating-ML/v2.0/gating/Transformations.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/datatypes http://www.isac-net.org/std/Gating-ML/v2.0/gating/DataTypes.v2.0.xsd "  nonAutoSaveFileName="file:/repository/figs/fig_2_data/fig_2_analysis/peacoqc_timegates.wsp" >
    <WindowPosition x="1912"  y="-8"  width="1936"  height="1096"  displayed="1"  panelState="" />
    <TextTraits font="SansSerif"  size="11"  name=""  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
    <Columns>
@@ -596,7 +596,7 @@
    </Groups>
    <SampleList>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A3A1_2575_segment_peacoqc.fcs"  sampleID="88" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A3A1_2575_segment_peacoqc.fcs"  sampleID="88" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2354127"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -1105,7 +1105,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A3A1A05_103555_trimix_peacoqc.fcs"  sampleID="89" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A3A1A05_103555_trimix_peacoqc.fcs"  sampleID="89" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-A" />
@@ -1613,7 +1613,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B1B05_4555_bimix_peacoqc.fcs"  sampleID="110" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B1B05_4555_bimix_peacoqc.fcs"  sampleID="110" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -2121,7 +2121,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B1B05_5050_segment_peacoqc.fcs"  sampleID="111" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B1B05_5050_segment_peacoqc.fcs"  sampleID="111" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-H" />
@@ -2629,7 +2629,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B1B05_7525_bimix_peacoqc.fcs"  sampleID="112" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B1B05_7525_bimix_peacoqc.fcs"  sampleID="112" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -3137,7 +3137,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1_1090_segment_peacoqc.fcs"  sampleID="113" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1_1090_segment_peacoqc.fcs"  sampleID="113" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD44" />
@@ -3645,7 +3645,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1_1585_bimix_peacoqc.fcs"  sampleID="114" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1_1585_bimix_peacoqc.fcs"  sampleID="114" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -4153,7 +4153,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1_2575_bimix_peacoqc.fcs"  sampleID="115" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1_2575_bimix_peacoqc.fcs"  sampleID="115" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4214950"  gain="1" >
            <data-type:parameter data-type:name="CD5" />
@@ -4661,7 +4661,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1_5545_segment_peacoqc.fcs"  sampleID="116" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1_5545_segment_peacoqc.fcs"  sampleID="116" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="1643440"  gain="1" >
            <data-type:parameter data-type:name="CD56" />
@@ -5169,7 +5169,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A3A05_1090_segment_peacoqc.fcs"  sampleID="90" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A3A05_1090_segment_peacoqc.fcs"  sampleID="90" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2349214"  gain="1" >
            <data-type:parameter data-type:name="CD16" />
@@ -5677,7 +5677,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1_6040_bimix_peacoqc.fcs"  sampleID="117" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1_6040_bimix_peacoqc.fcs"  sampleID="117" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3405012"  gain="1" >
            <data-type:parameter data-type:name="HLA-DR" />
@@ -6185,7 +6185,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A3A05_7030_segment_peacoqc.fcs"  sampleID="91" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A3A05_7030_segment_peacoqc.fcs"  sampleID="91" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4214950"  gain="1" >
            <data-type:parameter data-type:name="CD5" />
@@ -6693,7 +6693,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1_8020_segment_peacoqc.fcs"  sampleID="118" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1_8020_segment_peacoqc.fcs"  sampleID="118" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -7201,7 +7201,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A1_2080_bimix_peacoqc.fcs"  sampleID="92" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A1_2080_bimix_peacoqc.fcs"  sampleID="92" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="882796"  gain="1" >
            <data-type:parameter data-type:name="CD11b" />
@@ -7709,7 +7709,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1B05_204535_trimix_peacoqc.fcs"  sampleID="119" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1B05_204535_trimix_peacoqc.fcs"  sampleID="119" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-H" />
@@ -8217,7 +8217,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A1_2575_bimix_peacoqc.fcs"  sampleID="93" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A1_2575_bimix_peacoqc.fcs"  sampleID="93" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-A" />
@@ -8725,7 +8725,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A1_3070_bimix_peacoqc.fcs"  sampleID="94" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A1_3070_bimix_peacoqc.fcs"  sampleID="94" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="7028287"  gain="1" >
            <data-type:parameter data-type:name="LD" />
@@ -9233,7 +9233,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A1_4060_bimix_peacoqc.fcs"  sampleID="95" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A1_4060_bimix_peacoqc.fcs"  sampleID="95" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4214950"  gain="1" >
            <data-type:parameter data-type:name="CD5" />
@@ -9741,7 +9741,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A1_4555_segment_peacoqc.fcs"  sampleID="96" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A1_4555_segment_peacoqc.fcs"  sampleID="96" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -10249,7 +10249,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A1A3_157510_trimix_peacoqc.fcs"  sampleID="97" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A1A3_157510_trimix_peacoqc.fcs"  sampleID="97" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3040605"  gain="1" >
            <data-type:parameter data-type:name="CD86" />
@@ -10757,7 +10757,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_4555_bimix_peacoqc.fcs"  sampleID="10" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_4555_bimix_peacoqc.fcs"  sampleID="10" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3040605"  gain="1" >
            <data-type:parameter data-type:name="CD86" />
@@ -11266,7 +11266,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A1A3_306010_trimix_peacoqc.fcs"  sampleID="98" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A1A3_306010_trimix_peacoqc.fcs"  sampleID="98" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="380028"  gain="1" >
            <data-type:parameter data-type:name="Dectin-1" />
@@ -11774,7 +11774,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_5545_bimix_peacoqc.fcs"  sampleID="11" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_5545_bimix_peacoqc.fcs"  sampleID="11" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-H" />
@@ -12283,7 +12283,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A1A3_601030_trimix_peacoqc.fcs"  sampleID="99" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A1A3_601030_trimix_peacoqc.fcs"  sampleID="99" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="882796"  gain="1" >
            <data-type:parameter data-type:name="CD11b" />
@@ -12791,7 +12791,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_7030_bimix_peacoqc.fcs"  sampleID="12" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_7030_bimix_peacoqc.fcs"  sampleID="12" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="234707"  gain="1" >
            <data-type:parameter data-type:name="CD1c" />
@@ -13300,7 +13300,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_9010_segment_peacoqc.fcs"  sampleID="13" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_9010_segment_peacoqc.fcs"  sampleID="13" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD44" />
@@ -13809,7 +13809,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A1A3_405010_trimix_peacoqc.fcs"  sampleID="14" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A1A3_405010_trimix_peacoqc.fcs"  sampleID="14" />
        <Transformations>
          <transforms:linear transforms:minRange="112.5"  transforms:maxRange="6137.498"  gain="1" >
            <data-type:parameter data-type:name="Time" />
@@ -14318,7 +14318,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_1585_bimix_peacoqc.fcs"  sampleID="15" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_1585_bimix_peacoqc.fcs"  sampleID="15" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="645563"  gain="1" >
            <data-type:parameter data-type:name="CD141" />
@@ -14827,7 +14827,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_2080_bimix_peacoqc.fcs"  sampleID="16" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_2080_bimix_peacoqc.fcs"  sampleID="16" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -15336,7 +15336,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_3565_segment_peacoqc.fcs"  sampleID="17" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_3565_segment_peacoqc.fcs"  sampleID="17" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2349214"  gain="1" >
            <data-type:parameter data-type:name="CD16" />
@@ -15845,7 +15845,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_7525_bimix_peacoqc.fcs"  sampleID="18" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_7525_bimix_peacoqc.fcs"  sampleID="18" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="847277"  gain="1" >
            <data-type:parameter data-type:name="CCR7" />
@@ -16354,7 +16354,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_9010_bimix_peacoqc.fcs"  sampleID="19" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_9010_bimix_peacoqc.fcs"  sampleID="19" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="7028287"  gain="1" >
            <data-type:parameter data-type:name="LD" />
@@ -16863,7 +16863,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1B05_253540_trimix_peacoqc.fcs"  sampleID="120" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1B05_253540_trimix_peacoqc.fcs"  sampleID="120" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -17371,7 +17371,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1B05_503515_trimix_peacoqc.fcs"  sampleID="121" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1B05_503515_trimix_peacoqc.fcs"  sampleID="121" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4118165"  gain="1" >
            <data-type:parameter data-type:name="FSC-H" />
@@ -17879,7 +17879,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A3A1_1090_segment_peacoqc.fcs"  sampleID="1" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A3A1_1090_segment_peacoqc.fcs"  sampleID="1" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="7028287"  gain="1" >
            <data-type:parameter data-type:name="LD" />
@@ -18388,7 +18388,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B1B05_651025_trimix_peacoqc.fcs"  sampleID="122" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B1B05_651025_trimix_peacoqc.fcs"  sampleID="122" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2349214"  gain="1" >
            <data-type:parameter data-type:name="CD16" />
@@ -18896,7 +18896,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A3A1A05_106525_trimix_peacoqc.fcs"  sampleID="2" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A3A1A05_106525_trimix_peacoqc.fcs"  sampleID="2" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -19405,7 +19405,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B05_2080_segment_peacoqc.fcs"  sampleID="123" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B05_2080_segment_peacoqc.fcs"  sampleID="123" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-A" />
@@ -19913,7 +19913,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A3A1A05_305020_trimix_peacoqc.fcs"  sampleID="3" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A3A1A05_305020_trimix_peacoqc.fcs"  sampleID="3" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD19" />
@@ -20422,7 +20422,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B05_3565_bimix_peacoqc.fcs"  sampleID="124" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B05_3565_bimix_peacoqc.fcs"  sampleID="124" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="234707"  gain="1" >
            <data-type:parameter data-type:name="CD1c" />
@@ -20930,7 +20930,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A3A1A05_502525_trimix_peacoqc.fcs"  sampleID="4" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A3A1A05_502525_trimix_peacoqc.fcs"  sampleID="4" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4118165"  gain="1" >
            <data-type:parameter data-type:name="FSC-H" />
@@ -21439,7 +21439,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B05_6040_segment_peacoqc.fcs"  sampleID="125" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B05_6040_segment_peacoqc.fcs"  sampleID="125" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="847277"  gain="1" >
            <data-type:parameter data-type:name="CCR7" />
@@ -21947,7 +21947,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A3A05_1585_segment_peacoqc.fcs"  sampleID="5" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A3A05_1585_segment_peacoqc.fcs"  sampleID="5" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2354127"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -22456,7 +22456,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B05_6535_bimix_peacoqc.fcs"  sampleID="126" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B05_6535_bimix_peacoqc.fcs"  sampleID="126" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4118165"  gain="1" >
            <data-type:parameter data-type:name="FSC-H" />
@@ -22964,7 +22964,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A3A05A1_454510_trimix_peacoqc.fcs"  sampleID="6" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A3A05A1_454510_trimix_peacoqc.fcs"  sampleID="6" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -23473,7 +23473,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B05_7525_bimix_peacoqc.fcs"  sampleID="127" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B05_7525_bimix_peacoqc.fcs"  sampleID="127" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2599366"  gain="1" >
            <data-type:parameter data-type:name="CD123" />
@@ -23981,7 +23981,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_1090_segment_peacoqc.fcs"  sampleID="7" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_1090_segment_peacoqc.fcs"  sampleID="7" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-A" />
@@ -24490,7 +24490,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B05_8020_segment_peacoqc.fcs"  sampleID="128" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B05_8020_segment_peacoqc.fcs"  sampleID="128" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2349214"  gain="1" >
            <data-type:parameter data-type:name="CD16" />
@@ -24998,7 +24998,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_1585_segment_peacoqc.fcs"  sampleID="8" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_1585_segment_peacoqc.fcs"  sampleID="8" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2961678"  gain="1" >
            <data-type:parameter data-type:name="Siglec6" />
@@ -25507,7 +25507,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B05B1_652510_trimix_peacoqc.fcs"  sampleID="129" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B05B1_652510_trimix_peacoqc.fcs"  sampleID="129" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4628853"  gain="1" >
            <data-type:parameter data-type:name="CD11c" />
@@ -26015,7 +26015,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_3565_bimix_peacoqc.fcs"  sampleID="9" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A1_3565_bimix_peacoqc.fcs"  sampleID="9" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-W" />
@@ -26524,7 +26524,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_9010_segment_peacoqc.fcs"  sampleID="20" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A05A3_9010_segment_peacoqc.fcs"  sampleID="20" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4118165"  gain="1" >
            <data-type:parameter data-type:name="FSC-H" />
@@ -27033,7 +27033,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_1585_bimix_peacoqc.fcs"  sampleID="21" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_1585_bimix_peacoqc.fcs"  sampleID="21" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2349214"  gain="1" >
            <data-type:parameter data-type:name="CD16" />
@@ -27542,7 +27542,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_5545_bimix_peacoqc.fcs"  sampleID="22" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_5545_bimix_peacoqc.fcs"  sampleID="22" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="882796"  gain="1" >
            <data-type:parameter data-type:name="CD11b" />
@@ -28051,7 +28051,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_6040_segment_peacoqc.fcs"  sampleID="23" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_6040_segment_peacoqc.fcs"  sampleID="23" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4628853"  gain="1" >
            <data-type:parameter data-type:name="CD11c" />
@@ -28560,7 +28560,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_8020_bimix_peacoqc.fcs"  sampleID="24" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_8020_bimix_peacoqc.fcs"  sampleID="24" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="234707"  gain="1" >
            <data-type:parameter data-type:name="CD1c" />
@@ -29069,7 +29069,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_8515_segment_peacoqc.fcs"  sampleID="25" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3_8515_segment_peacoqc.fcs"  sampleID="25" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-A" />
@@ -29578,7 +29578,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3B05_101080_trimix_peacoqc.fcs"  sampleID="26" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3B05_101080_trimix_peacoqc.fcs"  sampleID="26" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3040605"  gain="1" >
            <data-type:parameter data-type:name="CD86" />
@@ -30087,7 +30087,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3B05_302545_trimix_peacoqc.fcs"  sampleID="27" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3B05_302545_trimix_peacoqc.fcs"  sampleID="27" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4628853"  gain="1" >
            <data-type:parameter data-type:name="CD11c" />
@@ -30596,7 +30596,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3B05_504010_trimix_peacoqc.fcs"  sampleID="28" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3B05_504010_trimix_peacoqc.fcs"  sampleID="28" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2349214"  gain="1" >
            <data-type:parameter data-type:name="CD16" />
@@ -31105,7 +31105,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B3B05_651025_trimix_peacoqc.fcs"  sampleID="29" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B3B05_651025_trimix_peacoqc.fcs"  sampleID="29" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-W" />
@@ -31614,7 +31614,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B3B05B1_801010_trimix_peacoqc.fcs"  sampleID="130" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B3B05B1_801010_trimix_peacoqc.fcs"  sampleID="130" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3883491"  gain="1" >
            <data-type:parameter data-type:name="slan" />
@@ -32122,7 +32122,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B1_3070_bimix_peacoqc.fcs"  sampleID="131" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B1_3070_bimix_peacoqc.fcs"  sampleID="131" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="7028287"  gain="1" >
            <data-type:parameter data-type:name="LD" />
@@ -32630,7 +32630,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B1_3565_segment_peacoqc.fcs"  sampleID="132" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B1_3565_segment_peacoqc.fcs"  sampleID="132" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-W" />
@@ -33138,7 +33138,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B1_6535_segment_peacoqc.fcs"  sampleID="133" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B1_6535_segment_peacoqc.fcs"  sampleID="133" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -33646,7 +33646,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B1_7030_bimix_peacoqc.fcs"  sampleID="134" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B1_7030_bimix_peacoqc.fcs"  sampleID="134" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-H" />
@@ -34154,7 +34154,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B3_5545_segment_peacoqc.fcs"  sampleID="135" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B3_5545_segment_peacoqc.fcs"  sampleID="135" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2235158"  gain="1" >
            <data-type:parameter data-type:name="CD45" />
@@ -34662,7 +34662,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B3_7030_bimix_peacoqc.fcs"  sampleID="136" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B3_7030_bimix_peacoqc.fcs"  sampleID="136" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3883491"  gain="1" >
            <data-type:parameter data-type:name="slan" />
@@ -35170,7 +35170,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B3B1_151570_trimix_peacoqc.fcs"  sampleID="137" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B3B1_151570_trimix_peacoqc.fcs"  sampleID="137" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -35678,7 +35678,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B05B3B1_751510_trimix_peacoqc.fcs"  sampleID="138" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B05B3B1_751510_trimix_peacoqc.fcs"  sampleID="138" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -36186,7 +36186,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C3_1090_bimix_peacoqc.fcs"  sampleID="139" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C3_1090_bimix_peacoqc.fcs"  sampleID="139" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2960923"  gain="1" >
            <data-type:parameter data-type:name="CD116" />
@@ -36694,7 +36694,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B05_7525_segment_peacoqc.fcs"  sampleID="30" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B05_7525_segment_peacoqc.fcs"  sampleID="30" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4010455"  gain="1" >
            <data-type:parameter data-type:name="AXL" />
@@ -37203,7 +37203,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B05B3_103060_trimix_peacoqc.fcs"  sampleID="31" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B05B3_103060_trimix_peacoqc.fcs"  sampleID="31" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD19" />
@@ -37712,7 +37712,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B05B3_205030_trimix_peacoqc.fcs"  sampleID="32" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B05B3_205030_trimix_peacoqc.fcs"  sampleID="32" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3.543122"  gain="1" >
            <data-type:parameter data-type:name="SampleIDInt" />
@@ -38221,7 +38221,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B1B05B3_355510_trimix_peacoqc.fcs"  sampleID="33" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B1B05B3_355510_trimix_peacoqc.fcs"  sampleID="33" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4118165"  gain="1" >
            <data-type:parameter data-type:name="FSC-H" />
@@ -38730,7 +38730,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B3B1_4060_segment_peacoqc.fcs"  sampleID="34" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B3B1_4060_segment_peacoqc.fcs"  sampleID="34" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="1643440"  gain="1" >
            <data-type:parameter data-type:name="CD56" />
@@ -39239,7 +39239,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B3B1_5050_bimix_peacoqc.fcs"  sampleID="35" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B3B1_5050_bimix_peacoqc.fcs"  sampleID="35" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="847277"  gain="1" >
            <data-type:parameter data-type:name="CCR7" />
@@ -39748,7 +39748,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B3B1_8020_segment_peacoqc.fcs"  sampleID="36" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B3B1_8020_segment_peacoqc.fcs"  sampleID="36" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="645563"  gain="1" >
            <data-type:parameter data-type:name="CD141" />
@@ -40257,7 +40257,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B3B05_9010_segment_peacoqc.fcs"  sampleID="37" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B3B05_9010_segment_peacoqc.fcs"  sampleID="37" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -40766,7 +40766,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_4060_segment_peacoqc.fcs"  sampleID="38" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_4060_segment_peacoqc.fcs"  sampleID="38" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -41275,7 +41275,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_6040_bimix_peacoqc.fcs"  sampleID="39" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_6040_bimix_peacoqc.fcs"  sampleID="39" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="234707"  gain="1" >
            <data-type:parameter data-type:name="CD1c" />
@@ -41784,7 +41784,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C3_3070_bimix_peacoqc.fcs"  sampleID="140" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C3_3070_bimix_peacoqc.fcs"  sampleID="140" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2961678"  gain="1" >
            <data-type:parameter data-type:name="Siglec6" />
@@ -42292,7 +42292,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C3C05_107515_trimix_peacoqc.fcs"  sampleID="141" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C3C05_107515_trimix_peacoqc.fcs"  sampleID="141" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -42800,7 +42800,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C3C05_205525_trimix_peacoqc.fcs"  sampleID="142" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C3C05_205525_trimix_peacoqc.fcs"  sampleID="142" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="234707"  gain="1" >
            <data-type:parameter data-type:name="CD1c" />
@@ -43308,7 +43308,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C3C05_302545_trimix_peacoqc.fcs"  sampleID="143" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C3C05_302545_trimix_peacoqc.fcs"  sampleID="143" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4214950"  gain="1" >
            <data-type:parameter data-type:name="CD5" />
@@ -43816,7 +43816,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C3C05_452035_trimix_peacoqc.fcs"  sampleID="144" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C3C05_452035_trimix_peacoqc.fcs"  sampleID="144" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="645563"  gain="1" >
            <data-type:parameter data-type:name="CD141" />
@@ -44324,7 +44324,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C05_1585_segment_peacoqc.fcs"  sampleID="145" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C05_1585_segment_peacoqc.fcs"  sampleID="145" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="645563"  gain="1" >
            <data-type:parameter data-type:name="CD141" />
@@ -44832,7 +44832,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C05_2080_bimix_peacoqc.fcs"  sampleID="146" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C05_2080_bimix_peacoqc.fcs"  sampleID="146" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="645563"  gain="1" >
            <data-type:parameter data-type:name="CD141" />
@@ -45340,7 +45340,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C05_3070_bimix_peacoqc.fcs"  sampleID="147" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C05_3070_bimix_peacoqc.fcs"  sampleID="147" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2961678"  gain="1" >
            <data-type:parameter data-type:name="Siglec6" />
@@ -45848,7 +45848,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C05_4060_segment_peacoqc.fcs"  sampleID="148" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C05_4060_segment_peacoqc.fcs"  sampleID="148" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3883491"  gain="1" >
            <data-type:parameter data-type:name="slan" />
@@ -46356,7 +46356,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C1C05_5545_segment_peacoqc.fcs"  sampleID="149" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C1C05_5545_segment_peacoqc.fcs"  sampleID="149" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2960923"  gain="1" >
            <data-type:parameter data-type:name="CD116" />
@@ -46864,7 +46864,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_6535_bimix_peacoqc.fcs"  sampleID="40" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_6535_bimix_peacoqc.fcs"  sampleID="40" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="645563"  gain="1" >
            <data-type:parameter data-type:name="CD141" />
@@ -47373,7 +47373,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_7525_bimix_peacoqc.fcs"  sampleID="41" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_7525_bimix_peacoqc.fcs"  sampleID="41" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="1643440"  gain="1" >
            <data-type:parameter data-type:name="CD56" />
@@ -47882,7 +47882,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_8515_segment_peacoqc.fcs"  sampleID="42" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B1_8515_segment_peacoqc.fcs"  sampleID="42" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4628853"  gain="1" >
            <data-type:parameter data-type:name="CD11c" />
@@ -48391,7 +48391,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_1090_segment_peacoqc.fcs"  sampleID="43" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_1090_segment_peacoqc.fcs"  sampleID="43" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-W" />
@@ -48900,7 +48900,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_2080_segment_peacoqc.fcs"  sampleID="44" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_2080_segment_peacoqc.fcs"  sampleID="44" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -49409,7 +49409,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_4060_segment_peacoqc.fcs"  sampleID="45" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_4060_segment_peacoqc.fcs"  sampleID="45" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="847277"  gain="1" >
            <data-type:parameter data-type:name="CCR7" />
@@ -49918,7 +49918,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_6040_bimix_peacoqc.fcs"  sampleID="46" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_6040_bimix_peacoqc.fcs"  sampleID="46" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-H" />
@@ -50427,7 +50427,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_7525_bimix_peacoqc.fcs"  sampleID="47" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_7525_bimix_peacoqc.fcs"  sampleID="47" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4628853"  gain="1" >
            <data-type:parameter data-type:name="CD11c" />
@@ -50936,7 +50936,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_9010_bimix_peacoqc.fcs"  sampleID="48" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/B05B3_9010_bimix_peacoqc.fcs"  sampleID="48" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3405012"  gain="1" >
            <data-type:parameter data-type:name="HLA-DR" />
@@ -51445,7 +51445,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_1090_bimix_peacoqc.fcs"  sampleID="49" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_1090_bimix_peacoqc.fcs"  sampleID="49" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2599366"  gain="1" >
            <data-type:parameter data-type:name="CD123" />
@@ -51954,7 +51954,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C1_1585_segment_peacoqc.fcs"  sampleID="150" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C1_1585_segment_peacoqc.fcs"  sampleID="150" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2354127"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -52462,7 +52462,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C1_3070_segment_peacoqc.fcs"  sampleID="151" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C1_3070_segment_peacoqc.fcs"  sampleID="151" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-H" />
@@ -52970,7 +52970,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C1_4060_bimix_peacoqc.fcs"  sampleID="152" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C1_4060_bimix_peacoqc.fcs"  sampleID="152" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="234707"  gain="1" >
            <data-type:parameter data-type:name="CD1c" />
@@ -53478,7 +53478,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C1_4555_segment_peacoqc.fcs"  sampleID="153" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C1_4555_segment_peacoqc.fcs"  sampleID="153" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -53986,7 +53986,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C1_9010_segment_peacoqc.fcs"  sampleID="154" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C1_9010_segment_peacoqc.fcs"  sampleID="154" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-A" />
@@ -54494,7 +54494,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C1C05_104545_trimix_peacoqc.fcs"  sampleID="155" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C1C05_104545_trimix_peacoqc.fcs"  sampleID="155" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD44" />
@@ -55002,7 +55002,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C1C05_403525_trimix_peacoqc.fcs"  sampleID="156" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C1C05_403525_trimix_peacoqc.fcs"  sampleID="156" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-H" />
@@ -55510,7 +55510,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05_1090_segment_peacoqc.fcs"  sampleID="157" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05_1090_segment_peacoqc.fcs"  sampleID="157" />
        <Transformations>
          <transforms:linear transforms:minRange="307412"  transforms:maxRange="1050633"  gain="1" >
            <data-type:parameter data-type:name="Time" />
@@ -56018,7 +56018,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05_1585_segment_peacoqc.fcs"  sampleID="158" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05_1585_segment_peacoqc.fcs"  sampleID="158" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-A" />
@@ -56526,7 +56526,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05_2575_segment_peacoqc.fcs"  sampleID="159" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05_2575_segment_peacoqc.fcs"  sampleID="159" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2354127"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -57034,7 +57034,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_2575_segment_peacoqc.fcs"  sampleID="50" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_2575_segment_peacoqc.fcs"  sampleID="50" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -57543,7 +57543,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_4555_segment_peacoqc.fcs"  sampleID="51" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_4555_segment_peacoqc.fcs"  sampleID="51" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-H" />
@@ -58052,7 +58052,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_5050_segment_peacoqc.fcs"  sampleID="52" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_5050_segment_peacoqc.fcs"  sampleID="52" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="1643440"  gain="1" >
            <data-type:parameter data-type:name="CD56" />
@@ -58561,7 +58561,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_7525_segment_peacoqc.fcs"  sampleID="53" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3_7525_segment_peacoqc.fcs"  sampleID="53" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-A" />
@@ -59070,7 +59070,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3C05_106030_trimix_peacoqc.fcs"  sampleID="54" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3C05_106030_trimix_peacoqc.fcs"  sampleID="54" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD19" />
@@ -59579,7 +59579,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3C05_352045_trimix_peacoqc.fcs"  sampleID="55" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3C05_352045_trimix_peacoqc.fcs"  sampleID="55" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2354127"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -60088,7 +60088,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3C05_353530_trimix_peacoqc.fcs"  sampleID="56" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3C05_353530_trimix_peacoqc.fcs"  sampleID="56" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3040605"  gain="1" >
            <data-type:parameter data-type:name="CD86" />
@@ -60597,7 +60597,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C3C05_801010_trimix_peacoqc.fcs"  sampleID="57" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C3C05_801010_trimix_peacoqc.fcs"  sampleID="57" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2961678"  gain="1" >
            <data-type:parameter data-type:name="Siglec6" />
@@ -61106,7 +61106,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C05_3070_segment_peacoqc.fcs"  sampleID="58" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C05_3070_segment_peacoqc.fcs"  sampleID="58" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="847277"  gain="1" >
            <data-type:parameter data-type:name="CCR7" />
@@ -61615,7 +61615,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C05_4060_bimix_peacoqc.fcs"  sampleID="59" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C05_4060_bimix_peacoqc.fcs"  sampleID="59" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2960923"  gain="1" >
            <data-type:parameter data-type:name="CD116" />
@@ -62124,7 +62124,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05_5050_bimix_peacoqc.fcs"  sampleID="160" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05_5050_bimix_peacoqc.fcs"  sampleID="160" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2354127"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -62632,7 +62632,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05_6535_bimix_peacoqc.fcs"  sampleID="161" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05_6535_bimix_peacoqc.fcs"  sampleID="161" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -63140,7 +63140,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05_9010_bimix_peacoqc.fcs"  sampleID="162" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05_9010_bimix_peacoqc.fcs"  sampleID="162" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -63648,7 +63648,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05_9010_segment_peacoqc.fcs"  sampleID="163" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05_9010_segment_peacoqc.fcs"  sampleID="163" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="882796"  gain="1" >
            <data-type:parameter data-type:name="CD11b" />
@@ -64156,7 +64156,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05C1_101080_trimix_peacoqc.fcs"  sampleID="164" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05C1_101080_trimix_peacoqc.fcs"  sampleID="164" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-W" />
@@ -64664,7 +64664,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C3C05C1_651025_trimix_peacoqc.fcs"  sampleID="165" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C3C05C1_651025_trimix_peacoqc.fcs"  sampleID="165" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4273647"  gain="1" >
            <data-type:parameter data-type:name="CCR5" />
@@ -65172,7 +65172,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C05C1_7030_bimix_peacoqc.fcs"  sampleID="166" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C05C1_7030_bimix_peacoqc.fcs"  sampleID="166" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2961678"  gain="1" >
            <data-type:parameter data-type:name="Siglec6" />
@@ -65680,7 +65680,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C05C1_7525_bimix_peacoqc.fcs"  sampleID="167" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C05C1_7525_bimix_peacoqc.fcs"  sampleID="167" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2235158"  gain="1" >
            <data-type:parameter data-type:name="CD45" />
@@ -66188,7 +66188,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/C05C3_8515_bimix_peacoqc.fcs"  sampleID="168" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/C05C3_8515_bimix_peacoqc.fcs"  sampleID="168" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -66696,7 +66696,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A3_1090_bimix_peacoqc.fcs"  sampleID="169" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A3_1090_bimix_peacoqc.fcs"  sampleID="169" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -67204,7 +67204,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C05_6040_bimix_peacoqc.fcs"  sampleID="60" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C05_6040_bimix_peacoqc.fcs"  sampleID="60" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-W" />
@@ -67713,7 +67713,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C1C05_9010_segment_peacoqc.fcs"  sampleID="61" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C1C05_9010_segment_peacoqc.fcs"  sampleID="61" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3405012"  gain="1" >
            <data-type:parameter data-type:name="HLA-DR" />
@@ -68222,7 +68222,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C1_3565_bimix_peacoqc.fcs"  sampleID="62" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C1_3565_bimix_peacoqc.fcs"  sampleID="62" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3040605"  gain="1" >
            <data-type:parameter data-type:name="CD86" />
@@ -68731,7 +68731,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C1_8020_bimix_peacoqc.fcs"  sampleID="63" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C1_8020_bimix_peacoqc.fcs"  sampleID="63" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="234707"  gain="1" >
            <data-type:parameter data-type:name="CD1c" />
@@ -69240,7 +69240,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C1C05_101080_trimix_peacoqc.fcs"  sampleID="64" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C1C05_101080_trimix_peacoqc.fcs"  sampleID="64" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-W" />
@@ -69749,7 +69749,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C1C05_107020_trimix_peacoqc.fcs"  sampleID="65" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C1C05_107020_trimix_peacoqc.fcs"  sampleID="65" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2960923"  gain="1" >
            <data-type:parameter data-type:name="CD116" />
@@ -70258,7 +70258,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C1C05_204040_trimix_peacoqc.fcs"  sampleID="66" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C1C05_204040_trimix_peacoqc.fcs"  sampleID="66" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2961678"  gain="1" >
            <data-type:parameter data-type:name="Siglec6" />
@@ -70767,7 +70767,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C1C05_301555_trimix_peacoqc.fcs"  sampleID="67" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C1C05_301555_trimix_peacoqc.fcs"  sampleID="67" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="847277"  gain="1" >
            <data-type:parameter data-type:name="CCR7" />
@@ -71276,7 +71276,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C05_4060_bimix_peacoqc.fcs"  sampleID="68" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C05_4060_bimix_peacoqc.fcs"  sampleID="68" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-W" />
@@ -71785,7 +71785,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C05_4555_segment_peacoqc.fcs"  sampleID="69" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C05_4555_segment_peacoqc.fcs"  sampleID="69" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2960923"  gain="1" >
            <data-type:parameter data-type:name="CD116" />
@@ -72294,7 +72294,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A3_1585_bimix_peacoqc.fcs"  sampleID="170" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A3_1585_bimix_peacoqc.fcs"  sampleID="170" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2235158"  gain="1" >
            <data-type:parameter data-type:name="CD45" />
@@ -72802,7 +72802,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A3_7525_segment_peacoqc.fcs"  sampleID="171" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A3_7525_segment_peacoqc.fcs"  sampleID="171" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-W" />
@@ -73310,7 +73310,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A3_8020_segment_peacoqc.fcs"  sampleID="172" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A3_8020_segment_peacoqc.fcs"  sampleID="172" />
        <Transformations>
          <transforms:logicle transforms:length="256"  transforms:T="316227.766"  transforms:A="0"  transforms:W="1.5"  transforms:M="4.5" >
            <data-type:parameter data-type:name="CD3" />
@@ -73818,7 +73818,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A3_9010_bimix_peacoqc.fcs"  sampleID="173" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A3_9010_bimix_peacoqc.fcs"  sampleID="173" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-A" />
@@ -74326,7 +74326,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A3A05_551035_trimix_peacoqc.fcs"  sampleID="174" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A3A05_551035_trimix_peacoqc.fcs"  sampleID="174" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4118165"  gain="1" >
            <data-type:parameter data-type:name="FSC-H" />
@@ -74834,7 +74834,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A3A05_651025_trimix_peacoqc.fcs"  sampleID="175" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A3A05_651025_trimix_peacoqc.fcs"  sampleID="175" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-W" />
@@ -75342,7 +75342,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A3A05_651520_trimix_peacoqc.fcs"  sampleID="176" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A3A05_651520_trimix_peacoqc.fcs"  sampleID="176" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD44" />
@@ -75850,7 +75850,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A05_4060_segment_peacoqc.fcs"  sampleID="177" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A05_4060_segment_peacoqc.fcs"  sampleID="177" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3.543122"  gain="1" >
            <data-type:parameter data-type:name="SampleIDInt" />
@@ -76358,7 +76358,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A1A05_5545_segment_peacoqc.fcs"  sampleID="178" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A1A05_5545_segment_peacoqc.fcs"  sampleID="178" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -76866,7 +76866,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A3A1_1090_segment_peacoqc.fcs"  sampleID="179" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A3A1_1090_segment_peacoqc.fcs"  sampleID="179" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4010455"  gain="1" >
            <data-type:parameter data-type:name="AXL" />
@@ -77374,7 +77374,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C3C05_5050_bimix_peacoqc.fcs"  sampleID="70" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C3C05_5050_bimix_peacoqc.fcs"  sampleID="70" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-H" />
@@ -77883,7 +77883,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C05C1_1090_segment_peacoqc.fcs"  sampleID="71" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C05C1_1090_segment_peacoqc.fcs"  sampleID="71" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="882796"  gain="1" >
            <data-type:parameter data-type:name="CD11b" />
@@ -78392,7 +78392,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C05C1_1585_segment_peacoqc.fcs"  sampleID="72" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C05C1_1585_segment_peacoqc.fcs"  sampleID="72" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4010455"  gain="1" >
            <data-type:parameter data-type:name="AXL" />
@@ -78901,7 +78901,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C05C1_8515_bimix_peacoqc.fcs"  sampleID="73" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C05C1_8515_bimix_peacoqc.fcs"  sampleID="73" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-A" />
@@ -79410,7 +79410,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_1585_segment_peacoqc.fcs"  sampleID="74" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_1585_segment_peacoqc.fcs"  sampleID="74" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="380028"  gain="1" >
            <data-type:parameter data-type:name="Dectin-1" />
@@ -79919,7 +79919,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_3565_segment_peacoqc.fcs"  sampleID="75" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_3565_segment_peacoqc.fcs"  sampleID="75" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-H" />
@@ -80428,7 +80428,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_7030_bimix_peacoqc.fcs"  sampleID="76" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_7030_bimix_peacoqc.fcs"  sampleID="76" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-H" />
@@ -80937,7 +80937,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_8515_bimix_peacoqc.fcs"  sampleID="77" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_8515_bimix_peacoqc.fcs"  sampleID="77" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-W" />
@@ -81446,7 +81446,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_9010_segment_peacoqc.fcs"  sampleID="78" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/C05C3_9010_segment_peacoqc.fcs"  sampleID="78" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-A" />
@@ -81955,7 +81955,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_3070_segment_peacoqc.fcs"  sampleID="79" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_3070_segment_peacoqc.fcs"  sampleID="79" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-H" />
@@ -82464,7 +82464,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A3_1090_bimix_peacoqc.fcs"  sampleID="100" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A3_1090_bimix_peacoqc.fcs"  sampleID="100" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -82972,7 +82972,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A3_2575_bimix_peacoqc.fcs"  sampleID="101" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A3_2575_bimix_peacoqc.fcs"  sampleID="101" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="1643440"  gain="1" >
            <data-type:parameter data-type:name="CD56" />
@@ -83480,7 +83480,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A3_4060_segment_peacoqc.fcs"  sampleID="102" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A3_4060_segment_peacoqc.fcs"  sampleID="102" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -83988,7 +83988,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A3_6040_bimix_peacoqc.fcs"  sampleID="103" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A3_6040_bimix_peacoqc.fcs"  sampleID="103" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -84496,7 +84496,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A3_8020_bimix_peacoqc.fcs"  sampleID="104" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A3_8020_bimix_peacoqc.fcs"  sampleID="104" />
        <Transformations>
          <transforms:logicle transforms:length="256"  transforms:T="316227.766"  transforms:A="0"  transforms:W="1.5"  transforms:M="4.5" >
            <data-type:parameter data-type:name="CD3" />
@@ -85004,7 +85004,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A3_8515_segment_peacoqc.fcs"  sampleID="105" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A3_8515_segment_peacoqc.fcs"  sampleID="105" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -85512,7 +85512,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/A05A3A1_454510_trimix_peacoqc.fcs"  sampleID="106" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/A05A3A1_454510_trimix_peacoqc.fcs"  sampleID="106" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3662134"  gain="1" >
            <data-type:parameter data-type:name="CD14" />
@@ -86020,7 +86020,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_5050_bimix_peacoqc.fcs"  sampleID="80" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_5050_bimix_peacoqc.fcs"  sampleID="80" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4628853"  gain="1" >
            <data-type:parameter data-type:name="CD11c" />
@@ -86529,7 +86529,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B1B3_2080_bimix_peacoqc.fcs"  sampleID="107" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B1B3_2080_bimix_peacoqc.fcs"  sampleID="107" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="645563"  gain="1" >
            <data-type:parameter data-type:name="CD141" />
@@ -87037,7 +87037,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_5545_segment_peacoqc.fcs"  sampleID="81" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_5545_segment_peacoqc.fcs"  sampleID="81" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="882796"  gain="1" >
            <data-type:parameter data-type:name="CD11b" />
@@ -87546,7 +87546,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B1B3_7030_segment_peacoqc.fcs"  sampleID="108" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B1B3_7030_segment_peacoqc.fcs"  sampleID="108" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2354127"  gain="1" >
            <data-type:parameter data-type:name="SIRPa" />
@@ -88054,7 +88054,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_6040_bimix_peacoqc.fcs"  sampleID="82" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_6040_bimix_peacoqc.fcs"  sampleID="82" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3405012"  gain="1" >
            <data-type:parameter data-type:name="HLA-DR" />
@@ -88563,7 +88563,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_combos_peacoqc/B1B05_2575_segment_peacoqc.fcs"  sampleID="109" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_combos_peacoqc/B1B05_2575_segment_peacoqc.fcs"  sampleID="109" />
        <Transformations>
          <transforms:linear transforms:minRange="-0.1111111111"  transforms:maxRange="1"  gain="1" >
            <data-type:parameter data-type:name="CD4" />
@@ -89071,7 +89071,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_7525_bimix_peacoqc.fcs"  sampleID="83" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A3_7525_bimix_peacoqc.fcs"  sampleID="83" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="3.543122"  gain="1" >
            <data-type:parameter data-type:name="SampleIDInt" />
@@ -89580,7 +89580,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A3A05_106525_trimix_peacoqc.fcs"  sampleID="84" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A3A05_106525_trimix_peacoqc.fcs"  sampleID="84" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4194304"  gain="1" >
            <data-type:parameter data-type:name="SSC-B-H" />
@@ -90089,7 +90089,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A3A05_252055_trimix_peacoqc.fcs"  sampleID="85" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A3A05_252055_trimix_peacoqc.fcs"  sampleID="85" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="2349214"  gain="1" >
            <data-type:parameter data-type:name="CD16" />
@@ -90598,7 +90598,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A05_4555_segment_peacoqc.fcs"  sampleID="86" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A05_4555_segment_peacoqc.fcs"  sampleID="86" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="4214950"  gain="1" >
            <data-type:parameter data-type:name="CD5" />
@@ -91107,7 +91107,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/fig_2_timegate_smallcut_peacoqc/A1A05A3_501535_trimix_peacoqc.fcs"  sampleID="87" />
+       <DataSet uri="file:/external_data/flowmop/fig_2_timegate_smallcut_peacoqc/A1A05A3_501535_trimix_peacoqc.fcs"  sampleID="87" />
        <Transformations>
          <transforms:logicle transforms:length="256"  transforms:T="316227.766"  transforms:A="0"  transforms:W="1.5"  transforms:M="4.5" >
            <data-type:parameter data-type:name="CD3" />
@@ -91617,7 +91617,7 @@
      </Sample>
    </SampleList>
    <TableEditor title="FlowJo Tables: peacoqc_timegates.wsp"  current="peacoqc_timegates" >
-     <Table name="peacoqc_timegates"  outputFile="file:/C:/Users/Tony/Documents/github_remotes/FlowMOP/figs/fig_2_data/fig_2_analysis/peacoqc_timegates"  color="#00ffffff"  isBatch="0"  quickclose="0"  destination="toDisplay"  outputFormat="fj.document.type.csv"  autoColumnName="" >
+     <Table name="peacoqc_timegates"  outputFile="file:/repository/figs/fig_2_data/fig_2_analysis/peacoqc_timegates"  color="#00ffffff"  isBatch="0"  quickclose="0"  destination="toDisplay"  outputFormat="fj.document.type.csv"  autoColumnName="" >
        <PrintLayout flipPattern0="0"  rows="1"  columns="1"  padding="36"  header=""  footer=""  headerActive="0"  footerActive="0"  scalingMode="fj.print.scale.none"  scaling="1"  orientation="1"  width="595.2744"  height="841.8888"  imageableX="72"  imageableY="72"  imageableWidth="451.2744"  imageableHeight="697.8888" />
        <PageSection sectionName="header" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;&amp;NBSP&amp;NBSP&amp;NBSP&amp;NBSP&lt;IMG SRC=&quot;file:/C:/Program%20Files/FlowJo%2010.10.0/images/fj_icon.png&quot;&gt;&lt;/IMG&gt;&lt;br/&gt;FlowJo, LLC&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;top&quot;&gt;Page &lt;PageNumber/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
        <PageSection sectionName="footer" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot;  valign=&quot;bottom&quot;&gt;&lt;LongDate/&gt;&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;bottom&quot;&gt;&lt;Version/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
@@ -91629,7 +91629,7 @@
      </Table>
    </TableEditor>
    <LayoutEditor title="FlowJo Layouts: peacoqc_timegates.wsp"  current="Layout"  showGrid="0"  showPageBreaks="0"  showGuides="0"  showDebugOutput="0" >
-     <Layout name="Layout"  outputFile="file:/C:/Users/Tony/OneDrive/Documents/Layout"  color="#00ffffff"  isBatch="0"  showGrid="0"  showRulers="1"  showDebugOutput="0"  showGuides="0"  showPageBreaks="1"  scale="1" >
+     <Layout name="Layout"  outputFile="file:/output/Layout"  color="#00ffffff"  isBatch="0"  showGrid="0"  showRulers="1"  showDebugOutput="0"  showGuides="0"  showPageBreaks="1"  scale="1" >
        <PrintLayout flipPattern0="0"  rows="1"  columns="1"  padding="36"  header=""  footer=""  headerActive="0"  footerActive="0"  scalingMode="fj.print.scale.none"  scaling="1"  orientation="1"  width="595.2744"  height="841.8888"  imageableX="72"  imageableY="72"  imageableWidth="451.2744"  imageableHeight="697.8888" />
        <PageSection sectionName="header" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;&amp;NBSP&amp;NBSP&amp;NBSP&amp;NBSP&lt;IMG SRC=&quot;file:/C:/Program%20Files/FlowJo%2010.10.0/images/fj_icon.png&quot;&gt;&lt;/IMG&gt;&lt;br/&gt;FlowJo, LLC&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;top&quot;&gt;Page &lt;PageNumber/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
        <PageSection sectionName="footer" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot;  valign=&quot;bottom&quot;&gt;&lt;LongDate/&gt;&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;bottom&quot;&gt;&lt;Version/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>

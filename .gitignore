@@ -24,6 +24,7 @@ benchmark_results/
 /revisions_round_2.txt
 /FlowMOP_submission_original.md
 /figs_data/fig_2_data/fig_2_analysis/*_timegates_old.csv
+/figs_data/fig_3_data/fig_3_analysis/fig_3_files_doublecheck.ipynb
 /figs_data/revision_timewarp_mechanism_data/gadi_job_*.log
 /figs_data/revision_timewarp_mechanism_data/parallel_joblog.tsv
 

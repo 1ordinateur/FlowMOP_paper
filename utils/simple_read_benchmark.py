@@ -11,8 +11,8 @@ import gc
 
 # ===== SPECIFY YOUR FILE PATHS HERE =====
 # If you want to test specific files, enter their paths here
-PARQUET_FILE_PATH = "Y:/g/data/eu59/data_FlowMOP/code/time_gate_outputs/concat_output_20032025.parquet"  # e.g., "/path/to/your/file.parquet"
-FCS_FILE_PATH = "Y:/g/data/eu59/data_FlowMOP/code/time_gate_outputs/concat_output_20032025.fcs"      # e.g., "/path/to/your/file.fcs"
+PARQUET_FILE_PATH = "/path/to/your/file.parquet"
+FCS_FILE_PATH = "/path/to/your/file.fcs"
 # ========================================
 
 def get_memory_usage():
@@ -187,4 +187,4 @@ def main():
             print("2. Run the script with a file argument: python simple_read_benchmark.py /path/to/file")
 
 if __name__ == "__main__":
-    main() 
+    main()

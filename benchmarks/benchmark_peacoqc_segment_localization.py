@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import re
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -18,9 +19,11 @@ import pandas as pd
 from scipy import stats
 
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DATA_ROOT = Path(os.environ.get("FLOWMOP_DATA_ROOT", REPO_ROOT.parent / "flowmop_data"))
 DEFAULT_DATASETS = (
-    ("smallcut", 2000, Path("/mnt/d/github_remotes/flowmop_data/synthetic_combos_smallcut")),
-    ("largecut", 5000, Path("/mnt/d/github_remotes/flowmop_data/synthetic_combos_largecut")),
+    ("smallcut", 2000, DATA_ROOT / "synthetic_combos_smallcut"),
+    ("largecut", 5000, DATA_ROOT / "synthetic_combos_largecut"),
 )
 DEFAULT_SETTINGS = ("auto", "1000", "2500", "5000")
 DEFAULT_OUT_DIR = Path("benchmark_results/peacoqc_segment_localization/full_segment")

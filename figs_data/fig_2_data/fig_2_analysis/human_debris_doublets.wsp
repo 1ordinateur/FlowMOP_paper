@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <Workspace version="20.0"  modDate="Wed Jul 09 18:06:19 AEST 2025"  clientTimestamp="1752048379320"  flowJoVersion="10.10.0"  drawRowBorders="1"  drawColumnBorders="1"  hideCompNodes="1"  curGroup="debris"  groupPaneHeight="-1"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:gating="http://www.isac-net.org/std/Gating-ML/v2.0/gating"  xmlns:transforms="http://www.isac-net.org/std/Gating-ML/v2.0/transformations"  xmlns:data-type="http://www.isac-net.org/std/Gating-ML/v2.0/datatypes"  xsi:schemaLocation="http://www.isac-net.org/std/Gating-ML/v2.0/gating http://www.isac-net.org/std/Gating-ML/v2.0/gating/Gating-ML.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/transformations http://www.isac-net.org/std/Gating-ML/v2.0/gating/Transformations.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/datatypes http://www.isac-net.org/std/Gating-ML/v2.0/gating/DataTypes.v2.0.xsd "  nonAutoSaveFileName="file:/C:/Users/Tony/Documents/github_remotes/FlowMOP/figs/fig_2_data/fig_2_analysis/human_debris_doublets.wsp" >
+ <Workspace version="20.0"  modDate="Wed Jul 09 18:06:19 AEST 2025"  clientTimestamp="1752048379320"  flowJoVersion="10.10.0"  drawRowBorders="1"  drawColumnBorders="1"  hideCompNodes="1"  curGroup="debris"  groupPaneHeight="-1"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:gating="http://www.isac-net.org/std/Gating-ML/v2.0/gating"  xmlns:transforms="http://www.isac-net.org/std/Gating-ML/v2.0/transformations"  xmlns:data-type="http://www.isac-net.org/std/Gating-ML/v2.0/datatypes"  xsi:schemaLocation="http://www.isac-net.org/std/Gating-ML/v2.0/gating http://www.isac-net.org/std/Gating-ML/v2.0/gating/Gating-ML.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/transformations http://www.isac-net.org/std/Gating-ML/v2.0/gating/Transformations.v2.0.xsd http://www.isac-net.org/std/Gating-ML/v2.0/datatypes http://www.isac-net.org/std/Gating-ML/v2.0/gating/DataTypes.v2.0.xsd "  nonAutoSaveFileName="file:/repository/figs/fig_2_data/fig_2_analysis/human_debris_doublets.wsp" >
    <WindowPosition x="-8"  y="-8"  width="1936"  height="1096"  displayed="1"  panelState="" />
    <TextTraits font="SansSerif"  size="11"  name=""  style="plain"  color="#000000"  background="#00ffffff"  just="left" />
    <Columns>
@@ -423,7 +423,7 @@
    </Groups>
    <SampleList>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_3_Debris_SC_groupwise.fcs"  sampleID="44" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_3_Debris_SC_groupwise.fcs"  sampleID="44" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -644,7 +644,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_3_Debris_SC_samplewise.fcs"  sampleID="45" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_3_Debris_SC_samplewise.fcs"  sampleID="45" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -865,7 +865,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_1_Debris_SC_groupwise.fcs"  sampleID="46" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_1_Debris_SC_groupwise.fcs"  sampleID="46" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -1086,7 +1086,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_1_Debris_SC_samplewise.fcs"  sampleID="47" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_1_Debris_SC_samplewise.fcs"  sampleID="47" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -1307,7 +1307,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_2_Debris_SC_groupwise.fcs"  sampleID="48" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_2_Debris_SC_groupwise.fcs"  sampleID="48" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -1528,7 +1528,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_2_Singlets_SC_groupwise.fcs"  sampleID="49" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_2_Singlets_SC_groupwise.fcs"  sampleID="49" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -1826,7 +1826,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_2_Singlets_SC_samplewise.fcs"  sampleID="50" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_2_Singlets_SC_samplewise.fcs"  sampleID="50" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -2124,7 +2124,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_3_Singlets_SC_groupwise.fcs"  sampleID="51" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_3_Singlets_SC_groupwise.fcs"  sampleID="51" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -2422,7 +2422,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_3_Singlets_SC_samplewise.fcs"  sampleID="52" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_3_Singlets_SC_samplewise.fcs"  sampleID="52" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -2720,7 +2720,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_4_Singlets_SC_groupwise.fcs"  sampleID="53" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_4_Singlets_SC_groupwise.fcs"  sampleID="53" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -3018,7 +3018,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_4_RJ_groupwise.fcs"  sampleID="10" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_4_RJ_groupwise.fcs"  sampleID="10" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -3316,7 +3316,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_4_Singlets_SC_samplewise.fcs"  sampleID="54" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_4_Singlets_SC_samplewise.fcs"  sampleID="54" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -3614,7 +3614,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_4_RJ_samplewise.fcs"  sampleID="11" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_4_RJ_samplewise.fcs"  sampleID="11" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -3912,7 +3912,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_1_Singlets_SC_groupwise.fcs"  sampleID="55" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_1_Singlets_SC_groupwise.fcs"  sampleID="55" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -4210,7 +4210,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_1_RJ_groupwise.fcs"  sampleID="12" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_1_RJ_groupwise.fcs"  sampleID="12" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -4508,7 +4508,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_1_Singlets_SC_samplewise.fcs"  sampleID="56" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/doublets_1_Singlets_SC_samplewise.fcs"  sampleID="56" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -4806,7 +4806,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_1_RJ_samplewise.fcs"  sampleID="13" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_1_RJ_samplewise.fcs"  sampleID="13" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5104,7 +5104,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_2_RJ_groupwise.fcs"  sampleID="14" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_2_RJ_groupwise.fcs"  sampleID="14" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5402,7 +5402,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/debris_2_FMW_groupwise.fcs"  sampleID="15" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_2_FMW_groupwise.fcs"  sampleID="15" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5623,7 +5623,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/debris_2_FMW_samplewise.fcs"  sampleID="16" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_2_FMW_samplewise.fcs"  sampleID="16" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -5844,7 +5844,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/debris_3_FMW_groupwise.fcs"  sampleID="17" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_3_FMW_groupwise.fcs"  sampleID="17" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6065,7 +6065,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/debris_3_FMW_samplewise.fcs"  sampleID="18" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_3_FMW_samplewise.fcs"  sampleID="18" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6286,7 +6286,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/debris_1_FMW_groupwise.fcs"  sampleID="19" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_1_FMW_groupwise.fcs"  sampleID="19" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6507,7 +6507,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_2_RJ_groupwise.fcs"  sampleID="1" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_2_RJ_groupwise.fcs"  sampleID="1" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6729,7 +6729,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_2_RJ_samplewise.fcs"  sampleID="2" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_2_RJ_samplewise.fcs"  sampleID="2" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -6950,7 +6950,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_3_RJ_groupwise.fcs"  sampleID="3" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_3_RJ_groupwise.fcs"  sampleID="3" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -7171,7 +7171,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_3_RJ_samplewise.fcs"  sampleID="4" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_3_RJ_samplewise.fcs"  sampleID="4" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -7392,7 +7392,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_1_RJ_groupwise.fcs"  sampleID="5" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_1_RJ_groupwise.fcs"  sampleID="5" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -7613,7 +7613,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_1_RJ_samplewise.fcs"  sampleID="6" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/debris_1_RJ_samplewise.fcs"  sampleID="6" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -7834,7 +7834,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_2_RJ_samplewise.fcs"  sampleID="7" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_2_RJ_samplewise.fcs"  sampleID="7" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8132,7 +8132,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_3_RJ_groupwise.fcs"  sampleID="8" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_3_RJ_groupwise.fcs"  sampleID="8" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8430,7 +8430,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_3_RJ_samplewise.fcs"  sampleID="9" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/bec/Fig3_Bec%20Files/doublets_3_RJ_samplewise.fcs"  sampleID="9" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8728,7 +8728,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/debris_1_FMW_samplewise.fcs"  sampleID="20" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/debris_1_FMW_samplewise.fcs"  sampleID="20" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -8949,7 +8949,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/doublets_1_FMW_samplewise.fcs"  sampleID="21" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_1_FMW_samplewise.fcs"  sampleID="21" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -9247,7 +9247,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/doublets_2_FMW_groupwise.fcs"  sampleID="22" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_2_FMW_groupwise.fcs"  sampleID="22" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -9545,7 +9545,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/doublets_2_FMW_samplewise.fcs"  sampleID="23" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_2_FMW_samplewise.fcs"  sampleID="23" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -9843,7 +9843,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/doublets_3_FMW_groupwise.fcs"  sampleID="24" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_3_FMW_groupwise.fcs"  sampleID="24" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -10141,7 +10141,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/doublets_3_FMW_samplewise.fcs"  sampleID="25" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_3_FMW_samplewise.fcs"  sampleID="25" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -10439,7 +10439,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/doublet_4_FMW_groupwise.fcs"  sampleID="26" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublet_4_FMW_groupwise.fcs"  sampleID="26" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -10737,7 +10737,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/doublet_4_FMW_samplewise.fcs"  sampleID="27" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublet_4_FMW_samplewise.fcs"  sampleID="27" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11035,7 +11035,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/felix/Figure3/doublets_1_FMW_groupwise.fcs"  sampleID="28" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/felix/Figure3/doublets_1_FMW_groupwise.fcs"  sampleID="28" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11333,7 +11333,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_2_NR_groupwise.fcs"  sampleID="29" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_2_NR_groupwise.fcs"  sampleID="29" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11540,7 +11540,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_2_NR_samplewise.fcs"  sampleID="30" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_2_NR_samplewise.fcs"  sampleID="30" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11747,7 +11747,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_3_NR_groupwise.fcs"  sampleID="31" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_3_NR_groupwise.fcs"  sampleID="31" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -11954,7 +11954,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_3_NR_samplewise.fcs"  sampleID="32" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_3_NR_samplewise.fcs"  sampleID="32" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12161,7 +12161,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_groupwise.fcs"  sampleID="33" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_groupwise.fcs"  sampleID="33" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12368,7 +12368,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_samplewise.fcs"  sampleID="34" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/debris_1_NR_samplewise.fcs"  sampleID="34" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12575,7 +12575,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_2_NR_samplewise.fcs"  sampleID="35" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_2_NR_samplewise.fcs"  sampleID="35" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -12863,7 +12863,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_3_NR_groupwise.fcs"  sampleID="36" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_3_NR_groupwise.fcs"  sampleID="36" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -13151,7 +13151,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_3_NR_samplewise.fcs"  sampleID="37" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_3_NR_samplewise.fcs"  sampleID="37" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -13440,7 +13440,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_4_NR_groupwise.fcs"  sampleID="38" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_4_NR_groupwise.fcs"  sampleID="38" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -13728,7 +13728,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_4_NR_samplewise.fcs"  sampleID="39" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_4_NR_samplewise.fcs"  sampleID="39" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -14016,7 +14016,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_1_NR_groupwise.fcs"  sampleID="40" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_1_NR_groupwise.fcs"  sampleID="40" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -14304,7 +14304,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_1_NR_samplewise.fcs"  sampleID="41" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_1_NR_samplewise.fcs"  sampleID="41" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -14592,7 +14592,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_2_NR_groupwise.fcs"  sampleID="42" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/expert3/Fig3_NR_gated/doublets_2_NR_groupwise.fcs"  sampleID="42" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -14881,7 +14881,7 @@
        </SampleNode>
      </Sample>
      <Sample>
-       <DataSet uri="file:/Y:/g/data/eu59/data_flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_2_Debris_SC_samplewise.fcs"  sampleID="43" />
+       <DataSet uri="file:/external_data/flowmop/human_benchmarkers/sarah/Fig3_gating_SC/debris_2_Debris_SC_samplewise.fcs"  sampleID="43" />
        <Transformations>
          <transforms:linear transforms:minRange="0"  transforms:maxRange="262143"  gain="1" >
            <data-type:parameter data-type:name="FSC-A" />
@@ -15103,7 +15103,7 @@
      </Sample>
    </SampleList>
    <TableEditor title="FlowJo Tables: human_debris_doublets.wsp"  current="debris" >
-     <Table name="doublets"  outputFile="file:/C:/Users/Tony/Documents/github_remotes/FlowMOP/figs/fig_2_data/fig_2_analysis/human_doublets"  color="#00ffffff"  isBatch="0"  quickclose="0"  destination="toFile"  outputFormat="fj.document.type.csv" >
+     <Table name="doublets"  outputFile="file:/repository/figs/fig_2_data/fig_2_analysis/human_doublets"  color="#00ffffff"  isBatch="0"  quickclose="0"  destination="toFile"  outputFormat="fj.document.type.csv" >
        <PrintLayout flipPattern0="0"  rows="1"  columns="1"  padding="36"  header=""  footer=""  headerActive="0"  footerActive="0"  scalingMode="fj.print.scale.none"  scaling="1"  orientation="1"  width="595.2744"  height="841.8888"  imageableX="72"  imageableY="72"  imageableWidth="451.2744"  imageableHeight="697.8888" />
        <PageSection sectionName="header" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;&amp;NBSP&amp;NBSP&amp;NBSP&amp;NBSP&lt;IMG SRC=&quot;file:/C:/Program%20Files/FlowJo%2010.10.0/images/fj_icon.png&quot;&gt;&lt;/IMG&gt;&lt;br/&gt;FlowJo, LLC&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;top&quot;&gt;Page &lt;PageNumber/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
        <PageSection sectionName="footer" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot;  valign=&quot;bottom&quot;&gt;&lt;LongDate/&gt;&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;bottom&quot;&gt;&lt;Version/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
@@ -15113,7 +15113,7 @@
        <TColumn analysisPath="Q3: CTV+ , CFSE-"  name="Q3: CTV+ , CFSE-"  identifier="Q3: CTV+ , CFSE-"  statistic="fj.stat.freqofparent"  parameterName=""  rename=""  formula=""  iscontrolvalue="0"  ishiddencolumn="0"  shownumbers="1"  valueType="statistic"  discriminator=""  originalSample="8" />
        <TColumn analysisPath="Q4: CTV- , CFSE-"  name="Q4: CTV- , CFSE-"  identifier="Q4: CTV- , CFSE-"  statistic="fj.stat.freqofparent"  parameterName=""  rename=""  formula=""  iscontrolvalue="0"  ishiddencolumn="0"  shownumbers="1"  valueType="statistic"  discriminator=""  originalSample="8" />
      </Table>
-     <Table name="debris"  outputFile="file:/C:/Users/Tony/Documents/github_remotes/FlowMOP/figs/fig_2_data/fig_2_analysis/human_debris"  color="#00ffffff"  isBatch="0"  quickclose="0"  destination="toFile"  outputFormat="fj.document.type.csv" >
+     <Table name="debris"  outputFile="file:/repository/figs/fig_2_data/fig_2_analysis/human_debris"  color="#00ffffff"  isBatch="0"  quickclose="0"  destination="toFile"  outputFormat="fj.document.type.csv" >
        <PrintLayout flipPattern0="0"  rows="1"  columns="1"  padding="36"  header=""  footer=""  headerActive="0"  footerActive="0"  scalingMode="fj.print.scale.none"  scaling="1"  orientation="1"  width="595.2744"  height="841.8888"  imageableX="72"  imageableY="72"  imageableWidth="451.2744"  imageableHeight="697.8888" />
        <PageSection sectionName="header" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;&amp;NBSP&amp;NBSP&amp;NBSP&amp;NBSP&lt;IMG SRC=&quot;file:/C:/Program%20Files/FlowJo%2010.10.0/images/fj_icon.png&quot;&gt;&lt;/IMG&gt;&lt;br/&gt;FlowJo, LLC&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;top&quot;&gt;Page &lt;PageNumber/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
        <PageSection sectionName="footer" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot;  valign=&quot;bottom&quot;&gt;&lt;LongDate/&gt;&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;bottom&quot;&gt;&lt;Version/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
@@ -15124,7 +15124,7 @@
      <WindowPosition x="1912"  y="-8"  width="1936"  height="1096" />
    </TableEditor>
    <LayoutEditor title="FlowJo Layouts: human_debris_doublets.wsp"  current="Layout"  showGrid="0"  showPageBreaks="0"  showGuides="0"  showDebugOutput="0" >
-     <Layout name="Layout"  outputFile="file:/C:/Users/Tony/OneDrive/Documents/Layout"  color="#00ffffff"  isBatch="0"  showGrid="0"  showRulers="1"  showDebugOutput="0"  showGuides="0"  showPageBreaks="1"  scale="1" >
+     <Layout name="Layout"  outputFile="file:/output/Layout"  color="#00ffffff"  isBatch="0"  showGrid="0"  showRulers="1"  showDebugOutput="0"  showGuides="0"  showPageBreaks="1"  scale="1" >
        <PrintLayout flipPattern0="0"  rows="1"  columns="1"  padding="36"  header=""  footer=""  headerActive="0"  footerActive="0"  scalingMode="fj.print.scale.none"  scaling="1"  orientation="1"  width="595.2744"  height="841.8888"  imageableX="72"  imageableY="72"  imageableWidth="451.2744"  imageableHeight="697.8888" />
        <PageSection sectionName="header" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot; valign=&quot;top&quot;&gt;&amp;NBSP&amp;NBSP&amp;NBSP&amp;NBSP&lt;IMG SRC=&quot;file:/C:/Program%20Files/FlowJo%2010.10.0/images/fj_icon.png&quot;&gt;&lt;/IMG&gt;&lt;br/&gt;FlowJo, LLC&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;top&quot;&gt;Page &lt;PageNumber/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>
        <PageSection sectionName="footer" >&lt;table width=&quot;100%&quot;&gt;&lt;tr&gt;&lt;td align=&quot;left&quot;  valign=&quot;bottom&quot;&gt;&lt;LongDate/&gt;&lt;/td&gt;&lt;td align=&quot;right&quot; valign=&quot;bottom&quot;&gt;&lt;Version/&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</PageSection>

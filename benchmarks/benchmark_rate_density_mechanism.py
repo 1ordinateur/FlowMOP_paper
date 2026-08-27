@@ -64,6 +64,8 @@ VARIANTS = ("raw", "source_timewarp", "random_timewarp")
 KNOWN_MIX_METHODS = {"segment", "bimix", "trimix"}
 DEFAULT_TIMEWARP_FACTORS = (1.0, 20.0)
 DEFAULT_RANDOM_CHUNK_SIZE = 25_000
+REPO_ROOT = Path(__file__).resolve().parents[1]
+DATA_ROOT = Path(os.environ.get("FLOWMOP_DATA_ROOT", REPO_ROOT.parent / "flowmop_data"))
 
 
 @dataclass(frozen=True)
@@ -132,7 +134,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--dataset-dir",
         type=Path,
-        default=Path("/mnt/d/github_remotes/flowmop_data/synthetic_combos_smallcut"),
+        default=DATA_ROOT / "synthetic_combos_smallcut",
     )
     parser.add_argument("--base-files", nargs="+", default=DEFAULT_BASE_FILES)
     parser.add_argument("--events", type=int, default=500_000)

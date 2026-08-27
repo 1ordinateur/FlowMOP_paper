@@ -1,5 +1,5 @@
 {
-  "source_dir": "/mnt/d/github_remotes/flowmop_data/pbmc_biological_validation",
+  "source_dir": "external_data/pbmc_biological_validation",
   "workspace": "FLOWMOP_CLEANUP_COMPARISON_15-Aug-2026_v2.wsp",
   "sample_count": 8,
   "samples": [
@@ -36,10 +36,10 @@
     "all steps": "no time, debris, or doublet preprocessing mask"
   },
   "nkt_exclusion": "none",
-  "time_figure_svg": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/figure_5.svg",
-  "time_figure_png": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/figure_5.png",
-  "cleanup_figure_svg": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/figure_6.svg",
-  "cleanup_figure_png": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/figure_6.png",
-  "module_supplement_svg": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/Supp_fig_8.svg",
-  "module_supplement_png": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/Supp_fig_8.png"
+  "time_figure_svg": "figs_data/figure_5.svg",
+  "time_figure_png": "figs_data/figure_5.png",
+  "cleanup_figure_svg": "figs_data/figure_6.svg",
+  "cleanup_figure_png": "figs_data/figure_6.png",
+  "module_supplement_svg": "figs_data/Supp_fig_8.svg",
+  "module_supplement_png": "figs_data/Supp_fig_8.png"
 }

@@ -13,7 +13,7 @@ Install `flowkit`, `flowio`, `numpy`, `pandas`, `matplotlib`, `scipy`, and
 
 ```bash
 python figs_data/fig_5_data/generate_biological_validation_figure.py \
-  --source-dir /mnt/d/github_remotes/flowmop_data/pbmc_biological_validation
+  --source-dir /path/to/flowmop_data/pbmc_biological_validation
 ```
 
 On systems where Python is exposed as `python3`, substitute `python3` in the

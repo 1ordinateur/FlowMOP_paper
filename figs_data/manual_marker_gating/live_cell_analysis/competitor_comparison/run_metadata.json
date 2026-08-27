@@ -4,7 +4,7 @@
     "trim_LB236_T.fcs",
     "trim_LB262_T.fcs"
   ],
-  "workspace": "/mnt/d/github_remotes/flowmop_data/tumour_data/20260710_tumour_gating/20260722_gating.wsp",
+  "workspace": "external_data/tumour_data/20260710_tumour_gating/20260722_gating.wsp",
   "zombie_low_definition": "Zombie UV-A < 12000 raw units",
   "time_qc_channels": [
     "BUV395-A",

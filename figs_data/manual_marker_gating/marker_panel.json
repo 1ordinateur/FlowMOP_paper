@@ -1,6 +1,6 @@
 {
-  "source_directory": "/mnt/d/github_remotes/flowmop_data/tumour_data/20260710_tumour_gating",
-  "workspace": "/mnt/d/github_remotes/flowmop_data/tumour_data/20260710_tumour_gating/20260722_gating.wsp",
+  "source_directory": "external_data/tumour_data/20260710_tumour_gating",
+  "workspace": "external_data/tumour_data/20260710_tumour_gating/20260722_gating.wsp",
   "fluorescence_channels": [
     "BUV395-A",
     "Zombie UV-A",

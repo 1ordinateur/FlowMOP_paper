@@ -447,7 +447,7 @@ local function add_table(output, table_block, caption_block, note_block, continu
   local label = caption_block and select(1, caption_details(caption_block, "Table")) or nil
   set_table_widths(table_block)
   output:insert(table_start(column_count, label))
-  if caption_block then
+  if caption_block and not continued then
     output:insert(table_caption(caption_block, continued))
   end
   if note_block then
@@ -614,7 +614,7 @@ function Pandoc(doc)
         table_index = table_index + 1
 
         -- Table S1 is divided into consecutive blocks for readable column
-        -- widths. Give each continuation the same visible table identifier.
+        -- widths. Continuation blocks follow directly without repeated captions.
         while doc.blocks[table_index] and doc.blocks[table_index].t == "Table" do
           add_table(output, doc.blocks[table_index], block, nil, true)
           table_index = table_index + 1

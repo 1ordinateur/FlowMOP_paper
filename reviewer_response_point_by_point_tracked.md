@@ -455,7 +455,7 @@ We also defined temporal artifacts, simplified the terminology, and added Figure
 
 - In the Methods, we added the following clarification:
 
-  <span style="color:#0066cc">> “Following acquisition, events from these real, source-labelled FCS files were computationally recombined to construct three time-gating benchmark designs. Their construction is illustrated in Supplementary Figure S1, and the dataset compositions are reported in Supplementary Table S1A.”</span>
+  <span style="color:#0066cc">> “Following acquisition, events from these real, source-labelled FCS files were computationally recombined to construct three time-gating benchmark designs. Their construction is illustrated in Supplementary Figure S1, and the dataset compositions are reported in Supplementary Table S1.”</span>
 
 <span style="color:#0066cc">  The wet-lab PBMC protocol is now presented separately under “Synthetic time source-sample preparation,” followed by “Computational construction of Segment, Bimix, and Trimix datasets.” This distinguishes preparation of the real source samples from post-acquisition benchmark construction.</span>
 
@@ -479,7 +479,7 @@ We also defined temporal artifacts, simplified the terminology, and added Figure
 
   > “Figure S1: Construction of Segment, Bimix, and Trimix synthetic time samples. No flow-rate disturbance was introduced.”
 
-**Location:** Abstract; Introduction; Methods, <span style="color:#c00000"><s>“Generation</s></span><span style="color:#0066cc">“Synthetic time source-sample preparation,” “Computational construction</span> of <span style="color:#c00000"><s>Synthetic Time Samples”</s></span><span style="color:#0066cc">Segment, Bimix, and Trimix datasets,”</span> and “Time-only acquisition-rate mechanism benchmark”; Results, “Synthetic Time Gating Benchmark”; Discussion, “Synthetic Sample Time Gating”; Figures S1 and <span style="color:#c00000"><s>S4.</s></span><span style="color:#0066cc">S4; Table S1A.</span> The biological-validation changes are detailed in Combined Comment 3.
+**Location:** Abstract; Introduction; Methods, <span style="color:#c00000"><s>“Generation</s></span><span style="color:#0066cc">“Synthetic time source-sample preparation,” “Computational construction</span> of <span style="color:#c00000"><s>Synthetic Time Samples”</s></span><span style="color:#0066cc">Segment, Bimix, and Trimix datasets,”</span> and “Time-only acquisition-rate mechanism benchmark”; Results, “Synthetic Time Gating Benchmark”; Discussion, “Synthetic Sample Time Gating”; Figures S1 and <span style="color:#c00000"><s>S4.</s></span><span style="color:#0066cc">S4; Table S1.</span> The biological-validation changes are detailed in Combined Comment 3.
 
 ## Combined Comment 10 — Debris Methodology and Validation
 

@@ -613,7 +613,7 @@ function Pandoc(doc)
         add_table(output, doc.blocks[table_index], block, note_block, false)
         table_index = table_index + 1
 
-        -- Table S1A is divided into consecutive blocks for readable column
+        -- Table S1 is divided into consecutive blocks for readable column
         -- widths. Give each continuation the same visible table identifier.
         while doc.blocks[table_index] and doc.blocks[table_index].t == "Table" do
           add_table(output, doc.blocks[table_index], block, nil, true)

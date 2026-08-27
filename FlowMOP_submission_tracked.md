@@ -57,7 +57,7 @@ The Python implementation specifically facilitates integration with contemporary
 
 ## Methods
 
-For further details concerning datasets, see <span style="color:#c00000"><s>Supplementary Table 1A</s></span><span style="color:#0066cc">Table S1A</span>.
+For further details concerning datasets, see <span style="color:#c00000"><s>Supplementary Table 1A</s></span><span style="color:#0066cc">Table S1</span>.
 
 ### <span style="color:#0066cc">Synthetic time benchmark</span>
 
@@ -67,7 +67,7 @@ PBMC <span style="color:#0066cc">source samples used to generate the synthetic t
 
 #### <span style="color:#0066cc">Computational construction of Segment, Bimix, and Trimix datasets</span>
 
-<span style="color:#0066cc">Following acquisition, events from these real, source-labelled FCS files were computationally recombined to construct three time-gating benchmark designs. In the ‘Segmented’ design, events from one or more source samples were appended to an existing sample. In the ‘Bimix’ design, events from two differently stained source samples were combined in randomly selected proportions (e.g. 40:60 or 75:25) using mixing-bin sizes of either 5000 or 2000 events. The ‘Trimix’ design similarly combined events from three differently stained source samples using 5000- or 2000-event mixing bins. Their construction is illustrated in Supplementary Figure S1, and the dataset compositions are reported in Supplementary Table S1A.</span> <span style="color:#0066cc">Here, we use “microblockage” operationally to denote a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed.</span> <span style="color:#0066cc">Segmented samples model sustained changes, whereas Bimix and Trimix model the observable fluorescence consequence in this operational definition by introducing short source-defined fluorescence shifts during acquisition.</span> <span style="color:#0066cc">They do not recreate or establish the physical mechanism itself.</span> <span style="color:#0066cc">The Bimix and Trimix files can appear acceptable on visual inspection because the altered intervals are short and interspersed with otherwise plausible events; however, the retained source labels identify the intentionally perturbed events that should be excluded under the benchmark definition.</span> <span style="color:#0066cc">This provides event-level ground truth for a class of artifact that is difficult to recognize and impractical to gate manually [5,6].</span> <span style="color:#0066cc">Flow-rate disturbances without corresponding fluorescence changes should not prompt event exclusion; these samples therefore model fluorescence changes across acquisition order without introducing flow-rate disturbances.</span> <span style="color:#0066cc">Flow-rate effects were tested separately by altering Time either in alignment with source-linked fluorescence changes or independently of them.</span>
+<span style="color:#0066cc">Following acquisition, events from these real, source-labelled FCS files were computationally recombined to construct three time-gating benchmark designs. In the ‘Segmented’ design, events from one or more source samples were appended to an existing sample. In the ‘Bimix’ design, events from two differently stained source samples were combined in randomly selected proportions (e.g. 40:60 or 75:25) using mixing-bin sizes of either 5000 or 2000 events. The ‘Trimix’ design similarly combined events from three differently stained source samples using 5000- or 2000-event mixing bins. Their construction is illustrated in Supplementary Figure S1, and the dataset compositions are reported in Supplementary Table S1.</span> <span style="color:#0066cc">Here, we use “microblockage” operationally to denote a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed.</span> <span style="color:#0066cc">Segmented samples model sustained changes, whereas Bimix and Trimix model the observable fluorescence consequence in this operational definition by introducing short source-defined fluorescence shifts during acquisition.</span> <span style="color:#0066cc">They do not recreate or establish the physical mechanism itself.</span> <span style="color:#0066cc">The Bimix and Trimix files can appear acceptable on visual inspection because the altered intervals are short and interspersed with otherwise plausible events; however, the retained source labels identify the intentionally perturbed events that should be excluded under the benchmark definition.</span> <span style="color:#0066cc">This provides event-level ground truth for a class of artifact that is difficult to recognize and impractical to gate manually [5,6].</span> <span style="color:#0066cc">Flow-rate disturbances without corresponding fluorescence changes should not prompt event exclusion; these samples therefore model fluorescence changes across acquisition order without introducing flow-rate disturbances.</span> <span style="color:#0066cc">Flow-rate effects were tested separately by altering Time either in alignment with source-linked fluorescence changes or independently of them.</span>
 
 #### <span style="color:#0066cc">Time-only acquisition-rate mechanism benchmark</span>
 
@@ -336,7 +336,7 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 
 <span style="color:#0066cc">Figure S2: Representative CD3-versus-Time plots for Bimix samples with 2,000-event bins and Trimix samples with 2,000- and 5,000-event bins, showing the original inputs and outputs after cleaning with FlowMOP, FlowCut, and PeacoQC.</span> Percentages below each figure represent the retained proportion of cells relative to the original representative synthetic sample.
 
-**Table S1A: Dataset Compositions**
+**Table S1: Dataset Compositions**
 
 | Dataset Name | Synthetic Time-Gating Dataset | Synthetic Debris-Gating Dataset | Synthetic Doublet-Gating Dataset | Human Liver |
 | --- | --- | --- | --- | --- |
@@ -359,19 +359,17 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 | Mouse | Mouse | Mouse | Mouse | Human |
 | Canberra, ACT, Australia | Canberra, ACT, Australia | Canberra, ACT, Australia | Canberra, ACT, Australia | Canberra, ACT, Australia |
 
-**Table S1B: Expert / Algorithm IDs**
+**<span style="color:#c00000"><s>Table S1B: Expert / Algorithm IDs</s></span>**
 
-<span style="color:#0066cc">Expert and algorithm identifiers used in the supplementary analyses are listed in Table S1B.</span>
-
-| Expert / Algorithm | ID |
+| <span style="color:#c00000"><s>Expert / Algorithm</s></span> | <span style="color:#c00000"><s>ID</s></span> |
 | --- | --- |
-| Expert 1 | 1 |
-| Expert 2 | 2 |
-| Expert 3 | 3 |
-| Expert 4 | 4 |
-| FlowMOP | 5 |
-| FlowCut | 6 |
-| PeacoQC | 7 |
+| <span style="color:#c00000"><s>Expert 1</s></span> | <span style="color:#c00000"><s>1</s></span> |
+| <span style="color:#c00000"><s>Expert 2</s></span> | <span style="color:#c00000"><s>2</s></span> |
+| <span style="color:#c00000"><s>Expert 3</s></span> | <span style="color:#c00000"><s>3</s></span> |
+| <span style="color:#c00000"><s>Expert 4</s></span> | <span style="color:#c00000"><s>4</s></span> |
+| <span style="color:#c00000"><s>FlowMOP</s></span> | <span style="color:#c00000"><s>5</s></span> |
+| <span style="color:#c00000"><s>FlowCut</s></span> | <span style="color:#c00000"><s>6</s></span> |
+| <span style="color:#c00000"><s>PeacoQC</s></span> | <span style="color:#c00000"><s>7</s></span> |
 
 **Table S2: Jeffreys’ Scale**
 

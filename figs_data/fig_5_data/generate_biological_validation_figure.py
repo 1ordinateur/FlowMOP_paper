@@ -1969,8 +1969,12 @@ def make_figure(
             y = processed[processed_column(processed, y_channel)].to_numpy()
             indices = deterministic_subset(cleaning, 100000, seed=1100 + row_index * 10 + panel_index)
             scatter_pseudocolor(ax, x, y, indices)
-            gate = ws.get_gate(sid, "Single Cells", gate_path=gate_path)
-            overlay_rectangle(ax, gate, x_channel, y_channel, "#111111")
+            # These rectangles are the expert's manual doublet gates. Do not
+            # draw them on the ungated or FlowMOP projections, where those
+            # gates were not applied.
+            if method == "Nadia Manual":
+                gate = ws.get_gate(sid, "Single Cells", gate_path=gate_path)
+                overlay_rectangle(ax, gate, x_channel, y_channel, "#111111")
             apply_limits(ax, doublet_axis_limits[(x_channel, y_channel)])
             ax.set_xlabel(x_channel)
             ax.set_ylabel(y_channel)
@@ -2432,8 +2436,8 @@ def main() -> None:
         "sample_count": len(samples),
         "samples": samples,
         "sample_selection": (
-            "one prespecified complete repeat from each of eight independent PBMC sample "
-            "groups: 1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A"
+            "one prespecified complete PBMC sample from each of eight independent donors: "
+            "1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A"
         ),
         "time_representative_sample": time_representative,
         "cleanup_representative_sample": cleanup_representative,

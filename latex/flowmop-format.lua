@@ -71,7 +71,7 @@ local function is_figure_caption(block)
 end
 
 local function is_short_supplement_label(block)
-  if not is_para(block) then
+  if not is_para(block) or image_from_para(block) then
     return false
   end
   return stringify(block):match("^Figure%s+S%d+:?$") ~= nil
@@ -361,18 +361,12 @@ end
 
 local function table_start(column_count, label)
   local revision_colour = ""
-  if tracked_document and (label == "S3" or label == "S5A" or label == "S5B") then
+  if tracked_document and label == "S3" then
     revision_colour = "\\color{revisionblue}"
   end
   local landscape_font = "\\scriptsize"
   local landscape_tabcolsep = "3pt"
   local landscape_arraystretch = "1.12"
-  if label == "S5A" or label == "S5B" then
-    landscape_font = "\\fontsize{7.5pt}{8.5pt}\\selectfont"
-    landscape_tabcolsep = "2pt"
-    landscape_arraystretch = "1.02"
-  end
-
   -- The benchmark table is short enough to fit cleanly in portrait once its
   -- columns are allowed to wrap. Start it on a fresh page so its title, note,
   -- and body cannot become detached.

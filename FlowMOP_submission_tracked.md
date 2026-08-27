@@ -31,27 +31,27 @@ TX is supported by the Australian Government Research Training Program PhD Schol
 
 ## Abstract
 
-Flow cytometry now generates high-parameter datasets whose scale and variability challenge manual preprocessing, leading to subjectivity and poor reproducibility. <span style="color:#0066cc">Here, we introduce FlowMOP, a Python-native framework that automates three major preprocessing steps—time-gating, debris removal, and doublet exclusion.</span> <span style="color:#0066cc">FlowMOP was developed to combine these preprocessing steps in a single workflow, whereas FlowCut and PeacoQC primarily address time-dependent quality control and broader automatic gating frameworks are aimed at population identification rather than standardized preprocessing cleanup.</span>
+Flow cytometry now generates high-parameter datasets whose scale and variability challenge manual preprocessing, leading to subjectivity and poor reproducibility. <span style="color:#0066cc">Here, we introduce FlowMOP, a Python-native framework that automates three major preprocessing steps—time-gating, debris removal, and doublet exclusion.</span> <span style="color:#0066cc">FlowMOP was developed to combine these preprocessing steps in a single workflow, whereas alternative preprocessing algorithms such as FlowCut and PeacoQC primarily address time-dependent quality control, and broader automatic gating frameworks are aimed at population identification rather than standardized preprocessing cleanup.</span>
 
 <span style="color:#0066cc">Methodologically, FlowMOP identifies temporal artifacts—acquisition-dependent deviations in event quality or fluorescence signal—via parameter-wise peak checks, bin-level fluorescence summaries across acquisition time, and robust outlier rejection.</span> Debris is excluded by adaptive FSC-A thresholding derived from cross-parameter peak structure. Finally, doublets are removed using dynamic inflection detection on FSC-A/FSC-H and SSC-A/SSC-H ratio histograms. <span style="color:#0066cc">The implementation uses memory-conscious array operations; computational scaling was evaluated to 2 million events in a 36-channel file.</span>
 
 <span style="color:#0066cc">Against event-labelled synthetic technical controls, FlowMOP showed a favourable balance of sensitivity and specificity relative to comparator time-gating methods and effectively removed labelled debris- and doublet-enriched populations.</span>
 
-<span style="color:#0066cc">In a matched analysis of eight human PBMC samples, FlowMOP time gating preserved significantly more B, T, and NKT cells than expert preprocessing without altering their relative frequencies. Across the complete preprocessing pathway, no direct count difference between FlowMOP and expert cleaning was detected; B-cell frequency was modestly lower after FlowMOP, while the other evaluated frequencies did not differ. In three human tumour-liver samples with substantial debris, no statistically detectable differences were observed between Manual and FlowMOP for the evaluated recovery endpoints. Together with its synthetic accuracy and computational performance, these findings support FlowMOP as a fast, reproducible, fully automated preprocessing workflow for flow cytometry. FlowMOP can be accessed at https://github.com/1ordinateur/FlowMOP.</span>
+<span style="color:#0066cc">In a matched analysis of PBMC samples from eight donors, FlowMOP time gating preserved significantly more B, T, and NKT cells than expert preprocessing without altering their relative frequencies. Across the complete preprocessing pathway, no direct count difference between FlowMOP and expert cleaning was detected; B-cell frequency was modestly lower after FlowMOP, while the other evaluated frequencies did not differ. In three human liver-tumour samples with substantial debris, no statistically detectable differences were observed between Manual and FlowMOP for the evaluated recovery endpoints. Together with its synthetic accuracy and computational performance, these findings support FlowMOP as a fast, reproducible, fully automated preprocessing workflow for flow cytometry. FlowMOP can be accessed at https://github.com/1ordinateur/FlowMOP.</span>
 
 ## Introduction
 
-<span style="color:#0066cc">Modern flow-cytometry studies can contain increasing numbers of files, events, and measured parameters [2].</span> <span style="color:#0066cc">The large scale of these data makes repeated manual preprocessing time-consuming and often impractical, potentially amplifying variability between operators.</span> <span style="color:#0066cc">Reproducible automated preprocessing is therefore valuable for large studies.</span>
+<span style="color:#0066cc">Modern flow cytometry studies can contain increasing numbers of files, events, and measured parameters [1].</span> <span style="color:#0066cc">The large scale of these data makes repeated manual preprocessing time-consuming and often impractical, potentially amplifying variability between operators.</span> <span style="color:#0066cc">Reproducible automated preprocessing is therefore valuable for large studies.</span>
 
-Manual preprocessing of flow cytometry data, whilst still not standardised, typically involves three gating components. I) Time gating: operators perform time-gating to remove events potentially acquired erroneously due to transient or persistent artifacts in the instrument or sample, including air bubbles, blockages, or laser malfunctions. II) Debris gating: operators remove debris, which is generated by both the sample preparation process and inherent in the sample itself. Debris events are generally identified by reference to measured events with low size (determined by FSC-A (Forward SCatter – Area)) and internal complexity (determined by SSC-A (Side SCatter – Area)) [1]. III) Doublet gating: Events classified as "doublets"—two or more cells erroneously detected as one—are removed as their fluorescence measurements lack reliability. This is often done with reference to the ratio of the signal duration, and signal intensity. Doublets feature a signal peak strength comparable to a single cell, but for twice the duration. Hence, analysts may filter these events out by comparing an event’s total FSC Area relative to its FSC height (peak signal intensity) or by comparing the FSC signal height against the FSC signal width [4]. These manual preprocessing steps are time-consuming, inherently subjective, and susceptible to inconsistency across operators.
+Manual preprocessing of flow cytometry data, whilst still not standardised, typically involves three gating components. I) Time gating: operators perform time-gating to remove events potentially acquired erroneously due to transient or persistent artifacts in the instrument or sample, including air bubbles, blockages, or laser malfunctions. II) Debris gating: operators remove debris, which is generated by both the sample preparation process and inherent in the sample itself. Debris events are generally identified by reference to measured events with low size (determined by FSC-A (Forward SCatter – Area)) and internal complexity (determined by SSC-A (Side SCatter – Area)) <span style="color:#c00000"><s>[1]</s></span> <span style="color:#0066cc">[2]</span>. III) Doublet gating: Events classified as "doublets"—two or more cells erroneously detected as one—are removed as their fluorescence measurements lack reliability. This is often done with reference to the ratio of the signal duration, and signal intensity. Doublets feature a signal peak strength comparable to a single cell, but for twice the duration. Hence, analysts may filter these events out by comparing an event’s total FSC Area relative to its FSC height (peak signal intensity) or by comparing the FSC signal height against the FSC signal width <span style="color:#c00000"><s>[4]</s></span> <span style="color:#0066cc">[3]</span>. These manual preprocessing steps are time-consuming, inherently subjective, and susceptible to inconsistency across operators.
 
-<span style="color:#0066cc">The most conspicuous time artifacts often occur at the beginning or end of acquisition, but flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have also been documented [10].</span> <span style="color:#0066cc">Here, we use “microblockage” operationally to denote a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed.</span> <span style="color:#0066cc">Temporary acquisition problems can be difficult to detect manually [5], and manual identification and removal of transient problems can be time-consuming and subjective [9].</span> <span style="color:#0066cc">Because the affected intervals may be short and interspersed with otherwise plausible events, they can be impractical to exclude reproducibly using multiple manual gates.</span>
+<span style="color:#0066cc">The most conspicuous time artifacts often occur at the beginning or end of acquisition, but flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have also been documented [4].</span> <span style="color:#0066cc">Here, we use “microblockage” operationally to denote a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed.</span> <span style="color:#0066cc">Temporary acquisition problems can be difficult to detect manually [5], and manual identification and removal of transient problems can be time-consuming and subjective [6].</span> <span style="color:#0066cc">Because the affected intervals may be short and interspersed with otherwise plausible events, they can be impractical to exclude reproducibly using multiple manual gates.</span>
 
-<span style="color:#0066cc">Several tools automate cytometry population identification, including the model-based flowClust method [13], the neural-network method GateNet [14], and the bivariate-segmentation framework UNITO [15], while FATE uses representation learning to produce generalized flow-cytometry embeddings [12]; automated gating approaches are reviewed elsewhere [16].</span> <span style="color:#0066cc">FlowMOP is a Python-based, training-free preprocessing workflow that combines automated time-gating, debris removal, and doublet exclusion in a single headless tool.</span> <span style="color:#0066cc">FlowCut and PeacoQC provide the most direct comparison for its time-gating component.</span>
+<span style="color:#0066cc">Several tools automate cytometry population identification, including deep-learning approaches [7,8], the model-based flowClust method [9], the neural-network method GateNet [10], and the bivariate-segmentation framework UNITO [11], while FATE uses representation learning to produce generalized flow cytometry embeddings [12]; automated gating approaches are reviewed elsewhere [13].</span> <span style="color:#0066cc">Conversely, FlowMOP is a Python-based, training-free preprocessing workflow that combines automated time-gating, debris removal, and doublet exclusion in a single headless tool.</span> <span style="color:#0066cc">FlowCut and PeacoQC provide the most direct comparison for its time-gating component.</span>
 
 The Python implementation specifically facilitates integration with contemporary machine-learning workflows, which predominantly utilize Python-based frameworks.
 
-<span style="color:#0066cc">To date, cytometry preprocessing algorithms have been evaluated either by comparison to human-defined gold standards (as in FlowCut and PeacoQC) or through mathematical metrics (consider cyCombine’s approach to batch correction [11]).</span> <span style="color:#0066cc">The synthetic datasets provide event-level labels for estimating sensitivity and specificity in preprocessing tasks where real ground truth is otherwise difficult to define.</span>
+<span style="color:#0066cc">To date, cytometry preprocessing algorithms have been evaluated either by comparison to human-defined gold standards (as in FlowCut and PeacoQC) or through mathematical metrics (consider cyCombine’s approach to batch correction [14]).</span> <span style="color:#0066cc">The synthetic datasets provide event-level labels for estimating sensitivity and specificity in preprocessing tasks where real ground truth is otherwise difficult to define.</span>
 
 <span style="color:#0066cc">Here, we introduce FlowMOP, an automated preprocessing tool for time-gating, debris removal, and doublet exclusion.</span> <span style="color:#0066cc">We compare time-gating performance with PeacoQC and FlowCut, evaluate debris and doublet removal using synthetic ground-truth datasets and expert comparison, and benchmark computational scalability.</span>
 
@@ -63,11 +63,11 @@ For further details concerning datasets, see <span style="color:#c00000"><s>Supp
 
 #### <span style="color:#0066cc">Synthetic time source-sample preparation</span>
 
-PBMC <span style="color:#0066cc">source samples used to generate the synthetic time benchmark</span> were collected from healthy donors under ethics protocols ACT Health 2019.ETH.00081 and ANU HREC 2020/047. Blood was collected into ACD-A tubes and PBMCs isolated using Lymphoprep density gradient (Stemcell Technologies) and SepMate tubes (Stemcell Technologies) per manufacturer’s instructions prior to cryopreservation. <span style="color:#c00000"><s>Thawed PBMCs were stained with ViaDye Red (Cytek Biosciences).</s></span><span style="color:#0066cc">After thawing, PBMCs were stained with ViaDye Red (Cytek Biosciences) and blocked with TruStain FcX (BioLegend) before antibody staining.</span> <span style="color:#c00000"><s>The staining cocktail contained antibodies to several highly abundant antigens at less-than-saturating concentrations, and either 0.5, 1 or 3 x 10^6 cells were stained, yielding samples with different levels of fluorophore signal intensity for these common antigens.</s></span><span style="color:#0066cc">Either 0.5, 1, or 3 × 10^6 cells were stained with a cocktail containing antibodies to several highly abundant antigens at less-than-saturating concentrations, yielding samples with different levels of fluorophore signal intensity for these common antigens.</span> Other antibodies within the panel were present at saturating concentrations to yield similar fluorescence intensity across different cell seeding densities. Samples were acquired on a Cytek Northern Lights 3-laser (V/B/R) spectral flow cytometer. <span style="color:#0066cc">The benchmarking uses real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations and acquisition voltage/gain settings differ among datasets and were not variables under evaluation; they are therefore not material to the preprocessing comparisons addressed here.</span>
+PBMC <span style="color:#0066cc">source samples used to generate the synthetic time benchmark</span> were collected from healthy donors under ethics protocols ACT Health 2019.ETH.00081 and ANU HREC 2020/047. Blood was collected into ACD-A tubes and PBMCs isolated using Lymphoprep density gradient (Stemcell Technologies) and SepMate tubes (Stemcell Technologies) per manufacturer’s instructions prior to cryopreservation. <span style="color:#c00000"><s>Thawed PBMCs were stained with ViaDye Red (Cytek Biosciences).</s></span><span style="color:#0066cc">After thawing, PBMCs were stained with ViaDye Red (Cytek Biosciences) and blocked with TruStain FcX (BioLegend) before antibody staining.</span> <span style="color:#c00000"><s>The staining cocktail contained antibodies to several highly abundant antigens at less-than-saturating concentrations, and either 0.5, 1 or 3 x 10^6 cells were stained, yielding samples with different levels of fluorophore signal intensity for these common antigens.</s></span><span style="color:#0066cc">Either 0.5, 1, or 3 × 10^6 cells were stained with a cocktail containing antibodies to several highly abundant antigens at less-than-saturating concentrations, yielding samples with different levels of fluorophore signal intensity for these common antigens.</span> Other antibodies within the panel were present at saturating concentrations to yield similar fluorescence intensity across different cell seeding densities. Samples were acquired on a Cytek Northern Lights 3-laser (V/B/R) spectral flow cytometer. <span style="color:#0066cc">The benchmarking uses real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations and acquisition voltage/gain settings differ among datasets and were not variables under evaluation.</span>
 
 #### <span style="color:#0066cc">Computational construction of Segment, Bimix, and Trimix datasets</span>
 
-<span style="color:#0066cc">Following acquisition, events from these real, source-labelled FCS files were computationally recombined to construct three time-gating benchmark designs. In the ‘Segmented’ design, events from one or more source samples were appended to an existing sample. In the ‘Bimix’ design, events from two differently stained source samples were combined in randomly selected proportions (e.g. 40:60 or 75:25) using mixing-bin sizes of either 5000 or 2000 events. The ‘Trimix’ design similarly combined events from three differently stained source samples using 5000- or 2000-event mixing bins. Their construction is illustrated in Supplementary Figure S1, and the dataset compositions are reported in Supplementary Table S1A.</span> <span style="color:#0066cc">Here, we use “microblockage” operationally to denote a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed.</span> <span style="color:#0066cc">Segmented samples model sustained changes, whereas Bimix and Trimix model the observable fluorescence consequence in this operational definition by introducing short source-defined fluorescence shifts during acquisition.</span> <span style="color:#0066cc">They do not recreate or establish the physical mechanism itself.</span> <span style="color:#0066cc">The Bimix and Trimix files can appear acceptable on visual inspection because the altered intervals are short and interspersed with otherwise plausible events; however, the retained source labels identify the intentionally perturbed events that should be excluded under the benchmark definition.</span> <span style="color:#0066cc">This provides event-level ground truth for a class of artifact that is difficult to recognize and impractical to gate manually [5,9].</span> <span style="color:#0066cc">Flow-rate disturbances without corresponding fluorescence changes should not prompt event exclusion; these samples therefore model fluorescence changes across acquisition order without introducing flow-rate disturbances.</span> <span style="color:#0066cc">Flow-rate effects were tested separately by altering Time either in alignment with source-linked fluorescence changes or independently of them.</span>
+<span style="color:#0066cc">Following acquisition, events from these real, source-labelled FCS files were computationally recombined to construct three time-gating benchmark designs. In the ‘Segmented’ design, events from one or more source samples were appended to an existing sample. In the ‘Bimix’ design, events from two differently stained source samples were combined in randomly selected proportions (e.g. 40:60 or 75:25) using mixing-bin sizes of either 5000 or 2000 events. The ‘Trimix’ design similarly combined events from three differently stained source samples using 5000- or 2000-event mixing bins. Their construction is illustrated in Supplementary Figure S1, and the dataset compositions are reported in Supplementary Table S1A.</span> <span style="color:#0066cc">Here, we use “microblockage” operationally to denote a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed.</span> <span style="color:#0066cc">Segmented samples model sustained changes, whereas Bimix and Trimix model the observable fluorescence consequence in this operational definition by introducing short source-defined fluorescence shifts during acquisition.</span> <span style="color:#0066cc">They do not recreate or establish the physical mechanism itself.</span> <span style="color:#0066cc">The Bimix and Trimix files can appear acceptable on visual inspection because the altered intervals are short and interspersed with otherwise plausible events; however, the retained source labels identify the intentionally perturbed events that should be excluded under the benchmark definition.</span> <span style="color:#0066cc">This provides event-level ground truth for a class of artifact that is difficult to recognize and impractical to gate manually [5,6].</span> <span style="color:#0066cc">Flow-rate disturbances without corresponding fluorescence changes should not prompt event exclusion; these samples therefore model fluorescence changes across acquisition order without introducing flow-rate disturbances.</span> <span style="color:#0066cc">Flow-rate effects were tested separately by altering Time either in alignment with source-linked fluorescence changes or independently of them.</span>
 
 #### <span style="color:#0066cc">Time-only acquisition-rate mechanism benchmark</span>
 
@@ -77,7 +77,7 @@ PBMC <span style="color:#0066cc">source samples used to generate the synthetic t
 
 #### <span style="color:#0066cc">MAD-smoothing ablation and default selection</span>
 
-<span style="color:#0066cc">To test spline smoothing directly, FlowMOP was rerun across all 173 primary synthetic time-gating inputs with all non-smoothing settings fixed.</span> <span style="color:#0066cc">Nineteen short/long smoothing-factor pairs, including a no-smoothing control, were compared by equally weighting the six benchmark groups.</span> <span style="color:#0066cc">The current default (`0.01,0.05`) was selected as the marginally highest-scoring smoothed setting on this balanced comparison (Table S4).</span> <span style="color:#0066cc">Figure 2 was regenerated using this setting. All completed quantitative FlowMOP results retained in the main figures, including the biological-validation figures, use the current selected configuration for the relevant module.</span>
+<span style="color:#0066cc">To test spline smoothing directly, FlowMOP was rerun across all 173 primary synthetic time-gating inputs with all non-smoothing settings fixed.</span> <span style="color:#0066cc">Nineteen short/long smoothing-factor pairs, including a no-smoothing control, were compared by equally weighting the six benchmark groups.</span> <span style="color:#0066cc">The current default (0.01,0.05) was selected as the marginally highest-scoring smoothed setting on this balanced comparison (Table S4).</span> <span style="color:#0066cc">Figure 2 was regenerated using this setting. All completed quantitative FlowMOP results retained in the main figures, including the biological-validation figures, use the current selected configuration for the relevant module.</span>
 
 ### <span style="color:#0066cc">Synthetic debris and doublet benchmark preparation</span>
 
@@ -103,17 +103,17 @@ Mouse spleens were mechanically dissociated prior to lysis of red blood cells (R
 
 <span style="color:#0066cc">PBMC samples used for biological validation were prepared and acquired in the same manner as the PBMC source samples used to generate the synthetic time benchmark, except that they were stained with a different antibody panel designed to identify the populations evaluated in the downstream analysis.</span>
 
-#### <span style="color:#0066cc">Human tumour-liver samples</span>
+#### <span style="color:#0066cc">Human liver-tumour samples</span>
 
 <span style="color:#0066cc">Human liver samples used in the non-synthetic validation datasets were collected under ethics approval from the Sydney Local Health District Ethics Review Committee (X19-0488 and 2019/ETH13790).</span>
 
 ### <span style="color:#0066cc">Biological-validation analysis</span>
 
-<span style="color:#0066cc">The biological-validation analysis used eight human PBMC samples. Endpoint counts and frequencies were calculated within sample for each cleaning comparison. Counts and frequencies were each normalized to their corresponding matched ungated (Raw) input, such that Raw equalled 1 for both metrics: for time, the ungated input retained the expert-defined singlet and debris masks but applied no time mask; for debris, it retained the expert-defined time and doublet masks but applied no debris mask; for doublet, it retained the expert-defined time and debris masks but applied no doublet mask; and for the combined Time + Debris + Doublet comparison, no time, debris, or doublet preprocessing mask was applied. Live CD45+ was retained as a standalone reference endpoint and was expressed as a percentage of Live cells. Applying CD45+ as an additional parent gate excluded many low-scatter events before the lineage endpoints were quantified and therefore obscured the effects of debris removal. To expose those effects directly, we did not include CD45+ as a parent of the B-, T-, or NKT-cell endpoints. The expert-defined lineage coordinates were instead evaluated within Live cells: B cells were Live CD3−CD19+ events (Q1), T cells were Live CD3+CD19− events (Q3), and NKT cells were Live CD19−CD3+CD56+ events. Before Raw normalization, B-, T-, and NKT-cell frequencies were expressed as percentages of Live cells. Figure 5B (frequencies) and Figure 5C (counts) show the two major B- and T-cell populations and the less abundant NKT-cell population. Figure 6B (frequencies) and Figure 6C (counts) report the debris-only, doublet-only, and combined Time + Debris + Doublet comparisons; Supplementary Figure S8 retains the corresponding debris and doublet representative gates. Direct workflow comparisons used two-sided paired *t*-tests. Comparisons with Raw used two-sided one-sample *t*-tests against 1 on the within-sample Raw-normalized values, which is equivalent to a paired comparison with the matched Raw value. Holm adjustment was applied across the ten pairwise tests within each endpoint and metric for time gating and separately across the three tests within each endpoint, metric, and cleaning group for debris, doublet, and combined preprocessing. All analyses used n = 8.</span>
+<span style="color:#0066cc">The biological-validation analysis used PBMC samples from eight donors. Endpoint counts and frequencies were calculated within sample for each cleaning comparison. Counts and frequencies were each normalized to their corresponding matched ungated (Raw) input, such that Raw equalled 1 for both metrics: for time, the ungated input retained the expert-defined singlet and debris masks but applied no time mask; for debris, it retained the expert-defined time and doublet masks but applied no debris mask; for doublet, it retained the expert-defined time and debris masks but applied no doublet mask; and for the combined Time + Debris + Doublet comparison, no time, debris, or doublet preprocessing mask was applied. Live CD45+ was retained as a standalone reference endpoint and was expressed as a percentage of Live cells. Applying CD45+ as an additional parent gate excluded many low-scatter events before the lineage endpoints were quantified and therefore obscured the effects of debris removal. To expose those effects directly, we did not include CD45+ as a parent of the B-, T-, or NKT-cell endpoints. The expert-defined lineage coordinates were instead evaluated within Live cells: B cells were Live CD3−CD19+ events (Q1), T cells were Live CD3+CD19− events (Q3), and NKT cells were Live CD19−CD3+CD56+ events. Before Raw normalization, B-, T-, and NKT-cell frequencies were expressed as percentages of Live cells. Figure 5B (frequencies) and Figure 5C (counts) show the two major B- and T-cell populations and the less abundant NKT-cell population. Figure 6B (frequencies) and Figure 6C (counts) report the debris-only, doublet-only, and combined Time + Debris + Doublet comparisons; Supplementary Figure S8 retains the corresponding debris and doublet representative comparisons. Direct workflow comparisons used two-sided paired *t*-tests. Comparisons with Raw used two-sided one-sample *t*-tests against 1 on the within-sample Raw-normalized values, which is equivalent to a paired comparison with the matched Raw value. Holm adjustment was applied across the ten pairwise tests within each endpoint and metric for time gating and separately across the three tests within each endpoint, metric, and cleaning group for debris, doublet, and combined preprocessing. All analyses used n = 8.</span>
 
 ### <span style="color:#0066cc">Tumour biological-validation analysis</span>
 
-<span style="color:#0066cc">Three human tumour-liver FCS files (LB202, LB236, and LB262) were analysed in their Raw state and after either manual or FlowMOP preprocessing.</span> <span style="color:#0066cc">Manual preprocessing used sequential time, cells/debris, and single-cell gates.</span> <span style="color:#0066cc">FlowMOP calculated time, debris, and doublet exclusions independently; the union of excluded events was removed, equivalently retaining the intersection of the three passed-event masks.</span> <span style="color:#0066cc">The limit-of-detection mask was not included.</span>
+<span style="color:#0066cc">Three human liver-tumour FCS files were analysed in their Raw state and after either manual or FlowMOP preprocessing.</span> <span style="color:#0066cc">Manual preprocessing used sequential time, cells/debris, and single-cell gates.</span> <span style="color:#0066cc">FlowMOP calculated time, debris, and doublet exclusions independently; the union of excluded events was removed, equivalently retaining the intersection of the three passed-event masks.</span> <span style="color:#0066cc">The limit-of-detection mask was not included.</span>
 
 <span style="color:#0066cc">T and B cells were identified from CD3 and CD19 expression.</span> <span style="color:#0066cc">T cells were defined as CD3+CD19− (Q1) and B cells as CD3−CD19+ (Q3).</span> <span style="color:#0066cc">Three prespecified endpoints were calculated: the number of Live CD45+ cells and the numbers of T and B cells.</span> <span style="color:#0066cc">The T- and B-cell source counts were first expressed as percentages of the original total event count; after normalization within sample to the matched Raw value (Raw = 100%), these endpoints represent population recovery relative to Raw rather than population frequency or composition within the cleaned output.</span> <span style="color:#0066cc">Raw, Manual, and FlowMOP values were compared using all three unadjusted, two-sided paired t-tests.</span>
 
@@ -147,7 +147,7 @@ An overview of FlowMOP’s architecture is contained in Fig. 1, detailing approa
 
 To time gate, FlowMOP builds upon the assumptions posited in PeacoQC and FlowCut regarding fluorescence fluctuations. That is, independent of flow rate variations, sections of acquired sample with aberrant positive fluorescence averages are the target portions to be removed. To achieve this, FlowMOP checks each parameter, excluding parameters with a unimodal distribution. ‘Unimodal distribution’ is presently defined as parameters with only one identifiable peak. Subsequently, for each fluorescence parameter that satisfies this criterion, FlowMOP excludes the first peak (selecting all subsequent peaks) and measures the average fluorescence value for each time bin. FlowMOP then can operate either in the ‘Positives’ mode, or ‘Geomean’ mode. In ‘Positives’ mode, all events before the first inflection point are discarded. All results shown presently operate in ‘Positives’ mode. In the ‘Geomean’ mode, all events are considered. Subsequently, on a per-parameter basis, the sample is transformed into bins grouped by time (the default being bin having minimum of 150 events, up to a maximum of 500 bins).
 
-The median fluorescence of each bin’s cells is returned. <span style="color:#0066cc">Two spline smoothing values, one small and one larger (current default `0.01,0.05`), are applied to the returned time-bin series before median absolute deviation (MAD) filtering.</span> <span style="color:#0066cc">The smoothing factor scales the spline fit used for the binned fluorescence summary.</span> <span style="color:#0066cc">Bins falling outside the MAD threshold in either smoothing pass are flagged for removal.</span> Time-bins across all parameters are then combined, with time bins rejected if they have been flagged in any parameter. <span style="color:#0066cc">For panels with more than 10 parameters, FlowMOP requires two or more parameters to flag a bin before rejection.</span> <span style="color:#0066cc">This empirical safeguard reduces false-positive removal caused by isolated noisy channels in high-dimensional panels, although an aberration confined to one channel may consequently be retained (Figure 1A).</span>
+The median fluorescence of each bin’s cells is returned. <span style="color:#0066cc">Two spline smoothing values, one small and one larger (current default 0.01,0.05), are applied to the returned time-bin series before median absolute deviation (MAD) filtering.</span> <span style="color:#0066cc">The smoothing factor scales the spline fit used for the binned fluorescence summary.</span> <span style="color:#0066cc">Bins falling outside the MAD threshold in either smoothing pass are flagged for removal.</span> Time-bins across all parameters are then combined, with time bins rejected if they have been flagged in any parameter. <span style="color:#0066cc">For panels with more than 10 parameters, FlowMOP requires two or more parameters to flag a bin before rejection.</span> <span style="color:#0066cc">This empirical safeguard reduces false-positive removal caused by isolated noisy channels in high-dimensional panels, although an aberration confined to one channel may consequently be retained (Figure 1A).</span>
 
 <span style="color:#0066cc">FlowMOP summarizes each time bin using the median fluorescence of the selected positive population.</span> <span style="color:#0066cc">If Geomean mode is selected, FlowMOP instead uses the geometric mean of all events in the bin.</span> <span style="color:#0066cc">The two smoothing resolutions target both shorter and more sustained deviations, while parameter voting limits removal driven by isolated noisy channels in higher-dimensional panels.</span>
 
@@ -174,7 +174,7 @@ Figure 2. A) Representative flow cytometry plots showing CD3 fluorescence agains
 
 #### Synthetic Time Gating Benchmark
 
-<span style="color:#0066cc">Several computational approaches address time-dependent quality control, including flowAI [10], PeacoQC [5], flowClean [6], and FlowCut [9].</span> <span style="color:#0066cc">FlowMOP combines a time-gating component with debris and doublet modules in one Python workflow.</span> <span style="color:#0066cc">Here, its time-gating performance is evaluated against PeacoQC and FlowCut.</span>
+<span style="color:#0066cc">Several computational approaches address time-dependent quality control, including flowAI [4], PeacoQC [5], flowClean [15], and FlowCut [6].</span> <span style="color:#0066cc">FlowMOP combines a time-gating component with debris and doublet modules in one Python workflow.</span> <span style="color:#0066cc">Here, its time-gating performance is evaluated against PeacoQC and FlowCut.</span>
 
 <span style="color:#0066cc">The Segment, Bimix, and Trimix samples were designed as complementary time-artifact stress tests with event-level source information for objective scoring (Fig. 2A). Sensitivity was defined as the proportion of retained events derived from the target source or sources, and specificity as the proportion of removed events derived from the non-target source or sources. Direct comparison with manual gating was not attempted because the short, interspersed intervals in the Bimix and Trimix samples are impractical to remove reproducibly by eye.</span>
 
@@ -184,7 +184,7 @@ Figure 2. A) Representative flow cytometry plots showing CD3 fluorescence agains
 
 <span style="color:#0066cc">To test the effect of flow-rate disturbances aligned with or independent of source-linked fluorescence changes, we altered only the Time channel while leaving fluorescence, scatter, source labels, and event order unchanged (Fig. S4).</span> <span style="color:#0066cc">FlowMOP and PeacoQC were unchanged under both source-linked and random Time warping.</span> <span style="color:#0066cc">In contrast, FlowCut's sensitivity and specificity shifted after Time-only perturbation.</span> <span style="color:#0066cc">Across all inputs, random Time warping reduced FlowCut's specificity by 11.45 percentage points relative to matched raw inputs.</span> <span style="color:#0066cc">In Segment inputs, source-linked Time warping reduced FlowCut's sensitivity by 7.84 percentage points and specificity by 15.25 percentage points.</span> <span style="color:#0066cc">These results support the interpretation that FlowCut responds to local acquisition-density structure even when fluorescence values are unchanged, whereas FlowMOP and PeacoQC are unaffected by rate-only variation in these inputs.</span>
 
-<span style="color:#0066cc">Dual-resolution smoothing changed the balance between sensitivity and specificity (Table S4). The no-smoothing control had the highest equal-weight balanced mean (0.7551), but its sensitivity was 1.92 percentage points lower than that of `0.01,0.05`. Among smoothed settings, `0.01,0.05` had the highest balanced mean (0.7511), with specificity 2.70 percentage points lower than the no-smoothing control. We therefore selected `0.01,0.05` as the default and regenerated Figure 2 using this setting.</span>
+<span style="color:#0066cc">Dual-resolution smoothing changed the balance between sensitivity and specificity (Table S4). The no-smoothing control had the highest equal-weight balanced mean (0.7551), but its sensitivity was 1.92 percentage points lower than that of 0.01,0.05. Among smoothed settings, 0.01,0.05 had the highest balanced mean (0.7511), with specificity 2.70 percentage points lower than the no-smoothing control. We therefore selected 0.01,0.05 as the default and regenerated Figure 2 using this setting.</span>
 
 Representative plots for the 2000 bin Bimix method, and the 2000, and 5000 bin Trimix methods can be found in <span style="color:#c00000"><s>Supp. 1</s></span><span style="color:#0066cc">Supplementary Figure S2</span>.
 
@@ -216,7 +216,7 @@ Representative plots for the 2000 bin Bimix method, and the 2000, and 5000 bin T
 
 #### Synthetic Doublet Gating Benchmark
 
-FlowMOP’s doublet removal performance was also examined through synthetic technical controls (Fig. 4A). <span style="color:#0066cc">Events positive for both CFSE and CTV provide an observable class of heterologous labelled doublets, subject to rare dye-transfer events; same-label CTV-CTV and CFSE-CFSE doublets are not identifiable from these labels alone.</span> <span style="color:#0066cc">FlowMOP was then run on these samples, and the proportion of remaining CFSE/CTV double-positive cells was compared with the proportions remaining after human-expert gating (Fig. 4A).</span>
+FlowMOP’s doublet removal performance was also examined through synthetic technical controls (Fig. 4A). <span style="color:#0066cc">Because the CTV- and CFSE-labelled populations were generated separately, events positive for both dyes were interpreted as heterologous doublets; rare dye-transfer events are a possible exception. Same-label CTV-CTV and CFSE-CFSE doublets are not identifiable from these labels alone.</span> <span style="color:#0066cc">FlowMOP was then run on these samples, and the proportion of remaining CFSE/CTV double-positive cells was compared with the proportions remaining after human-expert gating (Fig. 4A).</span>
 
 ![Figure 4](figs_data/figure_4_harmonized.svg)
 
@@ -226,13 +226,13 @@ FlowMOP’s doublet removal performance was also examined through synthetic tech
 
 ### <span style="color:#0066cc">Biological validation</span>
 
-<span style="color:#0066cc">We wanted to investigate whether preprocessing changed biologically relevant cell populations. We therefore selected two major populations (B and T cells) and one less abundant population (NKT cells) to examine this relationship.</span>
+<span style="color:#0066cc">We wanted to investigate whether preprocessing changed biologically relevant cell populations. We therefore selected two major populations (B and T cells) and one less abundant population (NKT cells) in human PBMCs to examine this relationship.</span>
 
 <span style="color:#0066cc">No Raw-inclusive or between-method frequency contrast was significant (adjusted p ≥ 0.420; Fig. 5B). In contrast, count retention differed between methods (Fig. 5C). Relative to Expert Manual, FlowMOP retained 11.1, 11.9, and 12.7 percentage points more B, T, and NKT cells, respectively (adjusted p ≤ 0.003), and FlowCut retained 12.3, 13.4, and 13.8 percentage points more (adjusted p ≤ 0.006). PeacoQC retained 11.7–13.4 percentage points fewer cells than Expert Manual across these populations (adjusted p ≤ 0.035). Thus, FlowMOP and FlowCut preserved more cells without detectably changing major- or minor-population frequencies.</span>
 
 ![Figure 5](figs_data/figure_5.svg)
 
-<span style="color:#0066cc">Figure 5. Biological validation of time cleaning relative to matched ungated inputs. A) Representative time and downstream biological gates for Raw, Expert Manual, FlowMOP, PeacoQC, and FlowCut. Live CD45+ is shown as a reference endpoint; the B, T, and NKT gates do not inherit the CD45+ gate. B) Frequencies and C) counts for B, T, and NKT cells, each normalized within sample to its corresponding matched Raw value (Raw = 1). Before normalization, B-, T-, and NKT-cell frequencies were calculated relative to Live cells. Points represent eight paired inputs, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Raw-comparison brackets are omitted for clarity; complete comparisons with Raw are provided in Supplementary Table S5A. Displayed brackets show significant method-versus-method two-sided paired *t*-tests after Holm adjustment, with adjusted values labelled “p” for brevity (n = 8).</span>
+<span style="color:#0066cc">Figure 5. Biological validation of time cleaning relative to matched ungated inputs. A) Representative time and downstream biological gates for Raw, Expert Manual, FlowMOP, PeacoQC, and FlowCut. Live CD45+ is shown as a reference endpoint; the B, T, and NKT gates do not inherit the CD45+ gate. B) Frequencies and C) counts for B, T, and NKT cells, each normalized within sample to its corresponding matched Raw value (Raw = 1). Before normalization, B-, T-, and NKT-cell frequencies were calculated relative to Live cells. Points represent eight paired inputs, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Raw-comparison brackets are omitted for clarity. Displayed brackets show significant method-versus-method two-sided paired *t*-tests after Holm adjustment, with adjusted values labelled “p” for brevity (n = 8).</span>
 
 <span style="color:#0066cc">Figure 6 evaluates debris-only, doublet-only, and combined Time + Debris + Doublet preprocessing. Representative combined gates are shown in Figure 6A, while the corresponding frequencies and counts are reported in Figure 6B and C, respectively. FlowMOP debris cleaning removed events from every paired input, excluding 3.3–56.7% of the matched debris input (mean 18.3%), compared with 6.7–43.8% for Expert Manual (mean 24.8%). FlowMOP retained mean counts equivalent to 91.4–94.9% of matched Raw across the Live CD45+ reference, B, T, and NKT endpoints, compared with 96.3–98.8% for Expert Manual; however, no count endpoint differed significantly between the methods. No population frequency differed from Expert Manual except T-cell frequency, which was lower after FlowMOP cleaning (Raw-normalized mean 1.013 versus 1.069; adjusted p = 0.037; Fig. 6B).</span>
 
@@ -240,7 +240,7 @@ FlowMOP’s doublet removal performance was also examined through synthetic tech
 
 ![Figure 6](figs_data/figure_6.svg)
 
-<span style="color:#0066cc">Figure 6. Biological validation of debris, doublet, and combined FlowMOP preprocessing relative to ungated inputs. A) Representative original Ungated input, Expert Manual, and FlowMOP outputs after combined Time + Debris + Doublet preprocessing, showing the Time × CD123 time-gating, FSC-A × SSC-A debris-gating, and FSC-H × FSC-W doublet-gating projections, followed by the Live CD45+ reference, shared CD19 × CD3 B/T, and NKT gates. B) Frequencies and C) counts for Live CD45+, B, T, and NKT cells. Within each population, the Debris, Doublet, and Combined subcolumns each show Raw, Expert Manual, and FlowMOP. Debris and Doublet use their matched ungated inputs, while Combined Raw is the original fully ungated input; every value is normalized within sample to that corresponding Raw value (Raw = 1). Live CD45+ is reported as a standalone reference and does not parent the B, T, or NKT endpoints, preventing CD45-based exclusion of low-scatter events from masking debris-cleaning effects. Before normalization, lineage frequencies were calculated relative to Live cells. Points represent eight paired inputs, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Brackets and adjusted p values are displayed only for significant comparisons; complete contrasts are provided in Supplementary Table S5B. Direct workflow comparisons used two-sided paired *t*-tests; Raw comparisons used one-sample *t*-tests against 1 on the Raw-normalized values. Tests were Holm-adjusted within each endpoint, metric, and cleaning group (n = 8).</span>
+<span style="color:#0066cc">Figure 6. Biological validation of debris, doublet, and combined FlowMOP preprocessing relative to ungated inputs. A) Representative original Ungated input, Expert Manual, and FlowMOP outputs after combined Time + Debris + Doublet preprocessing, showing the Time × CD123 time-gating, FSC-A × SSC-A debris-gating, and FSC-H × FSC-W doublet-gating projections, followed by the Live CD45+ reference, shared CD19 × CD3 B/T, and NKT gates. B) Frequencies and C) counts for Live CD45+, B, T, and NKT cells. Within each population, the Debris, Doublet, and Combined subcolumns each show Raw, Expert Manual, and FlowMOP. Debris and Doublet use their matched ungated inputs, while Combined Raw is the original fully ungated input; every value is normalized within sample to that corresponding Raw value (Raw = 1). Live CD45+ is reported as a standalone reference and does not parent the B, T, or NKT endpoints, preventing CD45-based exclusion of low-scatter events from masking debris-cleaning effects. Before normalization, lineage frequencies were calculated relative to Live cells. Points represent eight paired inputs, connecting lines show within-sample changes, diamonds show means, and error bars show SD. Brackets and adjusted p values are displayed only for significant comparisons. Direct workflow comparisons used two-sided paired *t*-tests; Raw comparisons used one-sample *t*-tests against 1 on the Raw-normalized values. Tests were Holm-adjusted within each endpoint, metric, and cleaning group (n = 8).</span>
 
 ### <span style="color:#0066cc">Tumour biological validation</span>
 
@@ -254,7 +254,7 @@ FlowMOP’s doublet removal performance was also examined through synthetic tech
 
 ### <span style="color:#0066cc">Expert preference evaluation</span>
 
-<span style="color:#0066cc">Expert preference rankings were compared across nine biological datasets (Figs. S5-S7). For time gating, FlowMOP had the best mean rank among the automated methods and was preferred to FlowCut (BF = 5.39, P = 84.3%) and PeacoQC (BF = 12.10, P = 92.4%). Human gates generally ranked above FlowMOP. For debris and doublet removal, human gates were again generally preferred, but FlowMOP was competitive in several tissue-specific comparisons: it ranked first for debris removal in mouse blood, third for debris removal in human liver and mouse skin, and second for doublet removal in human liver. Full rankings and statistical comparisons are reported in the Supplementary Results and Tables S1B-E.</span>
+<span style="color:#0066cc">Expert preference rankings were compared across nine biological datasets (Figs. S5-S7). For time gating, FlowMOP had the best mean rank among the automated methods and was preferred to FlowCut (BF = 5.39, P = 84.3%) and PeacoQC (BF = 12.10, P = 92.4%). Human gates generally ranked above FlowMOP. For debris and doublet removal, human gates were again generally preferred, but FlowMOP was competitive in several tissue-specific comparisons: it ranked first for debris removal in mouse blood, third for debris removal in human liver and mouse skin, and second for doublet removal in human liver. Full rankings are shown in Figures S5-S7, with statistical comparisons reported in the Supplementary Results.</span>
 
 ## Discussion
 
@@ -262,9 +262,9 @@ FlowMOP’s doublet removal performance was also examined through synthetic tech
 
 #### Synthetic Sample Time Gating
 
-In the synthetic time-gating analysis, the Segment time gate is perhaps the most common and consequential time-artifact, as a non-negligible sample portion is often required to be removed in real samples. This type of synthetic data expects gating most similar to current manual gating, where blocks of events are removed. The objective of these samples is to simulate where there is a long blockage or sudden shift in the acquired sample. <span style="color:#0066cc">Here, FlowMOP had higher sensitivity than FlowCut at both tested bin sizes. It also had higher specificity than both competitors at 5000 events and than FlowCut at 2000 events.</span> <span style="color:#0066cc">The Time-only mechanism benchmark suggests that the FlowMOP versus FlowCut difference is not explained solely by implementation.</span> <span style="color:#0066cc">When local acquisition-rate structure was altered either in alignment with source-linked fluorescence changes or independently of them, FlowMOP remained unchanged, whereas FlowCut's removal behavior shifted, especially in Segment inputs (Fig. S4).</span> <span style="color:#0066cc">This supports the interpretation that FlowCut can be affected by acquisition-density changes even when fluorescence values are unchanged, while FlowMOP is more anchored to fluorescence-population summaries across acquisition order.</span>
+<span style="color:#c00000"><s>In the synthetic time-gating analysis, the Segment time gate is perhaps the most common and consequential time-artifact, as a non-negligible sample portion is often required to be removed in real samples.</s></span><span style="color:#0066cc">In the synthetic time-gating analysis, the sustained Segment-type artifact is perhaps the most common and consequential time artifact, as a non-negligible sample portion is often required to be removed in real samples.</span> This type of synthetic data expects gating most similar to current manual gating, where blocks of events are removed. The objective of these samples is to simulate where there is a long blockage or sudden shift in the acquired sample. <span style="color:#0066cc">Here, FlowMOP had higher sensitivity than FlowCut at both tested bin sizes. It also had higher specificity than both competitors at 5000 events and than FlowCut at 2000 events.</span> <span style="color:#0066cc">The Time-only mechanism benchmark suggests that the FlowMOP versus FlowCut difference is not explained solely by implementation.</span> <span style="color:#0066cc">When local acquisition-rate structure was altered either in alignment with source-linked fluorescence changes or independently of them, FlowMOP remained unchanged, whereas FlowCut's removal behavior shifted, especially in Segment inputs (Fig. S4).</span> <span style="color:#0066cc">This supports the interpretation that FlowCut can be affected by acquisition-density changes even when fluorescence values are unchanged, while FlowMOP is more anchored to fluorescence-population summaries across acquisition order.</span>
 
-<span style="color:#0066cc">Transient acquisition disturbances are not confined to the beginning or end of a run: flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have been documented [10].</span> <span style="color:#0066cc">PeacoQC notes that temporary acquisition problems can be difficult to detect manually [5], and FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [9].</span> <span style="color:#0066cc">We use “microblockage” operationally for a short, self-resolving instance of this broader phenomenon that produces a localized fluorescence shift, without asserting that a physical obstruction was directly observed.</span> <span style="color:#0066cc">The Bimix and Trimix samples were designed to represent this under-addressed case.</span> <span style="color:#0066cc">Although these synthetic samples can appear acceptable on visual inspection, the source labels show that the short altered intervals contain events from an intentionally perturbed fluorescence source and therefore should be excluded under the benchmark definition.</span> <span style="color:#0066cc">Visual subtlety is thus a central feature of the benchmark: it demonstrates why apparent normality by eye is not sufficient ground truth.</span>
+<span style="color:#0066cc">Transient acquisition disturbances are not confined to the beginning or end of a run: flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have been documented [4].</span> <span style="color:#0066cc">PeacoQC notes that temporary acquisition problems can be difficult to detect manually [5], and FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [6].</span> <span style="color:#0066cc">We use “microblockage” operationally for a short, self-resolving instance of this broader phenomenon that produces a localized fluorescence shift, without asserting that a physical obstruction was directly observed.</span> <span style="color:#0066cc">The Bimix and Trimix samples were designed to represent this under-addressed case.</span> <span style="color:#0066cc">Although these synthetic samples can appear acceptable on visual inspection, the source labels show that the short altered intervals contain events from an intentionally perturbed fluorescence source and therefore should be excluded under the benchmark definition.</span> <span style="color:#0066cc">Visual subtlety is thus a central feature of the benchmark: it demonstrates why apparent normality by eye is not sufficient ground truth.</span>
 
 <span style="color:#0066cc">The size of the simulated microblockage was determined by the mixing-bin size, with the 2000-event samples representing shorter and more difficult disturbances than the 5000-event samples. FlowMOP provided the strongest overall performance profile across these conditions. At 5000 events, it had higher sensitivity than FlowCut and higher specificity than both competitors across Segment, Bimix, and Trimix. At 2000 events, FlowMOP had higher sensitivity and specificity than FlowCut in Segment and retained higher specificity than PeacoQC in Bimix and Trimix without a significant sensitivity disadvantage. Thus, FlowMOP's principal advantage was its consistent combination of high sensitivity with stronger specificity across sustained and short, interspersed time artifacts.</span>
 
@@ -274,9 +274,9 @@ In the synthetic time-gating analysis, the Segment time gate is perhaps the most
 
 <span style="color:#0066cc">These measurements were obtained using local non-distributed execution and therefore demonstrate the performance of the tested implementations, not a distributed-computing speedup.</span>
 
-<span style="color:#0066cc">Among the three evaluated decision structures, only FlowMOP exposes an inherently channel-parallel within-sample computation.</span> <span style="color:#0066cc">After shared acquisition bins are defined, each eligible fluorescence channel independently establishes its reference, produces a fixed-shape time-bin summary, and applies smoothing and MAD filtering; cross-channel coordination occurs only in the final parameter vote.</span> <span style="color:#0066cc">PeacoQC instead performs data-dependent peak identification and reconciliation across bin-channel combinations, while FlowCut applies adjacent-segment, contiguous-region, file-wide, and conditional rerun decisions [5,9].</span> <span style="color:#0066cc">Their suboperations and separate files can be parallelised, but their complete within-sample decision pipelines cannot be expressed as the same independent channel-wise reduction without changing their decision rules.</span> <span style="color:#0066cc">Porting either implementation to another language or scheduling framework would therefore not remove these structural dependencies.</span> <span style="color:#0066cc">This structural distinction, together with FlowMOP’s earlier data reduction, fewer full-data passes, and smaller intermediate state, is consistent with its lower runtime and memory use in our benchmarks, although the benchmark does not independently establish causation.</span>
+<span style="color:#0066cc">Among the three evaluated decision structures, only FlowMOP exposes an inherently channel-parallel within-sample computation.</span> <span style="color:#0066cc">After shared acquisition bins are defined, each eligible fluorescence channel independently establishes its reference, produces a fixed-shape time-bin summary, and applies smoothing and MAD filtering; cross-channel coordination occurs only in the final parameter vote.</span> <span style="color:#0066cc">PeacoQC instead performs data-dependent peak identification and reconciliation across bin-channel combinations, while FlowCut applies adjacent-segment, contiguous-region, file-wide, and conditional rerun decisions [5,6].</span> <span style="color:#0066cc">Their suboperations and separate files can be parallelised, but their complete within-sample decision pipelines cannot be expressed as the same independent channel-wise reduction without changing their decision rules.</span> <span style="color:#0066cc">Porting either implementation to another language or scheduling framework would therefore not remove these structural dependencies.</span> <span style="color:#0066cc">This structural distinction, together with FlowMOP’s earlier data reduction, fewer full-data passes, and smaller intermediate state, is consistent with its lower runtime and memory use in our benchmarks, although the benchmark does not independently establish causation.</span>
 
-It is of note that there is a large variation in algorithmic performance across the dataset. <span style="color:#0066cc">One source of this variation is that the 0.5 and 1.0 relative cell concentrations oftentimes exhibited marginal differences in fluorescence intensity (Supp. Fig. 3), especially relative to the 0.5 / 3.0 cell concentrations comparison.</span> Consequently, the 0.5/1.0 discrimination tasks can be considered especially difficult benchmarks to overcome. However, this difficulty was intentionally placed, to ensure the present benchmarking dataset could also show progressive improvement of future time-gating algorithms.
+It is of note that there is a large variation in algorithmic performance across the dataset. <span style="color:#0066cc">One source of this variation is that the 0.5 and 1.0 relative cell concentrations oftentimes exhibited marginal differences in fluorescence intensity (Supplementary Figure S3), especially relative to the 0.5 / 3.0 cell concentrations comparison.</span> Consequently, the 0.5/1.0 discrimination tasks can be considered especially difficult benchmarks to overcome. However, this difficulty was intentionally placed, to ensure the present benchmarking dataset could also show progressive improvement of future time-gating algorithms.
 
 <span style="color:#0066cc">Human gating was not included for the Bimix or Trimix synthetic datasets because the short mixed bins do not provide a practical manual ground-truth target.</span> <span style="color:#0066cc">The retained source labels instead provide an event-level reference for comparing algorithmic performance.</span> <span style="color:#0066cc">A dataset benchmark was therefore necessary to evaluate whether automated methods can detect these subtle but labelled artifacts reproducibly.</span>
 
@@ -328,13 +328,13 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 
 ## Supplementary data
 
-<span style="color:#0066cc">Figure S1: Construction of Segment, Bimix, and Trimix synthetic time samples. No flow-rate disturbance was introduced.</span>
-
 ![Figure S1](figs_data/synthetic_time_design_schematic.svg)
 
-<span style="color:#0066cc">Figure S2: Representative flow cytometry CD3 / Time plots for Bimix 2000 bin, Trimix 5000 bin, and Trimix 2000 bin synthetic datasets, with original data inputs, and following cleaning by FlowMOP, FlowCut, and PeacoQC.</span> Percentages below each figure represent the retained proportion of cells relative to the original representative synthetic sample.
+<span style="color:#0066cc">Figure S1: Construction of Segment, Bimix, and Trimix synthetic time samples. No flow-rate disturbance was introduced.</span>
 
 ![Embedded image 8](FlowMOP_submission_media/image8.png)
+
+<span style="color:#0066cc">Figure S2: Representative CD3-versus-Time plots for Bimix samples with 2,000-event bins and Trimix samples with 2,000- and 5,000-event bins, showing the original inputs and outputs after cleaning with FlowMOP, FlowCut, and PeacoQC.</span> Percentages below each figure represent the retained proportion of cells relative to the original representative synthetic sample.
 
 **Table S1A: Dataset Compositions**
 
@@ -361,6 +361,8 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 
 **Table S1B: Expert / Algorithm IDs**
 
+<span style="color:#0066cc">Expert and algorithm identifiers used in the supplementary analyses are listed in Table S1B.</span>
+
 | Expert / Algorithm | ID |
 | --- | --- |
 | Expert 1 | 1 |
@@ -370,58 +372,6 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 | FlowMOP | 5 |
 | FlowCut | 6 |
 | PeacoQC | 7 |
-
-<span style="color:#0066cc">**Table S1C: Time gating rankings (1 = best)**</span>
-
-| Rankings | Mouse DRG | Mouse Skin | Human Cultured T Cells | Mouse Bone Marrow |
-| --- | --- | --- | --- | --- |
-| 1 | 3 | 3 | 3 | 3 |
-| 2 | 1 | 1 | 2 | 5 |
-| 3 | 4 | 4 | 1 | 4 |
-| 4 | 2 | 2 | 4 | 1 |
-| 5 | 5 | 6 | 7 | 2 |
-| 6 | 6 | 5 | 5 | 6 |
-| 7 | 7 | 7 | 6 | 7 |
-| Mouse Spleen | Mouse Blood | Mouse Brain | Mouse Central Nervous System | Human Liver |
-| 3 | 4 | 4 | 1 | 3 |
-| 4 | 3 | 1 | 4 | 1 |
-| 1 | 1 | 5 | 3 | 2 |
-| 7 | 2 | 3 | 2 | 4 |
-| 5 | 6 | 2 | 5 | 6 |
-| 6 | 5 | 7 | 7 | 7 |
-| 2 | 7 | 6 | 6 | 5 |
-
-<span style="color:#0066cc">**Table S1D: Debris gating rankings (1 = best)**</span>
-
-| Rankings | Mouse DRG | Mouse Skin | Human Cultured T cells | Mouse Bone Marrow |
-| --- | --- | --- | --- | --- |
-| 1 | 3 | 2 | 4 | 3 |
-| 2 | 2 | 3 | 2 | 2 |
-| 3 | 1 | 5 | 3 | 1 |
-| 4 | 4 | 4 | 1 | 4 |
-| 5 | 5 | 1 | 5 | 5 |
-| Mouse Spleen | Mouse Blood | Mouse Brain | Mouse Central Nervous System | Human Liver |
-| 3 | 5 | 3 | 3 | 2 |
-| 2 | 3 | 2 | 2 | 1 |
-| 1 | 2 | 4 | 4 | 5 |
-| 4 | 4 | 1 | 5 | 3 |
-| 5 | 1 | 5 | 1 |  |
-
-<span style="color:#0066cc">**Table S1E: Doublet gating rankings (1 = best)**</span>
-
-| Rankings | Mouse DRG | Mouse Skin | Human Cultured T cells | Mouse Bone Marrow |
-| --- | --- | --- | --- | --- |
-| 1 | 2 | 2 | 1 | 4 |
-| 2 | 3 | 3 | 4 | 2 |
-| 3 | 1 | 1 | 3 | 1 |
-| 4 | 5 | 5 | 2 | 5 |
-| 5 | 4 | 4 | 5 |  |
-| Mouse Spleen | Mouse Blood | Mouse Brain | Mouse Central Nervous System | Human Liver |
-| 3 | 3 | 3 | 4 | 3 |
-| 4 | 2 | 1 | 3 | 5 |
-| 1 | 1 | 4 | 1 | 2 |
-| 5 | 5 | 5 | 2 | 4 |
-| 2 | 4 | 2 | 5 | 1 |
 
 **Table S2: Jeffreys’ Scale**
 
@@ -435,7 +385,7 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 
 <span style="color:#0066cc">**Table S3: Limit-of-detection precleaning in biological-validation inputs**</span>
 
-<span style="color:#0066cc">Events with `passed_lod` values below 0.5 were counted as removed. FlowMOP removes maximum-FSC-A events only when they exceed 1% of the input. This 1% cutoff is an arbitrary operational safeguard, not an empirically optimized biological threshold. Activation depends on acquisition scaling and voltage/gain settings; the observed activation rates are dataset-specific and should not be generalized across instruments.</span>
+<span style="color:#0066cc">Events with passed_lod values below 0.5 were counted as removed. FlowMOP removes maximum-FSC-A events only when they exceed 1% of the input. This 1% cutoff is an arbitrary operational safeguard, not an empirically optimized biological threshold. Activation depends on acquisition scaling and voltage/gain settings; the observed activation rates are dataset-specific and should not be generalized across instruments.</span>
 
 | Dataset | Sample | Input events | Events removed | Events removed (%) | Threshold activated |
 | --- | ---: | ---: | ---: | ---: | --- |
@@ -455,192 +405,41 @@ FlowMOP can be accessed via https://github.com/1ordinateur/FlowMOP. The code ass
 
 | <span style="color:#0066cc">Short, long smoothing factors</span> | <span style="color:#0066cc">Sensitivity</span> | <span style="color:#0066cc">Specificity</span> | <span style="color:#0066cc">Balanced mean</span> |
 | --- | ---: | ---: | ---: |
-| <span style="color:#0066cc">`0,0` (no-smoothing control)</span> | <span style="color:#0066cc">0.8021</span> | <span style="color:#0066cc">**0.7081**</span> | <span style="color:#0066cc">**0.75506**</span> |
-| <span style="color:#0066cc">**`0.01,0.05` (current default)**</span> | <span style="color:#0066cc">0.8212</span> | <span style="color:#0066cc">0.6811</span> | <span style="color:#0066cc">**0.75114**</span> |
-| <span style="color:#0066cc">`0.02,0.05`</span> | <span style="color:#0066cc">0.8228</span> | <span style="color:#0066cc">0.6794</span> | <span style="color:#0066cc">0.75108</span> |
-| <span style="color:#0066cc">`0.01,0.02`</span> | <span style="color:#0066cc">0.8112</span> | <span style="color:#0066cc">0.6885</span> | <span style="color:#0066cc">0.74986</span> |
-| <span style="color:#0066cc">`0.02,0.09`</span> | <span style="color:#0066cc">**0.8276**</span> | <span style="color:#0066cc">0.6709</span> | <span style="color:#0066cc">0.74923</span> |
-| <span style="color:#0066cc">`0.01,0.09`</span> | <span style="color:#0066cc">0.8257</span> | <span style="color:#0066cc">0.6707</span> | <span style="color:#0066cc">0.74823</span> |
-| <span style="color:#0066cc">`0.05,0.09`</span> | <span style="color:#0066cc">0.8188</span> | <span style="color:#0066cc">0.6676</span> | <span style="color:#0066cc">0.74317</span> |
-| <span style="color:#0066cc">`0.02,0.20`</span> | <span style="color:#0066cc">0.8248</span> | <span style="color:#0066cc">0.6479</span> | <span style="color:#0066cc">0.73632</span> |
-| <span style="color:#0066cc">`0.05,0.20`</span> | <span style="color:#0066cc">0.8197</span> | <span style="color:#0066cc">0.6520</span> | <span style="color:#0066cc">0.73586</span> |
-| <span style="color:#0066cc">`0.01,0.20`</span> | <span style="color:#0066cc">0.8231</span> | <span style="color:#0066cc">0.6477</span> | <span style="color:#0066cc">0.73540</span> |
-| <span style="color:#0066cc">`0.10,0.20`</span> | <span style="color:#0066cc">0.8138</span> | <span style="color:#0066cc">0.6415</span> | <span style="color:#0066cc">0.72769</span> |
-| <span style="color:#0066cc">`0.05,0.34`</span> | <span style="color:#0066cc">0.8194</span> | <span style="color:#0066cc">0.6344</span> | <span style="color:#0066cc">0.72686</span> |
-| <span style="color:#0066cc">`0.02,0.34`</span> | <span style="color:#0066cc">0.8199</span> | <span style="color:#0066cc">0.6286</span> | <span style="color:#0066cc">0.72424</span> |
-| <span style="color:#0066cc">`0.10,0.34`</span> | <span style="color:#0066cc">0.8134</span> | <span style="color:#0066cc">0.6250</span> | <span style="color:#0066cc">0.71921</span> |
-| <span style="color:#0066cc">`0.10,0.50`</span> | <span style="color:#0066cc">0.8139</span> | <span style="color:#0066cc">0.6229</span> | <span style="color:#0066cc">0.71842</span> |
-| <span style="color:#0066cc">`0.10,0.90` (former default)</span> | <span style="color:#0066cc">0.8139</span> | <span style="color:#0066cc">0.6226</span> | <span style="color:#0066cc">0.71827</span> |
-| <span style="color:#0066cc">`0.10,1.00`</span> | <span style="color:#0066cc">0.8139</span> | <span style="color:#0066cc">0.6226</span> | <span style="color:#0066cc">0.71827</span> |
-| <span style="color:#0066cc">`0.20,0.90`</span> | <span style="color:#0066cc">0.8007</span> | <span style="color:#0066cc">0.6142</span> | <span style="color:#0066cc">0.70747</span> |
-| <span style="color:#0066cc">`0.40,0.90`</span> | <span style="color:#0066cc">0.7812</span> | <span style="color:#0066cc">0.6140</span> | <span style="color:#0066cc">0.69756</span> |
+| <span style="color:#0066cc">0,0 (no-smoothing control)</span> | <span style="color:#0066cc">0.8021</span> | <span style="color:#0066cc">**0.7081**</span> | <span style="color:#0066cc">**0.75506**</span> |
+| <span style="color:#0066cc">**0.01,0.05 (current default)**</span> | <span style="color:#0066cc">0.8212</span> | <span style="color:#0066cc">0.6811</span> | <span style="color:#0066cc">**0.75114**</span> |
+| <span style="color:#0066cc">0.02,0.05</span> | <span style="color:#0066cc">0.8228</span> | <span style="color:#0066cc">0.6794</span> | <span style="color:#0066cc">0.75108</span> |
+| <span style="color:#0066cc">0.01,0.02</span> | <span style="color:#0066cc">0.8112</span> | <span style="color:#0066cc">0.6885</span> | <span style="color:#0066cc">0.74986</span> |
+| <span style="color:#0066cc">0.02,0.09</span> | <span style="color:#0066cc">**0.8276**</span> | <span style="color:#0066cc">0.6709</span> | <span style="color:#0066cc">0.74923</span> |
+| <span style="color:#0066cc">0.01,0.09</span> | <span style="color:#0066cc">0.8257</span> | <span style="color:#0066cc">0.6707</span> | <span style="color:#0066cc">0.74823</span> |
+| <span style="color:#0066cc">0.05,0.09</span> | <span style="color:#0066cc">0.8188</span> | <span style="color:#0066cc">0.6676</span> | <span style="color:#0066cc">0.74317</span> |
+| <span style="color:#0066cc">0.02,0.20</span> | <span style="color:#0066cc">0.8248</span> | <span style="color:#0066cc">0.6479</span> | <span style="color:#0066cc">0.73632</span> |
+| <span style="color:#0066cc">0.05,0.20</span> | <span style="color:#0066cc">0.8197</span> | <span style="color:#0066cc">0.6520</span> | <span style="color:#0066cc">0.73586</span> |
+| <span style="color:#0066cc">0.01,0.20</span> | <span style="color:#0066cc">0.8231</span> | <span style="color:#0066cc">0.6477</span> | <span style="color:#0066cc">0.73540</span> |
+| <span style="color:#0066cc">0.10,0.20</span> | <span style="color:#0066cc">0.8138</span> | <span style="color:#0066cc">0.6415</span> | <span style="color:#0066cc">0.72769</span> |
+| <span style="color:#0066cc">0.05,0.34</span> | <span style="color:#0066cc">0.8194</span> | <span style="color:#0066cc">0.6344</span> | <span style="color:#0066cc">0.72686</span> |
+| <span style="color:#0066cc">0.02,0.34</span> | <span style="color:#0066cc">0.8199</span> | <span style="color:#0066cc">0.6286</span> | <span style="color:#0066cc">0.72424</span> |
+| <span style="color:#0066cc">0.10,0.34</span> | <span style="color:#0066cc">0.8134</span> | <span style="color:#0066cc">0.6250</span> | <span style="color:#0066cc">0.71921</span> |
+| <span style="color:#0066cc">0.10,0.50</span> | <span style="color:#0066cc">0.8139</span> | <span style="color:#0066cc">0.6229</span> | <span style="color:#0066cc">0.71842</span> |
+| <span style="color:#0066cc">0.10,0.90 (former default)</span> | <span style="color:#0066cc">0.8139</span> | <span style="color:#0066cc">0.6226</span> | <span style="color:#0066cc">0.71827</span> |
+| <span style="color:#0066cc">0.10,1.00</span> | <span style="color:#0066cc">0.8139</span> | <span style="color:#0066cc">0.6226</span> | <span style="color:#0066cc">0.71827</span> |
+| <span style="color:#0066cc">0.20,0.90</span> | <span style="color:#0066cc">0.8007</span> | <span style="color:#0066cc">0.6142</span> | <span style="color:#0066cc">0.70747</span> |
+| <span style="color:#0066cc">0.40,0.90</span> | <span style="color:#0066cc">0.7812</span> | <span style="color:#0066cc">0.6140</span> | <span style="color:#0066cc">0.69756</span> |
 
 <span style="color:#0066cc">Values are equally weighted macro-averages across the six Figure 2 benchmark groups (173 primary inputs; six tied-composition inputs excluded). The balanced mean is the arithmetic mean of sensitivity and specificity. Bold indicates the highest value overall and the highest balanced mean among smoothed settings.</span>
 
-<span style="color:#0066cc">**Table S5A: Complete Figure 5 biological-validation contrasts**</span>
-
-<span style="color:#0066cc">Compared means are within-sample Raw-normalized values, paired difference is the method mean minus the reference mean, and all tests use eight paired PBMC inputs. Within each endpoint and metric, Holm adjustment was applied across the family of ten contrasts comprising four method-versus-Raw and six between-method comparisons.</span>
-
-| Endpoint | Contrast | Method mean | Reference mean | Paired difference | n | Unadjusted p | Holm-adjusted p |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| B-cell count | Expert Manual vs Raw | 0.7989 | 1.0000 | -0.2011 | 8 | 1.01084e-05 | 0.000101084 |
-| B-cell count | FlowMOP vs Raw | 0.9105 | 1.0000 | -0.0895 | 8 | 0.000578727 | 0.00342396 |
-| B-cell count | PeacoQC vs Raw | 0.6647 | 1.0000 | -0.3353 | 8 | 8.95644e-05 | 0.000806079 |
-| B-cell count | FlowCut vs Raw | 0.9216 | 1.0000 | -0.0784 | 8 | 0.000310293 | 0.00248235 |
-| B-cell count | FlowMOP vs Expert Manual | 0.9105 | 0.7989 | 0.1116 | 8 | 0.000424908 | 0.00297436 |
-| B-cell count | PeacoQC vs Expert Manual | 0.6647 | 0.7989 | -0.1342 | 8 | 0.00830199 | 0.016604 |
-| B-cell count | FlowCut vs Expert Manual | 0.9216 | 0.7989 | 0.1227 | 8 | 0.00157731 | 0.00473192 |
-| B-cell count | PeacoQC vs FlowMOP | 0.6647 | 0.9105 | -0.2458 | 8 | 0.00057066 | 0.00342396 |
-| B-cell count | FlowCut vs FlowMOP | 0.9216 | 0.9105 | 0.0111 | 8 | 0.512463 | 0.512463 |
-| B-cell count | FlowCut vs PeacoQC | 0.9216 | 0.6647 | 0.2569 | 8 | 0.000725641 | 0.00342396 |
-| T-cell count | Expert Manual vs Raw | 0.7820 | 1.0000 | -0.2180 | 8 | 1.27428e-05 | 0.000127428 |
-| T-cell count | FlowMOP vs Raw | 0.9014 | 1.0000 | -0.0986 | 8 | 8.06339e-05 | 0.000564437 |
-| T-cell count | PeacoQC vs Raw | 0.6650 | 1.0000 | -0.3350 | 8 | 4.26656e-05 | 0.00035785 |
-| T-cell count | FlowCut vs Raw | 0.9162 | 1.0000 | -0.0838 | 8 | 3.97611e-05 | 0.00035785 |
-| T-cell count | FlowMOP vs Expert Manual | 0.9014 | 0.7820 | 0.1194 | 8 | 0.000618263 | 0.00274759 |
-| T-cell count | PeacoQC vs Expert Manual | 0.6650 | 0.7820 | -0.1170 | 8 | 0.0160522 | 0.0321044 |
-| T-cell count | FlowCut vs Expert Manual | 0.9162 | 0.7820 | 0.1342 | 8 | 0.00189642 | 0.00568925 |
-| T-cell count | PeacoQC vs FlowMOP | 0.6650 | 0.9014 | -0.2364 | 8 | 0.000407753 | 0.00244652 |
-| T-cell count | FlowCut vs FlowMOP | 0.9162 | 0.9014 | 0.0148 | 8 | 0.392065 | 0.392065 |
-| T-cell count | FlowCut vs PeacoQC | 0.9162 | 0.6650 | 0.2512 | 8 | 0.000549517 | 0.00274759 |
-| NKT-cell count | Expert Manual vs Raw | 0.7769 | 1.0000 | -0.2231 | 8 | 8.935e-06 | 8.0415e-05 |
-| NKT-cell count | FlowMOP vs Raw | 0.9044 | 1.0000 | -0.0956 | 8 | 7.9531e-05 | 0.000556717 |
-| NKT-cell count | PeacoQC vs Raw | 0.6575 | 1.0000 | -0.3425 | 8 | 3.54144e-05 | 0.000283315 |
-| NKT-cell count | FlowCut vs Raw | 0.9155 | 1.0000 | -0.0845 | 8 | 6.67293e-06 | 6.67293e-05 |
-| NKT-cell count | FlowMOP vs Expert Manual | 0.9044 | 0.7769 | 0.1275 | 8 | 0.00040201 | 0.00207408 |
-| NKT-cell count | PeacoQC vs Expert Manual | 0.6575 | 0.7769 | -0.1194 | 8 | 0.0174953 | 0.0349906 |
-| NKT-cell count | FlowCut vs Expert Manual | 0.9155 | 0.7769 | 0.1386 | 8 | 0.000988993 | 0.00296698 |
-| NKT-cell count | PeacoQC vs FlowMOP | 0.6575 | 0.9044 | -0.2469 | 8 | 0.000388406 | 0.00207408 |
-| NKT-cell count | FlowCut vs FlowMOP | 0.9155 | 0.9044 | 0.0111 | 8 | 0.44691 | 0.44691 |
-| NKT-cell count | FlowCut vs PeacoQC | 0.9155 | 0.6575 | 0.2580 | 8 | 0.000345679 | 0.00207408 |
-| B-cell frequency | Expert Manual vs Raw | 1.0224 | 1.0000 | 0.0224 | 8 | 0.275552 | 1 |
-| B-cell frequency | FlowMOP vs Raw | 1.0091 | 1.0000 | 0.0091 | 8 | 0.267363 | 1 |
-| B-cell frequency | PeacoQC vs Raw | 0.9985 | 1.0000 | -0.0015 | 8 | 0.906223 | 1 |
-| B-cell frequency | FlowCut vs Raw | 1.0057 | 1.0000 | 0.0057 | 8 | 0.23512 | 1 |
-| B-cell frequency | FlowMOP vs Expert Manual | 1.0091 | 1.0224 | -0.0132 | 8 | 0.300706 | 1 |
-| B-cell frequency | PeacoQC vs Expert Manual | 0.9985 | 1.0224 | -0.0239 | 8 | 0.0712586 | 0.712586 |
-| B-cell frequency | FlowCut vs Expert Manual | 1.0057 | 1.0224 | -0.0166 | 8 | 0.290357 | 1 |
-| B-cell frequency | PeacoQC vs FlowMOP | 0.9985 | 1.0091 | -0.0107 | 8 | 0.252488 | 1 |
-| B-cell frequency | FlowCut vs FlowMOP | 1.0057 | 1.0091 | -0.0034 | 8 | 0.36446 | 1 |
-| B-cell frequency | FlowCut vs PeacoQC | 1.0057 | 0.9985 | 0.0073 | 8 | 0.479429 | 1 |
-| T-cell frequency | Expert Manual vs Raw | 0.9991 | 1.0000 | -0.0009 | 8 | 0.52448 | 1 |
-| T-cell frequency | FlowMOP vs Raw | 0.9992 | 1.0000 | -0.0008 | 8 | 0.139846 | 1 |
-| T-cell frequency | PeacoQC vs Raw | 1.0014 | 1.0000 | 0.0014 | 8 | 0.272866 | 1 |
-| T-cell frequency | FlowCut vs Raw | 1.0000 | 1.0000 | -0.0000 | 8 | 0.961085 | 1 |
-| T-cell frequency | FlowMOP vs Expert Manual | 0.9992 | 0.9991 | 0.0001 | 8 | 0.94731 | 1 |
-| T-cell frequency | PeacoQC vs Expert Manual | 1.0014 | 0.9991 | 0.0023 | 8 | 0.17889 | 1 |
-| T-cell frequency | FlowCut vs Expert Manual | 1.0000 | 0.9991 | 0.0008 | 8 | 0.406389 | 1 |
-| T-cell frequency | PeacoQC vs FlowMOP | 1.0014 | 0.9992 | 0.0022 | 8 | 0.127536 | 1 |
-| T-cell frequency | FlowCut vs FlowMOP | 1.0000 | 0.9992 | 0.0008 | 8 | 0.340507 | 1 |
-| T-cell frequency | FlowCut vs PeacoQC | 1.0000 | 1.0014 | -0.0014 | 8 | 0.26918 | 1 |
-| NKT-cell frequency | Expert Manual vs Raw | 0.9927 | 1.0000 | -0.0073 | 8 | 0.114138 | 0.913107 |
-| NKT-cell frequency | FlowMOP vs Raw | 1.0026 | 1.0000 | 0.0026 | 8 | 0.581759 | 1 |
-| NKT-cell frequency | PeacoQC vs Raw | 0.9901 | 1.0000 | -0.0099 | 8 | 0.0593548 | 0.534193 |
-| NKT-cell frequency | FlowCut vs Raw | 0.9994 | 1.0000 | -0.0006 | 8 | 0.890076 | 1 |
-| NKT-cell frequency | FlowMOP vs Expert Manual | 1.0026 | 0.9927 | 0.0100 | 8 | 0.042022 | 0.42022 |
-| NKT-cell frequency | PeacoQC vs Expert Manual | 0.9901 | 0.9927 | -0.0026 | 8 | 0.613799 | 1 |
-| NKT-cell frequency | FlowCut vs Expert Manual | 0.9994 | 0.9927 | 0.0067 | 8 | 0.189947 | 1 |
-| NKT-cell frequency | PeacoQC vs FlowMOP | 0.9901 | 1.0026 | -0.0126 | 8 | 0.120539 | 0.913107 |
-| NKT-cell frequency | FlowCut vs FlowMOP | 0.9994 | 1.0026 | -0.0032 | 8 | 0.50886 | 1 |
-| NKT-cell frequency | FlowCut vs PeacoQC | 0.9994 | 0.9901 | 0.0093 | 8 | 0.246721 | 1 |
-
-<span style="color:#0066cc">**Table S5B: Complete Figure 6 biological-validation contrasts**</span>
-
-<span style="color:#0066cc">Compared means are within-sample Raw-normalized values, paired difference is the method mean minus the reference mean, and all tests use eight paired PBMC inputs. For each endpoint, metric, and preprocessing group (Debris, Doublet, or Combined), Holm adjustment was applied across the family of three contrasts: Expert Manual versus Raw, FlowMOP versus Raw, and FlowMOP versus Expert Manual.</span>
-
-| Endpoint | Preprocessing | Contrast | Method mean | Reference mean | Paired difference | n | Unadjusted p | Holm-adjusted p |
-| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Live CD45+ count | Debris | Expert Manual vs Raw | 0.9626 | 1.0000 | -0.0374 | 8 | 0.000115001 | 0.000345002 |
-| Live CD45+ count | Debris | FlowMOP vs Raw | 0.9392 | 1.0000 | -0.0608 | 8 | 0.320603 | 0.641207 |
-| Live CD45+ count | Debris | FlowMOP vs Expert Manual | 0.9392 | 0.9626 | -0.0233 | 8 | 0.700374 | 0.700374 |
-| Live CD45+ count | Doublet | Expert Manual vs Raw | 0.9637 | 1.0000 | -0.0363 | 8 | 0.00229274 | 0.00458548 |
-| Live CD45+ count | Doublet | FlowMOP vs Raw | 0.9528 | 1.0000 | -0.0472 | 8 | 0.00113456 | 0.00340369 |
-| Live CD45+ count | Doublet | FlowMOP vs Expert Manual | 0.9528 | 0.9637 | -0.0109 | 8 | 0.253584 | 0.253584 |
-| Live CD45+ count | Combined | Expert Manual vs Raw | 0.7207 | 1.0000 | -0.2793 | 8 | 1.3992e-06 | 4.1976e-06 |
-| Live CD45+ count | Combined | FlowMOP vs Raw | 0.8027 | 1.0000 | -0.1973 | 8 | 0.00733259 | 0.0146652 |
-| Live CD45+ count | Combined | FlowMOP vs Expert Manual | 0.8027 | 0.7207 | 0.0819 | 8 | 0.19064 | 0.19064 |
-| B-cell count | Debris | Expert Manual vs Raw | 0.9758 | 1.0000 | -0.0242 | 8 | 0.00500378 | 0.0150113 |
-| B-cell count | Debris | FlowMOP vs Raw | 0.9138 | 1.0000 | -0.0862 | 8 | 0.331417 | 0.662835 |
-| B-cell count | Debris | FlowMOP vs Expert Manual | 0.9138 | 0.9758 | -0.0620 | 8 | 0.464848 | 0.662835 |
-| B-cell count | Doublet | Expert Manual vs Raw | 0.8877 | 1.0000 | -0.1123 | 8 | 0.000210319 | 0.000630958 |
-| B-cell count | Doublet | FlowMOP vs Raw | 0.8563 | 1.0000 | -0.1437 | 8 | 0.00111429 | 0.00222858 |
-| B-cell count | Doublet | FlowMOP vs Expert Manual | 0.8563 | 0.8877 | -0.0314 | 8 | 0.355432 | 0.355432 |
-| B-cell count | Combined | Expert Manual vs Raw | 0.6805 | 1.0000 | -0.3195 | 8 | 4.73804e-07 | 1.42141e-06 |
-| B-cell count | Combined | FlowMOP vs Raw | 0.7059 | 1.0000 | -0.2941 | 8 | 0.00368789 | 0.00737579 |
-| B-cell count | Combined | FlowMOP vs Expert Manual | 0.7059 | 0.6805 | 0.0254 | 8 | 0.711891 | 0.711891 |
-| T-cell count | Debris | Expert Manual vs Raw | 0.9884 | 1.0000 | -0.0116 | 8 | 1.55649e-05 | 4.66948e-05 |
-| T-cell count | Debris | FlowMOP vs Raw | 0.9416 | 1.0000 | -0.0584 | 8 | 0.326363 | 0.652727 |
-| T-cell count | Debris | FlowMOP vs Expert Manual | 0.9416 | 0.9884 | -0.0469 | 8 | 0.427761 | 0.652727 |
-| T-cell count | Doublet | Expert Manual vs Raw | 0.9901 | 1.0000 | -0.0099 | 8 | 2.10914e-05 | 6.32742e-05 |
-| T-cell count | Doublet | FlowMOP vs Raw | 0.9875 | 1.0000 | -0.0125 | 8 | 0.000367589 | 0.000735177 |
-| T-cell count | Doublet | FlowMOP vs Expert Manual | 0.9875 | 0.9901 | -0.0026 | 8 | 0.269271 | 0.269271 |
-| T-cell count | Combined | Expert Manual vs Raw | 0.7647 | 1.0000 | -0.2353 | 8 | 7.85307e-06 | 2.35592e-05 |
-| T-cell count | Combined | FlowMOP vs Raw | 0.8384 | 1.0000 | -0.1616 | 8 | 0.0168702 | 0.0337404 |
-| T-cell count | Combined | FlowMOP vs Expert Manual | 0.8384 | 0.7647 | 0.0737 | 8 | 0.198056 | 0.198056 |
-| NKT-cell count | Debris | Expert Manual vs Raw | 0.9813 | 1.0000 | -0.0187 | 8 | 3.00398e-05 | 9.01195e-05 |
-| NKT-cell count | Debris | FlowMOP vs Raw | 0.9490 | 1.0000 | -0.0510 | 8 | 0.346369 | 0.692738 |
-| NKT-cell count | Debris | FlowMOP vs Expert Manual | 0.9490 | 0.9813 | -0.0323 | 8 | 0.542165 | 0.692738 |
-| NKT-cell count | Doublet | Expert Manual vs Raw | 0.9674 | 1.0000 | -0.0326 | 8 | 0.00241739 | 0.00483477 |
-| NKT-cell count | Doublet | FlowMOP vs Raw | 0.9608 | 1.0000 | -0.0392 | 8 | 0.000878112 | 0.00263434 |
-| NKT-cell count | Doublet | FlowMOP vs Expert Manual | 0.9608 | 0.9674 | -0.0066 | 8 | 0.120571 | 0.120571 |
-| NKT-cell count | Combined | Expert Manual vs Raw | 0.7376 | 1.0000 | -0.2624 | 8 | 1.66499e-06 | 4.99498e-06 |
-| NKT-cell count | Combined | FlowMOP vs Raw | 0.8262 | 1.0000 | -0.1738 | 8 | 0.00800735 | 0.0160147 |
-| NKT-cell count | Combined | FlowMOP vs Expert Manual | 0.8262 | 0.7376 | 0.0886 | 8 | 0.103392 | 0.103392 |
-| Live CD45+ frequency | Debris | Expert Manual vs Raw | 1.0407 | 1.0000 | 0.0407 | 8 | 0.00689351 | 0.0206805 |
-| Live CD45+ frequency | Debris | FlowMOP vs Raw | 1.0088 | 1.0000 | 0.0088 | 8 | 0.158703 | 0.158703 |
-| Live CD45+ frequency | Debris | FlowMOP vs Expert Manual | 1.0088 | 1.0407 | -0.0319 | 8 | 0.0582983 | 0.116597 |
-| Live CD45+ frequency | Doublet | Expert Manual vs Raw | 1.0209 | 1.0000 | 0.0209 | 8 | 0.116412 | 0.315847 |
-| Live CD45+ frequency | Doublet | FlowMOP vs Raw | 1.0070 | 1.0000 | 0.0070 | 8 | 0.105282 | 0.315847 |
-| Live CD45+ frequency | Doublet | FlowMOP vs Expert Manual | 1.0070 | 1.0209 | -0.0138 | 8 | 0.124803 | 0.315847 |
-| Live CD45+ frequency | Combined | Expert Manual vs Raw | 1.0806 | 1.0000 | 0.0806 | 8 | 0.010152 | 0.0304559 |
-| Live CD45+ frequency | Combined | FlowMOP vs Raw | 1.0189 | 1.0000 | 0.0189 | 8 | 0.0743107 | 0.0958105 |
-| Live CD45+ frequency | Combined | FlowMOP vs Expert Manual | 1.0189 | 1.0806 | -0.0617 | 8 | 0.0479052 | 0.0958105 |
-| B-cell frequency | Debris | Expert Manual vs Raw | 1.0554 | 1.0000 | 0.0554 | 8 | 0.00926696 | 0.0278009 |
-| B-cell frequency | Debris | FlowMOP vs Raw | 0.9602 | 1.0000 | -0.0398 | 8 | 0.420492 | 0.420492 |
-| B-cell frequency | Debris | FlowMOP vs Expert Manual | 0.9602 | 1.0554 | -0.0951 | 8 | 0.0525883 | 0.105177 |
-| B-cell frequency | Doublet | Expert Manual vs Raw | 0.9401 | 1.0000 | -0.0599 | 8 | 0.00750483 | 0.0206077 |
-| B-cell frequency | Doublet | FlowMOP vs Raw | 0.9046 | 1.0000 | -0.0954 | 8 | 0.00686925 | 0.0206077 |
-| B-cell frequency | Doublet | FlowMOP vs Expert Manual | 0.9046 | 0.9401 | -0.0355 | 8 | 0.220876 | 0.220876 |
-| B-cell frequency | Combined | Expert Manual vs Raw | 1.0222 | 1.0000 | 0.0222 | 8 | 0.518803 | 0.518803 |
-| B-cell frequency | Combined | FlowMOP vs Raw | 0.8768 | 1.0000 | -0.1232 | 8 | 0.0472085 | 0.0944169 |
-| B-cell frequency | Combined | FlowMOP vs Expert Manual | 0.8768 | 1.0222 | -0.1454 | 8 | 0.0164384 | 0.0493151 |
-| T-cell frequency | Debris | Expert Manual vs Raw | 1.0689 | 1.0000 | 0.0689 | 8 | 0.00121987 | 0.00365962 |
-| T-cell frequency | Debris | FlowMOP vs Raw | 1.0126 | 1.0000 | 0.0126 | 8 | 0.154532 | 0.154532 |
-| T-cell frequency | Debris | FlowMOP vs Expert Manual | 1.0126 | 1.0689 | -0.0563 | 8 | 0.018643 | 0.0372861 |
-| T-cell frequency | Doublet | Expert Manual vs Raw | 1.0494 | 1.0000 | 0.0494 | 8 | 0.0172492 | 0.0344985 |
-| T-cell frequency | Doublet | FlowMOP vs Raw | 1.0443 | 1.0000 | 0.0443 | 8 | 0.00163764 | 0.00491293 |
-| T-cell frequency | Doublet | FlowMOP vs Expert Manual | 1.0443 | 1.0494 | -0.0052 | 8 | 0.72706 | 0.72706 |
-| T-cell frequency | Combined | Expert Manual vs Raw | 1.1478 | 1.0000 | 0.1478 | 8 | 0.00288226 | 0.00780339 |
-| T-cell frequency | Combined | FlowMOP vs Raw | 1.0681 | 1.0000 | 0.0681 | 8 | 0.00260113 | 0.00780339 |
-| T-cell frequency | Combined | FlowMOP vs Expert Manual | 1.0681 | 1.1478 | -0.0797 | 8 | 0.0940645 | 0.0940645 |
-| NKT-cell frequency | Debris | Expert Manual vs Raw | 1.0613 | 1.0000 | 0.0613 | 8 | 0.00375101 | 0.011253 |
-| NKT-cell frequency | Debris | FlowMOP vs Raw | 1.0248 | 1.0000 | 0.0248 | 8 | 0.187445 | 0.374891 |
-| NKT-cell frequency | Debris | FlowMOP vs Expert Manual | 1.0248 | 1.0613 | -0.0366 | 8 | 0.215344 | 0.374891 |
-| NKT-cell frequency | Doublet | Expert Manual vs Raw | 1.0258 | 1.0000 | 0.0258 | 8 | 0.251856 | 0.755567 |
-| NKT-cell frequency | Doublet | FlowMOP vs Raw | 1.0163 | 1.0000 | 0.0163 | 8 | 0.276329 | 0.755567 |
-| NKT-cell frequency | Doublet | FlowMOP vs Expert Manual | 1.0163 | 1.0258 | -0.0096 | 8 | 0.481297 | 0.755567 |
-| NKT-cell frequency | Combined | Expert Manual vs Raw | 1.1088 | 1.0000 | 0.1088 | 8 | 0.0244283 | 0.073285 |
-| NKT-cell frequency | Combined | FlowMOP vs Raw | 1.0571 | 1.0000 | 0.0571 | 8 | 0.0511444 | 0.102289 |
-| NKT-cell frequency | Combined | FlowMOP vs Expert Manual | 1.0571 | 1.1088 | -0.0518 | 8 | 0.31685 | 0.31685 |
-
-
-<span style="color:#0066cc">Figure S3:</span>
-
-Fluorescence variation as a function of cell concentration.
-
 ![Embedded image 9](FlowMOP_submission_media/image9.jpeg)
 
-<span style="color:#0066cc">Figure S4:</span>
-
-<span style="color:#0066cc">Time-only acquisition-rate perturbations reveal FlowCut sensitivity to local Time density. Points show raw-matched changes in sensitivity and specificity, with large points and intervals showing the mean and 95% confidence interval. Negative values indicate reduced performance relative to the raw control. Columns show all inputs together and the Segment, Bimix, and Trimix subsets separately. FlowMOP and PeacoQC remain unchanged under both source-linked and random Time warping. In contrast, FlowCut's sensitivity and specificity shift after Time-only perturbation, with the clearest specificity loss in random Time-warped inputs and the strongest source-linked sensitivity loss in Segment inputs, where acquisition-rate structure aligns with source composition.</span>
+<span style="color:#0066cc">Figure S3: Fluorescence variation as a function of cell concentration.</span>
 
 ![Figure S4](figs_data/revision_timewarp_mechanism.svg)
+
+<span style="color:#0066cc">Figure S4: Time-only acquisition-rate perturbations reveal FlowCut sensitivity to local Time density. Points show raw-matched changes in sensitivity and specificity, with large points and intervals showing the mean and 95% confidence interval. Negative values indicate reduced performance relative to the raw control. Columns show all inputs together and the Segment, Bimix, and Trimix subsets separately. FlowMOP and PeacoQC remain unchanged under both source-linked and random Time warping. In contrast, FlowCut's sensitivity and specificity shift after Time-only perturbation, with the clearest specificity loss in random Time-warped inputs and the strongest source-linked sensitivity loss in Segment inputs, where acquisition-rate structure aligns with source composition.</span>
 
 ### <span style="color:#0066cc">Supplementary expert preference evaluation</span>
 
 #### <span style="color:#0066cc">Supplementary methods</span>
 
-<span style="color:#0066cc">The expert-ranking analysis was used to summarize relative preferences among gates generated by FlowMOP, comparator algorithms, and human operators; it was not treated as an absolute measure of gating adequacy.</span>
+<span style="color:#0066cc">The expert-ranking analysis was used to summarize relative preferences among gates generated by FlowMOP, comparator algorithms, and human operators; it was not treated as an absolute measure of gating adequacy [16].</span>
 
 <span style="color:#0066cc">Rankings were modelled using a Plackett–Luce model with latent method abilities; identifiability was enforced by fixing a reference ability to zero. Independent Normal priors were placed on non-reference abilities. Posterior inference was performed with an affine-invariant ensemble Markov Chain Monte Carlo sampler (emcee; 32 walkers, 5,000 iterations; 1,000 burn-in), and posterior medians with 95% credible intervals were reported. Directional hypotheses (superiority/inferiority) were evaluated by computing P = Pr(H1 | data) and converting to a Bayes factor BF₁₀ = p/(1 – p) under equal prior odds, interpreted using Jeffreys’ scale and reported as BF, P (Bayes factor, posterior probability of the alternative hypothesis) (Table S2).</span>
 
@@ -670,42 +469,42 @@ Fluorescence variation as a function of cell concentration.
 
 <span style="color:#0066cc">FlowMOP had the highest mean rank when compared with the human experts for debris and doublet removal (Figs. S6, S7). On a Bayesian analysis, substantial to strong evidence was observed for FlowMOP being inferior to Expert 1 (BF = 5.87, P = 85.5%), Expert 4 (BF = 12.85, P = 92.8%), and Experts 2 and 3 (BF > 100, P = 100%) in debris removal. In doublet removal, FlowMOP was weakly inferiorly ranked to Expert 4 (BF = 3.14, P = 75.8%), substantially inferiorly ranked to Expert 1 (BF = 5.67, P = 85.0%), strongly inferiorly ranked to Expert 2 (BF = 14.38, P = 93.5%), and decisively inferiorly ranked to Expert 3 (BF > 100, P = 100%).</span>
 
-<span style="color:#0066cc">FlowMOP’s relative expert preference varied across datasets. For debris, it ranked first in the mouse blood task and third in the human liver and mouse skin datasets. In the doublet task, FlowMOP ranked second in the human liver task. Full tabular rankings are provided in Tables S1B-E.</span>
+<span style="color:#0066cc">FlowMOP’s relative expert preference varied across datasets. For debris, it ranked first in the mouse blood task and third in the human liver and mouse skin datasets. In the doublet task, FlowMOP ranked second in the human liver task. Complete dataset-level rankings and mean ranks are shown in Figures S5-S7.</span>
 
 ![Supplementary Figure S8](figs_data/Supp_fig_8.svg)
 
-<span style="color:#0066cc">Figure S8. Representative debris and doublet preprocessing gates. A) Debris comparison for Ungated input, Expert Manual, and FlowMOP. B) Doublet comparison for Ungated input, Expert Manual, and FlowMOP. Each row shows the cleaning projection, the standalone Live CD45+ reference, and the corresponding B/T and NKT gates evaluated without a CD45+ parent. The corresponding module-specific statistics are reported in Figure 6B,C.</span>
+<span style="color:#0066cc">Figure S8. Representative debris and doublet preprocessing projections. A) Debris comparison for Ungated input, Expert Manual, and FlowMOP. B) Doublet comparison for Ungated input, Expert Manual, and FlowMOP. Each row also shows the standalone Live CD45+ reference and the corresponding B/T and NKT gates evaluated without a CD45+ parent. The corresponding module-specific statistics are reported in Figure 6B,C.</span>
 
 ## References
 
-[1]	Aysun Adan, Günel Alizada, Yağmur Kiraz, Yusuf Baran, and Ayten Nalbant. 2017. Flow cytometry: basic principles and applications. Critical Reviews in Biotechnology 37, 2 (February 2017), 163–176. https://doi.org/10.3109/07388551.2015.1128876
+<span style="color:#c00000"><s>[2]</s></span> <span style="color:#0066cc">[1]</span>	Thomas Myles Ashhurst, Felix Marsh-Wakefield, Givanna Haryono Putri, Alanna Gabrielle Spiteri, Diana Shinko, Mark Norman Read, Adrian Lloyd Smith, and Nicholas Jonathan Cole King. 2022. Integration, exploration, and analysis of high-dimensional single-cell cytometry data using Spectre. Cytometry Part A 101, 3 (2022), 237–253. https://doi.org/10.1002/cyto.a.24350
 
-[2]	Thomas Myles Ashhurst, Felix Marsh-Wakefield, Givanna Haryono Putri, Alanna Gabrielle Spiteri, Diana Shinko, Mark Norman Read, Adrian Lloyd Smith, and Nicholas Jonathan Cole King. 2022. Integration, exploration, and analysis of high-dimensional single-cell cytometry data using Spectre. Cytometry Part A 101, 3 (2022), 237–253. https://doi.org/10.1002/cyto.a.24350
+<span style="color:#c00000"><s>[1]</s></span> <span style="color:#0066cc">[2]</span>	Aysun Adan, Günel Alizada, Yağmur Kiraz, Yusuf Baran, and Ayten Nalbant. 2017. Flow cytometry: basic principles and applications. Critical Reviews in Biotechnology 37, 2 (February 2017), 163–176. https://doi.org/10.3109/07388551.2015.1128876
 
-[3]	Noah Castelo, Maarten W. Bos, and Donald R. Lehmann. 2019. Task-Dependent Algorithm Aversion. Journal of Marketing Research 56, 5 (October 2019), 809–825. https://doi.org/10.1177/0022243719851788
+<span style="color:#c00000"><s>[4]</s></span> <span style="color:#0066cc">[3]</span>	Antonio Cosma. 2020. The Nightmare of a Single Cell: Being a Doublet. Cytometry A 97, 8 (August 2020), 768–771. https://doi.org/10.1002/cyto.a.23929
 
-[4]	Antonio Cosma. 2020. The Nightmare of a Single Cell: Being a Doublet. Cytometry A 97, 8 (August 2020), 768–771. https://doi.org/10.1002/cyto.a.23929
+[4]	<span style="color:#0066cc">Gianni Monaco, Hao Chen, Michael Poidinger, Jinmiao Chen, João Pedro de Magalhães, and Anis Larbi. 2016. flowAI: automatic and interactive anomaly discerning tools for flow cytometry data. Bioinformatics 32, 16 (August 2016), 2473–2480. https://doi.org/10.1093/bioinformatics/btw191</span>
 
 [5]	<span style="color:#0066cc">Annelies Emmaneel, Katrien Quintelier, Dorine Sichien, Paulina Rybakowska, Concepción Marañón, Marta E. Alarcón-Riquelme, Gert Van Isterdael, Sofie Van Gassen, and Yvan Saeys. 2022. PeacoQC: Peak-based selection of high quality cytometry data. Cytometry Part A 101, 4 (2022), 325–338. https://doi.org/10.1002/cyto.a.24501</span>
 
-[6]	<span style="color:#0066cc">Kipper Fletez-Brant, Josef Špidlen, Ryan R. Brinkman, Mario Roederer, and Pratip K. Chattopadhyay. 2016. flowClean: Automated identification and removal of fluorescence anomalies in flow cytometry data. Cytometry Part A 89, 5 (2016), 461–471. https://doi.org/10.1002/cyto.a.22837</span>
+[6]	<span style="color:#0066cc">Justin Meskas, Daniel Yokosawa, Sherrie Wang, Gabriela C. Segat, and Ryan Remy Brinkman. 2023. FlowCut: An R package for automated removal of outlier events and flagging of files based on time versus fluorescence analysis. Cytometry Part A 103, 1 (2023), 71–81. https://doi.org/10.1002/cyto.a.24670</span>
 
 [7]	<span style="color:#0066cc">Zicheng Hu, Alice Tang, Jaiveer Singh, Sanchita Bhattacharya, and Atul J. Butte. 2020. A robust and interpretable end-to-end deep learning model for cytometry data. Proceedings of the National Academy of Sciences 117, 35 (September 2020), 21373–21380. https://doi.org/10.1073/pnas.2003026117</span>
 
 [8]	<span style="color:#0066cc">Nanditha Mallesh. 2023. Automated analysis of flow cytometry using deep learning for the detection of B-cell neoplasms. Thesis. Universitäts- und Landesbibliothek Bonn. Retrieved August 7, 2023 from https://bonndoc.ulb.uni-bonn.de/xmlui/handle/20.500.11811/10949</span>
 
-[9]	<span style="color:#0066cc">Justin Meskas, Daniel Yokosawa, Sherrie Wang, Gabriela C. Segat, and Ryan Remy Brinkman. 2023. FlowCut: An R package for automated removal of outlier events and flagging of files based on time versus fluorescence analysis. Cytometry Part A 103, 1 (2023), 71–81. https://doi.org/10.1002/cyto.a.24670</span>
+[9]	<span style="color:#0066cc">Kenneth Lo, Ryan Remy Brinkman, and Raphael Gottardo. 2008. Automated gating of flow cytometry data via robust model-based clustering. Cytometry Part A 73A, 4 (April 2008), 321–332. https://doi.org/10.1002/cyto.a.20531</span>
 
-[10]	<span style="color:#0066cc">Gianni Monaco, Hao Chen, Michael Poidinger, Jinmiao Chen, João Pedro de Magalhães, and Anis Larbi. 2016. flowAI: automatic and interactive anomaly discerning tools for flow cytometry data. Bioinformatics 32, 16 (August 2016), 2473–2480. https://doi.org/10.1093/bioinformatics/btw191</span>
+[10]	<span style="color:#0066cc">Lukas Fisch, Michael Heming, Andreas Schulte-Mecklenbeck, Catharina C. Gross, Stefan Zumdick, Carlotta Barkhau, Daniel Emden, Jan Ernsting, Ramona Leenings, Kelvin Sarink, Nils R. Winter, Udo Dannlowski, Heinz Wiendl, Gerd Meyer zu Hörste, and Tim Hahn. 2024. GateNet: A novel neural network architecture for automated flow cytometry gating. Computers in Biology and Medicine 179 (September 2024), 108820. https://doi.org/10.1016/j.compbiomed.2024.108820</span>
 
-[11]	<span style="color:#0066cc">Christina Bligaard Pedersen, Søren Helweg Dam, Mike Bogetofte Barnkob, Michael D. Leipold, Noelia Purroy, Laura Z. Rassenti, Thomas J. Kipps, Jennifer Nguyen, James Arthur Lederer, Satyen Harish Gohil, Catherine J. Wu, and Lars Rønn Olsen. 2022. cyCombine allows for robust integration of single-cell cytometry datasets within and across technologies. Nat Commun 13, 1 (March 2022), 1698. https://doi.org/10.1038/s41467-022-29383-5</span>
+[11]	<span style="color:#0066cc">Jiong Chen, Matei Ionita, Yanbo Feng, Yinfeng Lu, Patryk Orzechowski, Sumita Garai, Kenneth Hassinger, Jingxuan Bao, Junhao Wen, Duy Duong-Tran, Joost Wagenaar, Michelle L. McKeague, Mark M. Painter, Divij Mathew, Ajinkya Pattekar, Nuala J. Meyer, E. John Wherry, Allison R. Greenplate, and Li Shen. 2025. Automated cytometric gating with human-level performance using bivariate segmentation. Nature Communications 16, 1 (February 2025), 1576. https://doi.org/10.1038/s41467-025-56622-2</span>
 
 [12]	<span style="color:#0066cc">Lisa Weijler, Florian Kowarsch, Michael Reiter, Pedro Hermosilla, Margarita Maurer-Granofszky, and Michael Dworzak. 2024. FATE: Feature-Agnostic Transformer-Based Encoder for Learning Generalized Embedding Spaces in Flow Cytometry Data. 2024. 7956–7964. Retrieved May 3, 2024 from https://openaccess.thecvf.com/content/WACV2024/html/Weijler_FATE_Feature-Agnostic_Transformer-Based_Encoder_for_Learning_Generalized_Embedding_Spaces_in_WACV_2024_paper.html</span>
 
-[13]	<span style="color:#0066cc">Kenneth Lo, Ryan Remy Brinkman, and Raphael Gottardo. 2008. Automated gating of flow cytometry data via robust model-based clustering. Cytometry Part A 73A, 4 (April 2008), 321–332. https://doi.org/10.1002/cyto.a.20531</span>
+[13]	<span style="color:#0066cc">Chris P. Verschoor, Alina Lelic, Jonathan L. Bramson, and Dawn M. E. Bowdish. 2015. An introduction to automated flow cytometry gating tools and their implementation. Frontiers in Immunology 6 (July 2015), 380. https://doi.org/10.3389/fimmu.2015.00380</span>
 
-[14]	<span style="color:#0066cc">Lukas Fisch, Michael Heming, Andreas Schulte-Mecklenbeck, Catharina C. Gross, Stefan Zumdick, Carlotta Barkhau, Daniel Emden, Jan Ernsting, Ramona Leenings, Kelvin Sarink, Nils R. Winter, Udo Dannlowski, Heinz Wiendl, Gerd Meyer zu Hörste, and Tim Hahn. 2024. GateNet: A novel neural network architecture for automated flow cytometry gating. Computers in Biology and Medicine 179 (September 2024), 108820. https://doi.org/10.1016/j.compbiomed.2024.108820</span>
+[14]	<span style="color:#0066cc">Christina Bligaard Pedersen, Søren Helweg Dam, Mike Bogetofte Barnkob, Michael D. Leipold, Noelia Purroy, Laura Z. Rassenti, Thomas J. Kipps, Jennifer Nguyen, James Arthur Lederer, Satyen Harish Gohil, Catherine J. Wu, and Lars Rønn Olsen. 2022. cyCombine allows for robust integration of single-cell cytometry datasets within and across technologies. Nat Commun 13, 1 (March 2022), 1698. https://doi.org/10.1038/s41467-022-29383-5</span>
 
-[15]	<span style="color:#0066cc">Jiong Chen, Matei Ionita, Yanbo Feng, Yinfeng Lu, Patryk Orzechowski, Sumita Garai, Kenneth Hassinger, Jingxuan Bao, Junhao Wen, Duy Duong-Tran, Joost Wagenaar, Michelle L. McKeague, Mark M. Painter, Divij Mathew, Ajinkya Pattekar, Nuala J. Meyer, E. John Wherry, Allison R. Greenplate, and Li Shen. 2025. Automated cytometric gating with human-level performance using bivariate segmentation. Nature Communications 16, 1 (February 2025), 1576. https://doi.org/10.1038/s41467-025-56622-2</span>
+[15]	<span style="color:#0066cc">Kipper Fletez-Brant, Josef Špidlen, Ryan R. Brinkman, Mario Roederer, and Pratip K. Chattopadhyay. 2016. flowClean: Automated identification and removal of fluorescence anomalies in flow cytometry data. Cytometry Part A 89, 5 (2016), 461–471. https://doi.org/10.1002/cyto.a.22837</span>
 
-[16]	<span style="color:#0066cc">Chris P. Verschoor, Alina Lelic, Jonathan L. Bramson, and Dawn M. E. Bowdish. 2015. An introduction to automated flow cytometry gating tools and their implementation. Frontiers in Immunology 6 (July 2015), 380. https://doi.org/10.3389/fimmu.2015.00380</span>
+<span style="color:#c00000"><s>[3]</s></span> <span style="color:#0066cc">[16]</span>	Noah Castelo, Maarten W. Bos, and Donald R. Lehmann. 2019. Task-Dependent Algorithm Aversion. Journal of Marketing Research 56, 5 (October 2019), 809–825. https://doi.org/10.1177/0022243719851788

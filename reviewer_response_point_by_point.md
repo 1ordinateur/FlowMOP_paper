@@ -42,17 +42,17 @@ This correction is independent of the specific reviewer comments addressed below
 
 ### Response
 
-We now frame FlowMOP as a training-free preprocessing workflow that combines automated time, debris, and doublet removal. We revised the Introduction to distinguish automated population-gating tools, time-quality-control tools, and FlowMOP's intended role as an integrated preprocessing workflow. We removed the claim that FlowMOP is the first automated approach capable of debris cleaning. The revised Introduction discusses FlowCut and PeacoQC as time-dependent quality-control approaches and GateNet and UNITO as broader automated population-gating approaches.
+We now frame FlowMOP as a training-free preprocessing workflow that combines automated time, debris, and doublet removal. We revised the Introduction to distinguish automated population-gating tools, time-quality-control tools, and FlowMOP's intended role as an integrated preprocessing workflow. We removed the claim that FlowMOP is the first automated approach capable of debris cleaning. The revised Abstract describes alternative preprocessing algorithms such as FlowCut and PeacoQC, while the Introduction discusses them as time-dependent quality-control approaches and distinguishes GateNet, UNITO, and FATE as broader population-identification or representation-learning approaches.
 
 We have also revised the description of the three FlowMOP modules. Time gating is based on positive-population fluorescence summaries across acquisition order, debris gating derives an FSC-A threshold from cross-parameter positive-population structure, and doublet gating uses FSC-A/FSC-H and SSC-A/SSC-H ratio structure. These algorithmic choices are now distinguished from computational implementation choices.
 
-In response to Reviewer 2's observation that simulated and real data are both commonly used in method validation, we now describe the synthetic samples specifically as event-labelled technical controls developed to provide objective ground truth for flow-cytometry preprocessing tasks.
+In response to Reviewer 2's observation that simulated and real data are both commonly used in method validation, we now describe the synthetic samples specifically as event-labelled technical controls developed to provide objective ground truth for flow cytometry preprocessing tasks.
 
 ### Changes made
 
 - We removed the claim that FlowMOP is the first automated approach capable of debris cleaning and added the following clarification:
 
-  > “Several tools automate cytometry population identification, including the model-based flowClust method [13], the neural-network method GateNet [14], and the bivariate-segmentation framework UNITO [15]; automated gating approaches are reviewed elsewhere [16]. FlowMOP is a Python-based, training-free preprocessing workflow that combines automated time-gating, debris removal, and doublet exclusion in a single headless tool. FlowCut and PeacoQC provide the most direct comparison for its time-gating component.”
+  > “Several tools automate cytometry population identification, including deep-learning approaches [7,8], the model-based flowClust method [9], the neural-network method GateNet [10], and the bivariate-segmentation framework UNITO [11], while FATE uses representation learning to produce generalized flow cytometry embeddings [12]; automated gating approaches are reviewed elsewhere [13]. Conversely, FlowMOP is a Python-based, training-free preprocessing workflow that combines automated time-gating, debris removal, and doublet exclusion in a single headless tool. FlowCut and PeacoQC provide the most direct comparison for its time-gating component.”
 
 - We reframed the synthetic-data contribution as follows:
 
@@ -122,7 +122,7 @@ FlowMOP's within-sample parallelisability is therefore an inherent property of i
 
   > “These measurements were obtained using local non-distributed execution and therefore demonstrate the performance of the tested implementations, not a distributed-computing speedup.”
 
-  > “Among the three evaluated decision structures, only FlowMOP exposes an inherently channel-parallel within-sample computation. After shared acquisition bins are defined, each eligible fluorescence channel independently establishes its reference, produces a fixed-shape time-bin summary, and applies smoothing and MAD filtering; cross-channel coordination occurs only in the final parameter vote. PeacoQC instead performs data-dependent peak identification and reconciliation across bin-channel combinations, while FlowCut applies adjacent-segment, contiguous-region, file-wide, and conditional rerun decisions [5,9]. Their suboperations and separate files can be parallelised, but their complete within-sample decision pipelines cannot be expressed as the same independent channel-wise reduction without changing their decision rules. Porting either implementation to another language or scheduling framework would therefore not remove these structural dependencies. This structural distinction, together with FlowMOP’s earlier data reduction, fewer full-data passes, and smaller intermediate state, is consistent with its lower runtime and memory use in our benchmarks, although the benchmark does not independently establish causation.”
+  > “Among the three evaluated decision structures, only FlowMOP exposes an inherently channel-parallel within-sample computation. After shared acquisition bins are defined, each eligible fluorescence channel independently establishes its reference, produces a fixed-shape time-bin summary, and applies smoothing and MAD filtering; cross-channel coordination occurs only in the final parameter vote. PeacoQC instead performs data-dependent peak identification and reconciliation across bin-channel combinations, while FlowCut applies adjacent-segment, contiguous-region, file-wide, and conditional rerun decisions [5,6]. Their suboperations and separate files can be parallelised, but their complete within-sample decision pipelines cannot be expressed as the same independent channel-wise reduction without changing their decision rules. Porting either implementation to another language or scheduling framework would therefore not remove these structural dependencies. This structural distinction, together with FlowMOP’s earlier data reduction, fewer full-data passes, and smaller intermediate state, is consistent with its lower runtime and memory use in our benchmarks, although the benchmark does not independently establish causation.”
 
 - We added matched runtime and peak-memory testing across five event counts:
 
@@ -162,17 +162,17 @@ FlowMOP's within-sample parallelisability is therefore an inherent property of i
 
 ### Response
 
-We elected to conduct further biological validation, and therefore added eight human PBMC samples and three human tumour-liver samples. These analyses quantify PBMC population recovery and biological composition and tumour-population recovery.
+We elected to conduct further biological validation, and therefore added PBMC samples from eight donors and three human liver-tumour samples. These analyses quantify PBMC population recovery and biological composition and tumour-population recovery.
 
 We agree with Reviewer 1 that the original single-expert-per-tissue design cannot establish within-tissue expert consensus or support claims of algorithmic superiority. We therefore present it as an expert-preference evaluation, retain the complete analysis in the Supplementary Information, and report its principal comparative findings in the main Results, as detailed in Combined Comment 6. To broaden the biological validation, we added the PBMC and tumour datasets described here; we did not add a separate fixation or cross-species experiment.
 
 For the PBMC analysis, we compared the time-gating methods while holding the downstream expert-defined singlet, debris, Live-cell, and lineage coordinates fixed. We also evaluated the debris and doublet modules separately against matched expert inputs in which only the relevant cleaning step differed, and compared the complete Time + Debris + Doublet workflow with the expert-combined workflow.
 
-Live CD45+ was reported as a standalone reference endpoint. Applying it as an additional parent gate excluded many low-scatter events before the lineage endpoints were quantified and therefore obscured the effects of debris removal. To expose those effects directly, we did not include CD45+ as the parent of the lineage populations. B cells were defined as Live CD3−CD19+ events, T cells as Live CD3+CD19− events, and NKT cells as Live CD19−CD3+CD56+ events. We report counts and frequencies normalized to their corresponding matched Raw values (Raw = 1); before normalization, B-, T-, and NKT-cell frequencies were calculated relative to Live cells. All analyses used the same eight paired PBMC inputs. Direct workflow comparisons used two-sided paired *t*-tests, while Raw comparisons used one-sample *t*-tests against 1 on the Raw-normalized values, equivalent to paired comparisons with the matched Raw values; tests were Holm-adjusted separately within endpoint and outcome metric.
+Live CD45+ was reported as a standalone reference endpoint. Applying it as an additional parent gate excluded many low-scatter events before the lineage endpoints were quantified and therefore obscured the effects of debris removal. To expose those effects directly, we did not include CD45+ as the parent of the lineage populations. B cells were defined as Live CD3−CD19+ events, T cells as Live CD3+CD19− events, and NKT cells as Live CD19−CD3+CD56+ events. We report counts and frequencies normalized to their corresponding matched Raw values (Raw = 1); before normalization, B-, T-, and NKT-cell frequencies were calculated relative to Live cells. All analyses used paired PBMC samples from the same eight donors. Direct workflow comparisons used two-sided paired *t*-tests, while Raw comparisons used one-sample *t*-tests against 1 on the Raw-normalized values, equivalent to paired comparisons with the matched Raw values; tests were Holm-adjusted separately within endpoint and outcome metric.
 
-The complete Figure 5 numerical results and statistical comparisons are reported in Supplementary Table S5A. For time gating, no evaluated B-, T-, or NKT-cell frequency differed significantly among the methods (all adjusted p values were 0.420 or greater). Relative to Expert Manual, FlowMOP retained 11.1–12.7 percentage points more B, T, and NKT cells (all adjusted p values were 0.003 or less), FlowCut retained 12.3–13.8 points more (all adjusted p values were 0.006 or less), and PeacoQC retained 11.7–13.4 points fewer (all adjusted p values were 0.035 or less; Figure 5).
+For time gating, no evaluated B-, T-, or NKT-cell frequency differed significantly among the methods (all adjusted p values were 0.420 or greater). Relative to Expert Manual, FlowMOP retained 11.1–12.7 percentage points more B, T, and NKT cells (all adjusted p values were 0.003 or less), FlowCut retained 12.3–13.8 points more (all adjusted p values were 0.006 or less), and PeacoQC retained 11.7–13.4 points fewer (all adjusted p values were 0.035 or less; Figure 5).
 
-Figure 6 reports debris-only, doublet-only, and combined preprocessing in three subcolumns per population, with all contrasts tabulated in Supplementary Table S5B. FlowMOP generally removed fewer events overall than Expert Manual during debris cleaning. No debris count endpoint differed between the methods, and no population frequency differed except T-cell frequency, which was lower after FlowMOP cleaning (Raw-normalized mean 1.013 versus 1.069; adjusted p = 0.037). Doublet cleaning produced no significant count or frequency difference between FlowMOP and Expert Manual. When Time, Debris, and Doublet preprocessing were combined, no count endpoint differed; B-cell frequency was the only frequency that differed and was lower after FlowMOP cleaning (0.877 versus 1.022; adjusted p = 0.049). These results indicate broad agreement between human- and FlowMOP-mediated pregating. Supplementary Figure S8 contains the representative debris and doublet gates.
+Figure 6 reports debris-only, doublet-only, and combined preprocessing in three subcolumns per population. FlowMOP generally removed fewer events overall than Expert Manual during debris cleaning. No debris count endpoint differed between the methods, and no population frequency differed except T-cell frequency, which was lower after FlowMOP cleaning (Raw-normalized mean 1.013 versus 1.069; adjusted p = 0.037). Doublet cleaning produced no significant count or frequency difference between FlowMOP and Expert Manual. When Time, Debris, and Doublet preprocessing were combined, no count endpoint differed; B-cell frequency was the only frequency that differed and was lower after FlowMOP cleaning (0.877 versus 1.022; adjusted p = 0.049). These results indicate broad agreement between human- and FlowMOP-mediated pregating. Supplementary Figure S8 contains representative debris and doublet preprocessing projections, with gate outlines shown only where the corresponding preprocessing gate was applied.
 
 In the tumour analysis, the B- and T-cell endpoints are population recovery relative to Raw, not frequency or composition within the cleaned output, because their source counts use the original total-event denominator. No statistically detectable differences were observed between Manual and FlowMOP for the evaluated recovery endpoints in these three samples (Figure 7). Given n = 3, these nonsignificant results do not establish equivalence.
 
@@ -184,7 +184,7 @@ These biological analyses better illustrate FlowMOP's capabilities and reinforce
 
 ### Changes made
 
-- We added a biological validation using eight PBMC samples, with matched-Raw frequencies and counts for Live CD45+, B, T, and NKT cells. Figure 5 reports time-cleaning representatives (A), frequencies (B), and counts (C), with all contrasts in Supplementary Table S5A. Figure 6 reports the combined Time + Debris + Doublet representative (A) and the debris-only, doublet-only, and combined frequency (B) and count (C) comparisons, with all contrasts in Supplementary Table S5B. Supplementary Figure S8 contains the debris and doublet representative gates only.
+- We added a biological validation using PBMC samples from eight donors, with matched-Raw frequencies and counts for Live CD45+, B, T, and NKT cells. Figure 5 reports time-cleaning representatives (A), frequencies (B), and counts (C). Figure 6 reports the combined Time + Debris + Doublet representative (A) and the debris-only, doublet-only, and combined frequency (B) and count (C) comparisons. Supplementary Figure S8 contains the debris and doublet preprocessing projections; gate outlines appear only where the corresponding preprocessing gate was applied.
 
 - We found no direct count difference between FlowMOP and Expert Manual in the debris, doublet, or combined comparisons. No doublet frequency differed between methods; the only direct frequency differences in Figure 6 were debris-only T-cell frequency (adjusted p = 0.037) and combined B-cell frequency (adjusted p = 0.049).
 
@@ -198,7 +198,7 @@ These biological analyses better illustrate FlowMOP's capabilities and reinforce
 
   > “The trade-off between sensitivity and specificity reflects competing biological risks rather than a purely statistical optimization. A more permissive gate may protect genuine or rare populations while allowing artifacts to remain; a more stringent gate may remove artifacts more completely while also deleting valid biological events. No balance is universally correct because the consequences of each error depend on the intended downstream analysis. In this context, FlowMOP's synthetic time-gating results are notable because its performance gains were not achieved simply by exchanging one error type for the other. FlowMOP had the strongest overall combined sensitivity-specificity profile across the tested conditions.”
 
-**Location:** Methods, “Human PBMC biological-validation sample preparation,” “Biological-validation analysis,” and “Tumour biological-validation analysis”; Results, “Biological validation” and “Tumour biological validation”; Discussion, “Biological validation” and “Other remarks”; Figures 5–7; Figure S8; Supplementary Tables S5A and S5B.
+**Location:** Methods, “Human PBMC biological-validation sample preparation,” “Biological-validation analysis,” and “Tumour biological-validation analysis”; Results, “Biological validation” and “Tumour biological validation”; Discussion, “Biological validation” and “Other remarks”; Figures 5–7; Figure S8.
 
 ## Combined Comment 4 — Gating Mechanism, Smoothing, and Parameter Fairness
 
@@ -230,7 +230,7 @@ In the regenerated primary benchmark, FlowMOP had higher sensitivity than FlowCu
 
 Consequently, the earlier smoothing attribution has been removed. The matched Time-only benchmark directly supports the distinction between FlowMOP's fluorescence-population-summary decision and FlowCut's response to acquisition-density changes when fluorescence is unchanged. PeacoQC's documented bin-size trade-off provides the relevant context for its fixed-setting comparison with FlowMOP.
 
-We thank the reviewers for prompting this direct examination of smoothing. We tested a range of smoothing settings across all synthetic time-gating inputs while holding all other FlowMOP settings fixed (Table S4). No smoothing provided the best specificity, but at the cost of sensitivity. Inspection showed that the additional target-source events removed under smoothing lay in distribution shoulders, where target and non-target events were difficult to distinguish reliably. We therefore retained smoothing as the conservative default: it avoids treating ambiguous shoulder events as confidently valid and provides higher sensitivity, while accepting the corresponding specificity trade-off. Among the smoothed settings, `0.01,0.05` provided the strongest balance and was selected as the default. We reran FlowMOP across all Figure 2 inputs and regenerated Figure 2 using these outputs.
+We thank the reviewers for prompting this direct examination of smoothing. We tested a range of smoothing settings across all synthetic time-gating inputs while holding all other FlowMOP settings fixed (Table S4). No smoothing provided the best specificity, but at the cost of sensitivity. Inspection showed that the additional target-source events removed under smoothing lay in distribution shoulders, where target and non-target events were difficult to distinguish reliably. We therefore retained smoothing as the conservative default: it avoids treating ambiguous shoulder events as confidently valid and provides higher sensitivity, while accepting the corresponding specificity trade-off. Among the smoothed settings, 0.01,0.05 provided the strongest balance and was selected as the default. We reran FlowMOP across all Figure 2 inputs and regenerated Figure 2 using these outputs.
 
 All algorithms were compared using documented recommended, default, or automatically selected settings, including fixed FlowMOP parameters, to reflect typical unsupervised use. We did not perform extensive parameter tuning for FlowCut or PeacoQC because the original method descriptions do not provide dataset-specific guidance for how such tuning should be performed. We therefore restrict our conclusions to the fixed comparison settings and the behaviours directly tested by the matched Time-only benchmark.
 
@@ -244,13 +244,13 @@ The two smoothing resolutions are now described as complementary spline fits app
 
 - We clarified the function of the two smoothing resolutions as follows:
 
-  > “Two spline smoothing values, one small and one larger (current default `0.01,0.05`), are applied to the returned time-bin series before median absolute deviation (MAD) filtering.”
+  > “Two spline smoothing values, one small and one larger (current default 0.01,0.05), are applied to the returned time-bin series before median absolute deviation (MAD) filtering.”
 
   > “The two smoothing resolutions target both shorter and more sustained deviations, while parameter voting limits removal driven by isolated noisy channels in higher-dimensional panels.”
 
-- We expanded the smoothing analysis across all 173 primary synthetic time-gating inputs. Supplementary Table S4 reports the tested range and identifies `0.01,0.05` as the strongest-performing smoothed setting on the balanced comparison.
+- We expanded the smoothing analysis across all 173 primary synthetic time-gating inputs. Supplementary Table S4 reports the tested range and identifies 0.01,0.05 as the strongest-performing smoothed setting on the balanced comparison.
 
-- We reran FlowMOP using the selected `0.01,0.05` setting and regenerated the Figure 2 violin distributions, p-values, and significance brackets from these outputs.
+- We reran FlowMOP using the selected 0.01,0.05 setting and regenerated the Figure 2 violin distributions, p-values, and significance brackets from these outputs.
 
 - We clarified the scope of the fixed-setting comparison:
 
@@ -320,7 +320,7 @@ The rationale for requiring two channel flags in panels with more than ten eligi
 
 Forced rankings measure relative preference rather than objective event-level accuracy. We therefore replaced “benchmarking” with “expert comparison” or “expert evaluation,” removed the contorted “not least preferred” interpretation, and now state directly how FlowMOP ranked relative to the human and automated gates.
 
-The evaluation produced distinct results across the three cleaning modules. For time gating, FlowMOP had the best mean rank among the automated methods and was preferred to FlowCut (BF = 5.39, P = 84.3%) and PeacoQC (BF = 12.10, P = 92.4%). Human gates generally ranked higher for debris and doublet removal, although FlowMOP was competitive in several tissue-specific comparisons: it ranked first for debris removal in mouse blood, third for debris removal in human liver and mouse skin, and second for doublet removal in human liver (Figs. S5-S7). We now report these principal findings and statistics in the main Results; the complete rankings and statistical comparisons remain in the Supplementary Results and Tables S1B-E.
+The evaluation produced distinct results across the three cleaning modules. For time gating, FlowMOP had the best mean rank among the automated methods and was preferred to FlowCut (BF = 5.39, P = 84.3%) and PeacoQC (BF = 12.10, P = 92.4%). Human gates generally ranked higher for debris and doublet removal, although FlowMOP was competitive in several tissue-specific comparisons: it ranked first for debris removal in mouse blood, third for debris removal in human liver and mouse skin, and second for doublet removal in human liver (Figs. S5-S7). We now report these principal findings and statistics in the main Results; the complete dataset-level rankings and mean ranks are shown in Figures S5-S7, with statistical comparisons reported in the Supplementary Results.
 
 The revised Discussion considers these results alongside the other validation approaches. The preference for FlowMOP over the automated time-gating comparators agrees with its combined sensitivity-specificity performance in the synthetic benchmarks. The more variable debris and doublet rankings are discussed in relation to their dependence on sample-specific scatter distributions. Taken together, the results indicate that FlowMOP-generated gates can be comparable in acceptability to human gating across many use cases.
 
@@ -334,7 +334,7 @@ The Bayesian model is retained because the observed outcome is an ordinal rankin
 
 - We defined the scope of the expert-ranking analysis as follows:
 
-  > “The expert-ranking analysis was used to summarize relative preferences among gates generated by FlowMOP, comparator algorithms, and human operators; it was not treated as an absolute measure of gating adequacy.”
+  > “The expert-ranking analysis was used to summarize relative preferences among gates generated by FlowMOP, comparator algorithms, and human operators; it was not treated as an absolute measure of gating adequacy [16].”
 
 - We revised the Supplementary Results terminology and interpretation as follows:
 
@@ -356,7 +356,7 @@ The Bayesian model is retained because the observed outcome is an ordinal rankin
 
   > “Rank 1 indicates the greatest preference.”
 
-**Location:** Results, “Expert preference evaluation”; Discussion; Conclusion; Supplementary data, “Supplementary expert preference evaluation,” including “Supplementary methods” and “Supplementary results”; Supplementary Figures S5–S7; Tables S1B-E.
+**Location:** Results, “Expert preference evaluation”; Discussion; Conclusion; Supplementary data, “Supplementary expert preference evaluation,” including “Supplementary methods” and “Supplementary results”; Supplementary Figures S5–S7.
 
 ## Combined Comment 7 — Dataset Scale and Complexity
 
@@ -374,7 +374,7 @@ The revised Introduction distinguishes study scale from the intrinsic complexity
 
 - We clarified the distinction between study scale and individual-gate complexity as follows:
 
-  > “Modern flow-cytometry studies can contain increasing numbers of files, events, and measured parameters [2]. The large scale of these data makes repeated manual preprocessing time-consuming and often impractical, potentially amplifying variability between operators. Reproducible automated preprocessing is therefore valuable for large studies.”
+  > “Modern flow cytometry studies can contain increasing numbers of files, events, and measured parameters [1]. The large scale of these data makes repeated manual preprocessing time-consuming and often impractical, potentially amplifying variability between operators. Reproducible automated preprocessing is therefore valuable for large studies.”
 
 **Location:** Introduction.
 
@@ -400,7 +400,7 @@ Acquisition settings nevertheless determine whether the scatter signals needed b
 
 - We clarified the dataset-specific acquisition settings in the Methods:
 
-  > “The benchmarking uses real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations and acquisition voltage/gain settings differ among datasets and were not variables under evaluation; they are therefore not material to the preprocessing comparisons addressed here.”
+  > “The benchmarking uses real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations and acquisition voltage/gain settings differ among datasets and were not variables under evaluation.”
 
 - We retained the following combined acquisition/scatter limitation:
 
@@ -430,7 +430,7 @@ Acquisition settings nevertheless determine whether the scatter signals needed b
 
 ### Response
 
-The revised text explains the practical relevance of the Bimix and Trimix designs. It defines a “microblockage” operationally as a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed. Existing work supports the substance of this phenomenon even though it uses broader terminology. flowAI documented flow-rate surges interspersed throughout acquisitions and their association with signal-intensity variation [10]. PeacoQC describes temporary acquisition shifts caused by slow sample uptake or a clog and notes that such problems can be difficult to detect manually [5], while FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [9].
+The revised text explains the practical relevance of the Bimix and Trimix designs. It defines a “microblockage” operationally as a short, self-resolving mid-acquisition disturbance that produces a localized fluorescence shift; the term does not imply that a physical obstruction was directly observed. Existing work supports the substance of this phenomenon even though it uses broader terminology. flowAI documented flow-rate surges interspersed throughout acquisitions and their association with signal-intensity variation [4]. PeacoQC describes temporary acquisition shifts caused by slow sample uptake or a clog and notes that such problems can be difficult to detect manually [5], while FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [6].
 
 Because the affected intervals can be short and their events interspersed with otherwise plausible events, they are difficult to recognize reliably by eye and impractical to exclude using a series of manual gates. We use “microblockage” for this subtle, self-resolving acquisition failure mode that a time-quality-control method should be able to detect. Estimating its prevalence across experiments would require a separate study.
 
@@ -462,7 +462,7 @@ We also defined temporal artifacts, simplified the terminology, and added Figure
 
 - In the Discussion, we now explain why the visually subtle synthetic cases are experimentally relevant and require an event-labelled benchmark:
 
-  > Transient acquisition disturbances are not confined to the beginning or end of a run: flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have been documented [10]. PeacoQC notes that temporary acquisition problems can be difficult to detect manually [5], and FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [9]. We use “microblockage” operationally for a short, self-resolving instance of this broader phenomenon that produces a localized fluorescence shift, without asserting that a physical obstruction was directly observed.
+  > Transient acquisition disturbances are not confined to the beginning or end of a run: flow-rate surges interspersed throughout acquisition and associated signal-intensity variation have been documented [4]. PeacoQC notes that temporary acquisition problems can be difficult to detect manually [5], and FlowCut describes manual identification and removal of transient acquisition problems as time-consuming and subjective [6]. We use “microblockage” operationally for a short, self-resolving instance of this broader phenomenon that produces a localized fluorescence shift, without asserting that a physical obstruction was directly observed.
 
   > “Although these synthetic samples can appear acceptable on visual inspection, the source labels show that the short altered intervals contain events from an intentionally perturbed fluorescence source and therefore should be excluded under the benchmark definition. Visual subtlety is thus a central feature of the benchmark: it demonstrates why apparent normality by eye is not sufficient ground truth.”
 
@@ -506,7 +506,7 @@ The current module is not a universal debris classifier. Debris and intact cells
 
 In the present technical-control datasets, the labelled small-debris and desirable source populations overlapped substantially along SSC-A, so a fixed SSC-A threshold offered limited additional separation for the small-event removal targeted by FlowMOP. We therefore did not incorporate SSC-A into the current debris decision. Pulse-width measurements may similarly help identify some aggregates or clumps, but their availability and interpretation are instrument- and acquisition-dependent. Incorporating SSC-A or pulse width responsibly would require a wide configurable parameter range or sample-specific multivariate decision rules validated for the intended dataset, panel, instrument, and cell populations. Metadata-based margin removal is complementary rather than a substitute for debris classification: it can identify events at acquisition limits, but it does not identify all low-FSC debris or large aggregates. FlowMOP currently includes only an FSC-A maximum-value precleaning check and does not implement a generalized margin-event filter. The revised Discussion therefore defines the current scope as conservative low-FSC debris removal and presents SSC-A, pulse-width measurements, margin-event metadata, and sample-specific multivariate models as future extensions rather than universal default filters.
 
-Figure 3 compares FlowMOP with four expert debris gates using the source-labelled controls. Figure 6 complements this comparison with total debris-gate removal and downstream biological preservation in eight paired PBMC inputs. Across all events, FlowMOP excluded 3.3–56.7% of the matched debris input (mean 18.3%), compared with 6.7–43.8% for Expert Manual (mean 24.8%), and therefore removed debris-gated events in every paired input. These percentages summarize total debris-gate removal and are distinct from the downstream population values plotted in Figure 6B,C. FlowMOP retained mean counts equivalent to 91.4–94.9% of matched Raw across the Live CD45+ reference, B, T, and NKT endpoints, compared with 96.3–98.8% for Expert Manual; no count endpoint differed directly between the methods. No population frequency differed from Expert Manual except T-cell frequency, which was lower after FlowMOP cleaning (Raw-normalized mean 1.013 versus 1.069; Holm-adjusted p = 0.037). Figure 6 reports the downstream plots, Supplementary Table S5B provides all contrasts, and Supplementary Figure S8 shows the representative debris and doublet gates. The source-labelled synthetic debris benchmark separately provides the objective assessment of targeted debris removal.
+Figure 3 compares FlowMOP with four expert debris gates using the source-labelled controls. Figure 6 complements this comparison with total debris-gate removal and downstream biological preservation in paired PBMC samples from eight donors. Across all events, FlowMOP excluded 3.3–56.7% of the matched debris input (mean 18.3%), compared with 6.7–43.8% for Expert Manual (mean 24.8%), and therefore removed debris-gated events in every paired input. These percentages summarize total debris-gate removal and are distinct from the downstream population values plotted in Figure 6B,C. FlowMOP retained mean counts equivalent to 91.4–94.9% of matched Raw across the Live CD45+ reference, B, T, and NKT endpoints, compared with 96.3–98.8% for Expert Manual; no count endpoint differed directly between the methods. No population frequency differed from Expert Manual except T-cell frequency, which was lower after FlowMOP cleaning (Raw-normalized mean 1.013 versus 1.069; Holm-adjusted p = 0.037). Figure 6 reports the downstream plots, and Supplementary Figure S8 shows the representative debris and doublet preprocessing projections. The source-labelled synthetic debris benchmark separately provides the objective assessment of targeted debris removal.
 
 The synthetic preparation is now described explicitly. Approximately equal event numbers were sampled from the high-debris and low-debris sources and concatenated into matched mixtures while retaining source labels. These source labels provide the objective basis for the reported post-cleaning proportions.
 
@@ -542,7 +542,7 @@ FlowMOP determines its debris gate independently for each sample, whereas manual
 
 - We clarified that FlowMOP estimates debris gates independently for each sample and reported the existing groupwise-versus-individual-sample control, for which no difference was detected for any expert (Fig. 3D).
 
-**Location:** Methods, “Synthetic Debris Sample Preparation and Generation,” “Human PBMC biological-validation sample preparation,” and “Biological-validation analysis”; Results, “Debris Gating,” “Synthetic Debris Gating Benchmark,” and “Biological validation”; Discussion, “Synthetic Sample Debris and Doublet Gating” and “Biological validation”; Figures 3 and 6; Supplementary Figure S8; Supplementary Table S5B.
+**Location:** Methods, “Synthetic Debris Sample Preparation and Generation,” “Human PBMC biological-validation sample preparation,” and “Biological-validation analysis”; Results, “Debris Gating,” “Synthetic Debris Gating Benchmark,” and “Biological validation”; Discussion, “Synthetic Sample Debris and Doublet Gating” and “Biological validation”; Figures 3 and 6; Supplementary Figure S8.
 
 ## Combined Comment 11 — Aggregates, Doublets, Saturation, and Validation
 
@@ -566,21 +566,20 @@ FlowMOP's doublet module targets events whose FSC-A/FSC-H and, where available, 
 
 The general requirement for appropriate acquisition settings is addressed in Combined Comment 8. For the doublet module specifically, FSC-A/FSC-H and SSC-A/SSC-H ratios must remain informative. Saturated or edge-collapsed scatter measurements may therefore require acquisition review, manual intervention, or alternative pulse-shape features. We did not add a new saturation-handling algorithm.
 
-The reviewer is also correct that CTV-CFSE double-positive events represent only heterologous labelled doublets. CTV-CTV and CFSE-CFSE doublets cannot be distinguished from their respective single-labelled populations using the dye labels alone. The technical-control design therefore gives a sensitive measure of retained known heterologous doublets but cannot establish the complete false-positive and false-negative rate for all doublet classes.
+The reviewer is also correct that CTV-CFSE double-positive events represent heterologous labelled doublets, with rare dye-transfer events as a possible exception. CTV-CTV and CFSE-CFSE doublets cannot be distinguished from their respective single-labelled populations using the dye labels alone. The technical-control design therefore gives a sensitive measure of retained known heterologous doublets but cannot establish the complete false-positive and false-negative rate for all doublet classes.
 
 Figure 4 already compares the percentage of CTV-CFSE double-positive events removed by FlowMOP with the corresponding percentages removed by human experts. We now describe this endpoint and its same-label limitation explicitly rather than implying complete doublet ground truth.
 
 FlowMOP also estimates its doublet gates independently for each sample rather than applying a shared gate across a group. The experts therefore performed both groupwise and individual-sample doublet gating. These strategies did not differ for three of the four experts; Expert 3 removed fewer doublets with individual-sample gating (Fig. 4C, paired t-test, p = 0.009). We now explain this methodological distinction and its practical implications in the Results and Discussion.
 
-We additionally compared FlowMOP with Expert Manual doublet cleaning in the eight paired PBMC inputs. FlowMOP produced slightly lower mean retained counts across the Live CD45+ reference, B-, T-, and NKT-cell endpoints, but no doublet count or frequency endpoint differed significantly between methods (Figure 6B,C; Supplementary Table S5B). When Time, Debris, and Doublet preprocessing were combined, no count endpoint differed; B-cell frequency was the only frequency that differed between FlowMOP and Expert Manual (adjusted p = 0.049). Supplementary Figure S8 shows the representative doublet gates.
-
+We additionally compared FlowMOP with Expert Manual doublet cleaning in paired PBMC samples from eight donors. FlowMOP produced slightly lower mean retained counts across the Live CD45+ reference, B-, T-, and NKT-cell endpoints, but no doublet count or frequency endpoint differed significantly between methods (Figure 6B,C). When Time, Debris, and Doublet preprocessing were combined, no count endpoint differed; B-cell frequency was the only frequency that differed between FlowMOP and Expert Manual (adjusted p = 0.049). Supplementary Figure S8 shows the representative doublet preprocessing projections.
 ### Changes made
 
 - We cross-reference the general acquisition-setting limitation in Combined Comment 8 and retain only the doublet-specific requirement that the relevant scatter ratios remain informative.
 
 - We clarified the limits of the CTV/CFSE validation as follows:
 
-  > “Events positive for both CFSE and CTV provide an observable class of heterologous labelled doublets, subject to rare dye-transfer events; same-label CTV-CTV and CFSE-CFSE doublets are not identifiable from these labels alone.”
+  > “Because the CTV- and CFSE-labelled populations were generated separately, events positive for both dyes were interpreted as heterologous doublets; rare dye-transfer events are a possible exception. Same-label CTV-CTV and CFSE-CFSE doublets are not identifiable from these labels alone.”
 
 - We reported the comparison with human experts as follows:
 
@@ -588,11 +587,11 @@ We additionally compared FlowMOP with Expert Manual doublet cleaning in the eigh
 
 - We clarified that FlowMOP estimates doublet gates independently for each sample and reported the existing comparison of groupwise and individual-sample expert gating (Fig. 4C).
 
-- We added the PBMC biological-validation comparison with Expert Manual. No doublet count or frequency endpoint differed significantly between methods; in the combined workflow, B-cell frequency was the only direct frequency difference (adjusted p = 0.049; Figure 6B,C). Supplementary Figure S8 shows the representative doublet gates.
+- We added the PBMC biological-validation comparison with Expert Manual. No doublet count or frequency endpoint differed significantly between methods; in the combined workflow, B-cell frequency was the only direct frequency difference (adjusted p = 0.049; Figure 6B,C). Supplementary Figure S8 shows the representative doublet preprocessing projections.
 
 - We retained the observation that FlowMOP removed a triplet-like population in the technical-control samples and restricted that finding to those samples.
 
-**Location:** Methods, “Biological-validation analysis”; Results, “Doublet Gating,” “Synthetic Doublet Gating Benchmark,” and “Biological validation”; Discussion, “Synthetic Sample Debris and Doublet Gating,” “Biological validation,” and “Other remarks”; Figures 4 and 6; Supplementary Figure S8; Supplementary Table S5B.
+**Location:** Methods, “Biological-validation analysis”; Results, “Doublet Gating,” “Synthetic Doublet Gating Benchmark,” and “Biological validation”; Discussion, “Synthetic Sample Debris and Doublet Gating,” “Biological validation,” and “Other remarks”; Figures 4 and 6; Supplementary Figure S8.
 
 ## Combined Comment 12 — CTV/CFSE Preparation Protocol
 
@@ -638,7 +637,7 @@ The duplicated cytometer sentence has been removed. The benchmarking uses real, 
 
 - We clarified why a single fluorochrome list is not applicable across the benchmark datasets:
 
-  > “The benchmarking uses real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations and acquisition voltage/gain settings differ among datasets and were not variables under evaluation; they are therefore not material to the preprocessing comparisons addressed here.”
+  > “The benchmarking uses real, existing datasets, each acquired using experiment-specific, biology-driven antibody panels and instrument settings. Consequently, the antigen–fluorochrome combinations and acquisition voltage/gain settings differ among datasets and were not variables under evaluation.”
 
 **Location:** Methods, “Synthetic time source-sample preparation.”
 
@@ -654,7 +653,7 @@ The duplicated cytometer sentence has been removed. The benchmarking uses real, 
 
 The current implementation uses a 1% threshold, not 5%; the inconsistent earlier value has been corrected. FlowMOP checks the number of events at the maximum FSC-A value and removes those maximum-valued events only when they exceed 1% of the sample.
 
-We calculated this step directly from the `passed_lod` channel, treating values below 0.5 as removed. The rule did not activate in any of the eight PBMC samples. In the three tumour samples, it removed 3,472–9,206 events, corresponding to 2.39–3.05% of each input. The complete sample-level counts and percentages are reported in Supplementary Table S3.
+We calculated this step directly from the passed_lod channel, treating values below 0.5 as removed. The rule did not activate in PBMC samples from any of the eight donors. In the three tumour samples, it removed 3,472–9,206 events, corresponding to 2.39–3.05% of each input. The complete sample-level counts and percentages are reported in Supplementary Table S3.
 
 The 1% cutoff is an arbitrary operational safeguard, not an empirically optimized biological threshold. Its activation depends on acquisition scaling and voltage/gain settings, and the observed activation rates are dataset-specific and should not be generalized across instruments.
 

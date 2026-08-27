@@ -1,8 +1,8 @@
 # Figures 5 and 6: PBMC biological validation
 
 This directory contains the reproducible event-level analysis for main Figures 5 and 6.
-The inferential analysis uses one technical repeat from each of eight
-independent PBMC sample groups: 1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A.
+The inferential analysis uses one PBMC sample from each of eight independent
+donors: 1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A.
 Each selected repeat contains FSC-A and SSC-A and complete debris, doublet,
 comparator, and manual data.
 

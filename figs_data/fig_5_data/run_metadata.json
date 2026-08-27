@@ -12,7 +12,7 @@
     "20A",
     "22A"
   ],
-  "sample_selection": "one prespecified complete repeat from each of eight independent PBMC sample groups: 1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A",
+  "sample_selection": "one prespecified complete PBMC sample from each of eight independent donors: 1B, 5B, 10A, 11B, 16A, 19A, 20A, and 22A",
   "time_representative_sample": "19A",
   "cleanup_representative_sample": "22A",
   "debris_representative_sample": "19A",
@@ -36,10 +36,10 @@
     "all steps": "no time, debris, or doublet preprocessing mask"
   },
   "nkt_exclusion": "none",
-  "time_figure_svg": "/mnt/d/github_remotes/flowmop_paper/figs_data/figure_5.svg",
-  "time_figure_png": "/mnt/d/github_remotes/flowmop_paper/figs_data/figure_5.png",
-  "cleanup_figure_svg": "/mnt/d/github_remotes/flowmop_paper/figs_data/figure_6.svg",
-  "cleanup_figure_png": "/mnt/d/github_remotes/flowmop_paper/figs_data/figure_6.png",
-  "module_supplement_svg": "/mnt/d/github_remotes/flowmop_paper/figs_data/Supp_fig_8.svg",
-  "module_supplement_png": "/mnt/d/github_remotes/flowmop_paper/figs_data/Supp_fig_8.png"
+  "time_figure_svg": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/figure_5.svg",
+  "time_figure_png": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/figure_5.png",
+  "cleanup_figure_svg": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/figure_6.svg",
+  "cleanup_figure_png": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/figure_6.png",
+  "module_supplement_svg": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/Supp_fig_8.svg",
+  "module_supplement_png": "/mnt/d/github_remotes/FlowMOP_paper/figs_data/Supp_fig_8.png"
 }

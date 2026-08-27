@@ -18,7 +18,8 @@ update.
 - `summary.csv`: mean absolute results by algorithm and variant.
 - `flowmop_invariance_by_file.csv`: exact per-file invariance checks.
 - `run_metadata.json`: settings and provenance summary.
-- `parallel_joblog.tsv` and `gadi_job_175818850.log`: execution records.
+
+Execution logs are generated locally and are intentionally not versioned.
 
 The `input_fcs` field is normalized to a portable path of the form
 `inputs/<file>_<variant>.fcs`; the large intermediate FCS files are not included

@@ -1,0 +1,267 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\documentclass[
+  11pt,
+  a4paper,
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\definecolor{revisionblue}{HTML}{0066CC}
+\definecolor{revisionred}{HTML}{C00000}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+\section{Response to the Associate Editor and Reviewers --- Minor
+Revision}\label{response-to-the-associate-editor-and-reviewers--minor-revision}
+
+\textbf{Manuscript:} 5125369, \emph{FlowMOP: An Automated Flow Cytometry
+Time, Debris, and Doublet Removal Tool}
+
+We thank the Editor-in-Chief, the Associate Editor, and the reviewers
+for their positive assessment of the revised manuscript. We have made
+the requested minor revisions. Each comment is reproduced verbatim below
+and followed by our response and the revised text. In the tracked
+manuscript, blue text was added and red struck-through text was removed;
+it shows only the changes made in this revision.
+
+\subsection{Associate Editor}\label{associate-editor}
+
+\begin{quote}
+The authors have done a great job in improving the manuscript in
+response to the reviewer\textquotesingle s comments. Some very minor
+comments:
+\end{quote}
+
+\textbf{Response:} We thank the Associate Editor for this assessment. We
+address each comment below.
+
+\subsubsection{Associate Editor, Comment
+1}\label{associate-editor-comment-1}
+
+\begin{quote}
+"acquired erroneously" - the erroneously modifies the word acquired.
+Meaning there was an error in the acquisition process. I think the
+authors mean the data had some sort of error.
+\end{quote}
+
+\textbf{Response:} We agree. We meant that the recorded measurements of
+these events may be compromised, not that the acquisition process itself
+was in error. We revised the sentence in the Introduction:
+
+\begin{quote}
+``I) Time gating: operators perform time-gating to remove events whose
+measurements may be compromised by transient or persistent artifacts in
+the instrument or sample, including air bubbles, blockages, or laser
+malfunctions.''
+\end{quote}
+
+\subsubsection{Associate Editor, Comment
+2}\label{associate-editor-comment-2}
+
+\begin{quote}
+"fluorescence measurements lack reliability". The fluorescent
+measurement is perfectly reliable, it is just a measure of 2 cells
+instead of 1.
+\end{quote}
+
+\textbf{Response:} We agree. The measurement is accurate, but it
+describes two or more cells rather than one. We revised the sentence in
+the Introduction:
+
+\begin{quote}
+``III) Doublet gating: Events classified as "doublets"---two or more
+cells erroneously detected as one---are removed because their
+fluorescence measurements represent the combined signal of two or more
+cells rather than a single cell.''
+\end{quote}
+
+\subsubsection{Associate Editor, Comment
+3}\label{associate-editor-comment-3}
+
+\begin{quote}
+"Peak strength" - should be peak height, or intensity, as used later in
+the paragraph.
+\end{quote}
+
+\textbf{Response:} We agree and now use ``peak height'', which matches
+the later text in the same paragraph. We revised the sentence in the
+Introduction:
+
+\begin{quote}
+``Doublets feature a signal peak height comparable to that of a single
+cell, but for twice the duration.''
+\end{quote}
+
+\subsubsection{Associate Editor --- Reviewer 2, Comment
+3}\label{associate-editor--reviewer-2-comment-3}
+
+\begin{quote}
+Please also address reviewer 2, comment 3 for improved clarity.
+\end{quote}
+
+\textbf{Response:} We address this comment in the Reviewer 2 section
+below.
+
+\subsection{Reviewer 1}\label{reviewer-1}
+
+\begin{quote}
+{[}\ldots{]} Overall, the authors have thoroughly addressed the
+critiques with substantial new data, clear algorithmic rationale, and a
+grounded discussion of the tool\textquotesingle s limitations. I
+recommend the manuscript for acceptance.
+\end{quote}
+
+\textbf{Response:} We thank Reviewer 1 for the careful review and for
+recommending the manuscript for acceptance.
+
+\subsection{Reviewer 2}\label{reviewer-2}
+
+\subsubsection{Reviewer 2, Comment 3}\label{reviewer-2-comment-3}
+
+\begin{quote}
+Just some unrelated complains. I can tell that the authors use AI to
+assist the revision. I am not against the use of AI. However, the
+authors should carefully check the words generated by AI. For example, I
+am not very sure what this sentence means ``FlowCut and PeacoQC provide
+the most direct comparison for its time-gating component.''
+(counterparts?) Sometimes, AI can polish too literary and keeps changing
+the choice of words even for key concepts and make it difficult to
+follow in a scientific article. Another example is ``It defines a
+``microblockage'' operationally as a short, self-resolving
+mid-acquisition disturbance that produces a localized fluorescence
+shift''. What do these adjectives mean here? What is ``self-resolving''?
+What is ``localized'' ? These fancy words do not have enough context to
+support easy understanding and can lead to confusion.
+\end{quote}
+
+\textbf{Response:} We thank the reviewer for this comment and agree that
+both sentences were unclear. We rewrote the comparator sentence with the
+reviewer\textquotesingle s suggested meaning. We also replaced the
+adjectives ``self-resolving'' and ``localized'' with a plain description
+of what they meant. ``Self-resolving'' meant that the disturbance ends
+without operator intervention. ``Localized'' meant that the fluorescence
+shift affects only the events acquired during the short disturbance. The
+microblockage definition occurred in three places in the manuscript,
+with different wording. It now uses the same wording in all three
+places.
+
+\subsubsection{Changes made}\label{changes-made}
+
+\begin{itemize}
+\item
+  We revised the comparator sentence in the Introduction:
+
+  \begin{quote}
+  ``FlowCut and PeacoQC are the closest existing counterparts to
+  FlowMOP's time-gating component, so we used them as its comparators.''
+  \end{quote}
+\item
+  We revised the definition of ``microblockage'' in the Introduction:
+
+  \begin{quote}
+  ``Here, we use ``microblockage'' to denote a brief mid-acquisition
+  disturbance that ends without operator intervention and shifts the
+  fluorescence intensities of only the events acquired during that
+  interval; the term does not imply that a physical obstruction was
+  directly observed.''
+  \end{quote}
+\item
+  In the Methods (``Computational construction of Segment, Bimix, and
+  Trimix datasets''), the definition now refers to the Introduction and
+  uses the same wording:
+
+  \begin{quote}
+  ``As defined in the Introduction, a ``microblockage'' is a brief
+  mid-acquisition disturbance that ends without operator intervention
+  and shifts the fluorescence intensities of only the events acquired
+  during that interval; the term does not imply that a physical
+  obstruction was directly observed. Segmented samples model sustained
+  changes, whereas Bimix and Trimix model the observable fluorescence
+  consequence of a microblockage by introducing short source-defined
+  fluorescence shifts during acquisition.''
+  \end{quote}
+\item
+  In the Discussion (``Synthetic Sample Time Gating''), we use the same
+  description:
+
+  \begin{quote}
+  ``We use ``microblockage'' for a brief instance of this broader
+  phenomenon that ends without operator intervention and shifts the
+  fluorescence intensities of only the events acquired during that
+  interval, without asserting that a physical obstruction was directly
+  observed.''
+  \end{quote}
+\end{itemize}
+
+\subsection{Other Changes}\label{other-changes}
+
+We also made these editorial corrections to the figures. They do not
+change any data or result:
+
+\begin{itemize}
+\tightlist
+\item
+  All subpanel labels are now bold and the same size in every figure.
+\item
+  In Figure 2A, a white mask no longer hides the lower-left corner of
+  the first Bimix plot, and the A) and B) labels are now aligned.
+\item
+  In Figure 5, a small fragment of the panel-B axis labels no longer
+  shows above panel C.
+\end{itemize}
+
+\end{document}

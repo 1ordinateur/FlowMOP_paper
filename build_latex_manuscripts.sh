@@ -19,6 +19,11 @@ build_vector_figures() {
   MPLCONFIGDIR="${TMPDIR:-/tmp}/flowmop-matplotlib" \
     python3 "${script_dir}/figs_data/harmonize_figures_2_3.py"
 
+  python3 "${script_dir}/figs_data/label_figure_1.py"
+  "${cairosvg_bin}" \
+    "${script_dir}/figs_data/figure_1_labelled.svg" \
+    --output "${script_dir}/figs_data/figure_1_labelled.pdf"
+
   local figure_number
   for figure_number in 2 3 5 6 7; do
     "${cairosvg_bin}" \

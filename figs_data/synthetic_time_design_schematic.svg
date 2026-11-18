@@ -9,7 +9,7 @@
     <style>
       text { font-family: Arial, Helvetica, sans-serif; fill: #1f2937; }
       .header { font-size: 17px; font-weight: 700; fill: #4b5563; letter-spacing: .4px; }
-      .panel { font-size: 27px; fill: #000000; }
+      .panel { font-size: 23.7px; font-weight: 700; fill: #000000; }
       .row { font-size: 23px; font-weight: 700; }
       .body { font-size: 19px; }
       .small { font-size: 15px; }

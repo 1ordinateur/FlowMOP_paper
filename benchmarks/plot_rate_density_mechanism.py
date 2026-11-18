@@ -7,6 +7,7 @@ import argparse
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+from matplotlib.transforms import ScaledTranslation
 import numpy as np
 import pandas as pd
 
@@ -32,6 +33,11 @@ METRICS = (
     ("delta_sensitivity_percent", "Change in retained-target purity (%)", (-56, 45)),
     ("delta_specificity_percent", "Change in removed-non-target purity (%)", (-66, 75)),
 )
+
+
+# Subpanel labels render bold at 9.2 pt in the manuscript (PNG of a canvas
+# about 901 units wide, placed at \linewidth = 504.6 pt).
+PANEL_LABEL_FONTSIZE = 16.43
 
 
 def parse_args() -> argparse.Namespace:
@@ -86,6 +92,7 @@ def draw_panel(
     seed: int,
     ylim: tuple[float, float] | None = None,
     show_ylabel: bool = True,
+    panel_label: str = "",
 ) -> None:
     rng = np.random.default_rng(seed)
     offsets = {"source_timewarp": -0.18, "random_timewarp": 0.18}
@@ -122,7 +129,17 @@ def draw_panel(
             )
 
     ax.axhline(0, color="#333333", linewidth=0.9, linestyle=(0, (3, 3)), zorder=1)
-    ax.set_title(title, loc="left", fontsize=10, fontweight="bold", pad=7)
+    title_artist = ax.set_title(title, loc="left", fontsize=10, fontweight="bold", pad=7)
+    if panel_label:
+        # Separate subpanel label on the title baseline; the title moves right.
+        ax.text(
+            0, 1, panel_label, transform=title_artist.get_transform(),
+            fontsize=PANEL_LABEL_FONTSIZE, fontweight="bold", va="baseline",
+        )
+        title_artist.set_transform(
+            title_artist.get_transform()
+            + ScaledTranslation(PANEL_LABEL_FONTSIZE * 1.6 / 72, 0, ax.figure.dpi_scale_trans)
+        )
     ax.set_xticks(range(len(ALGORITHMS)), [ALGORITHM_LABELS[item] for item in ALGORITHMS])
     ax.set_ylabel(ylabel if show_ylabel else "")
     if ylim is not None:
@@ -186,11 +203,12 @@ def main() -> int:
                 axes[row_index, col_index],
                 subset,
                 metric,
-                f"{letter}  {subset_label} (n={n_files})",
+                f"{subset_label} (n={n_files})",
                 ylabel,
                 seed=seed,
                 ylim=ylim,
                 show_ylabel=col_index == 0,
+                panel_label=f"{letter})",
             )
             seed += 1
 

@@ -47,6 +47,24 @@ EXPERT_COLOURS = {
     "Expert 4": "#E69F00",
 }
 
+# Every subpanel label ("A)", "B)", ...) renders bold at this size in the PDF.
+PANEL_LABEL_PT = 9.2
+# Manuscript \linewidth in PDF points (Wiley class, see latex/flowmop-format.lua).
+TEXT_WIDTH_PT = 504.6
+PANEL_LABEL_RE = re.compile(r"[A-H]\)")
+# Figure 2 "A)" position (panel-A units): x puts it in line with "B)", and y
+# keeps it clear of the top edge of the first plot.
+FIGURE2_A_LABEL_X = 66.1
+FIGURE2_A_LABEL_Y = 27
+
+
+def label_units(placed_fraction: float, canvas_width: float) -> float:
+    """Return the font size in canvas units that renders at PANEL_LABEL_PT.
+
+    placed_fraction is the \\linewidth fraction that the LaTeX filter uses.
+    """
+    return round(PANEL_LABEL_PT * canvas_width / (placed_fraction * TEXT_WIDTH_PT), 2)
+
 
 def qname(name: str) -> str:
     return f"{{{SVG_NS}}}{name}"
@@ -110,6 +128,13 @@ def normalise_svg(root: ET.Element, figure: int) -> None:
                 element.set(attribute, colour_map[value])
 
         text = (element.text or "").strip()
+        if PANEL_LABEL_RE.fullmatch(text):
+            # Panels 2A (720 wide, 0.82) and 3A/3B (500 wide, 0.65).
+            units = label_units(0.82, 720) if figure == 2 else label_units(0.65, 500)
+            element.set("font-size", str(units))
+            element.set("font-weight", "700")
+            if figure == 2 and text == "A)":
+                element.set("transform", f"translate({FIGURE2_A_LABEL_X} {FIGURE2_A_LABEL_Y})")
         if text == "BiMix":
             element.text = "Bimix"
             text = "Bimix"
@@ -553,7 +578,11 @@ def generate_figure2_statistics(output: Path) -> None:
         axis.tick_params(labelbottom=False)
     for axis in axes[1]:
         axis.set_xlabel("Mix method", fontweight="bold", labelpad=8)
-    figure.text(0.008, 0.975, "B)", fontsize=16, va="top")
+    figure.text(
+        0.008, 0.975, "B)",
+        fontsize=label_units(0.68, figure.get_figwidth() * 72),
+        fontweight="bold", va="top",
+    )
     figure.savefig(output, format="svg", metadata={"Date": None})
     plt.close(figure)
 
@@ -660,8 +689,9 @@ def generate_figure3_statistics(output: Path) -> None:
         fontsize=13,
     )
 
-    fig.text(0.012, 0.945, "C)", fontsize=18, fontweight="bold", va="top")
-    fig.text(0.512, 0.945, "D)", fontsize=18, fontweight="bold", va="top")
+    label_size = label_units(0.78, fig.get_figwidth() * 72)
+    fig.text(0.012, 0.945, "C)", fontsize=label_size, fontweight="bold", va="top")
+    fig.text(0.512, 0.945, "D)", fontsize=label_size, fontweight="bold", va="top")
     for axis in axes:
         axis.spines[["top", "right"]].set_visible(False)
         axis.spines[["left", "bottom"]].set_linewidth(0.8)
@@ -680,7 +710,12 @@ def main() -> int:
         figure=2,
         crop=(0, 0, 720, 430),
         covers=(
-            (0, 318, 80, 76),
+            # Hide the old axis key and tick labels left of the first plot
+            # (plot edge near x = 68); a strip below the plot hides the old
+            # arrow tip without covering plotted events. The two boxes overlap
+            # so that PDF viewers show no hairline seam between them.
+            (0, 318, 66, 76),
+            (64, 356, 18, 38),
             (42, 214, 24, 146),
             (82, 360, 130, 28),
             (216, 45, 15, 205),

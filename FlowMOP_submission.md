@@ -125,7 +125,7 @@ Parts of the code were generated with the aid of ChatGPT Codex and Claude Code. 
 
 ## RESULTS
 
-![Embedded image 1](FlowMOP_submission_media/image1.png)
+![Embedded image 1](figs_data/figure_1_labelled.svg)
 
 Figure 1. Conceptual schematics depicting FlowMOP’s time-gating (A), debris-gating (B), and doublet-gating (C) methods; plotted fluorescence intensity and signal-strength axes are schematic and use arbitrary units. A) FlowMOP selects valid parameters using positive-peak detection, generates time-binned fluorescence summaries, applies two smoothing resolutions, and performs robust outlier rejection across acquisition order. B) FlowMOP applies the same valid-parameter check, derives a candidate FSC-A threshold from each eligible parameter’s positive events, and uses the median candidate as the final FSC-A gate. C) FlowMOP identifies doublets from inflection points in FSC-A/FSC-H and SSC-A/SSC-H ratio histograms, with a fixed-ratio fallback.
 

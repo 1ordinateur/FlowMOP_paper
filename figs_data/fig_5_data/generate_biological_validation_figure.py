@@ -44,6 +44,10 @@ DEFAULT_SOURCE = DATA_ROOT / "pbmc_biological_validation"
 
 WORKSPACE_NAME = "FLOWMOP_CLEANUP_COMPARISON_15-Aug-2026_v2.wsp"
 RAW_REL = Path("clean_data_biological_validation")
+# Subpanel labels render bold at 9.2 pt in the manuscript (1728-unit-wide
+# canvas placed at \linewidth = 504.6 pt).
+PANEL_LABEL_FONTSIZE = 31.5
+PANEL_LABEL_FONTSIZE_FIG5_A = 31.7
 METHODS_B = ("Raw", "Expert Manual", "FlowMOP", "PeacoQC", "FlowCut")
 METHOD_COLOURS = {
     "Raw": "#5A5A5A",
@@ -1832,7 +1836,9 @@ def make_figure(
                  ha="center", va="center", rotation=90, fontsize=24, fontweight="bold")
     for letter, axes in zip("ABC", (panel_a_axes, panel_b_axes[:3], panel_b_axes[3:])):
         title_y = min(0.995, max(axis.get_position().y1 for axis in axes) + 0.030)
-        fig.text(0.012, title_y, f"{letter})", fontsize=23, fontweight="bold", va="top")
+        # Panel A is height-limited in the manuscript, so it needs a larger size.
+        label_size = PANEL_LABEL_FONTSIZE_FIG5_A if letter == "A" else PANEL_LABEL_FONTSIZE
+        fig.text(0.012, title_y, f"{letter})", fontsize=label_size, fontweight="bold", va="top")
     fig.savefig(time_output_svg)
     clean_svg(time_output_svg)
     fig.savefig(time_output_png, dpi=300)
@@ -2022,7 +2028,7 @@ def make_figure(
         title_bbox = title_artist.get_window_extent(renderer).transformed(fig.transFigure.inverted())
         title_y = (title_bbox.y0 + title_bbox.y1) / 2
         fig.text(
-            0.012, title_y, f"{letter})", fontsize=23, fontweight="bold",
+            0.012, title_y, f"{letter})", fontsize=PANEL_LABEL_FONTSIZE, fontweight="bold",
             va="center", ha="left",
         )
     fig.savefig(supplement_output_svg)
@@ -2178,7 +2184,7 @@ def make_figure(
                  fontweight="bold", color="#222222")
     for letter, axes in zip("ABC", (combined_axes, stats_axes[:4], stats_axes[4:])):
         title_y = min(0.995, max(axis.get_position().y1 for axis in axes) + 0.030)
-        fig.text(0.012, title_y, f"{letter})", fontsize=23, fontweight="bold", va="top")
+        fig.text(0.012, title_y, f"{letter})", fontsize=PANEL_LABEL_FONTSIZE, fontweight="bold", va="top")
     fig.savefig(cleanup_output_svg)
     clean_svg(cleanup_output_svg)
     fig.savefig(cleanup_output_png, dpi=300)

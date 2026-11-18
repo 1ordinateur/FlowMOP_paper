@@ -35,6 +35,9 @@ except ImportError:  # PyMuPDF versions before 1.24 exposed only ``fitz``.
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 SOURCE_ARCHIVE = REPO.parent / "flowmop_data/tumour_data/Shared_tumour_FlowMOP.zip"
+# Subpanel labels render bold at 9.2 pt in the manuscript (1296-unit-wide
+# composite placed at 0.80 \linewidth).
+PANEL_LABEL_FONTSIZE = 29.55
 FIGURE_SVG = REPO / "figs_data/figure_7.svg"
 FIGURE_PNG = REPO / "figs_data/figure_7.png"
 PANELS_SVG = HERE / "tumour_validation_panels.svg"
@@ -532,7 +535,7 @@ def make_figure_7(
     grid_right = max(ax.get_position().x1 for ax in gating_axes)
     grid_bottom = min(ax.get_position().y0 for ax in gating_axes)
     grid_top = max(ax.get_position().y1 for ax in gating_axes)
-    fig.text(0.018, 0.965, "B)", fontsize=23, fontweight="bold", va="top")
+    fig.text(0.018, 0.965, "B)", fontsize=PANEL_LABEL_FONTSIZE, fontweight="bold", va="top")
     for ax, method in zip(gating_axes[:3], METHODS):
         pos = ax.get_position()
         fig.text(
@@ -675,7 +678,7 @@ def make_figure_7(
             ax.set_ylim(data_min, data_max + max(8.0, span * 0.10))
 
     stats_top = max(ax.get_position().y1 for ax in fig.axes[-3:])
-    fig.text(0.018, stats_top + 0.055, "C)", fontsize=23, fontweight="bold", va="top")
+    fig.text(0.018, stats_top + 0.055, "C)", fontsize=PANEL_LABEL_FONTSIZE, fontweight="bold", va="top")
 
     fig.savefig(PANELS_SVG)
     clean_svg_whitespace(PANELS_SVG)
@@ -858,7 +861,7 @@ def make_workflow_panel(manual_pdf: bytes, qc_pdf: bytes) -> None:
     ]
 
     fig = plt.figure(figsize=(18, 9), facecolor="white")
-    fig.text(0.012, 0.98, "A)", fontsize=23, fontweight="bold", va="top")
+    fig.text(0.012, 0.98, "A)", fontsize=PANEL_LABEL_FONTSIZE, fontweight="bold", va="top")
 
     x_positions = (0.175, 0.425, 0.675)
     plot_width = 0.21

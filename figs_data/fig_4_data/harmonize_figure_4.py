@@ -136,7 +136,8 @@ for index, element in enumerate(texts):
         set_text_style(element, 10, 700)
     elif label in {"B)", "C)"}:
         # Panels B--C are displayed at 62% of the width used for panel A.
-        set_text_style(element, 16.8, 700)
+        # 16.84 units render at 9.2 pt, the shared subpanel-label size.
+        set_text_style(element, 16.84, 700)
         if label == "B)":
             # Panel A and panel B are placed from the same manuscript inset.
             # Give their labels the same source-canvas x coordinate as well.
@@ -515,7 +516,8 @@ panel_a = ET.SubElement(
         "x": "6",
         "y": "31",
         "font-family": f"{FONT},sans-serif",
-        "font-size": "15.5",
+        # 15.27 units render at 9.2 pt, the shared subpanel-label size.
+        "font-size": "15.27",
         "font-weight": "700",
     },
 )

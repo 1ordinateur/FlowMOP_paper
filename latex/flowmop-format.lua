@@ -197,9 +197,11 @@ local function split_figure_block(source, caption, label, interstitial_tex)
         clearpage = false
       },
       {
+        -- Cut B/C at 2326 pt: the rotated panel-B tick labels end at 2320 pt
+        -- and the C) label starts at 2329 pt.
         images = {
-          cropped_include(source, "0pt 704pt 0pt 1630pt", "0.38"),
-          cropped_include(source, "0pt 120pt 0pt 2320pt", "0.38")
+          cropped_include(source, "0pt 698pt 0pt 1630pt", "0.38"),
+          cropped_include(source, "0pt 120pt 0pt 2326pt", "0.38")
         },
         caption = "continued",
         nonfloat = true,
@@ -329,8 +331,10 @@ end
 local function figure_block(image, caption, interstitial_tex)
   local source = image.src:gsub("\\", "/")
   if source:match("figs_data/figure_[23567]%.svg$")
+    or source:match("figs_data/figure_1_labelled%.svg$")
     or source:match("figs_data/figure_4_harmonized%.svg$")
     or source:match("figs_data/Supp_fig_8%.svg$") then
+    -- Figure 1 is a raster image with vector panel labels (label_figure_1.py).
     -- Figures 2--3 and 5--7 contain vector text, axes, and statistical panels with
     -- raster data only for the flow-density layers. The manuscript build
     -- converts these SVG sources to PDF so LaTeX preserves that structure.

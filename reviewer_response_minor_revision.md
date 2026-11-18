@@ -62,7 +62,7 @@ We thank the Editor-in-Chief, the Associate Editor, and the reviewers for their 
 
 - The Methods (“Computational construction of Segment, Bimix, and Trimix datasets”) and the Discussion (“Synthetic Sample Time Gating”) no longer repeat the definition. They use the term as defined in the Introduction. In the Discussion, the term now joins the next sentence:
 
-  > “The Bimix and Trimix samples were designed to represent microblockages, an under-addressed case of this broader phenomenon.”
+  > “The Bimix and Trimix samples were designed to represent microblockages.”
 
 ## Other Changes
 

@@ -4,7 +4,7 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 pandoc_bin="${PANDOC_BIN:-pandoc}"
 tectonic_bin="${TECTONIC_BIN:-tectonic}"
-input_stem="${1:-reviewer_response_point_by_point}"
+input_stem="${1:-reviewer_response_minor_revision}"
 output_stem="${2:-${input_stem}}"
 
 pandoc_path() {

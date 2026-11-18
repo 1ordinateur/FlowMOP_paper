@@ -58,10 +58,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base", required=True, help="Git revision used as the old version")
     parser.add_argument(
-        "--source", default="reviewer_response_point_by_point.md", type=Path
+        "--source", default="reviewer_response_minor_revision.md", type=Path
     )
     parser.add_argument(
-        "--output", default="reviewer_response_point_by_point_tracked.md", type=Path
+        "--output", default="reviewer_response_minor_revision_tracked.md", type=Path
     )
     parser.add_argument(
         "--baseline-label",

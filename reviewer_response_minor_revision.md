@@ -56,20 +56,15 @@ We thank the Editor-in-Chief, the Associate Editor, and the reviewers for their 
 
   > “FlowCut and PeacoQC are the closest existing counterparts to FlowMOP’s time-gating component, so we used them as its comparators.”
 
-
 - We revised the definition of “microblockage” in the Introduction:
 
   > “Here, we use “microblockage” to denote a brief mid-acquisition disturbance that ends by itself and shifts the fluorescence intensities of only the events acquired during that interval.”
-
-
-- The Methods (“Computational construction of Segment, Bimix, and Trimix datasets”) also They use the term as defined in the Introduction. In the Discussion, the term now joins the next sentence:
-
-  > “The Bimix and Trimix samples were designed to represent microblockages.”
 
 ## Other Changes
 
 We also made these editorial corrections to the figures. They do not change any data or result:
 
-- All subpanel labels are now bold and the same size in every figure.
-- In Figure 2A, a white mask no longer hides the lower-left corner of the first Bimix plot, and the A) and B) labels are now aligned.
-- In Figure 5, a small fragment of the panel-B axis labels no longer shows above panel C.
+- Subpanel label style harmonization
+- In Figure 2A, small stylistic change to remove a white box that was obscuring part of the figure.
+- In Figure 5, we modified the figure slightly to remove a small fragment of the panel-B axis labels showing above panel C.
+- In Figure S4, we clarified the caption to differentiate S4A-D, and S4E-H in sensitivity and specificity

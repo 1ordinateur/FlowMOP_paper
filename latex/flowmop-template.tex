@@ -48,27 +48,43 @@ $endif$
 \setlength{\parskip}{\baselineskip}
 \raggedbottom
 
+% \aff prints an affiliation number. The Supporting Information has no
+% affiliation list, so there it prints nothing.
+$if(supporting)$
+\newcommand{\aff}[1]{}
+$else$
+\newcommand{\aff}[1]{\textsuperscript{#1}}
+$endif$
 \begin{center}
+$if(supporting)$
+{\LARGE\bfseries Supporting Information\par}
+\vspace{1em}
+{\large\bfseries $title$\par}
+$else$
 {\LARGE\bfseries $title$\par}
+$endif$
 \vspace{1em}
 {\normalsize
-Tony Xu\textsuperscript{1},
-N. A. Roberts\textsuperscript{1},
-Felix Marsh-Wakefield\textsuperscript{2,3},
-Rebecca A. Jaeger\textsuperscript{1},
-Sarah Croft\textsuperscript{1},
-Abhimanu Pandey\textsuperscript{1},
-Dalton Leibold\textsuperscript{4},
-Angela L. Ferguson\textsuperscript{2,3},
-Lily Rodgers\textsuperscript{2,3},
-Umaimainthan Palendira\textsuperscript{3},
-Geoffrey W. McCaughan\textsuperscript{2,5,6},
-Ben Quah\textsuperscript{7},
-Robin Vlieger\textsuperscript{8,*}, and
-Anne Brüstle\textsuperscript{1,*}\par}
+Tony Xu\aff{1},
+$if(tracked)$\textcolor{revisionred}{\sout{N.}}\textcolor{revisionblue}{Nadia}$else$Nadia$endif$ A. Roberts\aff{1},
+Felix Marsh-Wakefield\aff{2,3},
+Rebecca A. Jaeger\aff{1},
+Sarah Croft\aff{1},
+Abhimanu Pandey\aff{1},
+Dalton Leibold\aff{4},
+Angela L. Ferguson\aff{2,3},
+Lily Rodgers\aff{2,3},
+Umaimainthan Palendira\aff{3},
+Geoffrey W. McCaughan\aff{2,5,6},
+Ben Quah\aff{7},
+Robin Vlieger\aff{8$if(tracked)$\textcolor{revisionred}{\sout{,*}}$endif$}, and
+Anne Brüstle\aff{1,*}\par}
+$if(supporting)$
+\end{center}
+$else$
 \vspace{0.8em}
 {\small
-\textsuperscript{1}Department of Immunology and Infectious Disease, John Curtin School of Medical Research, The Australian National University, Canberra, Australian Capital Territory, Australia\par
+\textsuperscript{1}$if(tracked)$\textcolor{revisionred}{\sout{Department}}\textcolor{revisionblue}{Division}$else$Division$endif$ of Immunology and Infectious $if(tracked)$\textcolor{revisionred}{\sout{Disease}}\textcolor{revisionblue}{Diseases}$else$Diseases$endif$, John Curtin School of Medical Research, The Australian National University, Canberra, Australian Capital Territory, Australia\par
 \textsuperscript{2}Liver Injury \& Cancer Program, Cancer Innovations Centre, Centenary Institute, The University of Sydney, Sydney, New South Wales, Australia\par
 \textsuperscript{3}Human Immunology Laboratory, School of Medical Sciences, Faculty of Medicine and Health, The University of Sydney, Sydney, New South Wales, Australia\par
 \textsuperscript{4}Division of Ecology and Evolution, Research School of Biology, The Australian National University, Canberra, Australian Capital Territory, Australia\par
@@ -78,10 +94,15 @@ Anne Brüstle\textsuperscript{1,*}\par}
 \textsuperscript{8}School of Medicine and Psychology, The Australian National University, Canberra, Australian Capital Territory, Australia\par}
 \end{center}
 
-\noindent\textbf{Correspondence:} Robin Vlieger (\href{mailto:Robin.Vlieger@anu.edu.au}{Robin.Vlieger@anu.edu.au}) and Anne Brüstle (\href{mailto:Anne.Bruestle@anu.edu.au}{Anne.Bruestle@anu.edu.au})
+$if(tracked)$
+\noindent\textcolor{revisionred}{\sout{\textbf{Correspondence:}}}\textcolor{revisionblue}{\textbf{Corresponding author:}} \textcolor{revisionred}{\sout{Robin Vlieger (Robin.Vlieger@anu.edu.au) and}} Anne Brüstle (\href{mailto:Anne.Bruestle@anu.edu.au}{Anne.Bruestle@anu.edu.au})
+$else$
+\noindent\textbf{Corresponding author:} Anne Brüstle (\href{mailto:Anne.Bruestle@anu.edu.au}{Anne.Bruestle@anu.edu.au})
+$endif$
 
 $if(funding)$
 \par\noindent\textbf{Funding:} $funding$
+$endif$
 $endif$
 
 $if(abstract)$

@@ -543,7 +543,9 @@ function Pandoc(doc)
 
     if source_level == 2 then
       output:insert(pandoc.RawBlock("latex", "\\FloatBarrier"))
-      if heading == "Supplementary data" or heading == "References" then
+      -- No page break when the section is the first block, as in the
+      -- separate Supporting Information file.
+      if (heading == "Supplementary data" or heading == "References") and i > body_start then
         output:insert(pandoc.RawBlock("latex", "\\clearpage"))
       end
     end

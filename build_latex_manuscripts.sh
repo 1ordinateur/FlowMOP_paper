@@ -61,6 +61,7 @@ build_manuscript() {
   local output_stem="$2"
   local subtitle="$3"
   local tracked="$4"
+  local supporting="${5:-false}"
 
   local metadata_args=(
     --metadata "title=FlowMOP: An Automated Flow Cytometry Time, Debris, and Doublet Removal Tool"
@@ -69,6 +70,10 @@ build_manuscript() {
 
   if [[ "${tracked}" == "true" ]]; then
     metadata_args+=(--metadata tracked=true)
+  fi
+
+  if [[ "${supporting}" == "true" ]]; then
+    metadata_args+=(--metadata supporting=true)
   fi
 
   local pandoc_root
@@ -112,4 +117,11 @@ build_manuscript \
   "FlowMOP_submission_tracked.md" \
   "FlowMOP_submission_tracked" \
   "Revised manuscript with tracked changes" \
+  "true"
+
+build_manuscript \
+  "FlowMOP_supporting_information.md" \
+  "FlowMOP_supporting_information" \
+  "Supporting Information" \
+  "false" \
   "true"

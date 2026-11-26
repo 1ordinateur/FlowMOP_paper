@@ -56,11 +56,13 @@ We thank the Editor-in-Chief, the Associate Editor, and the reviewers for their 
 
   > “FlowCut and PeacoQC are the closest existing counterparts to FlowMOP’s time-gating component, so we used them as its comparators.”
 
+
 - We revised the definition of “microblockage” in the Introduction:
 
   > “Here, we use “microblockage” to denote a brief mid-acquisition disturbance that ends by itself and shifts the fluorescence intensities of only the events acquired during that interval.”
 
-- The Methods (“Computational construction of Segment, Bimix, and Trimix datasets”) and the Discussion (“Synthetic Sample Time Gating”) no longer repeat the definition. They use the term as defined in the Introduction. In the Discussion, the term now joins the next sentence:
+
+- The Methods (“Computational construction of Segment, Bimix, and Trimix datasets”) also They use the term as defined in the Introduction. In the Discussion, the term now joins the next sentence:
 
   > “The Bimix and Trimix samples were designed to represent microblockages.”
 
